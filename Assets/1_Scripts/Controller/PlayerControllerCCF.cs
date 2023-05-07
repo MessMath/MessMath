@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerCCF : MonoBehaviour
 {
     public Vector2 inputVec;
     public float speed = 3;
@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     Animator anim;
     public GameObject onCalculateBoardText;
 
-    void Awake() 
+    void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
         onCalculateBoardText.GetComponent<TextMeshProUGUI>().text += symbol;
     }
+
     void FixedUpdate() 
     {
         // 플레이어의 위치 이동
