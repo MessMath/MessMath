@@ -20,6 +20,7 @@ public class PlayerControllerCCF : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
         // anim = GetComponent<Animator>();     // <- 애니메이션 추가시 주석 해제
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag != "SymbolArrow")

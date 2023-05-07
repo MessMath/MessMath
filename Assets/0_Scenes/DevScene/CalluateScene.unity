@@ -388,7 +388,7 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
+    width: 1.71
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -582,7 +582,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 594458821}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -920,8 +920,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 870215490}
-  - component: {fileID: 870215491}
   - component: {fileID: 870215492}
+  - component: {fileID: 870215491}
   m_Layer: 0
   m_Name: Test_ArrowSpawner
   m_TagString: Untagged
@@ -1001,6 +1001,26 @@ EdgeCollider2D:
   - {x: 0.5, y: 0}
   - {x: 0.5, y: 0}
   - {x: 0.5, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
+  - {x: 12, y: 0}
   - {x: 12, y: 0}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
