@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerControllerCCF : MonoBehaviour
 {
+    public int Hp;
     public Vector2 inputVec;
     public float speed = 3;
     Rigidbody2D rigid;
@@ -16,6 +17,7 @@ public class PlayerControllerCCF : MonoBehaviour
 
     void Awake()
     {
+        Hp = 3;
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         // anim = GetComponent<Animator>();     // <- 애니메이션 추가시 주석 해제
