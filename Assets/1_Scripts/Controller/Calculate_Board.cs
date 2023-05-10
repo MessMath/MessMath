@@ -22,10 +22,10 @@ public class Calculate_Board : MonoBehaviour
             DataTable table = new DataTable();      // 수식을 스트링으로 받아서 계산. 결과를 result에 저장.
             result = table.Compute(GetComponentInChildren<TextMeshProUGUI>().text, "");
             printResult = result.ToString();
-
         }
-        catch(Exception e)                         // 연산이 불가능한 식일 경우 예외처리
+        catch (System.Exception e)                         // 연산이 불가능한 식일 경우 예외처리
         {
+            Debug.Log("inappropriate expression!");
             printResult = "";
         }
 
