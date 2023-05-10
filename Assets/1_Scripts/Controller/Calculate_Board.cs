@@ -8,40 +8,74 @@ using System;
 
 public class Calculate_Board : MonoBehaviour
 {
-    public GameObject target;
+    public TextMeshProUGUI PrintNumber;
+    public WitchController WitchController;
+    public PlayerControllerCCF playerController;
+    TextMeshProUGUI expression;
+
+    private void Start()
+    {
+        PrintNumber.text = "";
+        expression = GetComponentInChildren<TextMeshProUGUI>();
+        expression.text = "";
+    }
 
     public void Calculate()
     {
         Debug.Log("Calculate");
 
-        object result;
-        String printResult;
+        // 1. 만든 식이 부적절한 식일 경우 (e.g. 12+-) => Player의 Hp를 감소
+        // 2. 만든 식의 결과가 Witch의 QusetionNumber와 일치하면 => Witch의 Hp를 감소
+        // 3. 만든 식의 결과가 Witch의 QusetionNumber와 일치지 않으면 => Player의 Hp를 감소
+
+        object result = null;
+        string expressionToCalculate = expression.text;
+        string printResult;
+
+        expression.text = "";
+        DataTable table = new DataTable();
 
         try
         {
-            DataTable table = new DataTable();      // 수식을 스트링으로 받아서 계산. 결과를 result에 저장.
-            result = table.Compute(GetComponentInChildren<TextMeshProUGUI>().text, "");
+            result = table.Compute(expressionToCalculate, "");     // 수식을 스트링으로 받아서 계산. 결과를 result에 저장.
             printResult = result.ToString();
         }
         catch (System.Exception e)                         // 연산이 불가능한 식일 경우 예외처리
         {
-            Debug.Log("inappropriate expression!");
+            Debug.Log($"inappropriate expression! : {e}");
             printResult = "";
+            damageToPlayer(1);
+            return;
         }
 
-        GetComponentInChildren<TextMeshProUGUI>().text = "";
-
-        if (target.GetComponent<TextMeshProUGUI>())     // 화면 정 가운에 결과를 잠깐 출력
+        if (PrintNumber)     // 계산 결과를 잠깐 출력
         {
-            target.GetComponent<TextMeshProUGUI>().text = printResult;
+            PrintNumber.text = $"={printResult}";
             StartCoroutine(Waitfor2Sec());
         }
+
+        if(printResult == "")
+            damageToPlayer(1);
+        else if (int.Parse(printResult) == WitchController.QusetionNumber)
+            damageToWitch(15);
+        else
+            damageToPlayer(1);
+
     }
 
-    IEnumerator Waitfor2Sec()
+    IEnumerator Waitfor2Sec()           // 2초 지연 후에 PrintNumber 텍스트 삭제
     {
-        yield return new WaitForSeconds(2.0f);  // 2초 지연 후에 글자 삭제
+        yield return new WaitForSeconds(2.0f);  
         Debug.Log("Wait2Sec");
-        target.GetComponent<TextMeshProUGUI>().text = "";
+        PrintNumber.text = "";
     }
+    void damageToPlayer(int damage)
+    {
+        playerController.Hp -= damage;
+    }
+    void damageToWitch(int damage)
+    {
+        WitchController.Hp -= damage;
+    }
+
 }
