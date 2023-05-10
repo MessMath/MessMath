@@ -4,6 +4,7 @@ using System.Data;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
 
 public class Calculate_Board : MonoBehaviour
 {
@@ -13,16 +14,27 @@ public class Calculate_Board : MonoBehaviour
     {
         Debug.Log("Calculate");
 
-        DataTable table = new DataTable();      // 수식을 스트링으로 받아서 계산. 결과를 result에 저장.
-        var result = table.Compute(GetComponentInChildren<TextMeshProUGUI>().text,"");
+        object result;
+        String printResult;
+
+        try
+        {
+            DataTable table = new DataTable();      // 수식을 스트링으로 받아서 계산. 결과를 result에 저장.
+            result = table.Compute(GetComponentInChildren<TextMeshProUGUI>().text, "");
+            printResult = result.ToString();
+
+        }
+        catch(Exception e)                         // 연산이 불가능한 식일 경우 예외처리
+        {
+            printResult = "";
+        }
+
         GetComponentInChildren<TextMeshProUGUI>().text = "";
 
         if (target.GetComponent<TextMeshProUGUI>())     // 화면 정 가운에 결과를 잠깐 출력
         {
-            Debug.Log(result.ToString());
-            target.GetComponent<TextMeshProUGUI>().text = result.ToString();
+            target.GetComponent<TextMeshProUGUI>().text = printResult;
             StartCoroutine(Waitfor2Sec());
-            
         }
     }
 
