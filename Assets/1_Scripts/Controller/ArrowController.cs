@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class ArrowController : MonoBehaviour
 {
-    public string Symbol;       // SymbolÀ» Inspector¿¡¼­ °£ÆíÇÏ°Ô ¼³Á¤ÇÒ ¼ö ÀÖµµ·Ï,
-    TextMeshPro tmp;            // È­»ìÀÇ SymbolÀÌ Ç¥½ÃµÉ TextMeshPro
-    string[] Operator = { "+", "-", "¡¿", "¡À" };
+    public string Symbol;       // Symbolï¿½ï¿½ Inspectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½,
+    TextMeshPro tmp;            // È­ï¿½ï¿½ï¿½ï¿½ Symbolï¿½ï¿½ Ç¥ï¿½Ãµï¿½ TextMeshPro
+    string[] Operator = { "+", "-", "ï¿½ï¿½", "ï¿½ï¿½" };
     Vector2 dirVec;
     public GameObject player;
 
@@ -16,33 +16,33 @@ public class ArrowController : MonoBehaviour
         tmp = GetComponentInChildren<TextMeshPro>();
         tmp.text = Symbol;
 
-        if (Symbol.Length > 1)  // SymbolÀÇ ±æÀÌ°¡ 1ÀÌ ³Ñ¾î°£´Ù¸é ÀÓÀÇÀÇ 1ÀÇÀÚ¸® ÀÚ¿¬¼ö·Î ´ëÃ¼.
+        if (Symbol.Length > 1)  // Symbolï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ 1ï¿½ï¿½ ï¿½Ñ¾î°£ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼.
         {
-            Debug.Log("Symbole Length should be 1!!");
+            Debug.Log("Symbol Length should be 1!!");
 
             if (Random.Range(0, 2) == 1)
-                Symbol = Random.Range(0, 10).ToString();            // 50%ÀÇ È®·ü·Î SymbolÀÌ 0~9ÀÇ ¼ýÀÚ°í
+                Symbol = Random.Range(0, 10).ToString();            // 50%ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ Symbolï¿½ï¿½ 0~9ï¿½ï¿½ ï¿½ï¿½ï¿½Ú°ï¿½
             else
-                Symbol = Operator[Random.Range(0, 4)].ToString();   // 50%ÀÇ È®·ü·Î SymbolÀÌ »çÄ¢¿¬»ê Áß ÇÏ³ªÀÇ ±âÈ£¿¡ ÇØ´çÇÑ´Ù.
+                Symbol = Operator[Random.Range(0, 4)].ToString();   // 50%ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ Symbolï¿½ï¿½ ï¿½ï¿½Ä¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ñ´ï¿½.
 
             tmp.text = Symbol;
         }
 
         if (player == null)     
-            player = GameObject.FindGameObjectWithTag("Player"); // Player¸¦ Ã£Áö¸øÇÏ´Â ¿À·ù¸¦ °íÄ¡±â À§ÇÑ ÄÚµå
-
-        LookAt(player);     // Player¸¦ ¹Ù¶óº¸°í ³¯¶ó°¡°Ô²û
+            player = GameObject.FindGameObjectWithTag("Player"); // Playerï¿½ï¿½ Ã£ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 
         dirVec = player.transform.position - transform.position;
+        LookAt(player);     // Playerï¿½ï¿½ ï¿½Ù¶óº¸°ï¿½ ï¿½ï¿½ï¿½ó°¡°Ô²ï¿½
         GetComponent<Rigidbody2D>().AddForce(dirVec.normalized * 10, ForceMode2D.Impulse);
 
+        GetComponentInChildren<RectTransform>().localRotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z * (-1.0f));
     }
 
     void LookAt(GameObject target)
     {
         if(target != null)
         {
-            Vector2 direction = new Vector2(target.transform.position.x - transform.position.x, target.transform.position.y - transform.position.y);
+            Vector2 direction = dirVec;
 
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             Quaternion angleAxis = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
