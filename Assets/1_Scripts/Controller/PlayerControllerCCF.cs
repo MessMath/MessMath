@@ -33,6 +33,7 @@ public class PlayerControllerCCF : MonoBehaviour
         onCalculateBoardText.GetComponent<TextMeshProUGUI>().text += symbol;
     }
 
+    #region 플레이어 조작 관련
     void FixedUpdate() 
     {
         // 플레이어의 위치 이동
@@ -54,5 +55,5 @@ public class PlayerControllerCCF : MonoBehaviour
             spriter.flipX = (inputVec.x < 0);
         }
     }
-    
+    #endregion
 }
