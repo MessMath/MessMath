@@ -23,9 +23,9 @@ public class WitchController : MonoBehaviour
         HpBar.value = Hp;
     }
 
-    void Questioning()
+    public void Questioning()
     {
-        QusetionNumber = Random.Range(1, 100);
+        QusetionNumber = Random.Range(10, 100);
         QusetionNumberText.text = $"{QusetionNumber}";
     }
 }
