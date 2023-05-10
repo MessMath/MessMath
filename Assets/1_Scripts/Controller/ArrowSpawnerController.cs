@@ -15,20 +15,21 @@ public class ArrowSpawnerController : MonoBehaviour
         edgeCollider = GetComponent<EdgeCollider2D>();
 
         #region EdgeCollider를 포물선으로 정하는 코드
+
         points = edgeCollider.points;
-        float xStep = Mathf.Abs(points[0].x - points[points.Length - 1].x)/(points.Length - 1);
+        float yStep = Mathf.Abs(points[0].y - points[points.Length - 1].y)/(points.Length - 1);
 
         for (int i = 0; i < points.Length; i++)
         {
             if (i == 0)
-            {
-                points[i].y = (float)(points[i].x * points[i].x * (-0.025));
                 continue;
-            }
-            points[i].x = points[i - 1].x + xStep;
-            points[i].y = (float)(points[i].x * points[i].x * (-0.025));
+
+            points[i].y = points[i - 1].y + yStep;
+            points[i].x = (points[i].y * points[i].y) / 12;
+
         }
         edgeCollider.points = points;
+
         #endregion
     }
 
