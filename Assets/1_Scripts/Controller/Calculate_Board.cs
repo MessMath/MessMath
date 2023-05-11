@@ -72,6 +72,7 @@ public class Calculate_Board : MonoBehaviour
     void damageToPlayer(int damage)
     {
         playerController.Hp -= damage;
+        Debug.Log("player damage 1");
     }
     void damageToWitch(int damage)
     {

@@ -23,14 +23,14 @@ public class PlayerControllerCCF : MonoBehaviour
         // anim = GetComponent<Animator>();     // <- 애니메이션 추가시 주석 해제
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "SymbolArrow")
+        if (collision.gameObject.tag != "Arrow")
             return;
 
-        GameObject arrow = collision.gameObject;
-        string symbol = arrow.GetComponent<ArrowController>().Symbol;
-        Destroy(collision.gameObject);
+        Arrow arrow = collision.gameObject.GetComponentInParent<Arrow>();
+        string symbol = arrow.tmp.text;
+        Destroy(collision.transform.parent.gameObject);
 
         onCalculateBoardText.GetComponent<TextMeshProUGUI>().text += symbol;
     }

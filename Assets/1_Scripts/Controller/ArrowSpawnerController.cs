@@ -33,25 +33,24 @@ public class ArrowSpawnerController : MonoBehaviour
         #endregion
     }
 
-    void Update()
-    {
-        Shot();
-        Reload();
-    }
+    //void Update()
+    //{
+    //    Shot();
+    //    Reload();
+    //}
 
-    void Shot()
-    {
-        if (curShotDelay < maxShotDelay) return;
-        int randValue = Random.Range(0, 3);
-        GameObject testBullet = Managers.Resource.Instantiate("TestBullet");
-        testBullet.transform.position = edgeCollider.points[Random.Range(0, edgeCollider.points.Length)];
+    //void Shot()
+    //{
+    //    if (curShotDelay < maxShotDelay) return;
+    //    GameObject testBullet = Managers.Resource.Instantiate("TestBullet");
+    //    testBullet.transform.position = edgeCollider.points[Random.Range(0, edgeCollider.points.Length)];
 
-        Debug.Log(" + bullet shot!");
+    //    Debug.Log(" + bullet shot!");
 
-        Destroy(testBullet, 2f);
+    //    Destroy(testBullet, 2f);
 
-        curShotDelay = 0;
-    }
+    //    curShotDelay = 0;
+    //}
 
     void Reload()
     {
