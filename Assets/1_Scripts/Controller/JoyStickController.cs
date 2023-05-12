@@ -33,7 +33,7 @@ public class JoyStickController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Input.mousePosition.x <= 1600)
         {
             OnPointerDown();
         }
