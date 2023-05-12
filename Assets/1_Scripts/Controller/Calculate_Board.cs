@@ -39,6 +39,7 @@ public class Calculate_Board : MonoBehaviour
         {
             result = table.Compute(expressionToCalculate, "");     // 수식을 스트링으로 받아서 계산. 결과를 result에 저장.
             printResult = result.ToString();
+            Debug.Log("Calculate result is : " + printResult);
         }
         catch (System.Exception e)                         // 연산이 불가능한 식일 경우 예외처리
         {
@@ -56,7 +57,7 @@ public class Calculate_Board : MonoBehaviour
 
         if(printResult == "")
             damageToPlayer(1);
-        else if (int.Parse(printResult) == WitchController.QusetionNumber)
+        else if (int.Parse(printResult) == WitchController.QusetionNumber) // 소숫점은 어떻게 처리할까? (지금은 소숫점일 때 이 행에서 오류난다)
             damageToWitch(15);
         else
             damageToPlayer(1);

@@ -485,11 +485,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8030029212531030838, guid: 63a06d6cd9c03d14a9b07e5aceb4442c, type: 3}
       propertyPath: m_Pivot.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8030029212531030838, guid: 63a06d6cd9c03d14a9b07e5aceb4442c, type: 3}
       propertyPath: m_Pivot.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8030029212531030838, guid: 63a06d6cd9c03d14a9b07e5aceb4442c, type: 3}
       propertyPath: m_RootOrder
@@ -549,11 +549,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8030029212531030838, guid: 63a06d6cd9c03d14a9b07e5aceb4442c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 8030029212531030838, guid: 63a06d6cd9c03d14a9b07e5aceb4442c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 148.5
       objectReference: {fileID: 0}
     - target: {fileID: 8030029212531030838, guid: 63a06d6cd9c03d14a9b07e5aceb4442c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -978,7 +978,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 397, y: 0.003540039}
+  m_AnchoredPosition: {x: 397, y: 0.0036621094}
   m_SizeDelta: {x: -935.5229, y: -85.433}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721955621
@@ -1556,7 +1556,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "1234+-\xD7\xF7"
+  m_text: 1234+-*/
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1937,7 +1937,6 @@ MonoBehaviour:
   player: {fileID: 594458821}
   arrowPrefab: {fileID: 6296137335546924380, guid: 99980241a47df8f47a52462b54ae4126, type: 3}
   SetText: {fileID: 28461703}
-  <textString>k__BackingField: 2
 --- !u!4 &1988811623
 Transform:
   m_ObjectHideFlags: 0

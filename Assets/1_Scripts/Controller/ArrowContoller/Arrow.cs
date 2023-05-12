@@ -18,5 +18,16 @@ public class Arrow : MonoBehaviour
     public Vector2 direction { get; set; }
     [field: SerializeField]
     public TextMeshPro tmp { get; set ; }            // 화살의 Symbol이 표시될 TextMeshPro
-    
+    public string text;
+
+    private void Start()
+    {
+        text = tmp.text;
+    }
+
+    private void OnValidate()
+    {
+        if (tmp != null)
+            tmp.text = text;
+    }
 }
