@@ -65,7 +65,7 @@ public class Calculate_Board : MonoBehaviour
 
     IEnumerator Waitfor2Sec()           // 2초 지연 후에 PrintNumber 텍스트 삭제
     {
-        yield return new WaitForSeconds(2.0f);  
+        yield return new WaitForSeconds(2.0f);
         Debug.Log("Wait2Sec");
         PrintNumber.text = "";
     }
@@ -73,10 +73,12 @@ public class Calculate_Board : MonoBehaviour
     {
         playerController.Hp -= damage;
         Debug.Log("player damage 1");
+        WitchController.Questioning();
     }
     void damageToWitch(int damage)
     {
         WitchController.Hp -= damage;
+        WitchController.HpBar.value = WitchController.Hp;
+        WitchController.Questioning();
     }
-
 }

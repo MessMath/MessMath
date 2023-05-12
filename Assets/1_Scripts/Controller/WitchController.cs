@@ -12,15 +12,16 @@ public class WitchController : MonoBehaviour
     public int QusetionNumber;
     public TextMeshProUGUI QusetionNumberText;
 
-    private void Start()
+    private void Awake()
     {
         HpBar.value = Hp;
         Questioning();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        HpBar.value = Hp;
+        if (HpBar.value != Hp)
+            HpBar.value = Hp;
     }
 
     public void Questioning()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class ArrowController : MonoBehaviour
 {
@@ -10,22 +11,37 @@ public class ArrowController : MonoBehaviour
     string[] Operator = { "+", "-", "×", "÷" };
     public GameObject player;
 
-    private const float MIN_X = -11.1f;
-    private const float MAX_X = 11.11f;
     private const int MAX_NUM_ARROW = 3;
     private const int MAX_SYMBOL_ARROW = 2;
     private int numArrowCnt = 0;
     private int symbolArrowCnt = 0;
-    private Color red = new Color(1, 0, 0, 1);
-    private Color blue = new Color(0, 0, 1, 1);
     public GameObject arrowPrefab;
+    EdgeCollider2D edgeCollider;
+    public TextMeshProUGUI SetText;
 
     private void Start()
     {
+        // StartCoroutine("SetGame");
         //if (player == null)
         player = GameObject.FindGameObjectWithTag("Player"); // Player를 찾지못하는 오류를 고치기 위한 코드
+        edgeCollider = GetComponent<EdgeCollider2D>();
 
         StartCoroutine("SetArrowGenerationTime", 3f);
+    }
+
+    IEnumerator SetGame()
+    {
+        Time.timeScale = 0.0f;
+        Debug.Log("SetGame");
+        SetText.text = "3";
+        yield return new WaitForSecondsRealtime(1.0f);
+        SetText.text = "2";
+        yield return new WaitForSecondsRealtime(1.0f);
+        SetText.text = "1";
+        yield return new WaitForSecondsRealtime(1.0f);
+        SetText.enabled = false;
+        Time.timeScale = 1.0f;
+        Debug.Log("StartGame");
     }
 
     void LookAt(GameObject target, Arrow arrow)
@@ -36,9 +52,9 @@ public class ArrowController : MonoBehaviour
 
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             Quaternion angleAxis = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
-            Quaternion rotation = Quaternion.Slerp(transform.rotation, angleAxis, 1);
+            Quaternion rotation = Quaternion.Slerp(arrow.transform.rotation, angleAxis, 1);
 
-            transform.rotation = rotation;
+            arrow.transform.rotation = rotation;
         }
     }
 
@@ -77,13 +93,24 @@ public class ArrowController : MonoBehaviour
                 symbolArrowCnt = 0;
             }
         }
-
         return arrow.type;
     }
+
+    // 테스트 용으로 붙인 코드
+    [field: SerializeField]
+    public string textString { get; set; }
 
     void SetArrowNum(Arrow arrow)
     {
         arrow.tmp.text = Random.Range(1, 10).ToString();
+
+
+        // 테스트 용으로 붙인 코드
+        if (textString != null)
+        {
+            arrow.tmp.text = textString;
+        }
+        
     }
 
     void SetArrowOperator(Arrow arrow)
@@ -108,10 +135,42 @@ public class ArrowController : MonoBehaviour
         arrow.speed = Random.Range(3.0f, 5.0f);
     }
 
+    Vector2 GetRandPosOfLeft()
+    {
+        Vector2 newPos = new Vector2(Random.Range(edgeCollider.points[0].x, edgeCollider.points[1].x), Random.Range(edgeCollider.points[0].y, edgeCollider.points[1].y));
+        return newPos;
+    }
+
+    Vector2 GetRandPosOfUp()
+    {
+        Vector2 newPos = new Vector2(Random.Range(edgeCollider.points[1].x, edgeCollider.points[2].x), Random.Range(edgeCollider.points[1].y, edgeCollider.points[2].y));
+        return newPos;
+    }
+
+    Vector2 GetRandPosOfRight()
+    {
+        Vector2 newPos = new Vector2(Random.Range(edgeCollider.points[2].x, edgeCollider.points[3].x), Random.Range(edgeCollider.points[2].y, edgeCollider.points[3].y));
+        return newPos;
+    }
+
     // 화살의 생성 위치 조절하는 함수 
     void SetArrowStartPosition(Arrow arrow)
     {
-        arrow.startPosition = new Vector2(Random.Range(MIN_X, MAX_X), 5f);
+
+        int randValue = Random.Range(0, 3);
+        switch (randValue)
+        {
+            case 0:
+                arrow.startPosition = GetRandPosOfLeft();
+                break;
+            case 1:
+                arrow.startPosition = GetRandPosOfUp();
+                break;
+            case 2:
+                arrow.startPosition = GetRandPosOfRight();
+                break;
+        }
+        
     }
 
     // 화살 설정하는 함수

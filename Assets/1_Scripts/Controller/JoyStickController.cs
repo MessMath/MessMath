@@ -1,11 +1,12 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class JoyStickController : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
+public class JoyStickController : MonoBehaviour
 {
     RectTransform handle;
     RectTransform outLine;
@@ -16,34 +17,74 @@ public class JoyStickController : MonoBehaviour, IDragHandler, IPointerUpHandler
     private Canvas canvas;
 
     public float Horizontal { get { return input.x; } }
-    public float Vertical { get { return input.y;} }
+    public float Vertical { get { return input.y; } }
+
+    private CanvasGroup canvasGroup;
+    private bool isTouching = false;
 
     // Start is called before the first frame update
     void Start()
     {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         outLine = transform.Find("JoyStick").GetComponent<RectTransform>();
-        handle = transform.Find("JoyStick").Find("Handle").GetComponent<RectTransform>();;
+        handle = transform.Find("JoyStick").Find("Handle").GetComponent<RectTransform>(); ;
+        canvasGroup = outLine.GetComponent<CanvasGroup>();
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    private void Update()
     {
-        OnDrag(eventData);
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnPointerDown();
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            OnPointerUp();
+        }
+
+        if (isTouching)
+        {
+            OnDrag();
+        }
+
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void OnPointerDown()
+    {
+        canvasGroup.alpha = 1f;
+        outLine.transform.position = Input.mousePosition;
+        isTouching = true;
+    }
+
+    //public void OnPointerDown(PointerEventData eventData)
+    //{
+    //    canvasGroup.alpha = 1f;
+    //    outLine.transform.position = Input.mousePosition;
+    //    OnDrag(eventData);
+    //}
+
+    public void OnDrag()
     {
         Vector2 radius = outLine.sizeDelta / 2;
-        input = (eventData.position - outLine.anchoredPosition) / (radius * canvas.scaleFactor);
+        input = (Input.mousePosition - (Vector3)outLine.anchoredPosition) / (radius * canvas.scaleFactor);
         HandleInput(input.magnitude, input.normalized);
         handle.anchoredPosition = input * radius * hadndleRange;
     }
+
+    //public void OnDrag(PointerEventData eventData)
+    //{
+    //    Vector2 radius = outLine.sizeDelta / 2;
+    //    input = (eventData.position - outLine.anchoredPosition) / (radius * canvas.scaleFactor);
+    //    HandleInput(input.magnitude, input.normalized);
+    //    handle.anchoredPosition = input * radius * hadndleRange;
+    //}
 
     private void HandleInput(float magnitude, Vector2 normalised)
     {
         if (magnitude > deadZone)
         {
-            if(magnitude > 1)
+            if (magnitude > 1)
             {
                 input = normalised;
             }
@@ -54,10 +95,19 @@ public class JoyStickController : MonoBehaviour, IDragHandler, IPointerUpHandler
         }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnPointerUp()
     {
         input = Vector2.zero;
         handle.anchoredPosition = Vector2.zero;
+        canvasGroup.alpha = 0f;
+        isTouching = false;
     }
+
+    //public void OnPointerUp(PointerEventData eventData)
+    //{
+    //    input = Vector2.zero;
+    //    handle.anchoredPosition = Vector2.zero;
+    //    canvasGroup.alpha = 0f;
+    //}
     // Update is called once per frame
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 
@@ -15,12 +16,17 @@ public class PlayerControllerCCF : MonoBehaviour
     Animator anim;
     public GameObject onCalculateBoardText;
 
+
+    private JoyStickController joystick;
+
     void Awake()
     {
         Hp = 3;
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
+        joystick = GameObject.FindObjectOfType<JoyStickController>();
         // anim = GetComponent<Animator>();     // <- 애니메이션 추가시 주석 해제
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,6 +41,12 @@ public class PlayerControllerCCF : MonoBehaviour
         onCalculateBoardText.GetComponent<TextMeshProUGUI>().text += symbol;
     }
 
+    private void MoveControl()
+    {
+        transform.position += Vector3.up * speed * Time.deltaTime * joystick.Vertical;
+        transform.position += Vector3.right * speed * Time.deltaTime * joystick.Horizontal;
+    }
+
     #region 플레이어 조작 관련
     void FixedUpdate() 
     {
@@ -43,6 +55,9 @@ public class PlayerControllerCCF : MonoBehaviour
         // fixedDeltaTime : 물리 프레임 하나가 소비한 시간
         // 모든 경우의 프레임에서 동일한 움직임을 갖기위한 코드 
         rigid.MovePosition(rigid.position + nextVec); // 현재 위치 + 움직이는 벡터값
+
+        if (joystick.Horizontal != 0 || joystick.Vertical != 0)
+            MoveControl();
     }
     void OnMove(InputValue value)
     { // Player Input을 통해 WASD입력값을 받는다(normalized된 벡터값을 inputVec에 저장)
@@ -58,4 +73,5 @@ public class PlayerControllerCCF : MonoBehaviour
         }
     }
     #endregion
+
 }
