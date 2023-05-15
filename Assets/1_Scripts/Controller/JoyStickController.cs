@@ -69,7 +69,7 @@ public class JoyStickController : MonoBehaviour
         Vector2 radius = outLine.sizeDelta / 2;
         input = (Input.mousePosition - (Vector3)outLine.anchoredPosition) / (radius * canvas.scaleFactor);
         HandleInput(input.magnitude, input.normalized);
-        handle.anchoredPosition = input * radius * hadndleRange;
+        handle.anchoredPosition = input * radius * hadndleRange / 3;
     }
 
     //public void OnDrag(PointerEventData eventData)
