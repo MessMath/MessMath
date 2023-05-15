@@ -61,6 +61,7 @@ public class PlayerControllerCCF : MonoBehaviour
     void OnMove(InputValue value)
     { // Player Input을 통해 WASD입력값을 받는다(normalized된 벡터값을 inputVec에 저장)
         inputVec = value.Get<Vector2>();
+
     }
     void LateUpdate()
     {

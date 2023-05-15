@@ -30,4 +30,13 @@ public class Arrow : MonoBehaviour
         if (tmp != null)
             tmp.text = text;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "DeadLine")
+        {
+            Destroy(gameObject);
+        }
+
+    }
 }
