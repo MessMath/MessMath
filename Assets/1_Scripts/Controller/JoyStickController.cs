@@ -16,8 +16,8 @@ public class JoyStickController : MonoBehaviour
     private Vector3 input = Vector3.zero;
     private Canvas canvas;
 
-    public float Horizontal { get { return input.x; } }
-    public float Vertical { get { return input.y; } }
+    public float Horizontal { get { return input.x; } set { input.x = value; } }
+    public float Vertical { get { return input.y; } set { input.y = value; } }
 
     private CanvasGroup canvasGroup;
     private bool isTouching = false;

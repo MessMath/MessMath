@@ -18,5 +18,13 @@ public class Arrow : MonoBehaviour
     public Vector2 direction { get; set; }
     [field: SerializeField]
     public TextMeshPro tmp { get; set ; }            // 화살의 Symbol이 표시될 TextMeshPro
-    
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "DeadLine")
+        {
+            Destroy(gameObject);
+        }
+
+    }
 }

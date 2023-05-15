@@ -16,7 +16,6 @@ public class PlayerControllerCCF : MonoBehaviour
     Animator anim;
     public GameObject onCalculateBoardText;
 
-
     private JoyStickController joystick;
 
     void Awake()
@@ -26,7 +25,6 @@ public class PlayerControllerCCF : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
         joystick = GameObject.FindObjectOfType<JoyStickController>();
         // anim = GetComponent<Animator>();     // <- 애니메이션 추가시 주석 해제
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -62,6 +60,7 @@ public class PlayerControllerCCF : MonoBehaviour
     void OnMove(InputValue value)
     { // Player Input을 통해 WASD입력값을 받는다(normalized된 벡터값을 inputVec에 저장)
         inputVec = value.Get<Vector2>();
+
     }
     void LateUpdate()
     {

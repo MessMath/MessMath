@@ -212,6 +212,6 @@ public class ArrowController : MonoBehaviour
         Debug.Log("direction: " + arrow.direction);
         Debug.Log("-------------------------");
 
-        Destroy(arrowObj, 3f);
+        //Destroy(arrowObj, 3f);
     }
 }
