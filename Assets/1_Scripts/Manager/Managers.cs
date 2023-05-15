@@ -15,11 +15,11 @@ public class Managers : MonoBehaviour
 
     private static UIManager s_uiManager = new UIManager();
     private static ResourceManager s_resourceManager = new ResourceManager();
-   private static SoundManager s_soundManager = new SoundManager();
+    private static SoundManager s_soundManager = new SoundManager();
 
-   public static UIManager UI { get { Init(); return s_uiManager; } }
+    public static UIManager UI { get { Init(); return s_uiManager; } }
     public static ResourceManager Resource { get { Init(); return s_resourceManager; } }
-   public static SoundManager Sound { get { Init(); return s_soundManager; } }
+    public static SoundManager Sound { get { Init(); return s_soundManager; } }
 
     private void Start()
     {

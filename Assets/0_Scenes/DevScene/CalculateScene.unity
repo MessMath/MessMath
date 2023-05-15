@@ -469,7 +469,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 292227727}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.401164, y: 0.49878418, z: -0.09931906}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 24, y: 12, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1488,7 +1488,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1291833483}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.401164, y: -0.49878418, z: 0.09931906}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1937,6 +1937,7 @@ MonoBehaviour:
   player: {fileID: 594458821}
   arrowPrefab: {fileID: 6296137335546924380, guid: 99980241a47df8f47a52462b54ae4126, type: 3}
   SetText: {fileID: 28461703}
+  <textString>k__BackingField: 
 --- !u!4 &1988811623
 Transform:
   m_ObjectHideFlags: 0

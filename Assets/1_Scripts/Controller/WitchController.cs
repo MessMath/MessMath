@@ -11,6 +11,7 @@ public class WitchController : MonoBehaviour
     public Slider HpBar;
     public int QusetionNumber;
     public TextMeshProUGUI QusetionNumberText;
+    public bool isAlive = true;
 
     private void Awake()
     {
@@ -22,11 +23,22 @@ public class WitchController : MonoBehaviour
     {
         if (HpBar.value != Hp)
             HpBar.value = Hp;
+
+        GameWinPopup();
     }
 
     public void Questioning()
     {
         QusetionNumber = Random.Range(10, 100);
         QusetionNumberText.text = $"{QusetionNumber}";
+    }
+
+    public void GameWinPopup()
+    {
+        if (Hp <= 0 && isAlive == true)
+        {
+            Managers.UI.ShowPopupUI<UI_GameWin>();
+            isAlive = false;
+        }
     }
 }

@@ -15,7 +15,7 @@ public class PlayerControllerCCF : MonoBehaviour
     SpriteRenderer spriter;
     Animator anim;
     public GameObject onCalculateBoardText;
-
+    bool isAlive = true;
 
     private JoyStickController joystick;
 
@@ -26,7 +26,6 @@ public class PlayerControllerCCF : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
         joystick = GameObject.FindObjectOfType<JoyStickController>();
         // anim = GetComponent<Animator>();     // <- 애니메이션 추가시 주석 해제
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -74,4 +73,17 @@ public class PlayerControllerCCF : MonoBehaviour
     }
     #endregion
 
+    private void Update()
+    {
+        GameOverPopup();
+    }
+
+    public void GameOverPopup()
+    {
+        if (Hp <= 0 && isAlive == true)
+        {
+            Managers.UI.ShowPopupUI<UI_GameOver>();
+            isAlive = false;
+        }
+    }
 }
