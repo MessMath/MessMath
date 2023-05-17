@@ -138,30 +138,9 @@ public class ArrowController : MonoBehaviour
     // 화살의 이미지 수정하는 함수
     void SetArrowSprite(Arrow arrow)
     {
-        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Operator");
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Effects");
         SpriteRenderer spriteR = arrow.gameObject.GetComponentInChildren<SpriteRenderer>();
-        switch(arrow.tmp.text) {
-            case "+": {
-                spriteR.sprite = sprites[1];
-                break;
-            }
-            case "-": {
-                spriteR.sprite = sprites[2];
-                break;
-            }
-            case "*": {
-                spriteR.sprite = sprites[5];
-                break;
-            }
-            case "/": {
-                spriteR.sprite = sprites[3];
-                break;
-            }
-            default: {
-                spriteR.sprite = sprites[4];
-                break;
-            }
-        }
+        spriteR.sprite = sprites[Random.Range(0,4)];
     }
 
     Vector2 GetRandPosOfLeft()
