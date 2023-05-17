@@ -2106,7 +2106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 594458821}
-  arrowPrefab: {fileID: 6296137335546924380, guid: 99980241a47df8f47a52462b54ae4126, type: 3}
+  arrowPrefab: {fileID: 6296137335546924380, guid: cb3ee5b3e023b1e4fa5bc3aa99078d75, type: 3}
   SetText: {fileID: 28461703}
   <textString>k__BackingField: 
 --- !u!4 &1988811623
@@ -2411,10 +2411,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6139911661080984001, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6139911662124141747, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2466,14 +2462,6 @@ PrefabInstance:
     - target: {fileID: 6139911662124141759, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
       propertyPath: m_Name
       value: Test_Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6139911662124141759, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6139911662389081509, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
