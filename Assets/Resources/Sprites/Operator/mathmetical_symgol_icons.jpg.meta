@@ -131,8 +131,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8fcd7bdd8bcd0474f9598c871d876e8f
-      internalID: 448281954
+      spriteID: 6804f7f7a9ec5a345b7708502423b460
+      internalID: -2126184449
       vertices: []
       indices: 
       edges: []
@@ -143,8 +143,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 290
-        height: 334
+        width: 276
+        height: 332
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,8 +152,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a5c7a48d799b8c48861e03200d6c311
-      internalID: 1258112503
+      spriteID: 46659f15ebe4a6c48b60de9492de39d1
+      internalID: -925499013
       vertices: []
       indices: 
       edges: []
@@ -162,9 +162,9 @@ TextureImporter:
       name: mathmetical_symgol_icons_2
       rect:
         serializedVersion: 2
-        x: 299
+        x: 287
         y: 0
-        width: 303
+        width: 310
         height: 334
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -173,8 +173,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8365fa70aad88bb4e807f520813fb161
-      internalID: 356579692
+      spriteID: c2da77fe83422cb4f83bdd1188319a0f
+      internalID: -970016137
       vertices: []
       indices: 
       edges: []
@@ -183,30 +183,9 @@ TextureImporter:
       name: mathmetical_symgol_icons_3
       rect:
         serializedVersion: 2
-        x: 647
-        y: 5
-        width: 320
-        height: 329
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 75ae8cc46984de8438a727c48ddde604
-      internalID: 23246666
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: mathmetical_symgol_icons_4
-      rect:
-        serializedVersion: 2
-        x: 1305
+        x: 660
         y: 0
-        width: 282
+        width: 296
         height: 334
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -215,8 +194,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e80d5a1730bd0e8419033a4dbf32e980
-      internalID: 1547952859
+      spriteID: 2494f5e54b91fe944b5b5a3b8dc85f1e
+      internalID: -1693504030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mathmetical_symgol_icons_4
+      rect:
+        serializedVersion: 2
+        x: 980
+        y: 0
+        width: 296
+        height: 334
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 902f4c934ed08c74e85001af1ae0a9fd
+      internalID: 419123862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mathmetical_symgol_icons_5
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 306
+        height: 334
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 223ae16b59532f64cacd28772bd97644
+      internalID: -1882789583
       vertices: []
       indices: 
       edges: []
@@ -232,11 +253,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      mathmetical_symgol_icons_2: 356579692
-      mathmetical_symgol_icons_4: 1547952859
-      mathmetical_symgol_icons_3: 23246666
-      mathmetical_symgol_icons_1: 1258112503
-      mathmetical_symgol_icons_0: 448281954
+      mathmetical_symgol_icons_2: -970016137
+      mathmetical_symgol_icons_4: 419123862
+      mathmetical_symgol_icons_3: -1693504030
+      mathmetical_symgol_icons_5: -1882789583
+      mathmetical_symgol_icons_1: -925499013
+      mathmetical_symgol_icons_0: -2126184449
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

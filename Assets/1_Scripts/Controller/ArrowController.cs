@@ -134,6 +134,35 @@ public class ArrowController : MonoBehaviour
     {
         arrow.speed = Random.Range(3.0f, 5.0f);
     }
+    
+    // 화살의 이미지 수정하는 함수
+    void SetArrowSprite(Arrow arrow)
+    {
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Operator");
+        SpriteRenderer spriteR = arrow.gameObject.GetComponentInChildren<SpriteRenderer>();
+        switch(arrow.tmp.text) {
+            case "+": {
+                spriteR.sprite = sprites[1];
+                break;
+            }
+            case "-": {
+                spriteR.sprite = sprites[2];
+                break;
+            }
+            case "*": {
+                spriteR.sprite = sprites[5];
+                break;
+            }
+            case "/": {
+                spriteR.sprite = sprites[3];
+                break;
+            }
+            default: {
+                spriteR.sprite = sprites[4];
+                break;
+            }
+        }
+    }
 
     Vector2 GetRandPosOfLeft()
     {
@@ -185,6 +214,7 @@ public class ArrowController : MonoBehaviour
         SetArrowStartPosition(arrow);
         SetArrowDirection(arrow);
         SetArrowSpeed(arrow);
+        SetArrowSprite(arrow);
     }
 
     // 화살 동적 생성하는 함수

@@ -729,8 +729,6 @@ MonoBehaviour:
   inputVec: {x: 0, y: 0}
   speed: 3
   onCalculateBoardText: {fileID: 1375609601}
-  _playerVec: {x: 0, y: 0}
-  _playerToZeroVec: {x: 0, y: 0}
 --- !u!58 &594458823
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1335,6 +1333,7 @@ MonoBehaviour:
   HpBar: {fileID: 895924805}
   QusetionNumber: 0
   QusetionNumberText: {fileID: 28461703}
+  isAlive: 1
 --- !u!1 &895924803
 GameObject:
   m_ObjectHideFlags: 0
@@ -2262,7 +2261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 594458821}
-  arrowPrefab: {fileID: 6296137335546924380, guid: 99980241a47df8f47a52462b54ae4126, type: 3}
+  arrowPrefab: {fileID: 6296137335546924380, guid: cb3ee5b3e023b1e4fa5bc3aa99078d75, type: 3}
   SetText: {fileID: 28461703}
   <textString>k__BackingField: 
 --- !u!4 &1988811623
