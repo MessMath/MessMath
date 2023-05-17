@@ -8,7 +8,7 @@ public class ArrowController : MonoBehaviour
 {
     //public string Symbol;       // Symbol을 Inspector에서 간편하게 설정할 수 있도록,
     //TextMeshPro tmp;            // 화살의 Symbol이 표시될 TextMeshPro
-    string[] Operator = { "+", "-", "*", "/" };
+    string[] Operator = { "+", "-", "x", "/" };
     public GameObject player;
 
     private const int MAX_NUM_ARROW = 3;
