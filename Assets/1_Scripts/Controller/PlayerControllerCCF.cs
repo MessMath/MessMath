@@ -77,6 +77,7 @@ public class PlayerControllerCCF : MonoBehaviour
     private void Update()
     {
         GameOverPopup();
+        StartCoroutine(Managers.Blessing.tempBlessing());
     }
 
     public void GameOverPopup()

@@ -16,10 +16,13 @@ public class Managers : MonoBehaviour
     private static UIManager s_uiManager = new UIManager();
     private static ResourceManager s_resourceManager = new ResourceManager();
     private static SoundManager s_soundManager = new SoundManager();
+    private static BlessingManager s_blessingManager = new BlessingManager();
 
     public static UIManager UI { get { Init(); return s_uiManager; } }
     public static ResourceManager Resource { get { Init(); return s_resourceManager; } }
     public static SoundManager Sound { get { Init(); return s_soundManager; } }
+    public static BlessingManager Blessing { get { Init(); return s_blessingManager; } }
+
 
     private void Start()
     {
@@ -39,6 +42,7 @@ public class Managers : MonoBehaviour
 
             s_resourceManager.Init();
             s_soundManager.Init();
+            s_blessingManager.Init();
 
             Application.targetFrameRate = 60;
         }
