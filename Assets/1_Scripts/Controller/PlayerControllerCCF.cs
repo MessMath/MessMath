@@ -10,7 +10,7 @@ public class PlayerControllerCCF : MonoBehaviour
 {
     public int Hp;
     public Vector2 inputVec;
-    public float speed = 3;
+    public float speed = 9;
     Rigidbody2D rigid;
     SpriteRenderer spriter;
     Animator anim;
@@ -67,10 +67,10 @@ public class PlayerControllerCCF : MonoBehaviour
     {
         //anim.SetFloat("Speed", inputVec.magnitude);   // <- 애니메이션 추가시 주석 해제
 
-        if (inputVec.x != 0)
-        {
-            spriter.flipX = (inputVec.x < 0);
-        }
+        //if (inputVec.x != 0)
+        //{
+        //    spriter.flipX = (inputVec.x < 0);
+        //}
     }
     #endregion
 

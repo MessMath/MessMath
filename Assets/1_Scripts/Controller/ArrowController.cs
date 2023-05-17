@@ -66,7 +66,7 @@ public class ArrowController : MonoBehaviour
 
         ShootArrow();
         yield return waitForSeconds;
-        StartCoroutine("SetArrowGenerationTime", 3f);
+        StartCoroutine("SetArrowGenerationTime", 1f);
     }
 
     // 현재 생성된 화살의 타입 숫자인지 기호인지 설정하는 함수 
@@ -132,7 +132,7 @@ public class ArrowController : MonoBehaviour
     // 화살의 속도 조절하는 함수 
     void SetArrowSpeed(Arrow arrow)
     {
-        arrow.speed = Random.Range(3.0f, 5.0f);
+        arrow.speed = Random.Range(5.0f, 7.0f);
     }
     
     // 화살의 이미지 수정하는 함수

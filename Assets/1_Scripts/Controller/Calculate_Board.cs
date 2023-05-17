@@ -12,13 +12,19 @@ public class Calculate_Board : MonoBehaviour
     public WitchController WitchController;
     public PlayerControllerCCF playerController;
     TextMeshProUGUI expression;
-    int numOfHeart;
+    int _idxOfHeart;
 
     private void Start()
     {
         PrintNumber.text = "";
         expression = GetComponentInChildren<TextMeshProUGUI>();
         expression.text = "";
+        _idxOfHeart = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject.Find($"Test_Player/Circle/heart{i}").SetActive(true);
+        }
+        
     }
 
     public void Calculate()
@@ -76,8 +82,8 @@ public class Calculate_Board : MonoBehaviour
         playerController.Hp -= damage;
         Debug.Log("player damage 1");
         WitchController.Questioning();
-        GameObject.Find($"Test_Player/Circle/heart{numOfHeart}").SetActive(false);
-        numOfHeart++;
+        GameObject.Find($"Test_Player/Circle/heart{_idxOfHeart}").SetActive(false);
+        _idxOfHeart++;
     }
     void damageToWitch(int damage)
     {
