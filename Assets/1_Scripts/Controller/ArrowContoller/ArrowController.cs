@@ -70,7 +70,6 @@ public class ArrowController : MonoBehaviour
     }
 
     // 현재 생성된 화살의 타입 숫자인지 기호인지 설정하는 함수 
-    // TODO: 해당 함수에선 현재 생성된 화살의 숫자와 기호 탐색 후 설정 해줘야 함
     int SetArrowType(Arrow arrow)
     {
         arrow.type = Random.Range(0, 2);
@@ -96,27 +95,14 @@ public class ArrowController : MonoBehaviour
         return arrow.type;
     }
 
-    // 테스트 용으로 붙인 코드
-    [field: SerializeField]
-    public string textString { get; set; }
-
     void SetArrowNum(Arrow arrow)
     {
         arrow.tmp.text = Random.Range(1, 10).ToString();
-
-
-        // 테스트 용으로 붙인 코드
-        if (textString != "")
-        {
-            arrow.tmp.text = textString;
-        }
-
     }
 
     void SetArrowOperator(Arrow arrow)
     {
         arrow.tmp.text = Operator[Random.Range(0, 4)].ToString();   // 50%의 확률로 Symbol이 사칙연산 중 하나의 기호에 해당한다.
-
     }
 
     // 화살의 방향 조절하는 함수 
@@ -213,14 +199,7 @@ public class ArrowController : MonoBehaviour
         Arrow arrow = arrowObj.GetComponent<Arrow>();
         arrowObj.GetComponent<Rigidbody2D>().AddForce(arrow.direction.normalized * arrow.speed, ForceMode2D.Impulse);
 
-        Debug.Log("------ShootArrow------");
-        Debug.Log("type: " + arrow.type);
-        Debug.Log("num or operator: " + arrow.tmp.text);
-        Debug.Log("speed" + arrow.speed);
-        Debug.Log("startPosition: " + arrow.startPosition.x + ", " + arrow.startPosition.y);
-        Debug.Log("direction: " + arrow.direction);
-        Debug.Log("-------------------------");
-
-        //Destroy(arrowObj, 3f);
+        Debug.Log("------Shoot Arrow------");
+        Debug.Log($"Arrow type: {arrow.type} num or operator: {arrow.tmp.text} speed: {arrow.speed} \n startPosition:{arrow.startPosition.x} , {arrow.startPosition.y} \n direction: {arrow.direction}");
     }
 }

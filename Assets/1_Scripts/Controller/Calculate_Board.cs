@@ -25,7 +25,7 @@ public class Calculate_Board : MonoBehaviour
         _idxOfHeart = 0;
         for (int i = 0; i < 3; i++)
         {
-           // GameObject.Find($"Test_Player/Circle/heart{i}").SetActive(true);
+            GameObject.Find($"Player/Circle/heart{i}").SetActive(true);
         }
         spriteRenderer = playerController.GetComponent<SpriteRenderer>();
         
@@ -35,12 +35,8 @@ public class Calculate_Board : MonoBehaviour
     {
         Debug.Log("Calculate");
 
-        // 1. ???? ???? ???????? ???? ??? (e.g. 12+-) => Player?? Hp?? ????
-        // 2. ???? ???? ????? Witch?? QusetionNumber?? ?????? => Witch?? Hp?? ????
-        // 3. ???? ???? ????? Witch?? QusetionNumber?? ????? ?????? => Player?? Hp?? ????
-
         object result = null;
-        string expressionToCalculate = expression.text.Replace("x","*");        // ????? ?????? ????!
+        string expressionToCalculate = expression.text.Replace("x","*"); 
         string printResult;
 
         expression.text = "";
@@ -48,11 +44,11 @@ public class Calculate_Board : MonoBehaviour
 
         try
         {
-            result = table.Compute(expressionToCalculate, "");     // ?????? ????????? ???? ???. ????? result?? ????.
+            result = table.Compute(expressionToCalculate, ""); 
             printResult = Math.Truncate(Convert.ToDouble(result)).ToString();
             Debug.Log($"\"{expressionToCalculate}\" result is : " + printResult);
         }
-        catch (System.Exception e)                         // ?????? ??????? ???? ??? ???????
+        catch (System.Exception e) 
         {
             Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
             printResult = "";
@@ -60,7 +56,7 @@ public class Calculate_Board : MonoBehaviour
             return;
         }
 
-        if (PrintNumber)     // ??? ????? ??? ???
+        if (PrintNumber)
         {
             PrintNumber.text = $"={printResult}";
             StartCoroutine(Waitfor2Sec());
@@ -68,54 +64,36 @@ public class Calculate_Board : MonoBehaviour
 
         if(printResult == "")
             damageToPlayer(1);
-        else if (int.Parse(printResult) == WitchController.QusetionNumber) // ??????? ???? ??????? (?????? ??????? ?? ?? ???? ????????)
+        else if (int.Parse(printResult) == WitchController.QusetionNumber)
             damageToWitch(15);
         else
             damageToPlayer(1);
 
     }
 
-    IEnumerator Waitfor2Sec()           // 2?? ???? ?��? PrintNumber ???? ????
+    IEnumerator Waitfor2Sec()
     {
         yield return new WaitForSeconds(2.0f);
         Debug.Log("Wait2Sec");
         PrintNumber.text = "";
     }
+
     void damageToPlayer(int damage)
     {
         playerController.Hp -= damage;
         Debug.Log("player damage 1");
         WitchController.Questioning();
-        GameObject.Find($"Test_Player/Circle/heart{_idxOfHeart}").SetActive(false);
-        StartCoroutine("Hit");
+        GameObject.Find($"Player/Circle/heart{_idxOfHeart}").SetActive(false);
+        playerController.BlinkPlayerImg();
         if (_idxOfHeart > playerController.Hp)
             return;
         else
             _idxOfHeart++;
     }
+
     void damageToWitch(int damage)
     {
-        //WitchController.Hp -= damage;
-        //WitchController.HpBar.value = WitchController.Hp;
         WitchController.SetWitchHP(damage);
         WitchController.Questioning();
-    }
-    IEnumerator Hit()
-    {
-        int countTime = 0;
-        while(countTime < 10)
-        {
-            if (countTime % 2 == 0)
-                spriteRenderer.color = new Color32(255, 255, 255, 90);
-            else
-                spriteRenderer.color = new Color32(255, 255, 255, 180);
-
-            yield return new WaitForSeconds(0.2f);
-
-            countTime++;
-        }
-
-        spriteRenderer.color = new Color32(255, 255, 255, 255);
-        yield return null;
     }
 }

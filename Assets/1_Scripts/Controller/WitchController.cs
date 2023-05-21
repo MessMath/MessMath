@@ -21,29 +21,26 @@ public class WitchController : MonoBehaviour
         witchImg = witchImg.gameObject.GetComponent<Image>();
         color = witchImg.color;
         Questioning();
-        // TODO 테스트 후 지우기
-        StartCoroutine("DamageWitch", 1f);
-    }
-
-    // TODO 테스트 후 지우기
-    IEnumerator DamageWitch (float delayTime)
-    {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(delayTime);
-        SetWitchHP(10);
-        yield return waitForSeconds;
-        StartCoroutine("DamageWitch", 1f);
     }
 
     IEnumerator BlinkWitchImg(float delayTime)
     {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(delayTime);
-        for(int i = 0; i < 3; i++) {
-            color.a = 0.2f;
-            witchImg.color = color;
+        WaitForSeconds waitForSeconds = new WaitForSeconds(0.15f);
+        int countTime = 0;
+        while(countTime < 10)
+        {
+            if (countTime % 2 == 0)
+                witchImg.color = new Color32(255, 255, 255, 90);
+            else
+                witchImg.color = new Color32(255, 255, 255, 180);
+
             yield return waitForSeconds;
-            witchImg.color = Color.white;
-            yield return waitForSeconds;
+
+            countTime++;
         }
+
+        witchImg.color = Color.white;
+        yield return null;
     }
 
     private void Update()
