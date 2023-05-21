@@ -372,6 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hp: 100
+  witchImg: {fileID: 7347792581309555856}
   HpBar: {fileID: 7347792582404798178}
   QusetionNumber: 0
   QusetionNumberText: {fileID: 0}
