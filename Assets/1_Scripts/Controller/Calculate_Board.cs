@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using System;
+using System.Net;
 
 public class Calculate_Board : MonoBehaviour
 {
@@ -12,7 +13,9 @@ public class Calculate_Board : MonoBehaviour
     public WitchController WitchController;
     public PlayerControllerCCF playerController;
     TextMeshProUGUI expression;
+    SpriteRenderer spriteRenderer;
     int _idxOfHeart;
+    bool isHit = false;
 
     private void Start()
     {
@@ -24,6 +27,7 @@ public class Calculate_Board : MonoBehaviour
         {
            // GameObject.Find($"Test_Player/Circle/heart{i}").SetActive(true);
         }
+        spriteRenderer = playerController.GetComponent<SpriteRenderer>();
         
     }
 
@@ -83,7 +87,11 @@ public class Calculate_Board : MonoBehaviour
         Debug.Log("player damage 1");
         WitchController.Questioning();
         GameObject.Find($"Test_Player/Circle/heart{_idxOfHeart}").SetActive(false);
-        _idxOfHeart++;
+        StartCoroutine("Hit");
+        if (_idxOfHeart > playerController.Hp)
+            return;
+        else
+            _idxOfHeart++;
     }
     void damageToWitch(int damage)
     {
@@ -91,5 +99,23 @@ public class Calculate_Board : MonoBehaviour
         //WitchController.HpBar.value = WitchController.Hp;
         WitchController.SetWitchHP(damage);
         WitchController.Questioning();
+    }
+    IEnumerator Hit()
+    {
+        int countTime = 0;
+        while(countTime < 10)
+        {
+            if (countTime % 2 == 0)
+                spriteRenderer.color = new Color32(255, 255, 255, 90);
+            else
+                spriteRenderer.color = new Color32(255, 255, 255, 180);
+
+            yield return new WaitForSeconds(0.2f);
+
+            countTime++;
+        }
+
+        spriteRenderer.color = new Color32(255, 255, 255, 255);
+        yield return null;
     }
 }
