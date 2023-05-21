@@ -8,7 +8,7 @@ public class ArrowController : MonoBehaviour
 {
     //public string Symbol;       // Symbol을 Inspector에서 간편하게 설정할 수 있도록,
     //TextMeshPro tmp;            // 화살의 Symbol이 표시될 TextMeshPro
-    string[] Operator = { "+", "-", "*", "/" };
+    string[] Operator = { "+", "-", "x", "/" };
     public GameObject player;
 
     private const int MAX_NUM_ARROW = 3;
@@ -66,7 +66,7 @@ public class ArrowController : MonoBehaviour
 
         ShootArrow();
         yield return waitForSeconds;
-        StartCoroutine("SetArrowGenerationTime", 3f);
+        StartCoroutine("SetArrowGenerationTime", 1f);
     }
 
     // 현재 생성된 화살의 타입 숫자인지 기호인지 설정하는 함수 
@@ -132,7 +132,15 @@ public class ArrowController : MonoBehaviour
     // 화살의 속도 조절하는 함수 
     void SetArrowSpeed(Arrow arrow)
     {
-        arrow.speed = Random.Range(3.0f, 5.0f);
+        arrow.speed = Random.Range(5.0f, 7.0f);
+    }
+    
+    // 화살의 이미지 수정하는 함수
+    void SetArrowSprite(Arrow arrow)
+    {
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Effects");
+        SpriteRenderer spriteR = arrow.gameObject.GetComponentInChildren<SpriteRenderer>();
+        spriteR.sprite = sprites[Random.Range(0,4)];
     }
 
     Vector2 GetRandPosOfLeft()
@@ -185,6 +193,7 @@ public class ArrowController : MonoBehaviour
         SetArrowStartPosition(arrow);
         SetArrowDirection(arrow);
         SetArrowSpeed(arrow);
+        SetArrowSprite(arrow);
     }
 
     // 화살 동적 생성하는 함수
