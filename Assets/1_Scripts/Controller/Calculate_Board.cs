@@ -83,7 +83,9 @@ public class Calculate_Board : MonoBehaviour
         Debug.Log("player damage 1");
         WitchController.Questioning();
         GameObject.Find($"Test_Player/Circle/heart{_idxOfHeart}").SetActive(false);
-        _idxOfHeart++;
+        if (_idxOfHeart > playerController.Hp)
+            return;
+        else _idxOfHeart++;
     }
     void damageToWitch(int damage)
     {
