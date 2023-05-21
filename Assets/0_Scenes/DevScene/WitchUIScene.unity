@@ -1293,6 +1293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hp: 100
+  witchImg: {fileID: 0}
   HpBar: {fileID: 1391018850}
   QusetionNumber: 0
   QusetionNumberText: {fileID: 28461703}
@@ -2297,6 +2298,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 744759330}
     m_Modifications:
+    - target: {fileID: 7347792581005615958, guid: dddf31b17e6a3dd428ad3c9d54c1bfbe, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 7347792581322918916, guid: dddf31b17e6a3dd428ad3c9d54c1bfbe, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 350
+      objectReference: {fileID: 0}
     - target: {fileID: 7347792582620920010, guid: dddf31b17e6a3dd428ad3c9d54c1bfbe, type: 3}
       propertyPath: m_Name
       value: Witch
