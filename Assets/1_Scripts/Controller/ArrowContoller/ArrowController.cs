@@ -124,9 +124,9 @@ public class ArrowController : MonoBehaviour
     // 화살의 이미지 수정하는 함수
     void SetArrowSprite(Arrow arrow)
     {
-        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Effects");
-        SpriteRenderer spriteR = arrow.gameObject.GetComponentInChildren<SpriteRenderer>();
-        spriteR.sprite = sprites[Random.Range(0,4)];
+        //Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Effects");
+        //SpriteRenderer spriteR = arrow.gameObject.GetComponentInChildren<SpriteRenderer>();
+        //spriteR.sprite = sprites[Random.Range(0,4)];
     }
 
     Vector2 GetRandPosOfLeft()

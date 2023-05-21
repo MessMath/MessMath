@@ -8,21 +8,49 @@ using static Define;
 
 public class UI_Main : UI_Scene
 {
+    //enum Texts
+    //{
 
+    //}
 
-    private void Start()
-    {
-        Init();
-    }
+    //enum Buttons
+    //{
+    //    ToGameBtn,
+    //}
 
-    public override bool Init()
-    {
-        if (base.Init() == false)
-            return false;
+    //enum Images
+    //{
+    //    heart0,
+    //    heart1,
+    //    heart2,
+    //    WitchImg,
 
-        
-        return true;
-    }
+    //}
+
+    //enum GameObjects
+    //{
+    //    Player,
+    //    WitchHpBar,
+
+    //}
+    
+    //private void Start()
+    //{
+    //    Init();
+    //}
+
+    //public override bool Init()
+    //{
+    //    if (base.Init() == false)
+    //        return false;
+
+    //    BindText(typeof(Texts));
+    //    BindButton(typeof(Buttons));
+    //    BindObject(typeof(GameObjects));
+    //    BindImage(typeof(Images));
+
+    //    return true;
+    //}
 
    
 }
