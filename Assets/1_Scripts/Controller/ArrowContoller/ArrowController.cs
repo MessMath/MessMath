@@ -52,9 +52,11 @@ public class ArrowController : MonoBehaviour
 
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             Quaternion angleAxis = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
-            Quaternion rotation = Quaternion.Slerp(arrow.transform.rotation, angleAxis, 1);
+            Quaternion rotation = Quaternion.Slerp(arrow.gameObject.GetComponentInChildren<SpriteRenderer>().transform.rotation, angleAxis, 1);
 
             arrow.transform.rotation = rotation;
+            
+            //arrow.gameObject.GetComponentInChildren<SpriteRenderer>().transform.rotation = rotation;
         }
     }
 
@@ -64,7 +66,11 @@ public class ArrowController : MonoBehaviour
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(delayTime);
 
-        ShootArrow();
+        for (int i = 0; i < 3; i++)
+        {
+            ShootArrow();
+        }
+        
         yield return waitForSeconds;
         StartCoroutine("SetArrowGenerationTime", 1f);
     }
@@ -124,9 +130,9 @@ public class ArrowController : MonoBehaviour
     // 화살의 이미지 수정하는 함수
     void SetArrowSprite(Arrow arrow)
     {
-        //Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Effects");
+        //Sprite sprites = Resources.Load<Sprite>("Sprites/Effects");
         //SpriteRenderer spriteR = arrow.gameObject.GetComponentInChildren<SpriteRenderer>();
-        //spriteR.sprite = sprites[Random.Range(0,4)];
+        //spriteR.sprite = sprites;
     }
 
     Vector2 GetRandPosOfLeft()
