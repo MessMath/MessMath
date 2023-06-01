@@ -25,9 +25,9 @@ public class JoyStickController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-        outLine = transform.Find("JoyStick").GetComponent<RectTransform>();
-        handle = transform.Find("JoyStick").Find("Handle").GetComponent<RectTransform>(); ;
+        canvas = GameObject.Find("UI_StoryGame").GetComponent<Canvas>();
+        outLine = transform.Find("Env").Find("JoyStick").GetComponent<RectTransform>();
+        handle = transform.Find("Env").Find("JoyStick").Find("Handle").GetComponent<RectTransform>(); ;
         canvasGroup = outLine.GetComponent<CanvasGroup>();
     }
 

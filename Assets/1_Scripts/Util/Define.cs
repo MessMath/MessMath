@@ -17,8 +17,9 @@ public class Define
     {
         Unknown,
         Dev,
-        Game,
         Main,
+        LobbyScene,
+        StoryGameScene,
     }
 
     public enum Sound

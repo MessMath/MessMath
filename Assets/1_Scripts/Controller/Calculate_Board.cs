@@ -27,7 +27,7 @@ public class Calculate_Board : MonoBehaviour
         {
             GameObject.Find($"Player/Circle/heart{i}").SetActive(true);
         }
-        spriteRenderer = playerController.GetComponent<SpriteRenderer>();
+        //spriteRenderer = playerController.GetComponent<SpriteRenderer>();
         
     }
 

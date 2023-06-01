@@ -11,8 +11,8 @@ public class BlessingManager
 
     public void Init()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerController = player.GetComponent<PlayerControllerCCF>();
+        //player = GameObject.FindGameObjectWithTag("Player");
+        //playerController = player.GetComponent<PlayerControllerCCF>();
     }
 
     public IEnumerator tempBlessing()

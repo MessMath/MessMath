@@ -30,7 +30,7 @@ public class PlayerControllerCCF : MonoBehaviour
     private void Update()
     {
         GameOverPopup();
-        StartCoroutine(Managers.Blessing.tempBlessing());
+        //StartCoroutine(Managers.Blessing.tempBlessing());
     }
 
     void FixedUpdate() 

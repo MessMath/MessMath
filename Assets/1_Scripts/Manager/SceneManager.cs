@@ -18,7 +18,7 @@ public class SceneManagerEx
         set { _curSceneType = value; }
     }
 
-    public BaseScene CurrentScene { get { return GameObject.Find("Scene").GetComponent<BaseScene>(); } }
+    public BaseScene CurrentScene { get { return GameObject.Find("@Scene").GetComponent<BaseScene>(); } }
 
     public void Init()
     {
