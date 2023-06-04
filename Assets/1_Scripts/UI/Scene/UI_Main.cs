@@ -11,7 +11,7 @@ public class UI_Main : UI_Scene
 {
     enum Texts
     {
-        GameStartText,
+
     }
 
     enum Buttons

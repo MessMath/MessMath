@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class ArrowController : MonoBehaviour
@@ -52,7 +53,7 @@ public class ArrowController : MonoBehaviour
 
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             Quaternion angleAxis = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
-            Quaternion rotation = Quaternion.Slerp(arrow.gameObject.GetComponentInChildren<SpriteRenderer>().transform.rotation, angleAxis, 1);
+            Quaternion rotation = Quaternion.Slerp(arrow.gameObject.GetComponentInChildren<Image>().transform.rotation, angleAxis, 1);
 
             arrow.transform.rotation = rotation;
             
@@ -124,7 +125,7 @@ public class ArrowController : MonoBehaviour
     // 화살의 속도 조절하는 함수 
     void SetArrowSpeed(Arrow arrow)
     {
-        arrow.speed = Random.Range(5.0f, 7.0f);
+        arrow.speed = Random.Range(200.0f, 250.0f);
     }
     
     // 화살의 이미지 수정하는 함수
@@ -194,7 +195,7 @@ public class ArrowController : MonoBehaviour
         GameObject arrowObject = Instantiate(arrowPrefab, this.transform);
         Arrow arrow = arrowObject.GetComponent<Arrow>();
         SetArrow(arrow);
-        arrowObject.transform.position = arrow.startPosition;
+        arrowObject.GetComponent<RectTransform>().position = arrow.startPosition;
         return arrowObject;
     }
 

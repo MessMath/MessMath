@@ -20,6 +20,9 @@ public class Define
         Main,
         LobbyScene,
         StoryGameScene,
+        PracticeGameScene,
+        Fight1vs1GameScene,
+        SeeStoryScene,
     }
 
     public enum Sound

@@ -325,7 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 0
   inputVec: {x: 0, y: 0}
-  speed: 3
+  speed: 400
   onCalculateBoardText: {fileID: 0}
 --- !u!114 &6139911662124141744
 MonoBehaviour:

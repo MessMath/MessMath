@@ -10,7 +10,7 @@ public class PlayerControllerCCF : MonoBehaviour
 {
     public int Hp;
     public Vector2 inputVec;
-    public float speed = 9;
+    public float speed = 10;
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
     Animator anim;
@@ -22,6 +22,7 @@ public class PlayerControllerCCF : MonoBehaviour
     void Awake()
     {
         Hp = 3;
+        speed = 400;
         rigid = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         joystick = GameObject.FindObjectOfType<JoyStickController>();
@@ -46,18 +47,18 @@ public class PlayerControllerCCF : MonoBehaviour
     {
         if (collision.gameObject.tag != "Arrow")
             return;
-
-        Arrow arrow = collision.gameObject.GetComponentInParent<Arrow>();
+        Debug.Log("화살 맞았는데용");
+        Arrow arrow = collision.gameObject.GetComponent<Arrow>();
         string symbol = arrow.tmp.text;
-        Destroy(collision.transform.parent.gameObject);
+        Destroy(collision.gameObject);
 
         onCalculateBoardText.GetComponent<TextMeshProUGUI>().text += symbol;
     }
 
     private void MoveControl()
     {
-        transform.position += Vector3.up * speed * Time.deltaTime * joystick.Vertical;
-        transform.position += Vector3.right * speed * Time.deltaTime * joystick.Horizontal;
+        gameObject.GetComponent<RectTransform>().position += Vector3.up * speed * Time.deltaTime * joystick.Vertical;
+        gameObject.GetComponent<RectTransform>().position += Vector3.right * speed * Time.deltaTime * joystick.Horizontal;
     }
 
     void OnMove(InputValue value)
