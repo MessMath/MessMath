@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4608592875355909593}
   - component: {fileID: 1198806118108458767}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Calculate_BoardText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -652,7 +652,7 @@ GameObject:
   - component: {fileID: 2170747594440512127}
   - component: {fileID: 2170747594440512120}
   m_Layer: 5
-  m_Name: Image
+  m_Name: WitchHPBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -805,7 +805,7 @@ GameObject:
   - component: {fileID: 2170747595517143197}
   - component: {fileID: 2170747595517143198}
   m_Layer: 5
-  m_Name: WitchHPImage(MASK)
+  m_Name: WitchHPImage_MASK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1267,7 +1267,7 @@ GameObject:
   - component: {fileID: 4851698990401828573}
   - component: {fileID: 4851698990401828572}
   m_Layer: 5
-  m_Name: Handle
+  m_Name: JoyStickHandle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

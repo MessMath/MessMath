@@ -22,8 +22,8 @@ public class ArrowController : MonoBehaviour
 
     private void Start()
     {
-        // StartCoroutine("SetGame");
-        //if (player == null)
+         StartCoroutine("SetGame");
+        if (player == null)
         player = GameObject.FindGameObjectWithTag("Player"); // Player를 찾지못하는 오류를 고치기 위한 코드
         edgeCollider = GetComponent<EdgeCollider2D>();
 
