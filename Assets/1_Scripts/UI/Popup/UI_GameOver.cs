@@ -29,7 +29,7 @@ public class UI_GameOver : UI_Popup
 
     public void restart()
     {
-        SceneManager.LoadScene("CalculateScene");
+        SceneManager.LoadScene("StoryGameScene");
         Time.timeScale = 1;
     }
 

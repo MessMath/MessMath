@@ -4,28 +4,25 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
-
-public class PlayerControllerCCF : MonoBehaviour
+public class PlayerControllerCCF : UI_Base
 {
-    public int Hp;
-    public Vector2 inputVec;
-    public float speed = 10;
-    Rigidbody2D rigid;
-    SpriteRenderer spriteRenderer;
-    Animator anim;
-    public GameObject onCalculateBoardText;
-    bool isAlive = true;
-
-    private JoyStickController joystick;
+    public int _hp;
+    public Vector2 _inputVec;
+    public float _speed = 10;
+    Rigidbody2D _rigid;
+    Image _image;
+    public GameObject _onCalculateBoardText;
+    bool _isAlive = true;
 
     void Awake()
     {
-        Hp = 3;
-        speed = 400;
-        rigid = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        joystick = GameObject.FindObjectOfType<JoyStickController>();
+        _hp = 3;
+        _speed = 400;
+        _rigid = gameObject.GetOrAddComponent<Rigidbody2D>();
+        _image = gameObject.GetOrAddComponent<Image>();
+        _onCalculateBoardText = gameObject.transform.parent.GetComponentInChildren<TextMeshProUGUI>().gameObject;
     }
 
     private void Update()
@@ -36,10 +33,10 @@ public class PlayerControllerCCF : MonoBehaviour
 
     void FixedUpdate() 
     {
-        Vector2 nextVec = inputVec * speed * Time.fixedDeltaTime;
-        rigid.MovePosition(rigid.position + nextVec);
+        Vector2 nextVec = _inputVec * _speed * Time.fixedDeltaTime;
+        _rigid.MovePosition(_rigid.position + nextVec);
 
-        if (joystick.Horizontal != 0 || joystick.Vertical != 0)
+        if (Managers.Game.Horizontal != 0 || Managers.Game.Vertical != 0)
             MoveControl();
     }
 
@@ -47,31 +44,32 @@ public class PlayerControllerCCF : MonoBehaviour
     {
         if (collision.gameObject.tag != "Arrow")
             return;
-        Debug.Log("화살 맞았는데용");
-        Arrow arrow = collision.gameObject.GetComponent<Arrow>();
-        string symbol = arrow.tmp.text;
+
+        Debug.Log("Hit Arrow!");
+        Arrow arrow = collision.gameObject.GetOrAddComponent<Arrow>();
+        string symbol = arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text;
         Destroy(collision.gameObject);
 
-        onCalculateBoardText.GetComponent<TextMeshProUGUI>().text += symbol;
+        _onCalculateBoardText.GetComponent<TextMeshProUGUI>().text += symbol;
     }
 
     private void MoveControl()
     {
-        gameObject.GetComponent<RectTransform>().position += Vector3.up * speed * Time.deltaTime * joystick.Vertical;
-        gameObject.GetComponent<RectTransform>().position += Vector3.right * speed * Time.deltaTime * joystick.Horizontal;
+        gameObject.GetComponent<RectTransform>().position += Vector3.up * _speed * Time.deltaTime * Managers.Game.Vertical;
+        gameObject.GetComponent<RectTransform>().position += Vector3.right * _speed * Time.deltaTime * Managers.Game.Horizontal;
     }
 
     void OnMove(InputValue value)
     { 
-        inputVec = value.Get<Vector2>();
+        _inputVec = value.Get<Vector2>();
     }
 
     public void GameOverPopup()
     {
-        if (Hp <= 0 && isAlive == true)
+        if (_hp <= 0 && _isAlive == true)
         {
             Managers.UI.ShowPopupUI<UI_GameOver>();
-            isAlive = false;
+            _isAlive = false;
         }
     }
 
@@ -87,16 +85,16 @@ public class PlayerControllerCCF : MonoBehaviour
         while(countTime < 10)
         {
             if (countTime % 2 == 0)
-                spriteRenderer.color = new Color32(255, 255, 255, 90);
+                _image.color = new Color32(255, 255, 255, 90);
             else
-                spriteRenderer.color = new Color32(255, 255, 255, 180);
+                _image.color = new Color32(255, 255, 255, 180);
 
             yield return waitForSeconds;
 
             countTime++;
         }
 
-        spriteRenderer.color = Color.white;
+        _image.color = Color.white;
         yield return null;
     }
 }

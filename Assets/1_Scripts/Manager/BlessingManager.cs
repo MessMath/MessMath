@@ -17,11 +17,11 @@ public class BlessingManager
 
     public IEnumerator tempBlessing()
     {
-        if(playerController.Hp == 1 && tempBlessed == false)
+        if(playerController._hp == 1 && tempBlessed == false)
         {
             tempBlessed = true;
             yield return new WaitForSeconds(1);
-            playerController.Hp += 1;
+            playerController._hp += 1;
             Debug.Log("tempBlessed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }

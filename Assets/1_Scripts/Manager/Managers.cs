@@ -13,17 +13,19 @@ public class Managers : MonoBehaviour
     public static Managers s_instance = null;
     public static Managers Instance { get { return s_instance; } }
 
-    private static UIManager s_uiManager = new UIManager();
+    private static BlessingManager s_blessingManager = new BlessingManager();
+    private static GameManagerEx s_gameManagerEx = new GameManagerEx();
     private static ResourceManager s_resourceManager = new ResourceManager();
     private static SceneManagerEx s_SceneManager = new SceneManagerEx();
     private static SoundManager s_soundManager = new SoundManager();
-    private static BlessingManager s_blessingManager = new BlessingManager();
+    private static UIManager s_uiManager = new UIManager();
 
-    public static UIManager UI { get { Init(); return s_uiManager; } }
+    public static BlessingManager Blessing { get { Init(); return s_blessingManager; } }
+    public static GameManagerEx Game { get { Init(); return s_gameManagerEx; } }
     public static ResourceManager Resource { get { Init(); return s_resourceManager; } }
     public static SceneManagerEx Scene { get { Init(); return s_SceneManager; } }
     public static SoundManager Sound { get { Init(); return s_soundManager; } }
-    public static BlessingManager Blessing { get { Init(); return s_blessingManager; } }
+    public static UIManager UI { get { Init(); return s_uiManager; } }
 
 
     private void Start()
