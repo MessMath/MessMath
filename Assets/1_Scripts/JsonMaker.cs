@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.IO;
+using StoryData;
 
-public class TxtFileMaker : MonoBehaviour
+public class JsonMaker : MonoBehaviour
 {
     string DBAddress = "https://docs.google.com/spreadsheets/d/13RmRePVU38TYU10FdhqtJ5DJWCDioeqfkFKqfte7Wv0";
     string sheetNum = "0";
     List<string> range = new List<string>(); 
     List<string> fileName = new List<string>();
+    TalkInfo storyTalkInfo = new TalkInfo();
 
     void Awake() 
     {
@@ -24,7 +26,7 @@ public class TxtFileMaker : MonoBehaviour
 
     void AddRange()
     {
-        range.Add("A2:B44");
+        range.Add("A2:H44");
     }
 
     void AddFileName()
@@ -46,7 +48,8 @@ public class TxtFileMaker : MonoBehaviour
             string data = www.downloadHandler.text;
             Debug.Log(data);
 
-            SaveData(data, i);
+            ParsingData(data);
+            MakeJsonFile(i);
         }
         
     }
@@ -61,50 +64,57 @@ public class TxtFileMaker : MonoBehaviour
     /// <returns>
     ///  파싱된 데이터
     /// </returns>
-    string ParsingData(string data)
+    void ParsingData(string data)
     {
-        string characterName;
-        string dialogue;
-        string result = "";
-
         string[] lines = data.Split('\n');
+        storyTalkInfo.talkDataList = new List<TalkData>();
         
         for(int i = 0; i < lines.Length; i++)
         {
-            characterName = lines[i].Split('\t')[0];
-            Debug.Log(characterName);
-            dialogue = lines[i].Split('\t')[1];
-            Debug.Log(dialogue);
-
-            result += characterName + "\t" + dialogue +"\n";
+            TalkData talkData = new TalkData();
+            string[] tap = lines[i].Split('\t');
+            talkData.characterName = tap[0];
+            Debug.Log(talkData.characterName);
+            talkData.dialogue = tap[1];
+            Debug.Log(talkData.dialogue);
+            talkData.sceneEffect = tap[2];
+            talkData.soundEffect = tap[3];
+            talkData.soundEffectDuration = float.Parse(tap[4]);
+            talkData.backgroundImg = tap[5];
+            talkData.txtEffect = tap[6];
+            talkData.expression = tap[7];
+            storyTalkInfo.talkDataList.Add(talkData);
         }
-
-        return result;
     }
     
     // ANCHOR 파일로 저장
     /// <summary>
-    /// 데이터를 파일에 저장하는 함수
+    /// 데이터를 json 파일에 저장하는 함수
     /// </summary>
     /// <param string="data">
     /// 파일에 저장할 데이터
     /// </param>
-    void SaveData(string data, int i)
+    void MakeJsonFile(int i)
     {
-        string filePath = "Assets/Resources/DialogueData/";
+        string filePath = Application.persistentDataPath + "/" + i + "_" + fileName[i] +".json";
         StreamWriter sw;
+        FileStream fs;
+
+        string json = JsonUtility.ToJson(storyTalkInfo);
 
         if (!File.Exists(filePath))
         {
-            sw = new StreamWriter(filePath + i + "_" + fileName[i] +".txt");
-            sw.WriteLine(data);
+            fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            sw = new StreamWriter(fs);
+            sw.WriteLine(json);
             sw.Flush();
             sw.Close();
+            fs.Close();
         }
         else if (File.Exists(filePath))
         {
             File.Delete(filePath);
-            SaveData(data, i);
+            MakeJsonFile(i);
         }
     }
 }
