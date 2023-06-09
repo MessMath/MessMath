@@ -14,12 +14,14 @@ public class Managers : MonoBehaviour
     public static Managers Instance { get { return s_instance; } }
 
     private static UIManager s_uiManager = new UIManager();
+    private static GameManagerEx s_gameManager = new GameManagerEx();
     private static ResourceManager s_resourceManager = new ResourceManager();
     private static SceneManagerEx s_SceneManager = new SceneManagerEx();
     private static SoundManager s_soundManager = new SoundManager();
     private static BlessingManager s_blessingManager = new BlessingManager();
 
     public static UIManager UI { get { Init(); return s_uiManager; } }
+    public static GameManagerEx Game { get { Init(); return s_gameManager; } }
     public static ResourceManager Resource { get { Init(); return s_resourceManager; } }
     public static SceneManagerEx Scene { get { Init(); return s_SceneManager; } }
     public static SoundManager Sound { get { Init(); return s_soundManager; } }

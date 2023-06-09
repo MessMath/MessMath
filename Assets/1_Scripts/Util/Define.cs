@@ -39,5 +39,11 @@ public class Define
         
     }
 
+    public enum CurrentStatus 
+    { 
+        WAITING, 
+        DIAGNOSIS, 
+        LEARNING 
+    }
 
 }

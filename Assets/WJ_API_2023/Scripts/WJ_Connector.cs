@@ -43,7 +43,7 @@ public class WJ_Connector : MonoBehaviour
 
     private void Awake()
     {
-        if (SystemInfo.deviceType == DeviceType.Desktop) 
+        if (SystemInfo.deviceType == DeviceType.Desktop)
             strDeviceNm = "PC";
         else 
             strDeviceNm = SystemInfo.deviceModel;
