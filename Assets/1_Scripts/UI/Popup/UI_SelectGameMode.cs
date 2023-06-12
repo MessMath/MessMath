@@ -13,7 +13,7 @@ public class UI_SelectGameMode : UI_Popup
     {
         PracticeBtn,
         Fight1vs1Btn,
-        SeeStoryBtn,
+        StoryBtn,
     }
 
     enum Images
@@ -44,7 +44,7 @@ public class UI_SelectGameMode : UI_Popup
         GetImage((int)Images.Panel).gameObject.BindEvent(OnClickBG);
         GetButton((int)Buttons.PracticeBtn).gameObject.BindEvent(() => { Managers.Scene.ChangeScene(Define.Scene.PracticeGameScene); });
         GetButton((int)Buttons.Fight1vs1Btn).gameObject.BindEvent(() => { Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene); });
-        GetButton((int)Buttons.SeeStoryBtn).gameObject.BindEvent(() => { Managers.Scene.ChangeScene(Define.Scene.SeeStoryScene); });
+        GetButton((int)Buttons.StoryBtn).gameObject.BindEvent(() => { Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
 
         return true;
     }

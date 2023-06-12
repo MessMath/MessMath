@@ -4,7 +4,7 @@ using UnityEngine;
 using System.IO;
 using StoryData;
 
-public class JsonReader : MonoBehaviour
+public class JsonReader
 {
     List<string> fileName = new List<string>();
     void AddFileName()
@@ -13,7 +13,7 @@ public class JsonReader : MonoBehaviour
     }
   
     // json코드 읽는 함수
-    TalkInfo ReadJson(string path)
+    public TalkInfo ReadJson(string path)
     {
         string json = File.ReadAllText(path);
         return JsonUtility.FromJson<TalkInfo>(json);

@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/0_Scenes/LobbyScene.unity
     guid: 263b4b35661496e4991a25441676b0f4
   - enabled: 1
+    path: Assets/0_Scenes/DevScene/StoryScene.unity
+    guid: c9cb1874d470bb040ab3afd4b5faef82
+  - enabled: 1
     path: Assets/0_Scenes/StoryGameScene.unity
     guid: 0879941d31721f14d9c137edc9d36bb8
   - enabled: 1
@@ -21,6 +24,6 @@ EditorBuildSettings:
     path: Assets/0_Scenes/Fight1vs1GameScene.unity
     guid: c50d84ed9d8940b4da8794f5b1ce4456
   - enabled: 1
-    path: Assets/0_Scenes/SeeStoryScene.unity
+    path: Assets/0_Scenes/StoryScene.unity
     guid: c7fcd1d6068dc434da192161da4fb3bb
   m_configObjects: {}
