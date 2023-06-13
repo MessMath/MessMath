@@ -9,6 +9,7 @@ public class UI_PracticeGame : UI_Scene
     enum Texts
     {
         CoinCount,
+        TeacherTalkText,
     }
 
     enum Buttons
@@ -25,6 +26,7 @@ public class UI_PracticeGame : UI_Scene
         BG,
         CoinImage,
         TeacherImage,
+        TeacherTalkImage,
     }
 
     enum GameObjects
@@ -60,6 +62,7 @@ public class UI_PracticeGame : UI_Scene
         GetButton((int)Buttons.AnswerBtn_4).gameObject.BindEvent(OnClickAnswerBtn);
 
         GetObject((int)GameObjects.Problem).gameObject.SetActive(false);
+        GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(false);
 
         return true;
     }
@@ -73,28 +76,60 @@ public class UI_PracticeGame : UI_Scene
 
     void OnClickAnswerBtn()
     {
+        // 코인 수 연결. TODO 데베랑 연결해야 됨.
         GetText((int)Texts.CoinCount).text = Managers.Game.Coin.ToString();
+
+        if (Managers.Game.IsCorrect == true && GetObject((int)GameObjects.API).GetOrAddComponent<WJ_Sample>().CurrentStatus == CurrentStatus.LEARNING) // 오답일 경우?
+        {
+            StartCoroutine("SetTeacher");
+        }
+        else if (Managers.Game.IsCorrect == false && GetObject((int)GameObjects.API).GetOrAddComponent<WJ_Sample>().CurrentStatus == CurrentStatus.LEARNING)
+        {
+            StartCoroutine("SetTeacher");
+
+        }
     }
 
-    IEnumerator BlinkTeacherImg(float delayTime)
+    IEnumerator SetTeacher()
     {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(0.15f);
-        int countTime = 0;
-        while (countTime < 10)
-        {
-            if (countTime % 2 == 0)
-                GetImage((int)Images.TeacherImage).color = new Color32(255, 255, 255, 90);
-            else
-                GetImage((int)Images.TeacherImage).color = new Color32(255, 255, 255, 180);
+        float delayTime = 1.0f;
 
-            yield return waitForSeconds;
+        GetTeacherTalkText();
 
-            countTime++;
-        }
+        GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(true);
+        if (Managers.Game.IsCorrect == true) GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/testTeacher");
+        else GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("test");
 
-        GetImage((int)Images.TeacherImage).color = Color.white;
+        yield return new WaitForSeconds(delayTime);
+        GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/TeacherImage");
+        GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(false);
+
         yield return null;
     }
 
+    void GetTeacherTalkText()
+    {
+        int randValue = Random.Range(0, 100);
+
+        if (Managers.Game.IsCorrect == true)
+        {
+            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = "Good Job!!"; }
+            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = "Oh!!"; }
+            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = "Yes!!"; }
+            
+        }
+        else
+        {
+            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = "Use your head"; }
+            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = "Not Kidding"; }
+            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = "Hmm..."; }
+        }
+
+    }
+
+    // TODO? API 코드도 다 넣어서 관리할까..??
+    #region 웅진 API
+
+    #endregion
 
 }

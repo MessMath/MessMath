@@ -33,6 +33,7 @@ public class WJ_Sample : MonoBehaviour
     private void Awake()
     {
         textAnsr = new TEXDraw[btAnsr.Length];
+        
         for (int i = 0; i < btAnsr.Length; ++i)
 
             textAnsr[i] = btAnsr[i].GetComponentInChildren<TEXDraw>();
@@ -178,8 +179,16 @@ public class WJ_Sample : MonoBehaviour
                 // 테스트로 추가한 부분
                 if (isCorrect)
                 {
-                    Debug.Log("Coin 게또다제~!");
+                    Debug.Log("정답");
                     Managers.Game.Coin++;
+                    Managers.Game.IsCorrect = true;
+                    // TODO? CoinAnim Add?
+                }
+                else
+                {
+                    Debug.Log("오답");
+                    Managers.Game.IsCorrect = false;
+
                 }
 
                 isSolvingQuestion = false;
