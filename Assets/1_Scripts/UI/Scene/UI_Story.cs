@@ -47,12 +47,17 @@ public class UI_Story : UI_Scene
 
         GetText((int)Texts.CharacterNameTMP).text = "";
         GetText((int)Texts.DialogueTMP).text = "";
-        GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickPanel);
+        GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
         return true;
     }
 
-    void OnClickPanel( )
+    void OnClickNxtBtn()
     {
+        if(!Managers.TextEffect.isTypingEnd)
+        {
+            Managers.TextEffect.SetFastSpeed();
+            return;
+        }
         if(++count >= maxCount) {
             Managers.Scene.ChangeScene(Define.Scene.StoryGameScene); 
             return;
@@ -65,7 +70,9 @@ public class UI_Story : UI_Scene
             GetText((int)Texts.DialogueTMP).fontSize = 80;
         }
         GetText((int)Texts.CharacterNameTMP).text = storyTalkData[count].characterName;
-        GetText((int)Texts.DialogueTMP).text = storyTalkData[count].dialogue;
+        //GetText((int)Texts.DialogueTMP).text = storyTalkData[count].dialogue;
+        Managers.TextEffect.SetNormalSpeed();
+        Managers.TextEffect.Typing(storyTalkData[count].dialogue, GetText((int)Texts.DialogueTMP));
         //talkDatas[i].sceneEffect
         //talkDatas[i].soundEffect
         //talkDatas[i].soundEffectDuration

@@ -18,12 +18,14 @@ public class Managers : MonoBehaviour
     private static SceneManagerEx s_SceneManager = new SceneManagerEx();
     private static SoundManager s_soundManager = new SoundManager();
     private static BlessingManager s_blessingManager = new BlessingManager();
+    private static TextEffectManager s_textEffectManager = new TextEffectManager();
 
     public static UIManager UI { get { Init(); return s_uiManager; } }
     public static ResourceManager Resource { get { Init(); return s_resourceManager; } }
     public static SceneManagerEx Scene { get { Init(); return s_SceneManager; } }
     public static SoundManager Sound { get { Init(); return s_soundManager; } }
     public static BlessingManager Blessing { get { Init(); return s_blessingManager; } }
+    public static TextEffectManager TextEffect {get{Init(); return s_textEffectManager;}}
 
 
     private void Start()
