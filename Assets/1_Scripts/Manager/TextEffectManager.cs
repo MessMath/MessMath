@@ -6,54 +6,128 @@ using TMPro;
 
 public class TextEffectManager
 {
-    /*public  class TXTCOLOR 
+    const string WHITE = "<color=#FFFFFF>";
+    const string RED = "<color=#FF0000>";
+    const string GREY = "<color=#808080>";
+    const string COLORTAG = "</color>";
+    const string SMALLSIZE = "<size=50>";
+    const string MEDIUMSIZE = "<size=80>";
+    const string LARGESIZE = "<size=100>";
+    const string SIZETAG = "</size>";
+    
+    float timeForCharacter = 0.08f;
+    float timeForCharacter_Fast = 0.01f;
+    float characterTime;
+    float timer;    
+
+    string tempDialogue;
+    TextMeshProUGUI tempSave;
+    public bool isTypingEnd = true;
+    bool t_ignore = false;
+    string t_color, t_size, t_style;
+
+
+    // 색상 변경 함수
+    void CheckTextEffect(char c)
     {
-        public string RED = "<code = FF0000>";
-        public string BLUE = "<code = 0000FF>";
-        public string GREEN = "<code = 00FF00>";
-    }*/
-   float timeForCharacter = 0.08f;
-   float timeForCharacter_Fast = 0.01f;
-   float characterTime;
-
-   string tempDialogue;
-   TextMeshProUGUI tempSave;
-
-   //static bool isDialogEnd;
-   public bool isTypingEnd = true;
-   //int dialogNumber = 0;
-   float timer;
-
-   // 색상 변경 함수
-   // 줄 바꿈 함수
-   // 글자 크기 최대 함수
-   // 타이핑 효과
-   public void Typing(string dialouge, TextMeshProUGUI textObj)
-   {
-        //isDialogEnd  = false;
+        switch(c)
+        {
+            case 'ⓦ':
+                t_color = "w"; t_ignore = true;
+                break;
+            case 'ⓡ':
+                t_color = "r"; t_ignore = true;
+                break;
+            case 'ⓖ':
+                t_color = "g"; t_ignore = true;
+                break;
+            case 'ⓢ':
+                t_size = "s"; t_ignore = true;
+                break;
+            case 'ⓜ':
+                t_size = "m"; t_ignore = true;
+                break;
+            case 'ⓛ':
+                t_size = "l"; t_ignore = true;
+                break;
+            case 'ⓑ':
+                t_style = "b"; t_ignore = true;
+                break;
+            case 'ⓘ':
+                t_style = "i"; t_ignore = true;
+                break;
+            case 'ⓝ':
+                t_size = "n"; t_style = "n"; t_ignore = true;
+                break;
+        }
+    }
+    string ChangeTxtEffect(char c)
+    {   
+        string t_letter = c.ToString();
+        if(!t_ignore)
+        {
+            switch(t_size)
+            {
+                case "s":
+                    t_letter = SMALLSIZE + t_letter + SIZETAG;
+                    break;
+                case "m":
+                    t_letter = MEDIUMSIZE + t_letter + SIZETAG;
+                    break;
+                case "l":
+                    t_letter = LARGESIZE + t_letter + SIZETAG;
+                    break;
+                case "n":
+                    t_letter = "<size=80>" + t_letter + SIZETAG;
+                    break;
+            }
+            switch(t_style)
+            {
+                case "b":
+                    t_letter = "<b>" + t_letter + "</b>";
+                    break;
+                case "i":
+                    t_letter = "<i>" + t_letter + "</i>";
+                    break;
+                case "n":
+                    break;
+            }
+            switch(t_color)
+            {
+                case "w":
+                    t_letter = WHITE + t_letter + COLORTAG;
+                    break;
+                case "r":
+                    t_letter = RED + t_letter + COLORTAG;
+                    break;
+                case "g":
+                    t_letter = GREY + t_letter + COLORTAG;
+                    break;
+            }
+            return t_letter;
+        }
+        t_ignore=false;
+        return "";
+    }
+    
+    // 타이핑 효과
+    public void Typing(string dialouge, TextMeshProUGUI textObj)
+    {
+        dialouge = dialouge.Replace("\\n ", "\n");
         tempDialogue = dialouge;
         tempSave = textObj;
-
+        
         char[] chars = dialouge.ToCharArray();    
         CoroutineHandler.StartCoroutine(Typer(chars, textObj));
 
         tempSave.text ="";
         tempDialogue = null;
         tempSave = null;
-   }
+    }
 
-   public void SetFastSpeed()
-   {
-        characterTime = timeForCharacter_Fast;
-   }
-
-   public void SetNormalSpeed()
-   {
-        characterTime = timeForCharacter;
-   }
-
-   IEnumerator Typer(char[] chars, TextMeshProUGUI textObj)
-   {
+    IEnumerator Typer(char[] chars, TextMeshProUGUI textObj)
+    {
+        WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
         int currentChar = 0;
         int charLength = chars.Length;
         isTypingEnd = false;
@@ -61,21 +135,31 @@ public class TextEffectManager
         {
             if(timer >= 0)
             {
-                yield return null;
+                yield return waitForSeconds;
                 timer -= Time.deltaTime;
             }
             else
             {
-                textObj.text += chars[currentChar++].ToString();
+                CheckTextEffect(chars[currentChar]);
+                textObj.text += ChangeTxtEffect(chars[currentChar++]);
                 timer = characterTime;
             }
         }
         if (currentChar >= charLength)
         {
             isTypingEnd = true;
-            //dialogNumber++;
             yield break;
         }
-   }
-   // 글자 흔들림 효과
+    }
+
+    public void SetFastSpeed()
+    {
+        characterTime = timeForCharacter_Fast;
+    }
+
+    public void SetNormalSpeed()
+    {
+        characterTime = timeForCharacter;
+    }
+    // 글자 흔들림 효과
 }

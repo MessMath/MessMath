@@ -26,7 +26,7 @@ public class JsonMaker : MonoBehaviour
 
     void AddRange()
     {
-        range.Add("A2:H44");
+        range.Add("A2:G44");
     }
 
     void AddFileName()
@@ -81,8 +81,7 @@ public class JsonMaker : MonoBehaviour
             talkData.soundEffect = tap[3];
             talkData.soundEffectDuration = float.Parse(tap[4]);
             talkData.backgroundImg = tap[5];
-            talkData.txtEffect = tap[6];
-            talkData.expression = tap[7];
+            talkData.expression = tap[6];
             storyTalkInfo.talkDataList.Add(talkData);
         }
     }
