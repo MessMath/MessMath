@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[Serializable]
 public class Arrow : MonoBehaviour
 {
     [field: SerializeField]
@@ -16,13 +17,21 @@ public class Arrow : MonoBehaviour
     public Vector2 startPosition { get; set; }
     [field: SerializeField]
     public Vector2 direction { get; set; }
-    [field: SerializeField]
-    public TextMeshPro tmp { get; set ; }            // 화살의 Symbol이 표시될 TextMeshPro
+    //[field: SerializeField]
+    //public TextMeshProUGUI tmp { get; set; }
     public string text;
+
+    //public int type;
+    //public float speed;
+    //public Vector2 startPosition;
+    //public Vector2 direction;
+    public TextMeshPro tmp;            // 화살의 Symbol이 표시될 TextMeshPro
+    //public string text;
 
     private void Start()
     {
-        text = tmp.text;
+        //if (tmp.text != null)
+        //    text = tmp.text;
     }
 
     private void OnValidate()
@@ -40,3 +49,4 @@ public class Arrow : MonoBehaviour
 
     }
 }
+

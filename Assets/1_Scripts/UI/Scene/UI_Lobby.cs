@@ -39,7 +39,7 @@ public class UI_Lobby : UI_Scene
         GetText((int)Texts.SettingText).text = "test Text";
         GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() => { Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
         GetButton((int)Buttons.InfinityGameBtn).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_SelectGameMode>(); ; });
-        
+
         return true;
     }
 }

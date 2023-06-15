@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4608592875355909593}
   - component: {fileID: 1198806118108458767}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Calculate_BoardText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 230111681303706375}
   - component: {fileID: 5380446590107305568}
   - component: {fileID: 3988675681946555593}
-  - component: {fileID: 6859762485555876879}
+  - component: {fileID: 3000279128044955551}
   m_Layer: 5
   m_Name: UI_StoryGame
   m_TagString: Untagged
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6859762485555876879
+--- !u!114 &3000279128044955551
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 162931603281656959}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 159b6ce4e4a81be48ad529f3fad86474, type: 3}
+  m_Script: {fileID: 11500000, guid: c488fbfc680250942b15e04b4628e720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1089842135704634234
@@ -507,7 +507,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8453169031918900350}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Calculate_Board, Assembly-CSharp
         m_MethodName: Calculate
         m_Mode: 1
@@ -652,7 +652,7 @@ GameObject:
   - component: {fileID: 2170747594440512127}
   - component: {fileID: 2170747594440512120}
   m_Layer: 5
-  m_Name: Image
+  m_Name: WitchHPBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -805,7 +805,7 @@ GameObject:
   - component: {fileID: 2170747595517143197}
   - component: {fileID: 2170747595517143198}
   m_Layer: 5
-  m_Name: WitchHPImage(MASK)
+  m_Name: WitchHPImage_MASK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1172,7 +1172,6 @@ GameObject:
   - component: {fileID: 7816299511880895209}
   - component: {fileID: 517060013027069619}
   - component: {fileID: 55052745135713245}
-  - component: {fileID: 8453169031918900350}
   m_Layer: 5
   m_Name: Calculate_Board
   m_TagString: Untagged
@@ -1240,21 +1239,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8453169031918900350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4457898677481574398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79bd2a92b61f27d4caec53db8a9464f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PrintNumber: {fileID: 8449800037938757458}
-  WitchController: {fileID: 2170747594052688983}
-  playerController: {fileID: 0}
 --- !u!1 &4851698990401828574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,7 +1251,7 @@ GameObject:
   - component: {fileID: 4851698990401828573}
   - component: {fileID: 4851698990401828572}
   m_Layer: 5
-  m_Name: Handle
+  m_Name: JoyStickHandle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1773,7 +1757,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5689680776396739504}
-  - component: {fileID: 6610469955513225319}
   - component: {fileID: 8092916075969235203}
   m_Layer: 0
   m_Name: ArrowController
@@ -1789,7 +1772,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9013722047693122762}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1802,21 +1785,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6610469955513225319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9013722047693122762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9198e277c5bc70b4aa05312f51bf2b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  arrowPrefab: {fileID: 6296137335546924380, guid: cb3ee5b3e023b1e4fa5bc3aa99078d75, type: 3}
-  SetText: {fileID: 3538951238657409658}
 --- !u!68 &8092916075969235203
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -1972,6 +1940,10 @@ PrefabInstance:
       propertyPath: onCalculateBoardText
       value: 
       objectReference: {fileID: 87067086845392757}
+    - target: {fileID: 6139911662124141757, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6139911662124141759, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
       propertyPath: m_Name
       value: Player
