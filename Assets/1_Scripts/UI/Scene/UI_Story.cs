@@ -14,6 +14,7 @@ public class UI_Story : UI_Scene
         BackGroundImage,
         PlayerImage,
         CharacterImage,
+        FadeImage,
     }
 
     enum Buttons
@@ -62,20 +63,24 @@ public class UI_Story : UI_Scene
             Managers.Scene.ChangeScene(Define.Scene.StoryGameScene); 
             return;
         }
-        //storyTalkData[count].backgroundImg
+
+        //Managers.SceneEffect.SceneEffect(GetImage((int)Images.FadeImage), storyTalkData[count].sceneEffect);
+        Managers.SceneEffect.ChangeBackground(GetImage((int)Images.BackGroundImage), storyTalkData[count].backgroundImg);
+        Managers.SceneEffect.ChangeCharacter(GetImage((int)Images.PlayerImage), GetImage((int)Images.CharacterImage), storyTalkData[count].characterName, storyTalkData[count].expression);
+
         if(storyTalkData[count].txtEffect == "MAX") {
             GetText((int)Texts.DialogueTMP).fontSize = 100;
         }
         else {
             GetText((int)Texts.DialogueTMP).fontSize = 80;
         }
+
         GetText((int)Texts.CharacterNameTMP).text = storyTalkData[count].characterName;
-        //GetText((int)Texts.DialogueTMP).text = storyTalkData[count].dialogue;
+
         Managers.TextEffect.SetNormalSpeed();
         Managers.TextEffect.Typing(storyTalkData[count].dialogue, GetText((int)Texts.DialogueTMP));
-        //talkDatas[i].sceneEffect
+
         //talkDatas[i].soundEffect
         //talkDatas[i].soundEffectDuration
-        //talkDatas[i].expression
     }
 }
