@@ -15,4 +15,7 @@ public class GameManagerEx
     #endregion
 
     public int _idxOfHeart;
+    public int Coin { get; set; }
+    public bool IsCorrect { get; set; }
+
 }

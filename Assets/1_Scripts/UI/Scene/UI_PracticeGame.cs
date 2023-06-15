@@ -2,22 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_PracticeGame : UI_Scene
 {
     enum Texts
     {
-        QuestionText,
-        LeftAnswerText,
-        RightAnswerText,
         CoinCount,
+        TeacherTalkText,
     }
 
     enum Buttons
     {
         SettingBtn,
-        LeftAnswerBtn,
-        RightAnswerBtn,
+        AnswerBtn_1,
+        AnswerBtn_2,
+        AnswerBtn_3,
+        AnswerBtn_4,
     }
 
     enum Images
@@ -25,11 +26,15 @@ public class UI_PracticeGame : UI_Scene
         BG,
         CoinImage,
         TeacherImage,
+        TeacherTalkImage,
     }
 
     enum GameObjects
     {
-
+        Sample,
+        ChooseDifficulty,
+        Problem,
+        API,
     }
 
     private void Start()
@@ -47,20 +52,17 @@ public class UI_PracticeGame : UI_Scene
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
 
-        // TODO
-        // 매쓰피드 API 보고 만들어야 할듯
-        GetText((int)Texts.QuestionText).text = "3 + 3 =";
-        GetText((int)Texts.LeftAnswerText).text = "6";
-        GetText((int)Texts.RightAnswerText).text = "9";
-
         // TODO GameManager에서 플레이어 정보로 Coin개수 가져오기
-        GetText((int)Texts.CoinCount).text = "0";
+        GetText((int)Texts.CoinCount).text = Managers.Game.Coin.ToString();
         
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(OnClickSettingBtn);
-        GetButton((int)Buttons.LeftAnswerBtn).gameObject.BindEvent(OnClickLeftAnswerBtn);
-        GetButton((int)Buttons.RightAnswerBtn).gameObject.BindEvent(OnClickRightAnswerBtn);
+        GetButton((int)Buttons.AnswerBtn_1).gameObject.BindEvent(OnClickAnswerBtn);
+        GetButton((int)Buttons.AnswerBtn_2).gameObject.BindEvent(OnClickAnswerBtn);
+        GetButton((int)Buttons.AnswerBtn_3).gameObject.BindEvent(OnClickAnswerBtn);
+        GetButton((int)Buttons.AnswerBtn_4).gameObject.BindEvent(OnClickAnswerBtn);
 
-        
+        GetObject((int)GameObjects.Problem).gameObject.SetActive(false);
+        GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(false);
 
         return true;
     }
@@ -68,51 +70,66 @@ public class UI_PracticeGame : UI_Scene
     void OnClickSettingBtn()
     {
         // TODO UI_Setting
-        // Managers.UI.ShowPopupUI<UI_Setting>();
+        Managers.UI.ShowPopupUI<UI_Setting>();
 
-        Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
     }
 
-    void OnClickLeftAnswerBtn()
+    void OnClickAnswerBtn()
     {
-        // TODO
-        // 정답 확인
-        // 정답시 -> 코인개수 증가, 선생 표정 몇 초 간 변경
-        // 오답시 -> 선생의 표정 몇 초 간 변경
+        // 코인 수 연결. TODO 데베랑 연결해야 됨.
+        GetText((int)Texts.CoinCount).text = Managers.Game.Coin.ToString();
 
-        Debug.Log("정답!");
-        int presentCoinCount = int.Parse(GetText((int)Texts.CoinCount).text);
-        GetText((int)Texts.CoinCount).text = (presentCoinCount + 1).ToString();
-
-        // 일단은 틀렸을 때 깜빡거리기
-        StartCoroutine("BlinkTeacherImg", 0.1f);
-    }
-
-    void OnClickRightAnswerBtn()
-    {
-        Debug.Log("오답...");
-
-        // 일단은 틀렸을 때 깜빡거리기
-        StartCoroutine("BlinkTeacherImg", 0.1f);
-    }
-
-    IEnumerator BlinkTeacherImg(float delayTime)
-    {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(0.15f);
-        int countTime = 0;
-        while (countTime < 10)
+        if (Managers.Game.IsCorrect == true && GetObject((int)GameObjects.API).GetOrAddComponent<WJ_Sample>().CurrentStatus == CurrentStatus.LEARNING) // 오답일 경우?
         {
-            if (countTime % 2 == 0)
-                GetImage((int)Images.TeacherImage).color = new Color32(255, 255, 255, 90);
-            else
-                GetImage((int)Images.TeacherImage).color = new Color32(255, 255, 255, 180);
-
-            yield return waitForSeconds;
-
-            countTime++;
+            StartCoroutine("SetTeacher");
         }
+        else if (Managers.Game.IsCorrect == false && GetObject((int)GameObjects.API).GetOrAddComponent<WJ_Sample>().CurrentStatus == CurrentStatus.LEARNING)
+        {
+            StartCoroutine("SetTeacher");
 
-        GetImage((int)Images.TeacherImage).color = Color.white;
+        }
+    }
+
+    IEnumerator SetTeacher()
+    {
+        float delayTime = 1.0f;
+
+        GetTeacherTalkText();
+
+        GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(true);
+        if (Managers.Game.IsCorrect == true) GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/testTeacher");
+        else GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("test");
+
+        yield return new WaitForSeconds(delayTime);
+        GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/TeacherImage");
+        GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(false);
+
         yield return null;
     }
+
+    void GetTeacherTalkText()
+    {
+        int randValue = Random.Range(0, 100);
+
+        if (Managers.Game.IsCorrect == true)
+        {
+            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = "Good Job!!"; }
+            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = "Oh!!"; }
+            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = "Yes!!"; }
+            
+        }
+        else
+        {
+            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = "Use your head"; }
+            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = "Not Kidding"; }
+            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = "Hmm..."; }
+        }
+
+    }
+
+    // TODO? API 코드도 다 넣어서 관리할까..??
+    #region 웅진 API
+
+    #endregion
+
 }
