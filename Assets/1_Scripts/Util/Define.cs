@@ -19,6 +19,7 @@ public class Define
         Dev,
         Main,
         LobbyScene,
+        MakeTxtFileScene,
         StoryScene,
         StoryGameScene,
         PracticeGameScene,

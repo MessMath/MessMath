@@ -62,22 +62,22 @@ public class SceneEffectManager
         }
     }
 
-    public void SceneEffect(Image img, string sceneEffect)
+    public void SceneEffect(Image img, Button nxtBtn, string sceneEffect)
     {
         switch(sceneEffect)
         {
             case "FadeOut":
-                CoroutineHandler.StartCoroutine(FadeOut(img));
+                CoroutineHandler.StartCoroutine(FadeOut(img, nxtBtn));
                 break;
             case "FadeIn":
-                CoroutineHandler.StartCoroutine(FadeIn(img));
+                CoroutineHandler.StartCoroutine(FadeIn(img, nxtBtn));
                 break;
             case "":
                 break;
         }
     }
 
-    IEnumerator FadeOut(Image img)
+    IEnumerator FadeOut(Image img, Button nxtBtn)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
         float fadeCnt = 0;
@@ -87,9 +87,10 @@ public class SceneEffectManager
             yield return waitForSeconds;
             img.color = new Color(0,0,0,fadeCnt);
         }
+        CoroutineHandler.StartCoroutine(FadeIn(img,nxtBtn));
     }
 
-    IEnumerator FadeIn(Image img)
+    IEnumerator FadeIn(Image img, Button nxtBtn)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
         float fadeCnt = 1.0f;
@@ -99,6 +100,7 @@ public class SceneEffectManager
             yield return waitForSeconds;
             img.color = new Color(0,0,0,fadeCnt);
         }
+        nxtBtn.interactable = true;
     }
 }
 

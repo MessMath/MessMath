@@ -115,5 +115,6 @@ public class JsonMaker : MonoBehaviour
             File.Delete(filePath);
             MakeJsonFile(i);
         }
+        Managers.Scene.ChangeScene(Define.Scene.StoryScene);
     }
 }
