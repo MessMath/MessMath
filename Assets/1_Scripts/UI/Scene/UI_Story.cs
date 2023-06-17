@@ -63,8 +63,9 @@ public class UI_Story : UI_Scene
             Managers.Scene.ChangeScene(Define.Scene.StoryGameScene); 
             return;
         }
-
-        //Managers.SceneEffect.SceneEffect(GetImage((int)Images.FadeImage), storyTalkData[count].sceneEffect);
+        Debug.Log("Cnt: " + count);
+        if(storyTalkData[count].sceneEffect!="") GetButton((int)Buttons.nxtButton).interactable = false;
+        Managers.SceneEffect.SceneEffect(GetImage((int)Images.FadeImage),GetButton((int)Buttons.nxtButton), storyTalkData[count].sceneEffect);
         Managers.SceneEffect.ChangeBackground(GetImage((int)Images.BackGroundImage), storyTalkData[count].backgroundImg);
         Managers.SceneEffect.ChangeCharacter(GetImage((int)Images.PlayerImage), GetImage((int)Images.CharacterImage), storyTalkData[count].characterName, storyTalkData[count].expression);
 
