@@ -10,7 +10,7 @@ public class MainScene : BaseScene
         if (base.Init() == false)
             return false;
 
-        SceneType = Define.Scene.Main;
+        SceneType = Define.Scene.MainScene;
         Managers.UI.ShowSceneUI<UI_Main>();
         Debug.Log("Init");
         return true;

@@ -4,14 +4,19 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.IO;
 using StoryData;
+using StoreDatas;
 
 public class JsonMaker : MonoBehaviour
 {
-    string DBAddress = "https://docs.google.com/spreadsheets/d/13RmRePVU38TYU10FdhqtJ5DJWCDioeqfkFKqfte7Wv0";
+    string[] DBAddress = {
+        "https://docs.google.com/spreadsheets/d/13RmRePVU38TYU10FdhqtJ5DJWCDioeqfkFKqfte7Wv0",
+        "https://docs.google.com/spreadsheets/d/1iYRgERiJ5bsqjfg_ikzWQbgQYA7OcRiUnZsZ64qDb2M"};
     string sheetNum = "0";
     List<string> range = new List<string>(); 
     List<string> fileName = new List<string>();
     TalkInfo storyTalkInfo = new TalkInfo();
+    StoreInfo storeInfo = new StoreInfo();
+    bool isDone = false;
 
     void Awake() 
     {
@@ -21,50 +26,53 @@ public class JsonMaker : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(DialogNetConnect());
+        StartCoroutine(NetConnect(0));
+        StartCoroutine(NetConnect(1));
+    }
+
+    void Update()
+    {
+        if(isDone)Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
     }
 
     void AddRange()
     {
         range.Add("A2:G44");
+        range.Add("A2:D4");
     }
 
     void AddFileName()
     {
         fileName.Add("EnterGameStory");
+        fileName.Add("StoreGaus");
     }
 
     // ANCHOR 구글 docs에서 데이터 읽기
-    IEnumerator DialogNetConnect() 
+    IEnumerator NetConnect(int idx) 
     {      
-        for(int i = 0; i < range.Count; i++)
+        string URL = DBAddress[idx] + "/export?format=tsv&gid=" + sheetNum + "&range=" + range[idx];
+        Debug.Log(URL);
+
+        UnityWebRequest www = UnityWebRequest.Get(URL);
+        yield return www.SendWebRequest();
+
+        string data = www.downloadHandler.text;
+        Debug.Log(data);
+
+        switch(idx)
         {
-            string URL = DBAddress + "/export?format=tsv&gid=" + sheetNum + "&range=" + range[i];
-            Debug.Log(URL);
-
-            UnityWebRequest www = UnityWebRequest.Get(URL);
-            yield return www.SendWebRequest();
-
-            string data = www.downloadHandler.text;
-            Debug.Log(data);
-
-            ParsingData(data);
-            MakeJsonFile(i);
+            case 0: 
+                ParsingDialogueData(data);
+                MakeDialgoueJsonFile(idx);
+                break;
+            case 1:
+                ParsingStoreData(data);
+                MakeStoreJsonFile(idx);
+                break;
         }
-        
     }
 
-    // ANCHOR 데이터 파싱(임시)
-    /// <summary>
-    /// 데이터를 스트링으로 파싱하는 함수
-    /// </summary>
-    /// <param string="data">
-    /// 파싱할 데이터
-    /// </param>
-    /// <returns>
-    ///  파싱된 데이터
-    /// </returns>
-    void ParsingData(string data)
+    void ParsingDialogueData(string data)
     {
         string[] lines = data.Split('\n');
         storyTalkInfo.talkDataList = new List<TalkData>();
@@ -74,9 +82,7 @@ public class JsonMaker : MonoBehaviour
             TalkData talkData = new TalkData();
             string[] tap = lines[i].Split('\t');
             talkData.characterName = tap[0];
-            Debug.Log(talkData.characterName);
             talkData.dialogue = tap[1];
-            Debug.Log(talkData.dialogue);
             talkData.sceneEffect = tap[2];
             talkData.soundEffect = tap[3];
             talkData.soundEffectDuration = float.Parse(tap[4]);
@@ -85,15 +91,25 @@ public class JsonMaker : MonoBehaviour
             storyTalkInfo.talkDataList.Add(talkData);
         }
     }
+
+    void ParsingStoreData(string data)
+    {
+        string[] lines = data.Split('\n');
+        storeInfo.storeDataList = new List<StoreData>();
+        
+        for(int i = 0; i < lines.Length; i++)
+        {
+            StoreData storeData = new StoreData();
+            string[] tap = lines[i].Split('\t');
+            storeData.name = tap[0];
+            storeData.explanation = tap[1];
+            storeData.img = tap[2];
+            storeData.price = int.Parse(tap[3]);
+            storeInfo.storeDataList.Add(storeData);
+        }
+    }
     
-    // ANCHOR 파일로 저장
-    /// <summary>
-    /// 데이터를 json 파일에 저장하는 함수
-    /// </summary>
-    /// <param string="data">
-    /// 파일에 저장할 데이터
-    /// </param>
-    void MakeJsonFile(int i)
+    void MakeDialgoueJsonFile(int i)
     {
         string filePath = Application.persistentDataPath + "/" + i + "_" + fileName[i] +".json";
         StreamWriter sw;
@@ -113,8 +129,32 @@ public class JsonMaker : MonoBehaviour
         else if (File.Exists(filePath))
         {
             File.Delete(filePath);
-            MakeJsonFile(i);
+            MakeDialgoueJsonFile(i);
         }
-        Managers.Scene.ChangeScene(Define.Scene.StoryScene);
+    }
+
+    void MakeStoreJsonFile(int i)
+    {
+        string filePath = Application.persistentDataPath + "/" + i + "_" + fileName[i] +".json";
+        StreamWriter sw;
+        FileStream fs;
+
+        string json = JsonUtility.ToJson(storeInfo);
+
+        if (!File.Exists(filePath))
+        {
+            fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            sw = new StreamWriter(fs);
+            sw.WriteLine(json);
+            sw.Flush();
+            sw.Close();
+            fs.Close();
+        }
+        else if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+            MakeStoreJsonFile(i);
+            isDone = true;
+        }
     }
 }

@@ -51,8 +51,6 @@ public class UI_Main : UI_Scene
 
     void OnClickBG( )
     {
-        Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
-
-        //Managers.UI.ShowSceneUI<UI_Lobby>();
+        Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
     }
 }
