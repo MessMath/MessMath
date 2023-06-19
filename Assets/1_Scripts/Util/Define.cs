@@ -46,4 +46,5 @@ public class Define
         LEARNING 
     }
 
+    public const int DiagnosisTeacherText = 10000;
 }

@@ -19,6 +19,7 @@ public class UI_PracticeGame : UI_Scene
         AnswerBtn_2,
         AnswerBtn_3,
         AnswerBtn_4,
+        Button_GetLearning,
     }
 
     enum Images
@@ -61,8 +62,11 @@ public class UI_PracticeGame : UI_Scene
         GetButton((int)Buttons.AnswerBtn_3).gameObject.BindEvent(OnClickAnswerBtn);
         GetButton((int)Buttons.AnswerBtn_4).gameObject.BindEvent(OnClickAnswerBtn);
 
+        // GetObject((int)GameObjects.ChooseDifficulty).gameObject.SetActive(false);
         GetObject((int)GameObjects.Problem).gameObject.SetActive(false);
         GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(false);
+
+        // GetButton((int)Buttons.Button_GetLearning).interactable = true;
 
         return true;
     }
@@ -79,11 +83,11 @@ public class UI_PracticeGame : UI_Scene
         // 코인 수 연결. TODO 데베랑 연결해야 됨.
         GetText((int)Texts.CoinCount).text = Managers.Game.Coin.ToString();
 
-        if (Managers.Game.IsCorrect == true && GetObject((int)GameObjects.API).GetOrAddComponent<WJ_Sample>().CurrentStatus == CurrentStatus.LEARNING) // 오답일 경우?
+        if (Managers.Game.IsCorrect == true && Managers.Game.CurrentStatus == Define.CurrentStatus.LEARNING) // 오답일 경우?
         {
             StartCoroutine("SetTeacher");
         }
-        else if (Managers.Game.IsCorrect == false && GetObject((int)GameObjects.API).GetOrAddComponent<WJ_Sample>().CurrentStatus == CurrentStatus.LEARNING)
+        else if (Managers.Game.IsCorrect == false && Managers.Game.CurrentStatus == Define.CurrentStatus.LEARNING)
         {
             StartCoroutine("SetTeacher");
 
