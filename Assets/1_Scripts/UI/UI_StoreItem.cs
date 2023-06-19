@@ -7,6 +7,7 @@ using StoreDatas;
 
 public class UI_StoreItem : UI_Base
 {
+    Sprite img;
     StoreData _storeData;
     enum Buttons
     {
@@ -30,23 +31,22 @@ public class UI_StoreItem : UI_Base
         BindButton(typeof(Buttons));
         BindImage(typeof(Images));
         BindText(typeof(Texts));
-
-        Debug.Log(GetText((int)Texts.NameTMP).name);
         return true;
     }
 
     void OnClickBtn()
     {
-        Debug.Log(_storeData.explanation);
+        UI_Purchase purchasePopup = Managers.UI.ShowPopupUI<UI_Purchase>();
+        if(purchasePopup.Init())purchasePopup.SetPopup(_storeData.name, _storeData.explanation, _storeData.price, img);
     }
 
     public void SetInfo(StoreData storeData)
     {
         _storeData = storeData;
-        Debug.Log(GetText((int)Texts.NameTMP).name);
+        img = Resources.Load("Sprites/Grace/" + _storeData.img, typeof(Sprite)) as Sprite;
         GetText((int)Texts.NameTMP).text = _storeData.name;
         GetText((int)Texts.PriceTMP).text = _storeData.price.ToString();
-        GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Grace/" + _storeData.img, typeof(Sprite)) as Sprite;
+        GetImage((int)Images.ItemImage).sprite = img;
         GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(OnClickBtn);
     }
 }

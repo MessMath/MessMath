@@ -10,7 +10,9 @@ public class JsonMaker : MonoBehaviour
 {
     string[] DBAddress = {
         "https://docs.google.com/spreadsheets/d/13RmRePVU38TYU10FdhqtJ5DJWCDioeqfkFKqfte7Wv0",
-        "https://docs.google.com/spreadsheets/d/1iYRgERiJ5bsqjfg_ikzWQbgQYA7OcRiUnZsZ64qDb2M"};
+        "https://docs.google.com/spreadsheets/d/1iYRgERiJ5bsqjfg_ikzWQbgQYA7OcRiUnZsZ64qDb2M",
+        "https://docs.google.com/spreadsheets/d/18Ba5zNPk4IxahKMCI3498xQSPbOmDU-gYdiXF2n8wWM"
+        };
     string sheetNum = "0";
     List<string> range = new List<string>(); 
     List<string> fileName = new List<string>();
@@ -28,6 +30,7 @@ public class JsonMaker : MonoBehaviour
     {
         StartCoroutine(NetConnect(0));
         StartCoroutine(NetConnect(1));
+        StartCoroutine(NetConnect(2));
     }
 
     void Update()
@@ -39,12 +42,14 @@ public class JsonMaker : MonoBehaviour
     {
         range.Add("A2:G44");
         range.Add("A2:D4");
+        range.Add("A2:D4");
     }
 
     void AddFileName()
     {
         fileName.Add("EnterGameStory");
         fileName.Add("StoreGaus");
+        fileName.Add("StoreCollection");
     }
 
     // ANCHOR 구글 docs에서 데이터 읽기
@@ -66,6 +71,10 @@ public class JsonMaker : MonoBehaviour
                 MakeDialgoueJsonFile(idx);
                 break;
             case 1:
+                ParsingStoreData(data);
+                MakeStoreJsonFile(idx);
+                break;
+            case 2:
                 ParsingStoreData(data);
                 MakeStoreJsonFile(idx);
                 break;
