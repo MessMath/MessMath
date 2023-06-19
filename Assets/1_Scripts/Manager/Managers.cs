@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Resources;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.SceneManagement;
@@ -12,6 +13,9 @@ public class Managers : MonoBehaviour
 {
     public static Managers s_instance = null;
     public static Managers Instance { get { return s_instance; } }
+
+    public static WJ_Connector s_connector = null;
+    public static WJ_Connector Connector { get { return s_connector; } }
 
     private static BlessingManager s_blessingManager = new BlessingManager();
     private static DataManager s_dataManager = new DataManager();
@@ -29,8 +33,8 @@ public class Managers : MonoBehaviour
     public static ResourceManager Resource { get { Init(); return s_resourceManager; } }
     public static SceneManagerEx Scene { get { Init(); return s_SceneManager; } }
     public static SoundManager Sound { get { Init(); return s_soundManager; } }
-    public static TextEffectManager TextEffect {get{Init(); return s_textEffectManager;}}
-    public static SceneEffectManager SceneEffect {get{Init(); return s_sceneEffectManager;}}
+    public static TextEffectManager TextEffect { get { Init(); return s_textEffectManager; } }
+    public static SceneEffectManager SceneEffect { get { Init(); return s_sceneEffectManager; } }
     public static UIManager UI { get { Init(); return s_uiManager; } }
 
     public static string GetText(int id)
@@ -57,13 +61,20 @@ public class Managers : MonoBehaviour
             if (go == null)
                 go = new GameObject { name = "@Managers" };
 
+            GameObject connectorGo = GameObject.Find("@Connector");
+            if (connectorGo == null)
+                connectorGo = new GameObject { name = "@Connector" };
+
+            s_connector = Utils.GetOrAddComponent<WJ_Connector>(connectorGo);
             s_instance = Utils.GetOrAddComponent<Managers>(go);
             DontDestroyOnLoad(go);
+            DontDestroyOnLoad(connectorGo);
 
             s_resourceManager.Init();
             s_soundManager.Init();
             s_blessingManager.Init();
             s_dataManager.Init();
+            s_connector.Init();
 
             Application.targetFrameRate = 60;
         }

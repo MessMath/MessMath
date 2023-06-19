@@ -8,7 +8,7 @@ using TexDrawLib;
 // public enum CurrentStatus { WAITING, DIAGNOSIS, LEARNING }
 public class WJ_Sample : MonoBehaviour
 {
-    [SerializeField] WJ_Connector wj_conn;
+    //[SerializeField] WJ_Connector wj_conn;
     // [SerializeField] Managers.Game.CurrentStatus      currentStatus;
     // public Managers.Game.CurrentStatus CurrentStatus => currentStatus;
 
@@ -55,13 +55,13 @@ public class WJ_Sample : MonoBehaviour
                 break;
         }
 
-        if (wj_conn != null)
+        if (Managers.Connector != null)
         {
             Debug.Log("wj_connector!");
             if (Managers.Game.CurrentStatus == Define.CurrentStatus.WAITING)
-                wj_conn.onGetDiagnosis.AddListener(() => GetDiagnosis());
+                Managers.Connector.onGetDiagnosis.AddListener(() => GetDiagnosis());
             if (Managers.Game.CurrentStatus == Define.CurrentStatus.LEARNING)
-                wj_conn.onGetLearning.AddListener(() => GetLearning(0));
+                Managers.Connector.onGetLearning.AddListener(() => GetLearning(0));
         }
         else Debug.LogError("Cannot find Connector");
     }
@@ -76,13 +76,13 @@ public class WJ_Sample : MonoBehaviour
     /// </summary>
     private void GetDiagnosis()
     {
-        switch (wj_conn.cDiagnotics.data.prgsCd)
+        switch (Managers.Connector.cDiagnotics.data.prgsCd)
         {
             case "W":
-                MakeQuestion(wj_conn.cDiagnotics.data.textCn,
-                            wj_conn.cDiagnotics.data.qstCn,
-                            wj_conn.cDiagnotics.data.qstCransr,
-                            wj_conn.cDiagnotics.data.qstWransr);
+                MakeQuestion(Managers.Connector.cDiagnotics.data.textCn,
+                            Managers.Connector.cDiagnotics.data.qstCn,
+                            Managers.Connector.cDiagnotics.data.qstCransr,
+                            Managers.Connector.cDiagnotics.data.qstWransr);
                 wj_displayText.SetState("진단평가 중", "", "", "");
                 break;
             case "E":
@@ -102,10 +102,10 @@ public class WJ_Sample : MonoBehaviour
     {
         if (_index == 0) currentQuestionIndex = 0;
 
-        MakeQuestion(wj_conn.cLearnSet.data.qsts[_index].textCn,
-                    wj_conn.cLearnSet.data.qsts[_index].qstCn,
-                    wj_conn.cLearnSet.data.qsts[_index].qstCransr,
-                    wj_conn.cLearnSet.data.qsts[_index].qstWransr);
+        MakeQuestion(Managers.Connector.cLearnSet.data.qsts[_index].textCn,
+                    Managers.Connector.cLearnSet.data.qsts[_index].qstCn,
+                    Managers.Connector.cLearnSet.data.qsts[_index].qstCransr,
+                    Managers.Connector.cLearnSet.data.qsts[_index].qstWransr);
     }
 
     /// <summary>
@@ -162,12 +162,12 @@ public class WJ_Sample : MonoBehaviour
         switch (Managers.Game.CurrentStatus)
         {
             case Define.CurrentStatus.DIAGNOSIS:
-                isCorrect = textAnsr[_idx].text.CompareTo(wj_conn.cDiagnotics.data.qstCransr) == 0 ? true : false;
+                isCorrect = textAnsr[_idx].text.CompareTo(Managers.Connector.cDiagnotics.data.qstCransr) == 0 ? true : false;
                 ansrCwYn = isCorrect ? "Y" : "N";
 
                 isSolvingQuestion = false;
 
-                wj_conn.Diagnosis_SelectAnswer(textAnsr[_idx].text, ansrCwYn, (int)(questionSolveTime * 1000));
+                Managers.Connector.Diagnosis_SelectAnswer(textAnsr[_idx].text, ansrCwYn, (int)(questionSolveTime * 1000));
 
                 wj_displayText.SetState("진단평가 중", textAnsr[_idx].text, ansrCwYn, questionSolveTime + " 초");
 
@@ -176,7 +176,7 @@ public class WJ_Sample : MonoBehaviour
                 break;
 
             case Define.CurrentStatus.LEARNING:
-                isCorrect = textAnsr[_idx].text.CompareTo(wj_conn.cLearnSet.data.qsts[currentQuestionIndex].qstCransr) == 0 ? true : false;
+                isCorrect = textAnsr[_idx].text.CompareTo(Managers.Connector.cLearnSet.data.qsts[currentQuestionIndex].qstCransr) == 0 ? true : false;
                 ansrCwYn = isCorrect ? "Y" : "N";
 
                 // 테스트로 추가한 부분
@@ -197,7 +197,7 @@ public class WJ_Sample : MonoBehaviour
                 isSolvingQuestion = false;
                 currentQuestionIndex++;
 
-                wj_conn.Learning_SelectAnswer(currentQuestionIndex, textAnsr[_idx].text, ansrCwYn, (int)(questionSolveTime * 1000));
+                Managers.Connector.Learning_SelectAnswer(currentQuestionIndex, textAnsr[_idx].text, ansrCwYn, (int)(questionSolveTime * 1000));
 
                 wj_displayText.SetState("문제풀이 중", textAnsr[_idx].text, ansrCwYn, questionSolveTime + " 초");
 
@@ -211,6 +211,7 @@ public class WJ_Sample : MonoBehaviour
                 questionSolveTime = 0;
                 break;
         }
+
     }
 
     public void DisplayCurrentState(string state, string myAnswer, string isCorrect, string svTime)
@@ -224,11 +225,11 @@ public class WJ_Sample : MonoBehaviour
     public void ButtonEvent_ChooseDifficulty(int a)
     {
         Managers.Game.CurrentStatus = Define.CurrentStatus.DIAGNOSIS;
-        wj_conn.FirstRun_Diagnosis(a);
+        Managers.Connector.FirstRun_Diagnosis(a);
     }
     public void ButtonEvent_GetLearning()
     {
-        wj_conn.Learning_GetQuestion();
+        Managers.Connector.Learning_GetQuestion();
         wj_displayText.SetState("문제풀이 중", "-", "-", "-");
     }
     #endregion

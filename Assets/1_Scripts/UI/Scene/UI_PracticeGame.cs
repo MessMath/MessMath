@@ -62,11 +62,11 @@ public class UI_PracticeGame : UI_Scene
         GetButton((int)Buttons.AnswerBtn_3).gameObject.BindEvent(OnClickAnswerBtn);
         GetButton((int)Buttons.AnswerBtn_4).gameObject.BindEvent(OnClickAnswerBtn);
 
-        // GetObject((int)GameObjects.ChooseDifficulty).gameObject.SetActive(false);
+        GetObject((int)GameObjects.ChooseDifficulty).gameObject.SetActive(false);
         GetObject((int)GameObjects.Problem).gameObject.SetActive(false);
         GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(false);
 
-        // GetButton((int)Buttons.Button_GetLearning).interactable = true;
+        GetButton((int)Buttons.Button_GetLearning).interactable = true;
 
         return true;
     }

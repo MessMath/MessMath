@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 462631332799601660}
-  - component: {fileID: 462631332799601661}
   - component: {fileID: 462631332799601658}
   m_Layer: 0
   m_Name: API
@@ -33,58 +32,6 @@ Transform:
   m_Father: {fileID: 5390417012582418779}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &462631332799601661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 462631331562688496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddb3664b4ffee2b4399e95fb8b9fabc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  strGameCD: E19
-  strGameKey: QVZp_XfMjYRSH6g8Tgjw9P-dWCcw2GH4y43w01LbZ2U
-  cDiagnotics:
-    result: 0
-    msg: 
-    data:
-      sid: 0
-      prgsCd: 
-      qstCd: 
-      qstCn: 
-      textCn: 
-      qstCransr: 
-      qstWransr: 
-      accuracy: 0
-      estQstNowNo: 0
-      estPreStgCd: 
-  cLearnSet:
-    result: 0
-    msg: 
-    data:
-      sid: 0
-      bgnDt: 
-      qsts: []
-  cLearnProg:
-    result: 0
-    msg: 
-    data:
-      explSpedCd: 
-      explSped: 0
-      lrnPrgsStsCd: 
-      acrcyCd: 
-      explAcrcyRt: 0
-  cMyAnsrs: []
-  qstCransr: 
-  onGetDiagnosis:
-    m_PersistentCalls:
-      m_Calls: []
-  onGetLearning:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &462631332799601658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f393a731d448748aa0005d28aea83e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wj_conn: {fileID: 462631332799601661}
   panel_diag_chooseDiff: {fileID: 2011031351266122352}
   panel_question: {fileID: 2011031349955410343}
   textDescription: {fileID: 2011031350535859275}
@@ -1352,7 +1298,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2011031350291336057
 RectTransform:
   m_ObjectHideFlags: 0

@@ -52,13 +52,12 @@ public class UI_Diagnosis : UI_Popup
 
         StartCoroutine("NextTalk");
 
-        BindEvent(gameObject, testFun);
+        BindEvent(gameObject, MakeToLobbyBtn);
         GetButton((int)Buttons.ToLobbyBtn).gameObject.BindEvent(() => { ClosePopupUI(); });
 
         GetObject((int)GameObjects.Sample).gameObject.SetActive(false);
         GetObject((int)GameObjects.API).gameObject.SetActive(false);
         GetButton((int)Buttons.ToLobbyBtn).gameObject.SetActive(false);
-
 
         return true;
     }
@@ -68,7 +67,8 @@ public class UI_Diagnosis : UI_Popup
         // teacherImage가 있으면 실행
         // 다음 대사로 변경
         float waitTime = 2.0f;
-        for (int i = 0; i < 5; i++)
+        int textCount = 5;
+        for (int i = 0; i < textCount; i++)
         {
             GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.DiagnosisTeacherText + i);
             yield return new WaitForSeconds(waitTime);
@@ -83,7 +83,7 @@ public class UI_Diagnosis : UI_Popup
         GetImage((int)Images.TeacherImage).gameObject.SetActive(false);
     }
 
-    void testFun()
+    void MakeToLobbyBtn()
     {
         if (Managers.Game.CurrentStatus == Define.CurrentStatus.LEARNING)
         {
