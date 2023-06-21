@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfTextData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<TextData ID="1" kor="NoName" eng="NoName" />
+	<TextData ID="10000" kor="마법 학교에 입학하신것을 환영합니다." eng="" />
+	<TextData ID="10001" kor="먼저 입학 테스트를 시작합니다." eng="" />
+	<TextData ID="10002" kor="테스트는 총 8문제로 진행됩니다." eng="" />
+	<TextData ID="10003" kor="학생의 실력을 파악한 후, 실력에 맞게 교실에 배정되니 참고해주세요." eng="" />
+	<TextData ID="10004" kor="그럼 시작합니다." eng="" />
+</ArrayOfTextData>
