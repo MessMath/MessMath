@@ -19,7 +19,7 @@ public class UI_Setting : UI_Popup
     enum Buttons
     {
         ContinueBtn,
-        SetSOundBtn,
+        SetSoundBtn,
         ChangeLeftRightBtn,
         ExitBtn,
     }
