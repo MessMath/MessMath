@@ -41,15 +41,19 @@ public class WJ_Connector : MonoBehaviour
     public UnityEvent onGetLearning;
     #endregion
 
-    private void Awake()
+    public void Init()
     {
         if (SystemInfo.deviceType == DeviceType.Desktop)
             strDeviceNm = "PC";
-        else 
+        else
             strDeviceNm = SystemInfo.deviceModel;
 
-        strOsScnCd      = SystemInfo.operatingSystem;
-        strGameVer      = Application.version;
+        // 게임 코드와 게임 키 -> 웅진에서 준거
+        strGameCD = "E19";
+        strGameKey = "QVZp_XfMjYRSH6g8Tgjw9P-dWCcw2GH4y43w01LbZ2U";
+
+        strOsScnCd = SystemInfo.operatingSystem;
+        strGameVer = Application.version;
 
         if (strOsScnCd.Length >= 15) strOsScnCd = strOsScnCd.Substring(0, 14);
 
