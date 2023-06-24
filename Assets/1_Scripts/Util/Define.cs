@@ -17,7 +17,7 @@ public class Define
     {
         Unknown,
         Dev,
-        Main,
+        MainScene,
         LobbyScene,
         MakeTxtFileScene,
         StoryScene,

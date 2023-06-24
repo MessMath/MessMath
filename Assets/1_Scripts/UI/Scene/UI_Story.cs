@@ -43,7 +43,7 @@ public class UI_Story : UI_Scene
         BindText(typeof(Texts));
 
         jsonReader = new JsonReader();
-        storyTalkData = jsonReader.ReadJson(Application.persistentDataPath + "/" + 0 + "_EnterGameStory.json").talkDataList;
+        storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 0 + "_EnterGameStory.json").talkDataList;
         maxCount = storyTalkData.Count;
 
         GetText((int)Texts.CharacterNameTMP).text = "";

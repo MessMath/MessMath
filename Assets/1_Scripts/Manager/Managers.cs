@@ -26,6 +26,7 @@ public class Managers : MonoBehaviour
     private static TextEffectManager s_textEffectManager = new TextEffectManager();
     private static SceneEffectManager s_sceneEffectManager = new SceneEffectManager();
     private static UIManager s_uiManager = new UIManager();
+    private static CoinManager s_coinManager = new CoinManager();
 
     public static BlessingManager Blessing { get { Init(); return s_blessingManager; } }
     public static DataManager Data { get { Init(); return s_dataManager; } }
@@ -36,6 +37,7 @@ public class Managers : MonoBehaviour
     public static TextEffectManager TextEffect { get { Init(); return s_textEffectManager; } }
     public static SceneEffectManager SceneEffect { get { Init(); return s_sceneEffectManager; } }
     public static UIManager UI { get { Init(); return s_uiManager; } }
+    public static CoinManager Coin{get{Init(); return s_coinManager;}}
 
     public static string GetText(int id)
     {

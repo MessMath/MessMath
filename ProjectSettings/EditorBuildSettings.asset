@@ -9,11 +9,11 @@ EditorBuildSettings:
     path: Assets/0_Scenes/MainScene.unity
     guid: 7cf560ab78ecaac41b63ec10f26be755
   - enabled: 1
-    path: Assets/0_Scenes/LobbyScene.unity
-    guid: 263b4b35661496e4991a25441676b0f4
-  - enabled: 1
     path: Assets/0_Scenes/MakeTxtFileScene.unity
     guid: c94a83f39fbc61645a72b0268ded2888
+  - enabled: 1
+    path: Assets/0_Scenes/LobbyScene.unity
+    guid: 263b4b35661496e4991a25441676b0f4
   - enabled: 1
     path: Assets/0_Scenes/StoryGameScene.unity
     guid: 0879941d31721f14d9c137edc9d36bb8

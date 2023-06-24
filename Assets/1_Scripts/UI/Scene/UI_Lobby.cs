@@ -14,7 +14,7 @@ public class UI_Lobby : UI_Scene
         SettingBtn,
         StoryModeBtn,
         InfinityGameBtn,
-        TestBtn,
+        StoreBtn,
     }
 
     enum Texts
@@ -37,10 +37,9 @@ public class UI_Lobby : UI_Scene
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
 
-        GetText((int)Texts.SettingText).text = "test Text";
-        GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() => { Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene); });
-        GetButton((int)Buttons.InfinityGameBtn).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_SelectGameMode>(); ; });
-        GetButton((int)Buttons.TestBtn).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_Diagnosis>(); ; });
+        GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() => { Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
+        GetButton((int)Buttons.InfinityGameBtn).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_SelectGameMode>();});
+        GetButton((int)Buttons.StoreBtn).gameObject.BindEvent(() => {Managers.UI.ShowPopupUI<UI_Store>();} );
 
         return true;
     }
