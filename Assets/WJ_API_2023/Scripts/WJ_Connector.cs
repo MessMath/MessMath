@@ -65,7 +65,6 @@ public class WJ_Connector : MonoBehaviour
     {
         DateTime dt = DateTime.Now;
         strMBR_ID = string.Format("{0}{1:0000}{2:00}{3:00}{4:00}{5:00}{6:00}{7:000}", strGameCD, dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond);
-        Debug.Log(strMBR_ID);
     }
 
     #region Function Progress
