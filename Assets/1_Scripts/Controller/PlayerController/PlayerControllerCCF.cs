@@ -13,16 +13,27 @@ public class PlayerControllerCCF : UI_Base
     public float _speed = 10;
     Rigidbody2D _rigid;
     Image _image;
-    public GameObject _onCalculateBoardText;
+    public GameObject _onCalculateBoard;
+    UI_Fight1vs1Game _sceneUi;
+
     bool _isAlive = true;
 
-    void Awake()
+    void Start()
     {
         _hp = 3;
         _speed = 400;
         _rigid = gameObject.GetOrAddComponent<Rigidbody2D>();
         _image = gameObject.GetOrAddComponent<Image>();
-        _onCalculateBoardText = gameObject.transform.parent.GetComponentInChildren<TextMeshProUGUI>().gameObject;
+        _sceneUi = GameObject.Find("UI_Fight1vs1Game").GetComponent<UI_Fight1vs1Game>();
+
+        if (Managers.Scene.CurrentScene is not Fight1vs1Game)
+        {
+            _onCalculateBoard = gameObject.transform.parent.GetComponentInChildren<TEXDraw>().gameObject;
+
+        }
+        else
+            _onCalculateBoard = gameObject.transform.parent.GetComponentInChildren<TextMeshProUGUI>().gameObject;
+
     }
 
     private void Update()
@@ -42,15 +53,23 @@ public class PlayerControllerCCF : UI_Base
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "Arrow")
-            return;
+        if (collision.gameObject.tag == "Arrow")
+        {
+            Debug.Log("Hit Arrow!");
+            Arrow arrow = collision.gameObject.GetOrAddComponent<Arrow>();
+            string symbol = arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text;
+            Destroy(collision.gameObject);
 
-        Debug.Log("Hit Arrow!");
-        Arrow arrow = collision.gameObject.GetOrAddComponent<Arrow>();
-        string symbol = arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text;
-        Destroy(collision.gameObject);
+            _onCalculateBoard.GetComponent<TextMeshProUGUI>().text += symbol;
+        }
+        else if(collision.gameObject.tag == "ArrowOnlyin1vs1")
+        {
+            ArrowOnlyin1vs1 arrow = collision.GetComponent<ArrowOnlyin1vs1>();
+            _sceneUi.wj_sample1vs1.SelectAnswer(arrow.text);
+            Destroy(collision.gameObject);
 
-        _onCalculateBoardText.GetComponent<TextMeshProUGUI>().text += symbol;
+        }
+
     }
 
     private void MoveControl()
