@@ -661,7 +661,7 @@ GameObject:
   - component: {fileID: 708570841177254508}
   - component: {fileID: 6229638838909162007}
   - component: {fileID: 4293459104055042522}
-  - component: {fileID: 4192235170054453818}
+  - component: {fileID: 5811045432034138933}
   m_Layer: 5
   m_Name: UI_GameWin
   m_TagString: Untagged
@@ -752,7 +752,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4192235170054453818
+--- !u!114 &5811045432034138933
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -761,7 +761,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2235363975108094402}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02f2ec493cbc78f4590e00af6ec81e84, type: 3}
+  m_Script: {fileID: 11500000, guid: be5c39143f2e73f47b7b8359e26a26cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4945093380112833107

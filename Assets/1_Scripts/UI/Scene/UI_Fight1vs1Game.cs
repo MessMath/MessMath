@@ -3,34 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using WjChallenge;
 
-class UI_Fight1vs1Game : UI_Scene
+public class UI_Fight1vs1Game : UI_Scene
 {
     enum Texts
     {
-        Calculate_BoardText,
-        PrintNumber_Text,
-        QuestionNumber_Text,
     }
 
     enum Buttons
     {
-        EqualButton,
+        SettingBtn,
     }
 
     enum Images
     {
         BGIMG,
-        WitchImage,
-        WitchHPImage_MASK,
-        WitchHPBar,
-        WitchHPImage,
+        MathMtcImage,
+        MathMtcHPImage_MASK,
+        MathMtcHPBar,
+        MathMtcHPImage,
         JoyStickHandle,
         Circle,
         heart0,
@@ -45,25 +44,29 @@ class UI_Fight1vs1Game : UI_Scene
         Wall2,
         Wall3,
         Wall4,
-        Witch,
+        MathMtc,
         JoyStick,
         ArrowController,
         Player,
+        WJ_Sample1vs1,
+        Calculate_BoardtextCn,
+        Calculate_BoardqstCn,
+        TEXDrawPool,
     }
+
+    public WJ_Sample1vs1 wj_sample1vs1;
+    public bool GameStarted = false;
+    public TEXDraw[] pool;
+    TEXDraw[] TEXDrawPool;
 
     private void Awake()
     {
         Init();
-
-        //StartCoroutine("SetGame");
-        //edgeCollider = GetComponent<EdgeCollider2D>();
-
-        StartCoroutine("SetArrowGenerationTime", 0.5f);
+        //StartCoroutine("SetArrowGenerationTime", 0.5f); // <-- BeforeFight1vs1팝업에서 대신.
     }
 
     private void Start()
     {
-
     }
 
     public override bool Init()
@@ -71,9 +74,7 @@ class UI_Fight1vs1Game : UI_Scene
         if (base.Init() == false)
             return false;
 
-        Debug.Log(Managers.Connector.strMBR_ID);
-
-        BindText(typeof(Texts));
+        //BindText(typeof(Texts));
         BindButton(typeof(Buttons));
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
@@ -82,9 +83,10 @@ class UI_Fight1vs1Game : UI_Scene
         BindEvent(gameObject, OnPointerUp, Define.UIEvent.PointerUp);
         BindEvent(gameObject, OnDrag, Define.UIEvent.Pressed);
 
-        GetText((int)Texts.PrintNumber_Text).text = "";
-        GetText((int)Texts.Calculate_BoardText).text = "";
-        GetButton((int)Buttons.EqualButton).gameObject.BindEvent(Calculate);
+        //GetText((int)Texts.PrintNumber_Text).text = "";
+        //GetText((int)Texts.Calculate_BoardText).text = "";
+
+        GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(OnClickSettingBtn);
 
         for (int i = 0; i < 3; i++)
         {
@@ -93,72 +95,122 @@ class UI_Fight1vs1Game : UI_Scene
         Managers.Game._idxOfHeart = 0;
 
         canvas = gameObject.GetComponent<Canvas>();
-        //outLine = transform.Find("Env").Find("JoyStick").GetComponent<RectTransform>();
-        //handle = transform.Find("Env").Find("JoyStick").Find("Handle").GetComponent<RectTransform>(); ;
         canvasGroup = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().GetComponent<CanvasGroup>();
+
+        TEXDrawPool = GetObject((int)GameObjects.TEXDrawPool).GetComponentsInChildren<TEXDraw>();
+
+        wj_sample1vs1 = GetObject((int)GameObjects.WJ_Sample1vs1).GetComponent<WJ_Sample1vs1>();
+
+        Managers.UI.ShowPopupUI<UI_BeforeFight1vs1Start>().UI_Fight1Vs1Game = this;
 
         return true;
     }
 
+    private void Update()
+    {
+        if(GameStarted)
+        {
+            RefreshUI();
+            PoolUpdate();
+        }
+    }
+
+    void OnClickSettingBtn()
+    {
+        // TODO UI_Setting
+        Managers.UI.ShowPopupUI<UI_Setting>();
+    }
+
+    void RefreshUI()        // 문항이 보이는 영역 (보드) 새로고침
+    {
+        TEXDraw textCn = GetObject((int)GameObjects.Calculate_BoardtextCn).GetComponent<TEXDraw>();
+        TEXDraw qstCn = GetObject((int)GameObjects.Calculate_BoardqstCn).GetComponent<TEXDraw>();
+        int index = wj_sample1vs1.currentQuestionIndex;
+        if (index >= 8)
+            return;
+        if(Managers.Connector.cLearnSet != null)
+        {
+            textCn.text = Managers.Connector.cLearnSet.data.qsts[index].textCn;
+            qstCn.text = Managers.Connector.cLearnSet.data.qsts[index].qstCn;
+        }
+    }
+
+    void PoolUpdate()
+    {
+        if (Managers.Connector.cLearnSet == null)
+            return;
+        int cIndex = wj_sample1vs1.currentQuestionIndex;
+        string correctAnswer = Managers.Connector.cLearnSet.data.qsts[cIndex].qstCransr;
+        string[] wrongAnswers = Managers.Connector.cLearnSet.data.qsts[cIndex].qstWransr.Split(',');
+
+        for (int i = 0; i < TEXDrawPool.Length; i++)
+        {
+            if(i == 0)
+                TEXDrawPool[i].text = correctAnswer;
+            else
+                TEXDrawPool[i].text = wrongAnswers[i-1];
+        }
+    }
+
     #region 수식 계산
 
-    public void Calculate()
-    {
-        Debug.Log("Calculate");
+    //public void Calculate()
+    //{
+    //    Debug.Log("Calculate");
 
-        object result = null;
-        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
-        //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("÷", "/");
-        string printResult;
+    //    object result = null;
+    //    string expressionToCalculate = GetObject((int)Texts.Calculate_BoardText).text.Replace("x", "*");
+    //    //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("÷", "/");
+    //    string printResult;
 
-        GetText((int)Texts.Calculate_BoardText).text = "";
-        DataTable table = new DataTable();
+    //    GetObject((int)Texts.Calculate_BoardText).text = "";
+    //    DataTable table = new DataTable();
 
-        try
-        {
-            result = table.Compute(expressionToCalculate, "");
-            printResult = Math.Truncate(Convert.ToDouble(result)).ToString();
-            Debug.Log($"\"{expressionToCalculate}\" result is : " + printResult);
-        }
-        catch (System.Exception e)
-        {
-            Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
-            printResult = "";
-            damageToPlayer(1);
-            return;
-        }
+    //    try
+    //    {
+    //        result = table.Compute(expressionToCalculate, "");
+    //        printResult = Math.Truncate(Convert.ToDouble(result)).ToString();
+    //        Debug.Log($"\"{expressionToCalculate}\" result is : " + printResult);
+    //    }
+    //    catch (System.Exception e)
+    //    {
+    //        Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
+    //        printResult = "";
+    //        damageToPlayer(1);
+    //        return;
+    //    }
 
-        if (GetText((int)Texts.PrintNumber_Text))
-        {
-            GetText((int)Texts.PrintNumber_Text).text = $"={printResult}";
-            StartCoroutine(Waitfor2Sec());
-        }
+    //    //if (GetText((int)Texts.PrintNumber_Text))
+    //    //{
+    //    //    GetText((int)Texts.PrintNumber_Text).text = $"={printResult}";
+    //    //    StartCoroutine(Waitfor2Sec());
+    //    //}
 
-        if (printResult == "")
-            damageToPlayer(1);
-        else if (int.Parse(printResult) == GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().QusetionNumber)
-            damageToWitch(15);
-        else
-            damageToPlayer(1);
+    //    if (printResult == "")
+    //        damageToPlayer(1);
+    //    else if (int.Parse(printResult) == GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>().QusetionNumber)
+    //        damageToWitch(15);
+    //    else
+    //        damageToPlayer(1);
 
-    }
+    //}
 
-    IEnumerator Waitfor2Sec()
-    {
-        yield return new WaitForSeconds(2.0f);
-        Debug.Log("Wait2Sec");
-        GetText((int)Texts.PrintNumber_Text).text = "";
-    }
+    //IEnumerator Waitfor2Sec()
+    //{
+    //    yield return new WaitForSeconds(2.0f);
+    //    Debug.Log("Wait2Sec");
+    //    GetText((int)Texts.PrintNumber_Text).text = "";
+    //}
 
     #endregion
 
     #region 데미지 주기
 
-    void damageToPlayer(int damage)
+    public void damageToPlayer(int damage)
     {
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp -= damage;
         Debug.Log("player damage 1");
-        GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().Questioning();
+        GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>().Questioning();
         GameObject.Find($"Player/Circle/heart{Managers.Game._idxOfHeart}").SetActive(false);
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>().BlinkPlayerImg();
         if (Managers.Game._idxOfHeart > GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp)
@@ -167,10 +219,10 @@ class UI_Fight1vs1Game : UI_Scene
             Managers.Game._idxOfHeart++;
     }
 
-    void damageToWitch(int damage)
+    public void damageToWitch(int damage)
     {
-        GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().SetWitchHP(damage);
-        GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().Questioning();
+        GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>().SetWitchHP(damage);
+        GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>().Questioning();
     }
 
     #endregion
@@ -227,28 +279,10 @@ class UI_Fight1vs1Game : UI_Scene
 
     string[] Operator = { "+", "-", "x", "/" };
 
-    private const int MAX_NUM_ARROW = 3;
-    private const int MAX_SYMBOL_ARROW = 2;
-    private int numArrowCnt = 0;
-    private int symbolArrowCnt = 0;
-    //public GameObject arrowPrefab;
-    //EdgeCollider2D edgeCollider;
-    //public TextMeshProUGUI SetText;
-
-    //IEnumerator SetGame()
-    //{
-    //    Time.timeScale = 0.0f;
-    //    Debug.Log("SetGame");
-    //    SetText.text = "3";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.text = "2";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.text = "1";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.enabled = false;
-    //    Time.timeScale = 1.0f;
-    //    Debug.Log("StartGame");
-    //}
+    //private const int MAX_NUM_ARROW = 3;
+    //private const int MAX_SYMBOL_ARROW = 2;
+    //private int numArrowCnt = 0;
+    //private int symbolArrowCnt = 0;
 
     // 화살이 생성되는 시간 조절하는 함수 
     // 현재 화살 개수가 몇개 나왔는지 체크
@@ -256,9 +290,10 @@ class UI_Fight1vs1Game : UI_Scene
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(delayTime);
 
+        yield return waitForSeconds;
+
         ShootArrow();
 
-        yield return waitForSeconds;
         StartCoroutine("SetArrowGenerationTime", 1f);
     }
 
@@ -266,9 +301,9 @@ class UI_Fight1vs1Game : UI_Scene
     void ShootArrow()
     {
         GameObject arrowObj = MakeArrow();
-        Arrow arrow = arrowObj.GetComponent<Arrow>();
+        ArrowOnlyin1vs1 arrow = arrowObj.GetComponent<ArrowOnlyin1vs1>();
         arrowObj.GetComponent<Rigidbody2D>().AddForce(arrow.direction.normalized * arrow.speed, ForceMode2D.Impulse);
-
+        
         Debug.Log("------Shoot Arrow------");
         Debug.Log($"Arrow type: {arrow.type} num or operator: {arrow.tmp} speed: {arrow.speed} \n startPosition:{arrow.startPosition.x} , {arrow.startPosition.y} \n direction: {arrow.direction}");
     }
@@ -278,64 +313,41 @@ class UI_Fight1vs1Game : UI_Scene
     {
         //GameObject arrowObject = Instantiate(Managers.Resource.Load<GameObject>($"Prefabs/Arrow"), GetObject((int)GameObjects.ArrowController).transform);
         //GameObject arrowObject = Managers.Resource.Instantiate("Arrow", GetObject((int)GameObjects.ArrowController).transform);
-        GameObject arrowObject = Managers.Resource.Instantiate("Arrow", gameObject.transform.Find("ArrowController").transform);
+        GameObject arrowObject = Managers.Resource.Instantiate("ArrowOnlyin1vs1", gameObject.transform.Find("ArrowController").transform);
 
-        Arrow arrow = arrowObject.GetOrAddComponent<Arrow>();
+        ArrowOnlyin1vs1 arrow = arrowObject.GetOrAddComponent<ArrowOnlyin1vs1>();
         SetArrow(arrow);
+
         arrowObject.GetOrAddComponent<RectTransform>().position = arrow.startPosition;
         return arrowObject;
     }
 
     // 화살 설정하는 함수
-    void SetArrow(Arrow arrow)
+    void SetArrow(ArrowOnlyin1vs1 arrow)
     {
-        if (SetArrowType(arrow) == 0)
-            SetArrowNum(arrow);
-        else
-            SetArrowOperator(arrow);
+        //if (SetArrowType(arrow) == 0)
+        //    SetArrowNum(arrow);
+        //else
+        //    SetArrowOperator(arrow);
+        SetArrowValue(arrow);
+
         SetArrowStartPosition(arrow);
         SetArrowDirection(arrow);
         SetArrowSpeed(arrow);
     }
 
-    // 현재 생성된 화살의 타입 숫자인지 기호인지 설정하는 함수 
-    int SetArrowType(Arrow arrow)
+    // 화살이 들고있는 값을 설정하는 함수
+    void SetArrowValue(ArrowOnlyin1vs1 arrow)
     {
-        arrow.type = UnityEngine.Random.Range(0, 2);
-
-        if (arrow.type == 0)
-        {
-            numArrowCnt++;
-            if (MAX_NUM_ARROW < numArrowCnt)
-            {
-                arrow.type = 1;
-                numArrowCnt = 0;
-            }
-        }
-        else if (arrow.type == 1)
-        {
-            symbolArrowCnt++;
-            if (MAX_SYMBOL_ARROW < symbolArrowCnt)
-            {
-                arrow.type = 0;
-                symbolArrowCnt = 0;
-            }
-        }
-        return arrow.type;
-    }
-
-    void SetArrowNum(Arrow arrow)
-    {
-        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = UnityEngine.Random.Range(1, 10).ToString();
-    }
-
-    void SetArrowOperator(Arrow arrow)
-    {
-        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[UnityEngine.Random.Range(0, 4)];   // 50%의 확률로 Symbol이 사칙연산 중 하나의 기호에 해당한다.
+        int randmax = TEXDrawPool.Length;
+        int rand = UnityEngine.Random.Range(0, randmax);
+        arrow.tmp = TEXDrawPool[rand];              // 화살의 텍스트로 무작위 답
+        arrow.text = TEXDrawPool[rand].text;
+        arrow.GetComponentInChildren<TEXDraw>().text = TEXDrawPool[rand].text;
     }
 
     // 화살의 생성 위치 조절하는 함수 
-    void SetArrowStartPosition(Arrow arrow)
+    void SetArrowStartPosition(ArrowOnlyin1vs1 arrow)
     {
         int randValue = UnityEngine.Random.Range(0, 3);
         switch (randValue)
@@ -389,16 +401,16 @@ class UI_Fight1vs1Game : UI_Scene
 
     // 화살의 방향 조절하는 함수 
     // 현재 플레이어의 위치로 설정
-    void SetArrowDirection(Arrow arrow)
+    void SetArrowDirection(ArrowOnlyin1vs1 arrow)
     {
         //arrow.direction = GetObject((int)GameObjects.Player).transform.position - (Vector3)arrow.startPosition;
         arrow.direction = FindObjectOfType<PlayerControllerCCF>().transform.position - (Vector3)arrow.startPosition;
         LookAt(GetObject((int)GameObjects.Player), arrow);     // Player를 바라보고 날라가게끔
 
-        arrow.GetComponentInChildren<TextMeshProUGUI>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));
+        arrow.GetComponentInChildren<TEXDraw>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));
     }
 
-    void LookAt(GameObject target, Arrow arrow)
+    void LookAt(GameObject target, ArrowOnlyin1vs1 arrow)
     {
         if (target != null)
         {
@@ -415,7 +427,7 @@ class UI_Fight1vs1Game : UI_Scene
     }
 
     // 화살의 속도 조절하는 함수 
-    void SetArrowSpeed(Arrow arrow)
+    void SetArrowSpeed(ArrowOnlyin1vs1 arrow)
     {
         arrow.speed = UnityEngine.Random.Range(200.0f, 250.0f);
     }
