@@ -392,7 +392,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Alignment: {x: 0.5, y: 0.5}
-  m_Text: 
+  m_Text: $$TEXDraw$$
   m_Size: 57.9
   m_ScrollArea:
     serializedVersion: 2
@@ -504,7 +504,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -433, y: 52.602}
+  m_AnchoredPosition: {x: -432.99994, y: 52.602005}
   m_SizeDelta: {x: -1101.6323, y: -105.2043}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4290632426040237295
@@ -536,7 +536,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Alignment: {x: 0.5, y: 0.5}
-  m_Text: 
+  m_Text: $$TEXDraw$$
   m_Size: 52.7
   m_ScrollArea:
     serializedVersion: 2
@@ -2044,6 +2044,7 @@ MonoBehaviour:
   currentQuestionIndex: 0
   ansrIndex: 0
   getLearningButton: {fileID: 0}
+  uI_Fight1Vs1Game: {fileID: 0}
 --- !u!1 &8124532617577344736
 GameObject:
   m_ObjectHideFlags: 0
