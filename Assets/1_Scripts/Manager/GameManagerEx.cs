@@ -26,4 +26,6 @@ public class GameManagerEx
     public int Coin { get; set; }
     public bool IsCorrect { get; set; }
 
+    public bool IsTutorialFinished = false;
+
 }
