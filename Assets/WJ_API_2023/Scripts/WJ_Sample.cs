@@ -183,15 +183,21 @@ public class WJ_Sample : MonoBehaviour
                 if (isCorrect)
                 {
                     Debug.Log("정답");
+
                     Managers.Game.Coin++;
                     Managers.Game.IsCorrect = true;
                     // TODO? CoinAnim Add?
+
+                    // Sound
+                    Managers.Sound.Play("RightAnswerEff");
                 }
                 else
                 {
                     Debug.Log("오답");
                     Managers.Game.IsCorrect = false;
 
+                    // Sound
+                    Managers.Sound.Play("WrongAnswerEff");
                 }
 
                 isSolvingQuestion = false;
