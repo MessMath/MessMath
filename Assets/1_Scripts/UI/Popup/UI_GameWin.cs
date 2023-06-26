@@ -29,13 +29,21 @@ public class UI_GameWin : UI_Popup
 
     public void restart()
     {
-        SceneManager.LoadScene("CalculateScene");
+        //SceneManager.LoadScene("StoryGameScene");
+
+        // 아마 위 코드는 나중에 문제를 일으킬 거 같음. 
+        // 이 팝업을 Fight1vs1Game에서도, StoryGame에서도 부르니까.
+        // 그래서 아마도 필요할 것 같아서 아래 코드를 추가해놓았다.
+        // 아래 코드가 필요하다면 대신해서 쓰자.
+        // 이 코드의 의미는 "현재 Scene을 다시 로드한다"는 의미다.
+        SceneManager.LoadScene(Managers.Scene.GetSceneName(Managers.Scene.CurrentSceneType));
+
         Time.timeScale = 1;
     }
 
     public void toMain()
     {
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("LobbyScene");
         Time.timeScale = 1;
     }
 

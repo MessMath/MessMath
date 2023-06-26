@@ -11,7 +11,7 @@ public class StoryGameScene : BaseScene
 
         SceneType = Define.Scene.StoryGameScene;
         Managers.UI.ShowSceneUI<UI_StoryGame>();
-        Debug.Log("Init");
+        Debug.Log("Enter StoryGame");
         return true;
     }
 }

@@ -14,7 +14,7 @@ public class WJ_Connector : MonoBehaviour
 
     private string strAuthorization;
 
-    private string strMBR_ID;       //멤버 ID
+    public string strMBR_ID;       //멤버 ID
     private string strDeviceNm;     //디바이스 이름
     private string strOsScnCd;      //OS
     private string strGameVer;      //게임 버전

@@ -16,10 +16,10 @@ public class WJ_Sample : MonoBehaviour
     [SerializeField] GameObject panel_diag_chooseDiff;  //난이도 선택 패널
     [SerializeField] GameObject panel_question;         //문제 패널(진단,학습)
 
-    [SerializeField] Text textDescription;        //문제 설명 텍스트
-    [SerializeField] TEXDraw textEquation;           //문제 텍스트(※TextDraw로 변경 필요)
-    [SerializeField] Button[] btAnsr = new Button[4]; //정답 버튼들
-    TEXDraw[] textAnsr;                  //정답 버튼들 텍스트(※TextDraw로 변경 필요)
+    [SerializeField] Text textDescription;              //문제 설명 텍스트
+    [SerializeField] TEXDraw textEquation;              //문제 텍스트(※TextDraw로 변경 필요)
+    [SerializeField] Button[] btAnsr = new Button[4];   //정답 버튼들
+    TEXDraw[] textAnsr;                                 //정답 버튼들 텍스트(※TextDraw로 변경 필요)
 
     [Header("Status")]
     int currentQuestionIndex;
@@ -27,8 +27,8 @@ public class WJ_Sample : MonoBehaviour
     float questionSolveTime;
 
     [Header("For Debug")]
-    [SerializeField] WJ_DisplayText wj_displayText;         //텍스트 표시용(필수X)
-    [SerializeField] Button getLearningButton;      //문제 받아오기 버튼
+    [SerializeField] WJ_DisplayText wj_displayText;     //텍스트 표시용(필수X)
+    [SerializeField] Button getLearningButton;          //문제 받아오기 버튼
 
     private void Awake()
     {
