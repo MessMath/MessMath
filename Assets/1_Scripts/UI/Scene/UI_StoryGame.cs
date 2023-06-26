@@ -95,6 +95,10 @@ public class UI_StoryGame : UI_Scene
         //handle = transform.Find("Env").Find("JoyStick").Find("Handle").GetComponent<RectTransform>(); ;
         canvasGroup = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().GetComponent<CanvasGroup>();
 
+        // Sound
+        Managers.Sound.Clear();
+        Managers.Sound.Play("BattleBgm", Define.Sound.Bgm);
+
         return true;
     }
 
@@ -103,6 +107,9 @@ public class UI_StoryGame : UI_Scene
     public void Calculate()
     {
         Debug.Log("Calculate");
+
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
 
         object result = null;
         string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");

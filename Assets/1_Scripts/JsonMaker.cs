@@ -35,7 +35,13 @@ public class JsonMaker : MonoBehaviour
 
     void Update()
     {
-        if(isDone)Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
+        //if(isDone)Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
+        if (isDone)
+        {
+            isDone = false;
+            Managers.UI.ClosePopupUI();
+            Managers.UI.ShowPopupUI<UI_Diagnosis>();
+        }
     }
 
     void AddRange()

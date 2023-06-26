@@ -20,15 +20,14 @@ public class UI_Diagnosis : UI_Popup
 
     enum Texts
     {
-
         TeacherTalkText,
     }
 
     enum Images
     {
         Panel,
-        TeacherImage,
-        TeacherTalkImage,
+        Crystal,
+        CrystalImage,
     }
 
     enum GameObjects
@@ -53,11 +52,22 @@ public class UI_Diagnosis : UI_Popup
         StartCoroutine("NextTalk");
 
         BindEvent(gameObject, MakeToLobbyBtn);
-        GetButton((int)Buttons.ToLobbyBtn).gameObject.BindEvent(() => { ClosePopupUI(); });
+        GetButton((int)Buttons.ToLobbyBtn).gameObject.BindEvent(() => 
+        {
+            // Sound
+            Managers.Sound.Play("ClickBtnEff");
+
+            ClosePopupUI(); 
+            Managers.Scene.ChangeScene(Define.Scene.LobbyScene); 
+        });
 
         GetObject((int)GameObjects.Sample).gameObject.SetActive(false);
         GetObject((int)GameObjects.API).gameObject.SetActive(false);
         GetButton((int)Buttons.ToLobbyBtn).gameObject.SetActive(false);
+
+        // Sound
+        Managers.Sound.Clear();
+        Managers.Sound.Play("DiagnosisBgm", Define.Sound.Bgm);
 
         return true;
     }
@@ -80,7 +90,8 @@ public class UI_Diagnosis : UI_Popup
         GetObject((int)GameObjects.API).gameObject.SetActive(true);
         GetObject((int)GameObjects.Problem).gameObject.SetActive(false);
         GetObject((int)GameObjects.Debug).gameObject.SetActive(false);
-        GetImage((int)Images.TeacherImage).gameObject.SetActive(false);
+        GetText((int)Texts.TeacherTalkText).gameObject.SetActive(false);
+        GetImage((int)Images.Crystal).gameObject.SetActive(false);
     }
 
     void MakeToLobbyBtn()

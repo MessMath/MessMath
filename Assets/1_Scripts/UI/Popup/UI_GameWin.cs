@@ -29,13 +29,19 @@ public class UI_GameWin : UI_Popup
 
     public void restart()
     {
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
+
         SceneManager.LoadScene("CalculateScene");
         Time.timeScale = 1;
     }
 
     public void toMain()
     {
-        SceneManager.LoadScene("MainScene");
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
+
+        Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
         Time.timeScale = 1;
     }
 

@@ -67,6 +67,7 @@ public class UI_PracticeGame : UI_Scene
         GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(false);
 
         GetButton((int)Buttons.Button_GetLearning).interactable = true;
+        GetButton((int)Buttons.Button_GetLearning).gameObject.BindEvent(() => { GetButton((int)Buttons.Button_GetLearning).gameObject.SetActive(false); });
 
         return true;
     }
@@ -80,6 +81,9 @@ public class UI_PracticeGame : UI_Scene
 
     void OnClickAnswerBtn()
     {
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
+
         // 코인 수 연결. TODO 데베랑 연결해야 됨.
         GetText((int)Texts.CoinCount).text = Managers.Game.Coin.ToString();
 

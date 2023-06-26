@@ -49,6 +49,11 @@ public class UI_Story : UI_Scene
         GetText((int)Texts.CharacterNameTMP).text = "";
         GetText((int)Texts.DialogueTMP).text = "";
         GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
+
+        // Sound
+        Managers.Sound.Clear();
+        Managers.Sound.Play("StoryBgm", Define.Sound.Bgm);
+
         return true;
     }
 
@@ -81,6 +86,8 @@ public class UI_Story : UI_Scene
         Managers.TextEffect.SetNormalSpeed();
         Managers.TextEffect.Typing(storyTalkData[count].dialogue, GetText((int)Texts.DialogueTMP));
 
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
         //talkDatas[i].soundEffect
         //talkDatas[i].soundEffectDuration
     }
