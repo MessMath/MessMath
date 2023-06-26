@@ -20,7 +20,8 @@ public class WitchController : MonoBehaviour
         HpBar = HpBar.gameObject.GetComponent<RectTransform>();
         witchImg = witchImg.gameObject.GetComponent<Image>();
         color = witchImg.color;
-        Questioning();
+        if(Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
+            Questioning();
     }
 
     IEnumerator BlinkWitchImg(float delayTime)

@@ -196,7 +196,7 @@ public class WJ_Sample1vs1 : MonoBehaviour
                 if (isCorrect)
                 {
                     Debug.Log("Á¤´ä");
-                    uI_Fight1Vs1Game.damageToWitch(15);
+                    //uI_Fight1Vs1Game.damageToWitch(15);
                     Managers.Game.Coin++;
                     Managers.Game.IsCorrect = true;
                     // TODO? CoinAnim Add?
