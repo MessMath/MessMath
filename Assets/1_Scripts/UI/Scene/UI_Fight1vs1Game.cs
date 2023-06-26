@@ -110,6 +110,11 @@ public class UI_Fight1vs1Game : UI_Scene
     {
         if(GameStarted)
         {
+            if(wj_sample1vs1.currentQuestionIndex >= 8)
+            {
+                Managers.Connector.Learning_GetQuestion();
+                return;
+            }
             RefreshUI();
             PoolUpdate();
         }
@@ -126,9 +131,8 @@ public class UI_Fight1vs1Game : UI_Scene
         TEXDraw textCn = GetObject((int)GameObjects.Calculate_BoardtextCn).GetComponent<TEXDraw>();
         TEXDraw qstCn = GetObject((int)GameObjects.Calculate_BoardqstCn).GetComponent<TEXDraw>();
         int index = wj_sample1vs1.currentQuestionIndex;
-        if (index >= 8)
-            return;
-        if(Managers.Connector.cLearnSet != null)
+
+        if(Managers.Connector.cLearnSet != null && index < 8)
         {
             textCn.text = Managers.Connector.cLearnSet.data.qsts[index].textCn;
             qstCn.text = Managers.Connector.cLearnSet.data.qsts[index].qstCn;
@@ -210,7 +214,8 @@ public class UI_Fight1vs1Game : UI_Scene
     {
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp -= damage;
         Debug.Log("player damage 1");
-        GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>().Questioning();
+        if (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
+            GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>().Questioning();
         GameObject.Find($"Player/Circle/heart{Managers.Game._idxOfHeart}").SetActive(false);
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>().BlinkPlayerImg();
         if (Managers.Game._idxOfHeart > GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp)
@@ -222,7 +227,8 @@ public class UI_Fight1vs1Game : UI_Scene
     public void damageToWitch(int damage)
     {
         GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>().SetWitchHP(damage);
-        GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>().Questioning();
+        if (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
+            GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>().Questioning();
     }
 
     #endregion
