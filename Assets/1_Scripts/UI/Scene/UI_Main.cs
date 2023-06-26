@@ -46,11 +46,19 @@ public class UI_Main : UI_Scene
 
         GetImage((int)Images.BG).gameObject.BindEvent(OnClickBG);
 
+        // Sound
+        Managers.Sound.Clear();
+        Managers.Sound.Play("MainBgm", Define.Sound.Bgm);
+
         return true;
     }
 
     void OnClickBG( )
     {
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
+
+        //Managers.UI.ShowPopupUI<UI_Diagnosis>();
         Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
     }
 }

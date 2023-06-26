@@ -37,10 +37,11 @@ public class UI_Setting : UI_Popup
         BindImage(typeof(Images));
         BindButton(typeof(Buttons));
 
-        GetImage((int)Images.Panel).gameObject.BindEvent(() => { ClosePopupUI(); });
+        
+        GetImage((int)Images.Panel).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ClosePopupUI(); });
 
-        GetButton((int)Buttons.ContinueBtn).gameObject.BindEvent(() => { ClosePopupUI(); });
-        GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
+        GetButton((int)Buttons.ContinueBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ClosePopupUI(); });
+        GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
 
         return true;
     }

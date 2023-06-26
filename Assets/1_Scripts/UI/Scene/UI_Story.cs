@@ -52,6 +52,11 @@ public class UI_Story : UI_Scene
         GetText((int)Texts.DialogueTMP).text = "";
         GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
         GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(OnClickReplayBtn);
+
+        // Sound
+        Managers.Sound.Clear();
+        Managers.Sound.Play("StoryBgm", Define.Sound.Bgm);
+
         return true;
     }
 
@@ -85,6 +90,9 @@ public class UI_Story : UI_Scene
         replayPopup.SetActive(true);
         replayPopup.GetComponent<UI_ReplayStory>().AddReplayStory(storyTalkData[count].characterName, storyTalkData[count].dialogue);
         replayPopup.SetActive(false);
+
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
         //talkDatas[i].soundEffect
         //talkDatas[i].soundEffectDuration
     }

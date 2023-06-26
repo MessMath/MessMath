@@ -42,15 +42,18 @@ public class UI_SelectGameMode : UI_Popup
         BindImage(typeof(Images));
 
         GetImage((int)Images.Panel).gameObject.BindEvent(OnClickBG);
-        GetButton((int)Buttons.PracticeBtn).gameObject.BindEvent(() => {  Managers.Scene.ChangeScene(Define.Scene.PracticeGameScene);  });
-        GetButton((int)Buttons.Fight1vs1Btn).gameObject.BindEvent(() => { Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene); });
-        GetButton((int)Buttons.StoryBtn).gameObject.BindEvent(() => { Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
+        GetButton((int)Buttons.PracticeBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.PracticeGameScene);  });
+        GetButton((int)Buttons.Fight1vs1Btn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene); });
+        GetButton((int)Buttons.StoryBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
 
         return true;
     }
 
     void OnClickBG()
     {
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
+
         Managers.UI.ClosePopupUI();
     }
 

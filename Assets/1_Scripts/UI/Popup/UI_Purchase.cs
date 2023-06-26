@@ -35,6 +35,9 @@ public class UI_Purchase : UI_Popup
 
     void OnClickedPurchaseBtn(int price)
     {
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
+
         UI_PurchaseStatus purchaseStatus = Managers.UI.ShowPopupUI<UI_PurchaseStatus>();
         if(Managers.Coin.CheckPurchase(price)) 
         {
