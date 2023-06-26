@@ -133,6 +133,11 @@ public class UIManager
         _order--;
     }
 
+    public void HidePopupUI(UI_Popup popup)
+    {
+        popup.gameObject.SetActive(false);
+    }
+
     public void CloseAllPopupUI()
     {
         while (_popupStack.Count > 0)
