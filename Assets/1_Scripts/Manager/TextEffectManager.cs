@@ -161,5 +161,30 @@ public class TextEffectManager
     {
         characterTime = timeForCharacter;
     }
-    // 글자 흔들림 효과
+    
+    // 글자 흐려짐 효과 
+    public IEnumerator FadeOut(TextMeshProUGUI tmp)
+    {
+        WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
+        float fadeCnt = 0;
+        while (fadeCnt < 1.0f)
+        {
+            fadeCnt += 0.01f;
+            yield return waitForSeconds;
+            tmp.color = new Color(0,0,0,fadeCnt);
+        }
+        CoroutineHandler.StartCoroutine(FadeIn(tmp));
+    }
+
+    public IEnumerator FadeIn(TextMeshProUGUI tmp)
+    {
+        WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
+        float fadeCnt = 1.0f;
+        while (fadeCnt > 0)
+        {
+            fadeCnt -= 0.01f;
+            yield return waitForSeconds;
+            tmp.color = new Color(0,0,0,fadeCnt);
+        }
+    }
 }
