@@ -26,6 +26,7 @@ public class UI_Lobby : UI_Scene
     private void Start()
     {
         Init();
+        showTutorial();
     }
 
     public override bool Init()
@@ -42,5 +43,10 @@ public class UI_Lobby : UI_Scene
         GetButton((int)Buttons.StoreBtn).gameObject.BindEvent(() => {Managers.UI.ShowPopupUI<UI_Store>();} );
 
         return true;
+    }
+    void showTutorial()
+    {
+        if (Managers.Game.IsTutorialFinished == false)
+            Managers.UI.ShowPopupUI<UI_TutorialPopup>();
     }
 }
