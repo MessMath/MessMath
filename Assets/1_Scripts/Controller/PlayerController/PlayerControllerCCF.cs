@@ -24,11 +24,11 @@ public class PlayerControllerCCF : UI_Base
         _speed = 400;
         _rigid = gameObject.GetOrAddComponent<Rigidbody2D>();
         _image = gameObject.GetOrAddComponent<Image>();
-        _sceneUi = GameObject.Find("UI_Fight1vs1Game").GetComponent<UI_Fight1vs1Game>();
 
-        if (Managers.Scene.CurrentScene is not Fight1vs1Game)
+        if (Managers.Scene.CurrentScene is Fight1vs1Game)
         {
             _onCalculateBoard = gameObject.transform.parent.GetComponentInChildren<TEXDraw>().gameObject;
+            _sceneUi = GameObject.Find("UI_Fight1vs1Game").GetComponent<UI_Fight1vs1Game>();
 
         }
         else
