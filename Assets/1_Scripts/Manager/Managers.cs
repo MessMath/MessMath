@@ -17,7 +17,7 @@ public class Managers : MonoBehaviour
     public static WJ_Connector s_connector = null;
     public static WJ_Connector Connector { get { return s_connector; } }
 
-    private static BlessingManager s_blessingManager = new BlessingManager();
+    private static ProtectionManager s_pretectionManager = new ProtectionManager();
     private static DataManager s_dataManager = new DataManager();
     private static GameManagerEx s_gameManagerEx = new GameManagerEx();
     private static ResourceManager s_resourceManager = new ResourceManager();
@@ -28,7 +28,7 @@ public class Managers : MonoBehaviour
     private static UIManager s_uiManager = new UIManager();
     private static CoinManager s_coinManager = new CoinManager();
 
-    public static BlessingManager Blessing { get { Init(); return s_blessingManager; } }
+    public static ProtectionManager Protection { get { Init(); return s_pretectionManager; } }
     public static DataManager Data { get { Init(); return s_dataManager; } }
     public static GameManagerEx Game { get { Init(); return s_gameManagerEx; } }
     public static ResourceManager Resource { get { Init(); return s_resourceManager; } }
@@ -75,11 +75,33 @@ public class Managers : MonoBehaviour
 
             s_resourceManager.Init();
             s_soundManager.Init();
-            s_blessingManager.Init();
             s_dataManager.Init();
             s_connector.Init();
 
             Application.targetFrameRate = 60;
         }
+    }
+
+}
+
+public class CoroutineHelper : MonoBehaviour
+{
+    private static MonoBehaviour monoInstance;
+
+    [RuntimeInitializeOnLoadMethod]
+    private static void Initializer()
+    {
+        monoInstance = new GameObject($"[{nameof(CoroutineHelper)}]").AddComponent<CoroutineHelper>();
+        DontDestroyOnLoad(monoInstance.gameObject);
+    }
+
+    public new static Coroutine StartCoroutine(IEnumerator coroutine)
+    {
+        return monoInstance.StartCoroutine(coroutine);
+    }
+
+    public new static void StopCoroutine(Coroutine coroutine)
+    {
+        monoInstance.StopCoroutine(coroutine);
     }
 }
