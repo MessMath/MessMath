@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UI_Lobby : UI_Scene
@@ -19,8 +20,6 @@ public class UI_Lobby : UI_Scene
 
     enum Texts
     {
-        SettingText,
-        StoryModeText,
     }
 
     private void Start()
@@ -39,8 +38,8 @@ public class UI_Lobby : UI_Scene
         BindText(typeof(Texts));
 
         GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
-        GetButton((int)Buttons.InfinityGameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_SelectGameMode>();});
-        GetButton((int)Buttons.StoreBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Store>();} );
+        GetButton((int)Buttons.InfinityGameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_SelectGameMode>(); });
+        GetButton((int)Buttons.StoreBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Store>(); });
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
 
         // Sound
