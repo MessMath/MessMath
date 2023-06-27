@@ -24,7 +24,9 @@ public class GameManagerEx
 
     public int _idxOfHeart;
     public int Coin { get; set; }
+    public int Damage { get; set; }
     public bool IsCorrect { get; set; }
+
 
     public bool IsTutorialFinished = false;
 
