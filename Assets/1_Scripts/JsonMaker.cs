@@ -39,8 +39,18 @@ public class JsonMaker : MonoBehaviour
         if (isDone)
         {
             isDone = false;
-            Managers.UI.ClosePopupUI();
-            Managers.UI.ShowPopupUI<UI_Diagnosis>();
+            // 진단평가가 완료된 상태라면 로비로 이동
+            if(PlayerPrefs.GetInt("DoDiagnosis") == 1)
+            {
+                Managers.Game.CurrentStatus = Define.CurrentStatus.LEARNING;
+                Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
+            }
+            // 진단평가가 되어 있지 않다면 진단평가부터
+            else
+            {
+                Managers.UI.ClosePopupUI();
+                Managers.UI.ShowPopupUI<UI_Diagnosis>();
+            }
         }
     }
 
