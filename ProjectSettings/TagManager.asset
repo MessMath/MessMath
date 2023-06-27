@@ -8,6 +8,7 @@ TagManager:
   - DeadLine
   - Wall
   - ArrowOnlyin1vs1
+  - Witch
   layers:
   - Default
   - TransparentFX
