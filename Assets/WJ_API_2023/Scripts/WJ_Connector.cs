@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -14,7 +15,7 @@ public class WJ_Connector : MonoBehaviour
 
     private string strAuthorization;
 
-    public string strMBR_ID;       //멤버 ID
+    //public string strMBR_ID;       //멤버 ID
     private string strDeviceNm;     //디바이스 이름
     private string strOsScnCd;      //OS
     private string strGameVer;      //게임 버전
@@ -64,7 +65,11 @@ public class WJ_Connector : MonoBehaviour
     private void Make_MBR_ID()
     {
         DateTime dt = DateTime.Now;
-        strMBR_ID = string.Format("{0}{1:0000}{2:00}{3:00}{4:00}{5:00}{6:00}{7:000}", strGameCD, dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond);
+        if(!PlayerPrefs.HasKey("Id"))
+        {
+            // strMBR_ID = string.Format("{0}{1:0000}{2:00}{3:00}{4:00}{5:00}{6:00}{7:000}", strGameCD, dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond);
+            PlayerPrefs.SetString("Id", string.Format("{0}{1:0000}{2:00}{3:00}{4:00}{5:00}{6:00}{7:000}", strGameCD, dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond));
+        }
     }
 
     #region Function Progress
@@ -77,7 +82,8 @@ public class WJ_Connector : MonoBehaviour
         Request_DN_Setting request = new Request_DN_Setting();
 
         request.gameCd = strGameCD;
-        request.mbrId = strMBR_ID;
+        //request.mbrId = strMBR_ID;
+        request.mbrId = PlayerPrefs.GetString("Id");
         request.deviceNm = strDeviceNm;
         request.gameVer = strGameVer;
         request.osScnCd = strOsScnCd;
@@ -106,7 +112,8 @@ public class WJ_Connector : MonoBehaviour
     private IEnumerator SendProgress_Diagnosis(string _prgsCd, string _qstCd, string _qstCransr, string _ansrCwYn, long _sid, long _nQstDelayTime)
     {
         Request_DN_Progress request = new Request_DN_Progress();
-        request.mbrId = strMBR_ID;
+        //request.mbrId = strMBR_ID;
+        request.mbrId = PlayerPrefs.GetString("Id");
         request.gameCd = strGameCD;
         request.prgsCd = _prgsCd;// "W";    // W: 진단 진행    E: 진단 완료    X: 기타 취소?
         request.qstCd = _qstCd;             // 문항 코드
@@ -130,7 +137,8 @@ public class WJ_Connector : MonoBehaviour
         Request_Learning_Setting request = new Request_Learning_Setting();
 
         request.gameCd = strGameCD;
-        request.mbrId = strMBR_ID;
+        //request.mbrId = strMBR_ID;
+        request.mbrId = PlayerPrefs.GetString("Id");
         request.gameVer = strGameVer;
         request.osScnCd = strOsScnCd;
         request.deviceNm = strDeviceNm;
@@ -156,7 +164,8 @@ public class WJ_Connector : MonoBehaviour
         Request_Learning_Progress request = new Request_Learning_Progress();
 
         request.gameCd = strGameCD;
-        request.mbrId = strMBR_ID;
+        //request.mbrId = strMBR_ID;
+        request.mbrId = PlayerPrefs.GetString("Id");
         request.prgsCd = "E";
         request.sid = cLearnSet.data.sid;
         request.bgnDt = cLearnSet.data.bgnDt;
@@ -188,12 +197,12 @@ public class WJ_Connector : MonoBehaviour
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(strBody);
             uwr.uploadHandler = new UploadHandlerRaw(jsonToSend);
             uwr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-
+            
             uwr.SetRequestHeader("Content-Type", "application/json");
             uwr.SetRequestHeader("x-api-key", strGameKey);
 
-            if (isSendAuth) uwr.SetRequestHeader("Authorization", strAuthorization);
-
+            if (isSendAuth) uwr.SetRequestHeader("Authorization", PlayerPrefs.GetString("PstrAuthorization"));
+            
             uwr.timeout = 5;
 
             yield return uwr.SendWebRequest();
@@ -233,7 +242,11 @@ public class WJ_Connector : MonoBehaviour
                         break;
                 }
 
-                if (uwr.GetResponseHeaders().ContainsKey("Authorization")) strAuthorization = uwr.GetResponseHeader("Authorization");
+                if (uwr.GetResponseHeaders().ContainsKey("Authorization"))
+                {
+                    strAuthorization = uwr.GetResponseHeader("Authorization");
+                    PlayerPrefs.SetString("PstrAuthorization", strAuthorization);
+                }
             }
             else //실패 시
             {

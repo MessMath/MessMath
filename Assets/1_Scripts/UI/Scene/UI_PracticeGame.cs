@@ -69,6 +69,10 @@ public class UI_PracticeGame : UI_Scene
         GetButton((int)Buttons.Button_GetLearning).interactable = true;
         GetButton((int)Buttons.Button_GetLearning).gameObject.BindEvent(() => { GetButton((int)Buttons.Button_GetLearning).gameObject.SetActive(false); });
 
+        // Sound
+        Managers.Sound.Clear();
+        Managers.Sound.Play("PracticeBgm");
+
         return true;
     }
 

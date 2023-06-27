@@ -37,7 +37,7 @@ public class Managers : MonoBehaviour
     public static TextEffectManager TextEffect { get { Init(); return s_textEffectManager; } }
     public static SceneEffectManager SceneEffect { get { Init(); return s_sceneEffectManager; } }
     public static UIManager UI { get { Init(); return s_uiManager; } }
-    public static CoinManager Coin{get{Init(); return s_coinManager;}}
+    public static CoinManager Coin { get { Init(); return s_coinManager; } }
 
     public static string GetText(int id)
     {
@@ -59,6 +59,7 @@ public class Managers : MonoBehaviour
     {
         if (s_instance == null)
         {
+            //PlayerPrefs.DeleteAll();
             GameObject go = GameObject.Find("@Managers");
             if (go == null)
                 go = new GameObject { name = "@Managers" };

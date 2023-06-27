@@ -2,6 +2,8 @@ namespace WjChallenge
 {
     #region 진단평가 클래스 (Diagnostic Class)
     using System.Collections.Generic;
+    using UnityEngine.Events;
+
     /// <summary>
     /// 게임 진단 문항요청에 보내는 값(진단평가 첫 실행 시)
     /// </summary>
@@ -33,7 +35,7 @@ namespace WjChallenge
 
         public Request_DN_Progress()
         {
-
+            
         }
     }
 
