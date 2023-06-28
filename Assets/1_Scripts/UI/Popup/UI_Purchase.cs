@@ -42,6 +42,8 @@ public class UI_Purchase : UI_Popup
         if(Managers.Coin.CheckPurchase(price)) 
         {
             if(purchaseStatus.Init()) purchaseStatus.SetPurchaseStatus(true, GetText((int)Texts.NameTMP).text);
+            PlayerPrefs.SetString("GraceOfGauss", "GraceOfGauss");
+            Debug.Log(PlayerPrefs.GetString("GraceOfGauss"));
         }
         else
         {
