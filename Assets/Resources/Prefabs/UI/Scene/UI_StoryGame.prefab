@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 201845173654880371}
   - component: {fileID: 2409819630944063611}
   m_Layer: 0
-  m_Name: PtcOfGaussBtn
+  m_Name: GrcOfGaussBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
