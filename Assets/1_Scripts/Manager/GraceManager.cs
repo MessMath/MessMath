@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 모든 가호를 관리하는 Manager
@@ -9,17 +10,20 @@ using UnityEngine;
 public class GraceManager
 {
     PlayerControllerCCF player;
-    WitchController witch;
     Vector3 playerPos;
+    WitchController witch;
 
     public bool gaussOn = false;
+    public bool pythagorasOn = false;
 
+    /// <summary>
+    /// 모든 가호는 호출될 때 Setup()을 맨처음에 호출해야 한다.
+    /// </summary>
     public void Setup()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControllerCCF>();
         playerPos = player.transform.position;
         witch = GameObject.FindGameObjectWithTag("Witch").GetComponent<WitchController>();
-
     }
 
     /// <summary>
@@ -32,6 +36,9 @@ public class GraceManager
         {
             case "GraceOfGauss":
                 GraceOfGauss();
+                break;
+            case "GraceOfPythagoras":
+                GraceOfPythagoras();
                 break;
         }
     }
@@ -87,5 +94,36 @@ public class GraceManager
             yield return null;
         }
     }
+    
+    /// <summary>
+    /// 피타고라스의 가호 : 삼각형이 주위를 감싸며, 1회 피격 무시
+    /// 피격 무시 처리는 PlayerControllerCCF에서
+    /// </summary>
+    public void GraceOfPythagoras()
+    {
+        if (pythagorasOn) return;
+        pythagorasOn = true;
+        Setup();
+        float Time = 3.0f;      // 지속시간은 3초
 
+        GameObject Ptriangle = Managers.Resource.Instantiate("Grace/PythagorasTriangle", player.transform.parent);
+        Ptriangle.transform.position = playerPos;
+        Ptriangle.GetComponent<Image>().CrossFadeAlpha(0f, Time, false);
+
+        CoroutineHelper.StartCoroutine(EndPythagoras(Ptriangle, Time));
+    }
+
+    /// <summary>
+    /// 피타고라스 가호 끝내기.
+    /// </summary>
+    /// <param name="Ptrangle">지속시간동안 화면에 떠있을 삼각형 오브젝트</param>
+    /// <param name="time">지속시간</param>
+    /// <returns></returns>
+    IEnumerator EndPythagoras(GameObject Ptrangle, float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        Object.Destroy(Ptrangle);
+        pythagorasOn = false;
+    }
 }
