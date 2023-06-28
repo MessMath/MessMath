@@ -23,6 +23,7 @@ public class UI_StoryGame : UI_Scene
     {
         EqualButton,
         GrcOfGaussBtn,
+        GrcOfPythagorasBtn,
     }
 
     enum Images
@@ -104,11 +105,8 @@ public class UI_StoryGame : UI_Scene
         Managers.Game.Damage = 15;
 
         // Graces
-        //GetButton((int)Buttons.GrcOfGaussBtn).gameObject.BindEvent(Managers.Grace.GraceOfGauss);
-
         GetButton((int)Buttons.GrcOfGaussBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfGauss"));
-
-
+        GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfPythagoras"));
 
         return true;
     }
