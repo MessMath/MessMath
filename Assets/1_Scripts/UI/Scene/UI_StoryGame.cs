@@ -22,7 +22,7 @@ public class UI_StoryGame : UI_Scene
     enum Buttons
     {
         EqualButton,
-        PtcOfGaussBtn,
+        GrcOfGaussBtn,
     }
 
     enum Images
@@ -103,9 +103,13 @@ public class UI_StoryGame : UI_Scene
         // default damage is 15
         Managers.Game.Damage = 15;
 
-        // protections
-        GetButton((int)Buttons.PtcOfGaussBtn).gameObject.BindEvent(Managers.Protection.ProtectionOfGauss);
-        
+        // Graces
+        //GetButton((int)Buttons.GrcOfGaussBtn).gameObject.BindEvent(Managers.Grace.GraceOfGauss);
+
+        GetButton((int)Buttons.GrcOfGaussBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfGauss"));
+
+
+
         return true;
     }
 
