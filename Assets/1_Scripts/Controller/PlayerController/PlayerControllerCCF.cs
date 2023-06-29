@@ -14,7 +14,7 @@ public class PlayerControllerCCF : UI_Base
     Rigidbody2D _rigid;
     Image _image;
     public GameObject _onCalculateBoard;
-    UI_Fight1vs1Game _sceneUi;
+    public UI_Fight1vs1Game _fight1vs1sceneUi;
 
     bool _isAlive = true;
 
@@ -25,14 +25,16 @@ public class PlayerControllerCCF : UI_Base
         _rigid = gameObject.GetOrAddComponent<Rigidbody2D>();
         _image = gameObject.GetOrAddComponent<Image>();
 
-        if (Managers.Scene.CurrentScene is Fight1vs1Game)
+        if (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
         {
-            _onCalculateBoard = gameObject.transform.parent.GetComponentInChildren<TEXDraw>().gameObject;
-            _sceneUi = GameObject.Find("UI_Fight1vs1Game").GetComponent<UI_Fight1vs1Game>();
-
+            _onCalculateBoard = gameObject.transform.parent.GetComponentInChildren<TextMeshProUGUI>().gameObject;
         }
         else
-            _onCalculateBoard = gameObject.transform.parent.GetComponentInChildren<TextMeshProUGUI>().gameObject;
+        {
+            _onCalculateBoard = gameObject.transform.parent.GetComponentInChildren<TEXDraw>().gameObject;
+            _fight1vs1sceneUi = GameObject.Find("UI_Fight1vs1Game").GetComponent<UI_Fight1vs1Game>();
+        }
+
 
     }
 
@@ -54,7 +56,7 @@ public class PlayerControllerCCF : UI_Base
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // 플레이어가 화살과 충돌하지 않도록 할 때
-        if(Managers.Grace.pythagorasOn || Managers.Grace.playerCollisionOff)
+        if(Managers.Grace.playerCollisionOff)
         {
             Destroy(collision.gameObject);
             return;
@@ -72,7 +74,7 @@ public class PlayerControllerCCF : UI_Base
         else if(collision.gameObject.tag == "ArrowOnlyin1vs1")
         {
             ArrowOnlyin1vs1 arrow = collision.GetComponent<ArrowOnlyin1vs1>();
-            _sceneUi.wj_sample1vs1.SelectAnswer(arrow.text);
+            _fight1vs1sceneUi.wj_sample1vs1.SelectAnswer(arrow.text);
             Destroy(collision.gameObject);
         }
 

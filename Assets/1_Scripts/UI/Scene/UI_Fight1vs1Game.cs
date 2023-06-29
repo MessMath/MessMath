@@ -102,6 +102,8 @@ public class UI_Fight1vs1Game : UI_Scene
 
         // Grace
         GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfPythagoras"));
+        GetButton((int)Buttons.GrcOfNewtonBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfNewton"));
+
 
         // 시작하기전에 팝업 등장!
         Managers.UI.ShowPopupUI<UI_BeforeFight1vs1Start>().UI_Fight1Vs1Game = this;

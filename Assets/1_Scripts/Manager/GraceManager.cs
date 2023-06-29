@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,8 +15,14 @@ public class GraceManager
     Vector3 playerPos;
     WitchController witch;
 
+    // 각 가호들의 실행 중 유무 bool
     public bool gaussOn = false;
     public bool pythagorasOn = false;
+    public bool newtonOn = false;
+
+    // 플레이어가 화살과 충돌 후 연산 여부 bool
+    // playerCollisionOff가 true일 때, 충돌 후 아무런 연산도 하지 않는다
+    public bool playerCollisionOff = false;
 
     /// <summary>
     /// 모든 가호는 호출될 때 Setup()을 맨처음에 호출해야 한다.
@@ -39,6 +47,9 @@ public class GraceManager
                 break;
             case "GraceOfPythagoras":
                 GraceOfPythagoras();
+                break;
+            case "GraceOfNewton":
+                GraceOfNewton();
                 break;
         }
     }
@@ -86,7 +97,7 @@ public class GraceManager
             {
                 Debug.Log("witch hp : " + witch.Hp);
                 Managers.Game.Damage = Managers.Game.Damage / 2;
-                Object.Destroy(Ceres.gameObject);
+                UnityEngine.Object.Destroy(Ceres.gameObject);
                 gaussOn = false;
                 yield break;
             }
@@ -103,6 +114,8 @@ public class GraceManager
     {
         if (pythagorasOn) return;
         pythagorasOn = true;
+        playerCollisionOff = true;
+
         Setup();
         float Time = 3.0f;      // 지속시간은 3초
 
@@ -123,7 +136,72 @@ public class GraceManager
     {
         yield return new WaitForSeconds(time);
 
-        Object.Destroy(Ptrangle);
+        UnityEngine.Object.Destroy(Ptrangle);
         pythagorasOn = false;
+        playerCollisionOff = false;
     }
+
+    /// <summary>
+    /// 뉴턴의 가호 : 3초동안 모든 것을 끌어당기는 만유인력의 힘이 생기며, 
+    /// 모인 숫자와 기호들을 활용해 자동으로 3번 정답을 계산해줌 (그냥 정답 처리를 해준다).
+    /// </summary>
+    public void GraceOfNewton()
+    {
+        if (newtonOn) return;
+        newtonOn = true;
+        playerCollisionOff = true;
+
+        Setup();
+        // Scene에 따라 다르게 행동 => StoryGameScene / Fight1vs1GameScene
+        bool isthisStoryScene = (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene);
+        string tag = isthisStoryScene ? "Arrow" : "ArrowOnlyin1vs1";
+        List<GameObject> arrows = GameObject.FindGameObjectsWithTag(tag).ConvertTo<List<GameObject>>();
+
+        CoroutineHelper.StartCoroutine(NewtonForce(arrows));
+    }
+
+    /// <summary>
+    /// 뉴턴의 가호로 화살 끌어오고, 가호 끝내기
+    /// </summary>
+    /// <param name="arrows">대상 화살들</param>
+    /// <returns></returns>
+    IEnumerator NewtonForce(List<GameObject> arrows)
+    {
+        int exit = 0;
+
+        while (exit < arrows.Count)
+        {
+            foreach (GameObject arrow in arrows)
+            {
+                Debug.Log("arrows num is " + arrows.Count);
+                if (arrow.IsDestroyed()) { exit++; continue; }
+                Vector2 force = playerPos - arrow.transform.position;
+                arrow.GetComponent<Rigidbody2D>().AddForceAtPosition(force, playerPos, ForceMode2D.Impulse);
+            }
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(0.8f);
+        newtonOn = false;
+        playerCollisionOff = false;
+        if (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
+        {
+            int damage = Managers.Game.Damage;
+            GameObject ui_storyGame = player.transform.parent.gameObject;
+            // 데미지 3번
+            ui_storyGame.GetComponent<UI_StoryGame>().damageToWitch(damage);
+            ui_storyGame.GetComponent<UI_StoryGame>().damageToWitch(damage);
+            ui_storyGame.GetComponent<UI_StoryGame>().damageToWitch(damage);
+        }
+        else if(Managers.Scene.CurrentSceneType == Define.Scene.Fight1vs1GameScene)
+        {
+            WJ_Sample1vs1 wJ_Sample1vs1 = player._fight1vs1sceneUi.wj_sample1vs1;
+
+            wJ_Sample1vs1.SelectAnswer(Managers.Connector.cLearnSet.data.qsts[wJ_Sample1vs1.currentQuestionIndex].qstCransr);
+            wJ_Sample1vs1.SelectAnswer(Managers.Connector.cLearnSet.data.qsts[wJ_Sample1vs1.currentQuestionIndex].qstCransr);
+            wJ_Sample1vs1.SelectAnswer(Managers.Connector.cLearnSet.data.qsts[wJ_Sample1vs1.currentQuestionIndex].qstCransr);
+        }
+
+    }
+
 }

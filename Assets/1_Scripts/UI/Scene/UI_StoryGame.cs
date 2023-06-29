@@ -174,7 +174,7 @@ public class UI_StoryGame : UI_Scene
 
     #region 데미지 주기
 
-    void damageToPlayer(int damage)
+    public void damageToPlayer(int damage)
     {
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp -= damage;
         Debug.Log("player damage 1");
@@ -187,7 +187,7 @@ public class UI_StoryGame : UI_Scene
             Managers.Game._idxOfHeart++;
     }
 
-    void damageToWitch(int damage)
+    public void damageToWitch(int damage)
     {
         GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().SetWitchHP(damage);
         GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().Questioning();
