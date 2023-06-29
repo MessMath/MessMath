@@ -21,9 +21,12 @@ public class UI_StoryGame : UI_Scene
 
     enum Buttons
     {
+        SettingBtn,
         EqualButton,
+        // 가호 버튼들
         GrcOfGaussBtn,
         GrcOfPythagorasBtn,
+        GrcOfNewtonBtn,
     }
 
     enum Images
@@ -85,6 +88,7 @@ public class UI_StoryGame : UI_Scene
         GetText((int)Texts.PrintNumber_Text).text = "";
         GetText((int)Texts.Calculate_BoardText).text = "";
         GetButton((int)Buttons.EqualButton).gameObject.BindEvent(Calculate);
+        GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
 
         for (int i = 0; i < 3; i++)
         {
@@ -107,7 +111,9 @@ public class UI_StoryGame : UI_Scene
         // Graces
         GetButton((int)Buttons.GrcOfGaussBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfGauss"));
         GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfPythagoras"));
+        GetButton((int)Buttons.GrcOfNewtonBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfNewton"));
 
+        
         return true;
     }
 

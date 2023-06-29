@@ -21,7 +21,9 @@ public class UI_Fight1vs1Game : UI_Scene
     enum Buttons
     {
         SettingBtn,
+        // 가호 버튼들
         GrcOfPythagorasBtn,
+        GrcOfNewtonBtn,
     }
 
     enum Images
@@ -83,7 +85,7 @@ public class UI_Fight1vs1Game : UI_Scene
         BindEvent(gameObject, OnPointerUp, Define.UIEvent.PointerUp);
         BindEvent(gameObject, OnDrag, Define.UIEvent.Pressed);
 
-        GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(OnClickSettingBtn);
+        GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
 
         for (int i = 0; i < 3; i++)
         {
@@ -119,12 +121,6 @@ public class UI_Fight1vs1Game : UI_Scene
             RefreshUI();
             PoolUpdate();
         }
-    }
-
-    void OnClickSettingBtn()
-    {
-        // TODO UI_Setting
-        Managers.UI.ShowPopupUI<UI_Setting>();
     }
 
     void RefreshUI()        // 문항이 보이는 영역 (보드) 새로고침

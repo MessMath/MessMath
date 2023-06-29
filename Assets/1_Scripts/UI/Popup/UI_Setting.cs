@@ -42,11 +42,18 @@ public class UI_Setting : UI_Popup
 
         GetButton((int)Buttons.ContinueBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ClosePopupUI(); });
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { 
-            Managers.Sound.Play("ClickBtnEff"); 
-            if (Managers.Scene.CurrentSceneType == Define.Scene.LobbyScene) Application.Quit();
-            else Managers.Scene.ChangeScene(Define.Scene.LobbyScene); 
+            Managers.Sound.Play("ClickBtnEff");
+            Time.timeScale = 1.0f;
+            if (Managers.Scene.CurrentSceneType == Define.Scene.LobbyScene)
+            {
+                Application.Quit();
+                ClosePopupUI();
+            }
+            else Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
         });
 
+
+        Time.timeScale = 0.0f;
         return true;
     }
 
