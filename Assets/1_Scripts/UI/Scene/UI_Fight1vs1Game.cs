@@ -252,7 +252,7 @@ public class UI_Fight1vs1Game : UI_Scene
     public void OnDrag()
     {
         Vector2 radius = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().sizeDelta / 2;
-        Managers.Game._input = (UnityEngine.Input.mousePosition - (Vector3)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().anchoredPosition) / (radius * canvas.scaleFactor);
+        Managers.Game._input = (UnityEngine.Input.mousePosition - (Vector3)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().position) / (radius * canvas.scaleFactor);
 
         HandleInput(Managers.Game._input.magnitude, Managers.Game._input.normalized);
         GetImage((int)Images.JoyStickHandle).gameObject.GetComponent<RectTransform>().anchoredPosition = Managers.Game._input * radius * hadndleRange / 3;
