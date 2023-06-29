@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -53,7 +53,8 @@ public class PlayerControllerCCF : UI_Base
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(Managers.Grace.pythagorasOn)
+        // 플레이어가 화살과 충돌하지 않도록 할 때
+        if(Managers.Grace.pythagorasOn || Managers.Grace.playerCollisionOff)
         {
             Destroy(collision.gameObject);
             return;
