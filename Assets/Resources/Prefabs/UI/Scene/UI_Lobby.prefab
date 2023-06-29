@@ -1150,7 +1150,7 @@ GameObject:
   - component: {fileID: 515593510077239922}
   - component: {fileID: 5437962058430209106}
   m_Layer: 5
-  m_Name: InfinityGameBtn
+  m_Name: Fight1vs1GameBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

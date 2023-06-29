@@ -14,7 +14,7 @@ public class UI_Lobby : UI_Scene
     {
         SettingBtn,
         StoryModeBtn,
-        InfinityGameBtn,
+        Fight1vs1GameBtn,
         StoreBtn,
     }
 
@@ -44,7 +44,7 @@ public class UI_Lobby : UI_Scene
         BindText(typeof(Texts));
 
         GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
-        GetButton((int)Buttons.InfinityGameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_SelectGameMode>(); });
+        GetButton((int)Buttons.Fight1vs1GameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_SelectMathMtcfor1vs1>(); });
         GetButton((int)Buttons.StoreBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Store>(); });
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
 
