@@ -18,7 +18,8 @@ public class JsonMaker : MonoBehaviour
     List<string> fileName = new List<string>();
     TalkInfo storyTalkInfo = new TalkInfo();
     StoreInfo storeInfo = new StoreInfo();
-    bool isDone = false;
+    bool[] isDone = {false, false, false};
+    bool doneCompletely = false;
 
     void Awake() 
     {
@@ -28,17 +29,20 @@ public class JsonMaker : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(NetConnect(0));
-        StartCoroutine(NetConnect(1));
-        StartCoroutine(NetConnect(2));
+        GetDatas();
     }
 
     void Update()
     {
         //if(isDone)Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
-        if (isDone)
+        for(int i = 0; i < 3; i++)
         {
-            isDone = false;
+            if(!isDone[i]) continue;
+            doneCompletely = true;
+        }
+        if (doneCompletely)
+        {
+            //isDone = false;
             // 진단평가가 완료된 상태라면 로비로 이동
             if(PlayerPrefs.GetInt("DoDiagnosis") == 1)
             {
@@ -52,11 +56,24 @@ public class JsonMaker : MonoBehaviour
                 Managers.UI.ShowPopupUI<UI_Diagnosis>();
             }
         }
+        else
+        {
+            GetDatas();
+        }
+    }
+
+    void GetDatas()
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            if(isDone[i]) continue;
+            StartCoroutine(NetConnect(i));
+        }
     }
 
     void AddRange()
     {
-        range.Add("A2:G44");
+        range.Add("A2:G46");
         range.Add("A2:D4");
         range.Add("A2:D4");
     }
@@ -150,11 +167,13 @@ public class JsonMaker : MonoBehaviour
             sw.Flush();
             sw.Close();
             fs.Close();
+            Debug.Log("Done Making 0_EnterGameStory.json File");
         }
         else if (File.Exists(filePath))
         {
             File.Delete(filePath);
             MakeDialgoueJsonFile(i);
+            isDone[i] = true;
         }
     }
 
@@ -179,7 +198,7 @@ public class JsonMaker : MonoBehaviour
         {
             File.Delete(filePath);
             MakeStoreJsonFile(i);
-            isDone = true;
+            isDone[i] = true;
         }
     }
 }
