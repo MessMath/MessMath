@@ -130,7 +130,7 @@ public class GraceManager
         playerCollisionOff = true;
 
         Setup();
-        float Time = 3.0f;      // 지속시간은 3초
+        float Time = 5.0f;      // 지속시간은 5초
 
         GameObject Ptriangle = Managers.Resource.Instantiate("Grace/PythagorasTriangle", player.transform.parent);
         Ptriangle.transform.position = playerPos;
