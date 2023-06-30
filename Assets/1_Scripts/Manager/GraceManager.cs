@@ -62,7 +62,7 @@ public class GraceManager
         if (gaussOn) return;
         gaussOn = true;
         Setup();
-        float radius = 200f;
+        float radius = 100f;
         float angle = 0f;
         float speed = 2f;
         int prevWitchHp = witch.Hp;
@@ -70,11 +70,14 @@ public class GraceManager
         // 공격 데미지 2배
         Managers.Game.Damage *= 2;
 
-        GameObject Ceres = Managers.Resource.Instantiate("Grace/Ceres", player.transform);
+        GameObject CeresBack = Managers.Resource.Instantiate("Grace/CeresBack",player.transform.parent);
+        GameObject Ceres = Managers.Resource.Instantiate("Grace/Ceres", player.transform.parent);
         Ceres.transform.position = new Vector3(playerPos.x - radius, playerPos.y, 0);
+        CeresBack.transform.SetSiblingIndex(1);
+        Ceres.transform.SetSiblingIndex(2);
 
         // 세레스 돌리기
-        CoroutineHelper.StartCoroutine(RotateCeres(Ceres, player.transform, radius, angle, speed, prevWitchHp));
+        CoroutineHelper.StartCoroutine(RotateCeres(Ceres, CeresBack.transform, radius, angle, speed, prevWitchHp));
     }
 
     /// <summary>
@@ -88,15 +91,25 @@ public class GraceManager
     /// <param name="prevWitchHp">마녀의 이전 체력</param>
     IEnumerator RotateCeres(GameObject Ceres, Transform center, float radius, float angle, float speed, int prevWitchHp)
     {
-        while(true)
+        int centerIndex = center.transform.GetSiblingIndex();
+        int underPlayer = centerIndex + 1;
+        int onPlayer = centerIndex + 2;
+        while (true)
         {
-            angle += speed * Time.deltaTime;
-            Ceres.transform.position = center.position + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * radius;
+            angle -= speed * Time.deltaTime;
+            Debug.Log("y : " + Mathf.Sin(angle));
+            center.position = player.transform.position;
+            Ceres.transform.position = center.position + new Vector3(Mathf.Cos(angle)*2, Mathf.Sin(angle), 0) * radius;
+            
+            // 플레이어 앞뒤로 돌리기
+            if (Mathf.Sin(angle) > 0) Ceres.transform.SetSiblingIndex(underPlayer);
+            else Ceres.transform.SetSiblingIndex(onPlayer);
 
             if (prevWitchHp != witch.Hp)
             {
                 Debug.Log("witch hp : " + witch.Hp);
                 Managers.Game.Damage = Managers.Game.Damage / 2;
+                UnityEngine.Object.Destroy(center.gameObject);
                 UnityEngine.Object.Destroy(Ceres.gameObject);
                 gaussOn = false;
                 yield break;
@@ -139,6 +152,7 @@ public class GraceManager
         UnityEngine.Object.Destroy(Ptrangle);
         pythagorasOn = false;
         playerCollisionOff = false;
+        Debug.Log("End Pythagoras!");
     }
 
     /// <summary>
