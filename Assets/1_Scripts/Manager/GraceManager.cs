@@ -77,7 +77,7 @@ public class GraceManager
         Ceres.transform.SetSiblingIndex(2);
 
         // 세레스 돌리기
-        CoroutineHelper.StartCoroutine(RotateCeres(Ceres, CeresBack.transform, radius, angle, speed, prevWitchHp));
+        CoroutineHandler.StartCoroutine(RotateCeres(Ceres, CeresBack.transform, radius, angle, speed, prevWitchHp));
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ public class GraceManager
         Ptriangle.transform.position = playerPos;
         Ptriangle.GetComponent<Image>().CrossFadeAlpha(0f, Time, false);
 
-        CoroutineHelper.StartCoroutine(EndPythagoras(Ptriangle, Time));
+        CoroutineHandler.StartCoroutine(EndPythagoras(Ptriangle, Time));
     }
 
     /// <summary>
@@ -171,7 +171,7 @@ public class GraceManager
         string tag = isthisStoryScene ? "Arrow" : "ArrowOnlyin1vs1";
         List<GameObject> arrows = GameObject.FindGameObjectsWithTag(tag).ConvertTo<List<GameObject>>();
 
-        CoroutineHelper.StartCoroutine(NewtonForce(arrows));
+        CoroutineHandler.StartCoroutine(NewtonForce(arrows));
     }
 
     /// <summary>
