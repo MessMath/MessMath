@@ -21,6 +21,7 @@ public class UI_Fight1vs1Game : UI_Scene
     enum Buttons
     {
         SettingBtn,
+        GrcOfPythagorasBtn,
     }
 
     enum Images
@@ -74,7 +75,6 @@ public class UI_Fight1vs1Game : UI_Scene
         if (base.Init() == false)
             return false;
 
-        //BindText(typeof(Texts));
         BindButton(typeof(Buttons));
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
@@ -82,9 +82,6 @@ public class UI_Fight1vs1Game : UI_Scene
         BindEvent(gameObject, OnPointerDown, Define.UIEvent.PointerDown);
         BindEvent(gameObject, OnPointerUp, Define.UIEvent.PointerUp);
         BindEvent(gameObject, OnDrag, Define.UIEvent.Pressed);
-
-        //GetText((int)Texts.PrintNumber_Text).text = "";
-        //GetText((int)Texts.Calculate_BoardText).text = "";
 
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(OnClickSettingBtn);
 
@@ -101,6 +98,10 @@ public class UI_Fight1vs1Game : UI_Scene
 
         wj_sample1vs1 = GetObject((int)GameObjects.WJ_Sample1vs1).GetComponent<WJ_Sample1vs1>();
 
+        // Grace
+        GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfPythagoras"));
+
+        // 시작하기전에 팝업 등장!
         Managers.UI.ShowPopupUI<UI_BeforeFight1vs1Start>().UI_Fight1Vs1Game = this;
 
         return true;
@@ -251,7 +252,7 @@ public class UI_Fight1vs1Game : UI_Scene
     public void OnDrag()
     {
         Vector2 radius = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().sizeDelta / 2;
-        Managers.Game._input = (UnityEngine.Input.mousePosition - (Vector3)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().anchoredPosition) / (radius * canvas.scaleFactor);
+        Managers.Game._input = (UnityEngine.Input.mousePosition - (Vector3)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().position) / (radius * canvas.scaleFactor);
 
         HandleInput(Managers.Game._input.magnitude, Managers.Game._input.normalized);
         GetImage((int)Images.JoyStickHandle).gameObject.GetComponent<RectTransform>().anchoredPosition = Managers.Game._input * radius * hadndleRange / 3;

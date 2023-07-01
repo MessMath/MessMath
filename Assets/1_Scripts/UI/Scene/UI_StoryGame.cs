@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,6 +22,8 @@ public class UI_StoryGame : UI_Scene
     enum Buttons
     {
         EqualButton,
+        GrcOfGaussBtn,
+        GrcOfPythagorasBtn,
     }
 
     enum Images
@@ -99,10 +101,17 @@ public class UI_StoryGame : UI_Scene
         Managers.Sound.Clear();
         Managers.Sound.Play("BattleBgm", Define.Sound.Bgm);
 
+        // default damage is 15
+        Managers.Game.Damage = 15;
+
+        // Graces
+        GetButton((int)Buttons.GrcOfGaussBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfGauss"));
+        GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfPythagoras"));
+
         return true;
     }
 
-    #region ¼ö½Ä °è»ê
+    #region ìˆ˜ì‹ ê³„ì‚°
 
     public void Calculate()
     {
@@ -113,7 +122,7 @@ public class UI_StoryGame : UI_Scene
 
         object result = null;
         string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
-        //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("¡À", "/");
+        //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("Ã·", "/");
         string printResult;
 
         GetText((int)Texts.Calculate_BoardText).text = "";
@@ -142,7 +151,7 @@ public class UI_StoryGame : UI_Scene
         if (printResult == "")
             damageToPlayer(1);
         else if (int.Parse(printResult) == GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().QusetionNumber)
-            damageToWitch(15);
+            damageToWitch(Managers.Game.Damage);
         else
             damageToPlayer(1);
 
@@ -157,7 +166,7 @@ public class UI_StoryGame : UI_Scene
 
     #endregion
 
-    #region µ¥¹ÌÁö ÁÖ±â
+    #region ë°ë¯¸ì§€ ì£¼ê¸°
 
     void damageToPlayer(int damage)
     {
@@ -180,7 +189,7 @@ public class UI_StoryGame : UI_Scene
 
     #endregion
 
-    #region Á¶ÀÌ½ºÆ½
+    #region ì¡°ì´ìŠ¤í‹±
 
     private float deadZone = 0;
     private float hadndleRange = 0.8f;
@@ -198,7 +207,7 @@ public class UI_StoryGame : UI_Scene
     public void OnDrag()
     {
         Vector2 radius = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().sizeDelta / 2;
-        Managers.Game._input = (UnityEngine.Input.mousePosition - (Vector3)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().anchoredPosition) / (radius * canvas.scaleFactor);
+        Managers.Game._input = (UnityEngine.Input.mousePosition - (Vector3)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().position) / (radius * canvas.scaleFactor);
 
         HandleInput(Managers.Game._input.magnitude, Managers.Game._input.normalized);
         GetImage((int)Images.JoyStickHandle).gameObject.GetComponent<RectTransform>().anchoredPosition = Managers.Game._input * radius * hadndleRange / 3;
@@ -228,7 +237,7 @@ public class UI_StoryGame : UI_Scene
 
     #endregion
 
-    #region È­»ì °ü¸®
+    #region í™”ì‚´ ê´€ë¦¬
 
     string[] Operator = { "+", "-", "x", "/" };
 
@@ -255,8 +264,8 @@ public class UI_StoryGame : UI_Scene
     //    Debug.Log("StartGame");
     //}
 
-    // È­»ìÀÌ »ı¼ºµÇ´Â ½Ã°£ Á¶ÀıÇÏ´Â ÇÔ¼ö 
-    // ÇöÀç È­»ì °³¼ö°¡ ¸î°³ ³ª¿Ô´ÂÁö Ã¼Å©
+    // í™”ì‚´ì´ ìƒì„±ë˜ëŠ” ì‹œê°„ ì¡°ì ˆí•˜ëŠ” í•¨ìˆ˜ 
+    // í˜„ì¬ í™”ì‚´ ê°œìˆ˜ê°€ ëª‡ê°œ ë‚˜ì™”ëŠ”ì§€ ì²´í¬
     IEnumerator SetArrowGenerationTime(float delayTime)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(delayTime);
@@ -267,7 +276,7 @@ public class UI_StoryGame : UI_Scene
         StartCoroutine("SetArrowGenerationTime", 1f);
     }
 
-    // ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¸¦ ÇâÇØ ¿ÀºêÁ§Æ® ³¯¸®±â 
+    // í˜„ì¬ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¥¼ í–¥í•´ ì˜¤ë¸Œì íŠ¸ ë‚ ë¦¬ê¸° 
     void ShootArrow()
     {
         GameObject arrowObj = MakeArrow();
@@ -278,7 +287,7 @@ public class UI_StoryGame : UI_Scene
         Debug.Log($"Arrow type: {arrow.type} num or operator: {arrow.tmp} speed: {arrow.speed} \n startPosition:{arrow.startPosition.x} , {arrow.startPosition.y} \n direction: {arrow.direction}");
     }
 
-    // È­»ì µ¿Àû »ı¼ºÇÏ´Â ÇÔ¼ö
+    // í™”ì‚´ ë™ì  ìƒì„±í•˜ëŠ” í•¨ìˆ˜
     GameObject MakeArrow()
     {
         //GameObject arrowObject = Instantiate(Managers.Resource.Load<GameObject>($"Prefabs/Arrow"), GetObject((int)GameObjects.ArrowController).transform);
@@ -291,7 +300,7 @@ public class UI_StoryGame : UI_Scene
         return arrowObject;
     }
 
-    // È­»ì ¼³Á¤ÇÏ´Â ÇÔ¼ö
+    // í™”ì‚´ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
     void SetArrow(Arrow arrow)
     {
         if (SetArrowType(arrow) == 0)
@@ -303,7 +312,7 @@ public class UI_StoryGame : UI_Scene
         SetArrowSpeed(arrow);
     }
 
-    // ÇöÀç »ı¼ºµÈ È­»ìÀÇ Å¸ÀÔ ¼ıÀÚÀÎÁö ±âÈ£ÀÎÁö ¼³Á¤ÇÏ´Â ÇÔ¼ö 
+    // í˜„ì¬ ìƒì„±ëœ í™”ì‚´ì˜ íƒ€ì… ìˆ«ìì¸ì§€ ê¸°í˜¸ì¸ì§€ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜ 
     int SetArrowType(Arrow arrow)
     {
         arrow.type = UnityEngine.Random.Range(0, 2);
@@ -336,10 +345,10 @@ public class UI_StoryGame : UI_Scene
 
     void SetArrowOperator(Arrow arrow)
     {
-        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[UnityEngine.Random.Range(0, 4)];   // 50%ÀÇ È®·ü·Î SymbolÀÌ »çÄ¢¿¬»ê Áß ÇÏ³ªÀÇ ±âÈ£¿¡ ÇØ´çÇÑ´Ù.
+        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[UnityEngine.Random.Range(0, 4)];   // 50%ì˜ í™•ë¥ ë¡œ Symbolì´ ì‚¬ì¹™ì—°ì‚° ì¤‘ í•˜ë‚˜ì˜ ê¸°í˜¸ì— í•´ë‹¹í•œë‹¤.
     }
 
-    // È­»ìÀÇ »ı¼º À§Ä¡ Á¶ÀıÇÏ´Â ÇÔ¼ö 
+    // í™”ì‚´ì˜ ìƒì„± ìœ„ì¹˜ ì¡°ì ˆí•˜ëŠ” í•¨ìˆ˜ 
     void SetArrowStartPosition(Arrow arrow)
     {
         int randValue = UnityEngine.Random.Range(0, 3);
@@ -392,13 +401,13 @@ public class UI_StoryGame : UI_Scene
         return newPos;
     }
 
-    // È­»ìÀÇ ¹æÇâ Á¶ÀıÇÏ´Â ÇÔ¼ö 
-    // ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡·Î ¼³Á¤
+    // í™”ì‚´ì˜ ë°©í–¥ ì¡°ì ˆí•˜ëŠ” í•¨ìˆ˜ 
+    // í˜„ì¬ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¡œ ì„¤ì •
     void SetArrowDirection(Arrow arrow)
     {
         //arrow.direction = GetObject((int)GameObjects.Player).transform.position - (Vector3)arrow.startPosition;
         arrow.direction = FindObjectOfType<PlayerControllerCCF>().transform.position - (Vector3)arrow.startPosition;
-        LookAt(GetObject((int)GameObjects.Player), arrow);     // Player¸¦ ¹Ù¶óº¸°í ³¯¶ó°¡°Ô²û
+        LookAt(GetObject((int)GameObjects.Player), arrow);     // Playerë¥¼ ë°”ë¼ë³´ê³  ë‚ ë¼ê°€ê²Œë”
 
         arrow.GetComponentInChildren<TextMeshProUGUI>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));
     }
@@ -419,7 +428,7 @@ public class UI_StoryGame : UI_Scene
         }
     }
 
-    // È­»ìÀÇ ¼Óµµ Á¶ÀıÇÏ´Â ÇÔ¼ö 
+    // í™”ì‚´ì˜ ì†ë„ ì¡°ì ˆí•˜ëŠ” í•¨ìˆ˜ 
     void SetArrowSpeed(Arrow arrow)
     {
         arrow.speed = UnityEngine.Random.Range(200.0f, 250.0f);

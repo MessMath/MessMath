@@ -53,6 +53,12 @@ public class PlayerControllerCCF : UI_Base
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(Managers.Grace.pythagorasOn)
+        {
+            Destroy(collision.gameObject);
+            return;
+        }
+
         if (collision.gameObject.tag == "Arrow")
         {
             Debug.Log("Hit Arrow!");
@@ -67,7 +73,6 @@ public class PlayerControllerCCF : UI_Base
             ArrowOnlyin1vs1 arrow = collision.GetComponent<ArrowOnlyin1vs1>();
             _sceneUi.wj_sample1vs1.SelectAnswer(arrow.text);
             Destroy(collision.gameObject);
-
         }
 
     }

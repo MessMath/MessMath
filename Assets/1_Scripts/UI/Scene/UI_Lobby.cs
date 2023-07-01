@@ -28,6 +28,12 @@ public class UI_Lobby : UI_Scene
         showTutorial();
     }
 
+    private void Update()
+    {
+        // Ani
+        GetButton((int)Buttons.StoryModeBtn).gameObject.transform.Rotate(new Vector3(0f, 0f, -30f) * Time.deltaTime);
+    }
+
     public override bool Init()
     {
         if (base.Init() == false)
