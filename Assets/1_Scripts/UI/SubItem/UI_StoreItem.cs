@@ -37,13 +37,13 @@ public class UI_StoreItem : UI_Base
     void OnClickBtn()
     {
         UI_Purchase purchasePopup = Managers.UI.ShowPopupUI<UI_Purchase>();
-        if(purchasePopup.Init())purchasePopup.SetPopup(_storeData.name, _storeData.explanation, _storeData.price, img);
-        if(PlayerPrefs.HasKey("GraceOfGauss"))  GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(CancelPurChase);
+        if(purchasePopup.Init())purchasePopup.SetPopup(_storeData.name, _storeData.explanation, _storeData.price,_storeData.img);
+        if(PlayerPrefs.HasKey(_storeData.img))  GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(()=>CancelPurChase(_storeData.img));
     }
 
-    void CancelPurChase()
+    void CancelPurChase(string name)
     {
-        PlayerPrefs.DeleteKey("GraceOfGauss");
+        PlayerPrefs.DeleteKey(name);
         GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(OnClickBtn);
     }
 
