@@ -9,6 +9,8 @@ public class UI_Inventory : UI_Popup
     {
         Content,
         SelectedBless,
+        SelectedBless1,
+        SelectedBless2,
     }
 
     enum Texts
@@ -137,6 +139,8 @@ public class UI_Inventory : UI_Popup
     }
 
     bool IsBlessSelect = false;
+    bool IsBless1Select = false;
+    bool IsBless2Select = false;
     void OnClickObject()
     {
         if (!IsBlessSelect)
@@ -144,17 +148,51 @@ public class UI_Inventory : UI_Popup
             selectedObject.transform.parent.SetParent(Utils.FindChild(gameObject, "SelectedBless", true).transform, false);
             selectedObject.transform.position = GetObject((int)GameObjects.SelectedBless).gameObject.transform.position;
             IsBlessSelect = true;
+
+            Managers.Game.Bl
         }
-        else
+        else if (!IsBless1Select)
         {
-            selectedObject.transform.parent.SetParent(Utils.FindChild(gameObject, "SelectedBless", true).transform, false);
-            selectedObject.transform.position = GetObject((int)GameObjects.SelectedBless).gameObject.transform.position;
+            selectedObject.transform.parent.SetParent(Utils.FindChild(gameObject, "SelectedBless1", true).transform, false);
+            selectedObject.transform.position = GetObject((int)GameObjects.SelectedBless1).gameObject.transform.position;
+            IsBless1Select = true;
+        }
+        else if (!IsBless2Select)
+        {
+            selectedObject.transform.parent.SetParent(Utils.FindChild(gameObject, "SelectedBless2", true).transform, false);
+            selectedObject.transform.position = GetObject((int)GameObjects.SelectedBless2).gameObject.transform.position;
+            IsBless2Select = true;
+        }
+        else if (selectedObject.transform.parent.parent.name == "SelectedBless")
+        {
             GameObject go = GetObject((int)GameObjects.SelectedBless).GetComponentInChildren<UI_BlessItem>().gameObject;
             GameObject goChild = Utils.FindChild(go, "Bless");
-            GetObject((int)GameObjects.SelectedBless).GetComponentInChildren<UI_BlessItem>().gameObject.transform.SetParent(GetObject((int)GameObjects.Content).transform, false);
+            //GetObject((int)GameObjects.SelectedBless).GetComponentInChildren<UI_BlessItem>().gameObject.transform.SetParent(GetObject((int)GameObjects.Content).transform, false);
+            selectedObject.transform.parent.transform.SetParent(GetObject((int)GameObjects.Content).transform, false);
             goChild.transform.position = go.transform.position;
 
-            IsBlessSelect = true;
+            IsBlessSelect = false;
+
+        }
+        else if(selectedObject.transform.parent.parent.name == "SelectedBless1")
+        {
+            GameObject go = GetObject((int)GameObjects.SelectedBless1).GetComponentInChildren<UI_BlessItem>().gameObject;
+            GameObject goChild = Utils.FindChild(go, "Bless");
+            //GetObject((int)GameObjects.SelectedBless1).GetComponentInChildren<UI_BlessItem>().gameObject.transform.SetParent(GetObject((int)GameObjects.Content).transform, false);
+            selectedObject.transform.parent.transform.SetParent(GetObject((int)GameObjects.Content).transform, false);
+            goChild.transform.position = go.transform.position;
+
+            IsBless1Select = false;
+        }
+        else if (selectedObject.transform.parent.parent.name == "SelectedBless2")
+        {
+            GameObject go = GetObject((int)GameObjects.SelectedBless2).GetComponentInChildren<UI_BlessItem>().gameObject;
+            GameObject goChild = Utils.FindChild(go, "Bless");
+            //GetObject((int)GameObjects.SelectedBless2).GetComponentInChildren<UI_BlessItem>().gameObject.transform.SetParent(GetObject((int)GameObjects.Content).transform, false);
+            selectedObject.transform.parent.transform.SetParent(GetObject((int)GameObjects.Content).transform, false);
+            goChild.transform.position = go.transform.position;
+
+            IsBless2Select = false;
         }
     }
 
