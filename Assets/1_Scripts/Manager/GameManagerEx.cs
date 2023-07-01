@@ -27,7 +27,4 @@ public class GameManagerEx
     public int Damage { get; set; }
     public bool IsCorrect { get; set; }
 
-
-    public bool IsTutorialFinished = false;
-
 }

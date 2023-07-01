@@ -68,7 +68,10 @@ public class UI_Story : UI_Scene
             return;
         }
         if(++count >= maxCount) {
-            Managers.Scene.ChangeScene(Define.Scene.StoryGameScene); 
+            if (PlayerPrefs.GetInt("DoTutorial") == 2)
+                Managers.Scene.ChangeScene(Define.Scene.StoryGameScene);
+            else
+                Managers.Scene.ChangeScene(Define.Scene.TutorialGameScene);
             return;
         }
         if(storyTalkData[count].sceneEffect!="") GetButton((int)Buttons.nxtButton).interactable = false;

@@ -57,8 +57,11 @@ public class UI_Diagnosis : UI_Popup
             // Sound
             Managers.Sound.Play("ClickBtnEff");
 
-            ClosePopupUI(); 
-            Managers.Scene.ChangeScene(Define.Scene.LobbyScene); 
+            ClosePopupUI();
+            //Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
+
+            // 강제로 스토리 감상
+            Managers.Scene.ChangeScene(Define.Scene.StoryScene);
         });
 
         GetObject((int)GameObjects.Sample).gameObject.SetActive(false);
