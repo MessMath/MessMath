@@ -118,38 +118,57 @@ public class GraceManager
             yield return null;
         }
     }
-    
+
     /// <summary>
-    /// 피타고라스의 가호 : 삼각형이 주위를 감싸며, 1회 피격 무시
+    /// 피타고라스의 가호 : 삼각형이 주위를 감싸며, 모드에 따라 다른 효과
+    /// 스토리 모드에서는 1회 화살 피격 무시,
+    /// 수학자 1vs1 모드에서는 5초간 화살 피격 무시
     /// 피격 무시 처리는 PlayerControllerCCF에서
     /// </summary>
     public void GraceOfPythagoras()
     {
         if (pythagorasOn) return;
         pythagorasOn = true;
-        playerCollisionOff = true;
-
         Setup();
+
         float Time = 5.0f;      // 지속시간은 5초
 
+        GameObject PtriangleBack = Managers.Resource.Instantiate("Grace/PythagorasTriangleBack", player.transform.parent);
         GameObject Ptriangle = Managers.Resource.Instantiate("Grace/PythagorasTriangle", player.transform.parent);
+        PtriangleBack.transform.position = playerPos;
         Ptriangle.transform.position = playerPos;
+        PtriangleBack.GetComponent<Image>().CrossFadeAlpha(0f, Time, false);
         Ptriangle.GetComponent<Image>().CrossFadeAlpha(0f, Time, false);
 
-        CoroutineHandler.StartCoroutine(EndPythagoras(Ptriangle, Time));
+
+        CoroutineHandler.StartCoroutine(EndPythagoras(Ptriangle, PtriangleBack, Time));
+
+        // 수학자 1vs1 대련 Scene인 경우 
+        if (Managers.Scene.CurrentSceneType == Define.Scene.Fight1vs1GameScene)
+            playerCollisionOff = true;
+        // 스토리 모드인 경우
+        if(Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
+        {
+            // PlayerControllerCCF.OnTriggerEnter2D() 내에서
+            // 스토리모드에서만 등장하는 Arrow와 닿았을때,
+            // pythagorasOn == true이면 
+            // Managers.Grace.Pythagoras = false; 만 하고 return;
+        }
     }
 
     /// <summary>
     /// 피타고라스 가호 끝내기.
     /// </summary>
     /// <param name="Ptrangle">지속시간동안 화면에 떠있을 삼각형 오브젝트</param>
+    /// <param name="PtrangleBack">삼각형 배경</param>
     /// <param name="time">지속시간</param>
     /// <returns></returns>
-    IEnumerator EndPythagoras(GameObject Ptrangle, float time)
+    IEnumerator EndPythagoras(GameObject Ptrangle, GameObject PtrangleBack, float time)
     {
         yield return new WaitForSeconds(time);
 
         UnityEngine.Object.Destroy(Ptrangle);
+        UnityEngine.Object.Destroy(PtrangleBack);
         pythagorasOn = false;
         playerCollisionOff = false;
         Debug.Log("End Pythagoras!");

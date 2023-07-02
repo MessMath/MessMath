@@ -68,7 +68,11 @@ public class PlayerControllerCCF : UI_Base
             Arrow arrow = collision.gameObject.GetOrAddComponent<Arrow>();
             string symbol = arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text;
             Destroy(collision.gameObject);
-
+            if(Managers.Grace.pythagorasOn)
+            {
+                Managers.Grace.pythagorasOn = false;
+                return;
+            }
             _onCalculateBoard.GetComponent<TextMeshProUGUI>().text += symbol;
         }
         else if(collision.gameObject.tag == "ArrowOnlyin1vs1")
