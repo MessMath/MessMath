@@ -265,6 +265,7 @@ MonoBehaviour:
   wj_sample1vs1: {fileID: 0}
   GameStarted: 0
   pool: []
+  curQstnum: 0
 --- !u!1 &656594466369112349
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,7 +805,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -432.99994, y: 52.602005}
+  m_AnchoredPosition: {x: -363.99994, y: 0.000030517578}
   m_SizeDelta: {x: -1101.6323, y: -105.2043}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4290632426040237295
@@ -1050,7 +1051,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ff0fffb74fd06c940b9b42f862ac4f1f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e82ca737e0ec36144969ff6898e9a1b8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
