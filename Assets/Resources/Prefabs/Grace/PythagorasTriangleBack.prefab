@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2693065915884719333}
   - component: {fileID: 9151897896247756938}
   m_Layer: 0
-  m_Name: PythagorasTriangle
+  m_Name: PythagorasTriangleBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1901.2603, y: 1101.4386}
+  m_SizeDelta: {x: 1901.26, y: 1101.439}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4300836827637962892
 CanvasRenderer:
@@ -60,14 +60,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6415094, g: 0.15432537, b: 0.15432537, a: 0.8666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f76765efe3a2d904daf295edc2439dcf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0020cad6fa37eee4caa128417ef71923, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -85,7 +85,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5900625535467369691}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: d3eaaf8b277a82e44a93fe55fcc04016, type: 2}
   m_CullingMode: 0
