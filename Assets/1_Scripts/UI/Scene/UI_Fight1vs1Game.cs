@@ -62,6 +62,8 @@ public class UI_Fight1vs1Game : UI_Scene
     public TEXDraw[] pool;
     TEXDraw[] TEXDrawPool;
 
+    public int curQstnum = 0; // Current Question N
+
     private void Awake()
     {
         Init();
@@ -104,6 +106,16 @@ public class UI_Fight1vs1Game : UI_Scene
         GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfPythagoras"));
         GetButton((int)Buttons.GrcOfNewtonBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfNewton"));
 
+        #region 수학자 이미지 변경
+        string imagePath = "Sprites/MathMtcInFight1vs1/";
+        if (PlayerPrefs.GetString("Boss") == "Gauss")
+            imagePath += "TempGauss";
+        else if (PlayerPrefs.GetString("Boss") == "Pythagoras")
+            imagePath += "TempPythagoras";
+        else if (PlayerPrefs.GetString("Boss") == "Newton")
+            imagePath += "TempNewton";
+        GetImage((int)Images.MathMtcImage).gameObject.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>(imagePath);
+        #endregion
 
         // 시작하기전에 팝업 등장!
         Managers.UI.ShowPopupUI<UI_BeforeFight1vs1Start>().UI_Fight1Vs1Game = this;
