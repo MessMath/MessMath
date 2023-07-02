@@ -105,6 +105,7 @@ MonoBehaviour:
   BoxRect: {fileID: 7334151838875200003}
   TextRect: {fileID: 1598401502733624135}
   nameText: {fileID: 0}
+  characterImg: {fileID: 0}
   name: 
 --- !u!1 &4806407353188776089
 GameObject:
