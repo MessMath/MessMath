@@ -30,5 +30,4 @@ public class UI_PurchaseStatus : UI_Popup
         if(isSuccess)GetText((int)Texts.StatusTMP).text = name + " 구매에 성공 했습니다.\n컬렉션에서 확인할 수 있습니다.";
         else GetText((int)Texts.StatusTMP).text = name + " 구매에 실패 했습니다. 코인이 부족합니다.";
     }
-
 }

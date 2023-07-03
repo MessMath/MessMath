@@ -43,7 +43,8 @@ public class UI_Purchase : UI_Popup
         {
             if(purchaseStatus.Init()) purchaseStatus.SetPurchaseStatus(true, GetText((int)Texts.NameTMP).text);
             PlayerPrefs.SetString(name, name);
-            Debug.Log(PlayerPrefs.GetString(name));
+            //Debug.Log(PlayerPrefs.GetString(name));
+            
         }
         else
         {
