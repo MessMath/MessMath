@@ -5,20 +5,23 @@ using UnityEngine.Networking;
 using System.IO;
 using StoryData;
 using StoreDatas;
+using TutorialDatas;
 
 public class JsonMaker : MonoBehaviour
 {
     string[] DBAddress = {
         "https://docs.google.com/spreadsheets/d/13RmRePVU38TYU10FdhqtJ5DJWCDioeqfkFKqfte7Wv0",
         "https://docs.google.com/spreadsheets/d/1iYRgERiJ5bsqjfg_ikzWQbgQYA7OcRiUnZsZ64qDb2M",
-        "https://docs.google.com/spreadsheets/d/18Ba5zNPk4IxahKMCI3498xQSPbOmDU-gYdiXF2n8wWM"
-        };
+        "https://docs.google.com/spreadsheets/d/18Ba5zNPk4IxahKMCI3498xQSPbOmDU-gYdiXF2n8wWM",
+        "https://docs.google.com/spreadsheets/d/1SLsoFg1UYiPSzXfYs8j7lo-gDRo71pSopK1saJHtATU",
+    };
     string sheetNum = "0";
     List<string> range = new List<string>(); 
     List<string> fileName = new List<string>();
     TalkInfo storyTalkInfo = new TalkInfo();
     StoreInfo storeInfo = new StoreInfo();
-    bool[] isDone = {false, false, false};
+    TutorialInfo tutorialInfo = new TutorialInfo();
+    bool[] isDone = {false, false, false, false};
     bool doneCompletely = false;
 
     void Awake() 
@@ -35,11 +38,12 @@ public class JsonMaker : MonoBehaviour
     void Update()
     {
         //if(isDone)Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
-        for(int i = 0; i < 3; i++)
+        /*for(int i = 0; i < isDone.Length; i++)
         {
             if(!isDone[i]) continue;
             doneCompletely = true;
-        }
+        }*/
+        if(isDone[0] && isDone[1] && isDone[2] && isDone[3]) doneCompletely = true;
         if (doneCompletely)
         {
             //isDone = false;
@@ -64,9 +68,12 @@ public class JsonMaker : MonoBehaviour
 
     void GetDatas()
     {
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < isDone.Length; i++)
         {
-            if(isDone[i]) continue;
+            if(isDone[i]) {
+                StopCoroutine(NetConnect(i));
+                continue;
+            }
             StartCoroutine(NetConnect(i));
         }
     }
@@ -76,6 +83,7 @@ public class JsonMaker : MonoBehaviour
         range.Add("A2:G46");
         range.Add("A2:D4");
         range.Add("A2:D4");
+        range.Add("A2:A7");
     }
 
     void AddFileName()
@@ -83,6 +91,7 @@ public class JsonMaker : MonoBehaviour
         fileName.Add("EnterGameStory");
         fileName.Add("StoreGaus");
         fileName.Add("StoreCollection");
+        fileName.Add("Tutorial");
     }
 
     // ANCHOR 구글 docs에서 데이터 읽기
@@ -110,6 +119,10 @@ public class JsonMaker : MonoBehaviour
             case 2:
                 ParsingStoreData(data);
                 MakeStoreJsonFile(idx);
+                break;
+            case 3:
+                ParsingTutorialData(data);
+                MakeTutorailJsonFile(idx);
                 break;
         }
     }
@@ -150,6 +163,19 @@ public class JsonMaker : MonoBehaviour
             storeInfo.storeDataList.Add(storeData);
         }
     }
+
+    void ParsingTutorialData(string data)
+    {
+        string[] lines = data.Split('\n');
+        tutorialInfo.tutorialDataList = new List<TutorialData>();
+        
+        for(int i = 0; i < lines.Length; i++)
+        {
+            TutorialData tutorialData = new TutorialData();
+            tutorialData.dialogue = lines[i];
+            tutorialInfo.tutorialDataList.Add(tutorialData);
+        }
+    }
     
     void MakeDialgoueJsonFile(int i)
     {
@@ -167,7 +193,6 @@ public class JsonMaker : MonoBehaviour
             sw.Flush();
             sw.Close();
             fs.Close();
-            Debug.Log("Done Making 0_EnterGameStory.json File");
         }
         else if (File.Exists(filePath))
         {
@@ -198,6 +223,32 @@ public class JsonMaker : MonoBehaviour
         {
             File.Delete(filePath);
             MakeStoreJsonFile(i);
+            isDone[i] = true;
+        }
+    }
+
+    void MakeTutorailJsonFile(int i)
+    {
+        string filePath = Application.persistentDataPath + "/" + i + "_" + fileName[i] +".json";
+        StreamWriter sw;
+        FileStream fs;
+
+        string json = JsonUtility.ToJson(tutorialInfo);
+
+        if (!File.Exists(filePath))
+        {
+            fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            sw = new StreamWriter(fs);
+            sw.WriteLine(json);
+            sw.Flush();
+            sw.Close();
+            fs.Close();
+        }
+        else if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+            MakeTutorailJsonFile(i);
+            Debug.Log("Done Making 3_Tutorial.json File");
             isDone[i] = true;
         }
     }

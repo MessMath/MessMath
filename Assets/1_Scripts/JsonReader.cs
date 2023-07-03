@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using StoryData;
 using StoreDatas;
+using TutorialDatas;
 
 public class JsonReader
 {  

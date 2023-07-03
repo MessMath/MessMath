@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
-using StoryData;
+using TutorialDatas;
 
 public class UI_TutorialGamePopup : UI_Popup
 {
     JsonReader jsonReader;
-    int maxCount; // 대본 대사의 최대 개수
-    int count = -1; // 현재 진행 중인 대사 번호
-    List<TutorialData> tutorialTalkData = new List<TutorialData>(); // json 파일에서 불러온 내용
+    int maxCount;
+    int count = -1;
+    List<TutorialData> tutorialTalkData = new List<TutorialData>();
 
     int numOfpages;
     int index;
@@ -62,7 +62,6 @@ public class UI_TutorialGamePopup : UI_Popup
             pages[i].gameObject.SetActive(false);
         }
 
-        // 대본 파일 불러오기
         jsonReader = new JsonReader();
         tutorialTalkData = jsonReader.ReadTutorialJson(Application.persistentDataPath + "/" + 3 + "_Tutorial.json").tutorialDataList;
         maxCount = tutorialTalkData.Count;
