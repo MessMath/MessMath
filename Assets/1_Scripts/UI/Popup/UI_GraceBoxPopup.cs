@@ -12,7 +12,7 @@ public class UI_GraceBoxPopup : UI_Popup
 {
     JsonReader _jsonReader;
     List<StoreData> _graceDatas = new List<StoreData>();
-    List<UI_GraceItem> _blesses = new List<UI_GraceItem>();
+    List<UI_GraceItem> _graces = new List<UI_GraceItem>();
     GameObject selectedObject;
 
     enum GameObjects
@@ -61,14 +61,14 @@ public class UI_GraceBoxPopup : UI_Popup
 
     void RefreshUI()
     {
-        _blesses.Clear();
+        _graces.Clear();
 
         // 프리펩에 보이는 가호 아이콘 정리
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        // TODO 플레이저 정보로 채우기
+        // TODO 플레이어 정보로 채우기
         for (int i = 0; i < _graceDatas.Count; i++)
         {
             GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
@@ -99,15 +99,15 @@ public class UI_GraceBoxPopup : UI_Popup
 
     void OnClickSelectBtn()
     {
-        if (Managers.Game.SelectGarceInx == 0)
+        if (Managers.Game.SelectGraceInx == 0)
         {
             PlayerPrefs.SetString("SelectedGrace", selectedObject.GetComponent<UI_GraceItem>()._name);
         }
-        else if (Managers.Game.SelectGarceInx == 1)
+        else if (Managers.Game.SelectGraceInx == 1)
         {
             PlayerPrefs.SetString("SelectedGrace1", selectedObject.GetComponent<UI_GraceItem>()._name);
         }
-        else if (Managers.Game.SelectGarceInx == 2)
+        else if (Managers.Game.SelectGraceInx == 2)
         {
             PlayerPrefs.SetString("SelectedGrace2", selectedObject.GetComponent<UI_GraceItem>()._name);
         }

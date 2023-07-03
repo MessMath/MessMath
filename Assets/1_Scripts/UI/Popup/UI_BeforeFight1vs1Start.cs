@@ -33,6 +33,7 @@ public class UI_BeforeFight1vs1Start : UI_Popup
         Managers.Connector.Learning_GetQuestion();
         UI_Fight1Vs1Game.StartCoroutine("SetArrowGenerationTime", 1f);
         ClosePopupUI();
+        UI_Fight1Vs1Game.Invoke("RefreshUI", 0.2f);
         UI_Fight1Vs1Game.GameStarted = true;
     }
 }

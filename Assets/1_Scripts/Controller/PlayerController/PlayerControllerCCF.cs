@@ -79,6 +79,7 @@ public class PlayerControllerCCF : UI_Base
         {
             ArrowOnlyin1vs1 arrow = collision.GetComponent<ArrowOnlyin1vs1>();
             _fight1vs1sceneUi.wj_sample1vs1.SelectAnswer(arrow.text);
+            _fight1vs1sceneUi.Invoke("RefreshUI", 0);
             Destroy(collision.gameObject);
         }
 

@@ -22,9 +22,9 @@ public class UI_SelectGracePopup : UI_Popup
         BindButton(typeof(Buttons));
 
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(OnClosePopup);
-        GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGarceInx = 0; });
-        GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGarceInx = 1; });
-        GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGarceInx = 2; });
+        GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGraceInx = 0; });
+        GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGraceInx = 1; });
+        GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGraceInx = 2; });
         GetButton((int)Buttons.StartGameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene); });
 
         RefreshUI();

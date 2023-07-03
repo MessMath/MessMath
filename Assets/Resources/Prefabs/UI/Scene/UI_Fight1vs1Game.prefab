@@ -265,6 +265,7 @@ MonoBehaviour:
   wj_sample1vs1: {fileID: 0}
   GameStarted: 0
   pool: []
+  QstMaxNum: 0
   curQstnum: 0
 --- !u!1 &656594466369112349
 GameObject:
@@ -639,8 +640,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 286, y: 0}
-  m_SizeDelta: {x: -1475.1234, y: 106.497}
+  m_AnchoredPosition: {x: 336.84003, y: 2.7799988}
+  m_SizeDelta: {x: -1094.46, y: -110.76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3650050782743841021
 CanvasRenderer:
@@ -805,8 +806,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -363.99994, y: 0.000030517578}
-  m_SizeDelta: {x: -1101.6323, y: -105.2043}
+  m_AnchoredPosition: {x: -363.08, y: 2.78}
+  m_SizeDelta: {x: -1103.49, y: -110.76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4290632426040237295
 CanvasRenderer:

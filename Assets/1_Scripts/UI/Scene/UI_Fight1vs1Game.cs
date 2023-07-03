@@ -133,14 +133,13 @@ public class UI_Fight1vs1Game : UI_Scene
         if (!GameStarted) return;
 
         // 풀어야하는 문항수를 다 풀면
-        if (curQstnum >= QstMaxNum - 1) { Managers.UI.ShowPopupUI<UI_GameWin>(); GameStarted = false; }
+        if (curQstnum >= QstMaxNum ) { Managers.UI.ShowPopupUI<UI_GameWin>(); GameStarted = false; }
         if (wj_sample1vs1.currentQuestionIndex >= 8)
         {
             Managers.Connector.Learning_GetQuestion();
             return;
         }
-        RefreshUI();
-        PoolUpdate();
+        
     }
 
     void RefreshUI()        // 문항이 보이는 영역 (보드) 새로고침
@@ -154,6 +153,7 @@ public class UI_Fight1vs1Game : UI_Scene
             textCn.text = Managers.Connector.cLearnSet.data.qsts[index].textCn;
             qstCn.text = Managers.Connector.cLearnSet.data.qsts[index].qstCn;
         }
+        PoolUpdate();
     }
 
     void PoolUpdate()

@@ -42,9 +42,9 @@ public class UI_InventoryPopup : UI_Popup
         BindImage(typeof(Images));
 
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ClosePopupUI(this); });
-        GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGarceInx = 0; });
-        GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGarceInx = 1; });
-        GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGarceInx = 2; });
+        GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGraceInx = 0; });
+        GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGraceInx = 1; });
+        GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGraceInx = 2; });
 
         RefreshUI();
 
