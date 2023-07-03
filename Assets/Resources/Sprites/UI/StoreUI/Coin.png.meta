@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Resources/Sprites/Grace/GraceOfPythagoras.png.meta
-guid: d1e11630e0c7e794daa4300ca74202de
-========
-guid: d30c849462f20da4996957c2cf35e2b4
->>>>>>>> origin/feature/Store:Assets/Resources/Sprites/Grace/GraceOfEinstein.png.meta
+guid: 5509391e23559fd4eb80a6157c4d54dd
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

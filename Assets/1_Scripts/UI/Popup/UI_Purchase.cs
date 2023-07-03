@@ -33,7 +33,7 @@ public class UI_Purchase : UI_Popup
         return true;
     }
 
-    void OnClickedPurchaseBtn(int price)
+    void OnClickedPurchaseBtn(string name, int price)
     {
         // Sound
         Managers.Sound.Play("ClickBtnEff");
@@ -42,6 +42,9 @@ public class UI_Purchase : UI_Popup
         if(Managers.Coin.CheckPurchase(price)) 
         {
             if(purchaseStatus.Init()) purchaseStatus.SetPurchaseStatus(true, GetText((int)Texts.NameTMP).text);
+            PlayerPrefs.SetString(name, name);
+            //Debug.Log(PlayerPrefs.GetString(name));
+            
         }
         else
         {
@@ -49,13 +52,13 @@ public class UI_Purchase : UI_Popup
         }
     }
 
-    public void SetPopup(string name, string explanation, int price, Sprite img)
+    public void SetPopup(string name, string explanation, int price, string img)
     {
         GetText((int)Texts.NameTMP).text = name;
         GetText((int)Texts.ExplanationTMP).text = explanation;
-        GetImage((int)Images.ItemImage).sprite = img;
+        GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Grace/" + img, typeof(Sprite)) as Sprite;
         GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(()=>ClosePopupUI());
-        GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(()=>OnClickedPurchaseBtn(price));
+        GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(()=>OnClickedPurchaseBtn(img, price));
         GetButton((int)Buttons.PurchaseButton).gameObject.GetComponentInChildren<TextMeshProUGUI>().text = price.ToString();
     }
 }
