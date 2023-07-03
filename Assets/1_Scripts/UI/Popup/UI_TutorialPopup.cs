@@ -52,7 +52,6 @@ public class UI_TutorialPopup : UI_Popup
     {
         if (tutorialPage - 1 <= index)
         {
-            Managers.Game.IsTutorialFinished = true;
             Managers.UI.ClosePopupUI();
             return;
         }

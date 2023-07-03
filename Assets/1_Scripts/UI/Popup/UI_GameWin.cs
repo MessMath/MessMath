@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UI_GameWin : UI_Popup
-{
+{ 
     public enum Buttons
     {
         RestartBtn,

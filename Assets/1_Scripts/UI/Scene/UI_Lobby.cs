@@ -29,7 +29,7 @@ public class UI_Lobby : UI_Scene
     private void Start()
     {
         Init();
-        showTutorial();
+        //showTutorial();
     }
 
     private void Update()
@@ -71,7 +71,7 @@ public class UI_Lobby : UI_Scene
     }
     void showTutorial()
     {
-        if (Managers.Game.IsTutorialFinished == false)
+        if (PlayerPrefs.GetInt("DoTutorial") != 2)
             Managers.UI.ShowPopupUI<UI_TutorialPopup>();
     }
 }

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace StoryData 
+namespace StoryData
 {
-    [System.Serializable] 
+    [System.Serializable]
     public class TalkData
     {
         public string characterName; // 캐릭터	
@@ -17,9 +17,22 @@ namespace StoryData
         public string expression; // 표정
     }
 
+
     [System.Serializable]
     public class TalkInfo
     {
         public List<TalkData> talkDataList;
+    }
+
+    [System.Serializable]
+    public class TutorialData
+    {
+        public string dialogue;
+    }
+
+    [System.Serializable]
+    public class TutorialInfo
+    {
+        public List<TutorialData> tutorialDataList;
     }
 }

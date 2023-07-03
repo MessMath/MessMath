@@ -78,7 +78,10 @@ public class UI_Story : UI_Scene
         }
         if(++count >= maxCount) {
             PlayerPrefs.SetInt("WatchedStory", -2);
-            Managers.Scene.ChangeScene(Define.Scene.StoryGameScene); 
+            if (PlayerPrefs.GetInt("DoTutorial") == 2)
+                Managers.Scene.ChangeScene(Define.Scene.StoryGameScene);
+            else
+                Managers.Scene.ChangeScene(Define.Scene.TutorialGameScene);
             return;
         }
         PlayerPrefs.SetInt("WatchedStory", count);

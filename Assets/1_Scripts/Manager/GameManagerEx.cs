@@ -16,7 +16,7 @@ public class GameManagerEx
 
     #endregion
 
-    // ÇÐ½À »óÅÂ
+    // ï¿½Ð½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public Define.CurrentStatus CurrentStatus { get; set; }
     
 
@@ -27,7 +27,5 @@ public class GameManagerEx
     public int Damage { get; set; }
     public bool IsCorrect { get; set; }
     public int SelectGraceInx { get; set; } = 0;
-
-    public bool IsTutorialFinished = false;
 
 }

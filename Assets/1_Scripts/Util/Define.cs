@@ -21,9 +21,11 @@ public class Define
         LobbyScene,
         MakeTxtFileScene,
         StoryScene,
+        StoryScene2,
         StoryGameScene,
         PracticeGameScene,
         Fight1vs1GameScene,
+        TutorialGameScene,
     }
 
     public enum Sound
