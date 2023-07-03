@@ -22,8 +22,9 @@ public class UI_Fight1vs1Game : UI_Scene
     {
         SettingBtn,
         // 가호 버튼들
-        GrcOfPythagorasBtn,
-        GrcOfNewtonBtn,
+        SelectedGrace,
+        SelectedGrace1,
+        SelectedGrace2,
     }
 
     enum Images
@@ -103,9 +104,16 @@ public class UI_Fight1vs1Game : UI_Scene
 
         wj_sample1vs1 = GetObject((int)GameObjects.WJ_Sample1vs1).GetComponent<WJ_Sample1vs1>();
 
-        // Grace
-        GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfPythagoras"));
-        GetButton((int)Buttons.GrcOfNewtonBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfNewton"));
+        #region 가호 버튼 설정
+        GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace")));
+        GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace"));
+
+        GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1")));
+        GetButton((int)Buttons.SelectedGrace1).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1"));
+
+        GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2")));
+        GetButton((int)Buttons.SelectedGrace2).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2"));
+        #endregion
 
         #region 수학자 세팅
         string imagePath = "Sprites/MathMtcInFight1vs1/";
