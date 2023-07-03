@@ -80,6 +80,7 @@ public class SceneEffectManager
     IEnumerator FadeOut(Image img, Button nxtBtn)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
+        nxtBtn.interactable = false;
         float fadeCnt = 0;
         while (fadeCnt < 1.0f)
         {

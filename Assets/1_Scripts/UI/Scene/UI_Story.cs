@@ -10,6 +10,7 @@ public class UI_Story : UI_Scene
     int count = -1;
     List<TalkData> storyTalkData = new List<TalkData>();
     GameObject replayPopup;
+    bool isFadeDone = false;
 
     enum Images
     {

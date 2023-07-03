@@ -25,17 +25,15 @@ public class PlayerControllerCCF : UI_Base
         _rigid = gameObject.GetOrAddComponent<Rigidbody2D>();
         _image = gameObject.GetOrAddComponent<Image>();
 
-        if (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
-        {
-            _onCalculateBoard = gameObject.transform.parent.GetComponentInChildren<TextMeshProUGUI>().gameObject;
-        }
-        else
+        if(Managers.Scene.CurrentSceneType == Define.Scene.Fight1vs1GameScene)
         {
             _onCalculateBoard = gameObject.transform.parent.GetComponentInChildren<TEXDraw>().gameObject;
             _fight1vs1sceneUi = GameObject.Find("UI_Fight1vs1Game").GetComponent<UI_Fight1vs1Game>();
         }
-
-
+        else
+        {
+            _onCalculateBoard = gameObject.transform.parent.GetComponentInChildren<TextMeshProUGUI>().gameObject;
+        }
     }
 
     private void Update()

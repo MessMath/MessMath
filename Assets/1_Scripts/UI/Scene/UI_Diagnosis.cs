@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UI_Diagnosis : UI_Popup
+public class UI_Diagnosis : UI_Scene
 {
     // TODO 
-    // Áø´ÜÆò°¡ ÆË¾÷ 
-    // Ã¹ ½ºÅ¸Æ®
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾ï¿½ 
+    // Ã¹ ï¿½ï¿½Å¸Æ®
 
-    // Áø´Ü Æò°¡ÀÇ ¼ø¼­
-    // ³­ÀÌµµ ¼±ÅÃ ex) ¼ýÀÚ¸¦ ¾È´Ù. °ö¼ÁÀ» ÇÒ ÁÙ ¾È´Ù. µîµî
-    // 8¹®Á¦·Î Áø´Ü Æò°¡ ÁøÇà.
-    // Áø´Ü Æò°¡ ¿Ï·á ÈÄ, ´Ý±â ¹öÆ° »ý¼º? -> ·Îºñ·Î °¡±â.
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ex) ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½È´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½È´ï¿½. ï¿½ï¿½ï¿½
+    // 8ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½ï¿½, ï¿½Ý±ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½? -> ï¿½Îºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
     enum Buttons
     {
         ToLobbyBtn,
@@ -57,10 +57,6 @@ public class UI_Diagnosis : UI_Popup
             // Sound
             Managers.Sound.Play("ClickBtnEff");
 
-            ClosePopupUI();
-            //Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
-
-            // °­Á¦·Î ½ºÅä¸® °¨»ó
             Managers.Scene.ChangeScene(Define.Scene.StoryScene);
         });
 
@@ -77,18 +73,18 @@ public class UI_Diagnosis : UI_Popup
 
     IEnumerator NextTalk()
     {
-        // teacherImage°¡ ÀÖÀ¸¸é ½ÇÇà
-        // ´ÙÀ½ ´ë»ç·Î º¯°æ
+        // teacherImageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         float waitTime = 2.0f;
         int textCount = 5;
         for (int i = 0; i < textCount; i++)
         {
             GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.DiagnosisTeacherText + i);
             yield return new WaitForSeconds(waitTime);
-            // TODO Sound Ãß°¡
+            // TODO Sound ï¿½ß°ï¿½
         }
 
-        // È­¸é ¼¼ÆÃ
+        // È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         GetObject((int)GameObjects.Sample).gameObject.SetActive(true);
         GetObject((int)GameObjects.API).gameObject.SetActive(true);
         GetObject((int)GameObjects.Problem).gameObject.SetActive(false);

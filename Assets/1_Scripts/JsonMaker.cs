@@ -56,8 +56,7 @@ public class JsonMaker : MonoBehaviour
             // 진단평가가 되어 있지 않다면 진단평가부터
             else
             {
-                Managers.UI.ClosePopupUI();
-                Managers.UI.ShowPopupUI<UI_Diagnosis>();
+                Managers.Scene.ChangeScene(Define.Scene.DiagnosisScene);
             }
         }
         else
