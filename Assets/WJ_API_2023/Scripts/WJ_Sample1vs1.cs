@@ -211,6 +211,7 @@ public class WJ_Sample1vs1 : MonoBehaviour
 
                 isSolvingQuestion = false;
                 currentQuestionIndex++;
+                uI_Fight1Vs1Game.curQstnum++;
 
                 Managers.Connector.Learning_SelectAnswer(currentQuestionIndex, ansr, ansrCwYn, (int)(questionSolveTime * 1000));
 

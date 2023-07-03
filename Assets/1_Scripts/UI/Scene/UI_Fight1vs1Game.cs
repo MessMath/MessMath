@@ -62,7 +62,8 @@ public class UI_Fight1vs1Game : UI_Scene
     public TEXDraw[] pool;
     TEXDraw[] TEXDrawPool;
 
-    public int curQstnum = 0; // Current Question N
+    public int QstMaxNum;
+    public int curQstnum; // Current Question N
 
     private void Awake()
     {
@@ -106,7 +107,7 @@ public class UI_Fight1vs1Game : UI_Scene
         GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfPythagoras"));
         GetButton((int)Buttons.GrcOfNewtonBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfNewton"));
 
-        #region 수학자 이미지 변경
+        #region 수학자 세팅
         string imagePath = "Sprites/MathMtcInFight1vs1/";
         if (PlayerPrefs.GetString("Boss") == "Gauss")
             imagePath += "TempGauss";
@@ -115,6 +116,10 @@ public class UI_Fight1vs1Game : UI_Scene
         else if (PlayerPrefs.GetString("Boss") == "Newton")
             imagePath += "TempNewton";
         GetImage((int)Images.MathMtcImage).gameObject.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>(imagePath);
+
+        // 풀어야하는 문항 수 지정
+        QstMaxNum = PlayerPrefs.GetInt("QstLimit");
+        curQstnum = 0;
         #endregion
 
         // 시작하기전에 팝업 등장!
@@ -125,16 +130,17 @@ public class UI_Fight1vs1Game : UI_Scene
 
     private void Update()
     {
-        if(GameStarted)
+        if (!GameStarted) return;
+
+        // 풀어야하는 문항수를 다 풀면
+        if (curQstnum >= QstMaxNum - 1) { Managers.UI.ShowPopupUI<UI_GameWin>(); GameStarted = false; }
+        if (wj_sample1vs1.currentQuestionIndex >= 8)
         {
-            if(wj_sample1vs1.currentQuestionIndex >= 8)
-            {
-                Managers.Connector.Learning_GetQuestion();
-                return;
-            }
-            RefreshUI();
-            PoolUpdate();
+            Managers.Connector.Learning_GetQuestion();
+            return;
         }
+        RefreshUI();
+        PoolUpdate();
     }
 
     void RefreshUI()        // 문항이 보이는 영역 (보드) 새로고침
