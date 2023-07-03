@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
+using StoryData;
 
 public class UI_TutorialGamePopup : UI_Popup
 {
+    JsonReader jsonReader;
+    int maxCount; // 대본 대사의 최대 개수
+    int count = -1; // 현재 진행 중인 대사 번호
+    List<TutorialData> tutorialTalkData = new List<TutorialData>(); // json 파일에서 불러온 내용
+
     int numOfpages;
     int index;
     Transform tutorials;
@@ -13,6 +19,11 @@ public class UI_TutorialGamePopup : UI_Popup
     enum Buttons
     {
         NextBtn,
+    }
+
+    enum Texts
+    {
+        Text,
     }
 
     enum GameObjects
@@ -32,9 +43,11 @@ public class UI_TutorialGamePopup : UI_Popup
             return false;
 
         BindButton(typeof(Buttons));
+        BindText(typeof(Texts));
         BindObject(typeof(GameObjects));
 
         GetButton((int)Buttons.NextBtn).gameObject.BindEvent(() => next());
+        GetText((int)Texts.Text).text = "";
 
         pages= new List<Transform>();
         tutorials = GetComponent<Canvas>().transform.Find("Tutorials");
@@ -49,14 +62,22 @@ public class UI_TutorialGamePopup : UI_Popup
             pages[i].gameObject.SetActive(false);
         }
 
+        // 대본 파일 불러오기
+        jsonReader = new JsonReader();
+        tutorialTalkData = jsonReader.ReadTutorialJson(Application.persistentDataPath + "/" + 3 + "_Tutorial.json").tutorialDataList;
+        maxCount = tutorialTalkData.Count;
+
         pages[0].gameObject.SetActive(true);
+        GetText((int)Texts.Text).text = tutorialTalkData[0].dialogue;
+        GetText((int)Texts.Text).color = Color.black;
+        GetText((int)Texts.Text).fontSize = 50;
 
         return true;
     }
 
     void next()
     {
-
+        Managers.Sound.Play("ClickBtnEff");
         if (index >= numOfpages - 1)
         {
             Time.timeScale = 1;
@@ -67,5 +88,6 @@ public class UI_TutorialGamePopup : UI_Popup
         index++;
         if (index == numOfpages) return;
         pages[index].gameObject.SetActive(true);
+        GetText((int)Texts.Text).text = tutorialTalkData[index].dialogue;
     }
 }

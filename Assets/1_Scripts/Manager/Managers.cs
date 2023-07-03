@@ -59,7 +59,7 @@ public class Managers : MonoBehaviour
     {
         if (s_instance == null)
         {
-            PlayerPrefs.DeleteAll();
+            //PlayerPrefs.DeleteAll();
             GameObject go = GameObject.Find("@Managers");
             if (go == null)
                 go = new GameObject { name = "@Managers" };

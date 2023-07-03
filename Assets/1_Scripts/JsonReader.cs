@@ -12,7 +12,13 @@ public class JsonReader
     {
         string json = File.ReadAllText(path);
         return JsonUtility.FromJson<TalkInfo>(json);
-    }   
+    }
+
+    public TutorialInfo ReadTutorialJson(string path)
+    {
+        string json = File.ReadAllText(path);
+        return JsonUtility.FromJson<TutorialInfo>(json);
+    }
 
     public StoreInfo ReadStoreJson(string path)
     {
