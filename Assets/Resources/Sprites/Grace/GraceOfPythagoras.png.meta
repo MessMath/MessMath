@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: df12f506f67e7514ba8619221241171f
+guid: d1e11630e0c7e794daa4300ca74202de
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -52,7 +52,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -114,7 +114,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: iPhone
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -128,21 +128,11 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline:
-    - - {x: -105, y: 179.5}
-      - {x: -161, y: 128.5}
-      - {x: -172, y: 99.5}
-      - {x: -172, y: -67.5}
-      - {x: -102, y: -149.5}
-      - {x: 85, y: -149.5}
-      - {x: 153, y: -108.5}
-      - {x: 157, y: -89.5}
-      - {x: 157, y: 123.5}
-      - {x: 70, y: 179.5}
+    outline: []
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
