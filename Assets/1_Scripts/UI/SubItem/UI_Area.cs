@@ -16,35 +16,44 @@ public class UI_Area : UI_Base
         return true;
     }
 
-    public void SetArea(string characterName, string dialogue, string picture)
+    public void SetArea(string characterName, string dialogue, string picture, string expression)
     {
         AreaRect = this.GetComponent<Area>().AreaRect;
         BoxRect = this.GetComponent<Area>().BoxRect;
         TextRect = this.GetComponent<Area>().TextRect;
         characterImage = this.GetComponent<Area>().characterImg;
 
-        if(characterName != "")
+        if(characterName == "주인공")
         {
-            characterImage.sprite = Resources.Load<Sprite>(picture);
+            Sprite[] sprites = Resources.LoadAll<Sprite>(picture);
+            switch(expression)
+            {
+                case "SOMBER\r":
+                    characterImage.sprite = sprites[4];
+                    break;
+                case "CURIOSITY\r":
+                    characterImage.sprite = sprites[6];
+                    break;
+                case "DISGUSTED\r":
+                    characterImage.sprite = sprites[5];
+                    break;
+                case "SUPRISED\r":
+                    characterImage.sprite = sprites[5];
+                    break;
+                case "":
+                    break;
+            }
+            this.GetComponent<Area>().nameText.text = characterName;
+        }
+        else if(characterName != "")
+        {
+            characterImage.sprite = Resources.Load(picture, typeof(Sprite)) as Sprite;
             this.GetComponent<Area>().nameText.text = characterName;
         }
        
         TextRect.GetComponent<TextMeshProUGUI>().text = dialogue;
         BoxRect.sizeDelta = new Vector2(600, BoxRect.sizeDelta.y);
 
-        /*float X = TextRect.sizeDelta.x + 42;
-        float Y = TextRect.sizeDelta.y;
-        if (Y > 49)
-        {
-            for (int i = 0; i < 200; i++)
-            {
-                BoxRect.sizeDelta = new Vector2(X - i * 2, BoxRect.sizeDelta.y);
-                Fit(BoxRect);
-
-                if (Y != TextRect.sizeDelta.y) { BoxRect.sizeDelta = new Vector2(X - (i * 2) + 2, Y); break; }
-            }
-        }
-        else BoxRect.sizeDelta = new Vector2(X, Y);*/
         Fit(BoxRect);
         Fit(AreaRect);
     }

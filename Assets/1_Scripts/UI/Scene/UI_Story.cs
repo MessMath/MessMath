@@ -10,6 +10,7 @@ public class UI_Story : UI_Scene
     int count = -1;
     List<TalkData> storyTalkData = new List<TalkData>();
     GameObject replayPopup;
+
     enum Images
     {
         BackGroundImage,
@@ -21,6 +22,7 @@ public class UI_Story : UI_Scene
     {
         nxtButton,
         ReplayButton,
+        TmpNxtButton,
     }
     enum Texts
     {
@@ -41,7 +43,7 @@ public class UI_Story : UI_Scene
         BindImage(typeof(Images));
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
-
+    
         jsonReader = new JsonReader();
         storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 0 + "_EnterGameStory.json").talkDataList;
         maxCount = storyTalkData.Count;
@@ -50,6 +52,7 @@ public class UI_Story : UI_Scene
 
         GetText((int)Texts.CharacterNameTMP).text = "";
         GetText((int)Texts.DialogueTMP).text = "";
+        GetButton((int)Buttons.TmpNxtButton).gameObject.BindEvent(StartBtn);
         GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
         GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(OnClickReplayBtn);
 
@@ -60,6 +63,12 @@ public class UI_Story : UI_Scene
         return true;
     }
 
+    void StartBtn()
+    {
+        OnClickNxtBtn();
+        GetButton((int)Buttons.TmpNxtButton).gameObject.SetActive(false);
+    }
+
     void OnClickNxtBtn()
     {
         if(!Managers.TextEffect.isTypingEnd)
@@ -68,9 +77,11 @@ public class UI_Story : UI_Scene
             return;
         }
         if(++count >= maxCount) {
+            PlayerPrefs.SetInt("WatchedStory", -2);
             Managers.Scene.ChangeScene(Define.Scene.StoryGameScene); 
             return;
         }
+        PlayerPrefs.SetInt("WatchedStory", count);
         if(storyTalkData[count].sceneEffect!="") GetButton((int)Buttons.nxtButton).interactable = false;
         Managers.SceneEffect.SceneEffect(GetImage((int)Images.FadeImage),GetButton((int)Buttons.nxtButton), storyTalkData[count].sceneEffect);
         Managers.SceneEffect.ChangeBackground(GetImage((int)Images.BackGroundImage), storyTalkData[count].backgroundImg);
@@ -88,7 +99,7 @@ public class UI_Story : UI_Scene
         Managers.TextEffect.SetNormalSpeed();
         Managers.TextEffect.Typing(storyTalkData[count].dialogue, GetText((int)Texts.DialogueTMP));
         replayPopup.SetActive(true);
-        replayPopup.GetComponent<UI_ReplayStory>().AddReplayStory(storyTalkData[count].characterName, storyTalkData[count].dialogue);
+        replayPopup.GetComponent<UI_ReplayStory>().AddReplayStory(storyTalkData[count].characterName, storyTalkData[count].dialogue, storyTalkData[count].expression);
         replayPopup.SetActive(false);
 
         // Sound
