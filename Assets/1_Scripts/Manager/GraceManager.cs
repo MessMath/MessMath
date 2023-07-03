@@ -42,7 +42,7 @@ public class GraceManager
     {
         switch (graceName)
         {
-            case "GraceOfGauss":
+            case "GraceOfGaus":
                 GraceOfGauss();
                 break;
             case "GraceOfPythagoras":
