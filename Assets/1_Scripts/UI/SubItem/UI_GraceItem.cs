@@ -28,7 +28,6 @@ public class UI_GraceItem : UI_Base
     enum Texts
     {
         GraceIconText,
-
     }
 
     public override bool Init()

@@ -26,9 +26,6 @@ public class GameManagerEx
     public int Coin { get; set; }
     public int Damage { get; set; }
     public bool IsCorrect { get; set; }
-    public string SelectedGrace { get; set; } = null;
-    public string SelectedGrace1 { get; set; }
-    public string SelectedGrace2 { get; set; }
     public int SelectGarceInx { get; set; } = 0;
 
     public bool IsTutorialFinished = false;

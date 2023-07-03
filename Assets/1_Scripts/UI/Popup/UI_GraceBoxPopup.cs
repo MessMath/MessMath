@@ -101,17 +101,15 @@ public class UI_GraceBoxPopup : UI_Popup
     {
         if (Managers.Game.SelectGarceInx == 0)
         {
-            Managers.Game.SelectedGrace = selectedObject.GetComponent<UI_GraceItem>()._name;
+            PlayerPrefs.SetString("SelectedGrace", selectedObject.GetComponent<UI_GraceItem>()._name);
         }
         else if (Managers.Game.SelectGarceInx == 1)
         {
-            //Managers.Game.SelectedGrace1 = selectedObject.GetComponent<UI_GraceItem>();
-            Managers.Game.SelectedGrace1 = selectedObject.GetComponent<UI_GraceItem>()._name;
+            PlayerPrefs.SetString("SelectedGrace1", selectedObject.GetComponent<UI_GraceItem>()._name);
         }
         else if (Managers.Game.SelectGarceInx == 2)
         {
-            //Managers.Game.SelectedGrace2 = selectedObject.GetComponent<UI_GraceItem>();
-            Managers.Game.SelectedGrace2 = selectedObject.GetComponent<UI_GraceItem>()._name;
+            PlayerPrefs.SetString("SelectedGrace2", selectedObject.GetComponent<UI_GraceItem>()._name);
         }
 
         if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup") != null) // 인벤토리가 열려있을 때
@@ -119,7 +117,7 @@ public class UI_GraceBoxPopup : UI_Popup
 
         if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // 가호 선택 창이 열려있을 때
             Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("RefreshUI", 0);
-        //PlayerPrefs.SetString("SelectedGrace", selectedObject.GetComponent<UI_GraceItem>()._name);
+        
         // Sound
         // TODO ClosePopupSound
         Managers.Sound.Play("ClickBtnEff");
