@@ -23,16 +23,4 @@ namespace StoryData
     {
         public List<TalkData> talkDataList;
     }
-
-    [System.Serializable]
-    public class TutorialData
-    {
-        public string dialogue;
-    }
-
-    [System.Serializable]
-    public class TutorialInfo
-    {
-        public List<TutorialData> tutorialDataList;
-    }
 }
