@@ -21,12 +21,12 @@ public class UI_StoryGame : UI_Scene
 
     enum Buttons
     {
-        SettingBtn,
-        EqualButton,
         // 가호 버튼들
         GrcOfGaussBtn,
         GrcOfPythagorasBtn,
         GrcOfNewtonBtn,
+        EqualButton,
+        SettingBtn,
     }
 
     enum Images
@@ -85,6 +85,8 @@ public class UI_StoryGame : UI_Scene
         BindEvent(gameObject, OnPointerUp, Define.UIEvent.PointerUp);
         BindEvent(gameObject, OnDrag, Define.UIEvent.Pressed);
 
+        SettingGraceBtn();
+
         GetText((int)Texts.PrintNumber_Text).text = "";
         GetText((int)Texts.Calculate_BoardText).text = "";
         GetButton((int)Buttons.EqualButton).gameObject.BindEvent(Calculate);
@@ -109,12 +111,42 @@ public class UI_StoryGame : UI_Scene
         Managers.Game.Damage = 15;
 
         // Graces
-        GetButton((int)Buttons.GrcOfGaussBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfGauss"));
-        GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfPythagoras"));
-        GetButton((int)Buttons.GrcOfNewtonBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfNewton"));
+        //GetButton((int)Buttons.GrcOfGaussBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfGauss"));
+        //GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfPythagoras"));
+        //GetButton((int)Buttons.GrcOfNewtonBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfNewton"));
 
-        
+        #region 가호 버튼 설정
+        if (PlayerPrefs.GetString("SelectedGrace0InStory") != "")
+        {
+            GetButton((int)Buttons.GrcOfGaussBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InStory")));
+            GetButton((int)Buttons.GrcOfGaussBtn).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InStory"));
+        }
+
+        if (PlayerPrefs.GetString("SelectedGrace1InStory") != "")
+        {
+            GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InStory")));
+            GetButton((int)Buttons.GrcOfPythagorasBtn).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1InStory"));
+        }
+
+        if (PlayerPrefs.GetString("SelectedGrace2InStory") != "")
+        {
+            GetButton((int)Buttons.GrcOfNewtonBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InStory")));
+            GetButton((int)Buttons.GrcOfNewtonBtn).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2InStory"));
+        }
+        #endregion
+
         return true;
+    }
+
+    void SettingGraceBtn()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (PlayerPrefs.GetString($"SelectedGrace{i}InStory") != "")
+                GetButton(i).gameObject.SetActive(true);
+            else
+                GetButton(i).gameObject.SetActive(false);
+        }
     }
 
     #region 수식 계산

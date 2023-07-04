@@ -31,6 +31,8 @@ public class UI_SelectMathMtcfor1vs1 : UI_Popup
         Init();
     }
 
+    UI_SelectGracePopup _selectGracepopup;
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -64,8 +66,10 @@ public class UI_SelectMathMtcfor1vs1 : UI_Popup
     {
         PlayerPrefs.SetString("Boss", "Gauss");
         PlayerPrefs.SetInt("QstLimit", 8);
-        Managers.Sound.Play("ClickBtnEff"); 
-        Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene);
+        Managers.Sound.Play("ClickBtnEff");
+        _selectGracepopup = Managers.UI.ShowPopupUI<UI_SelectGracePopup>();
+        _selectGracepopup._state = UI_SelectGracePopup.State.OneToOne;
+        //Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene);
     }
 
     void ChoosePythagoras()
@@ -73,13 +77,17 @@ public class UI_SelectMathMtcfor1vs1 : UI_Popup
         PlayerPrefs.SetString("Boss", "Pythagoras");
         PlayerPrefs.SetInt("QstLimit", 16);
         Managers.Sound.Play("ClickBtnEff");
-        Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene);
+        _selectGracepopup = Managers.UI.ShowPopupUI<UI_SelectGracePopup>();
+        _selectGracepopup._state = UI_SelectGracePopup.State.OneToOne;
+        //Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene);
     }
     void ChooseNewton()
     {
         PlayerPrefs.SetString("Boss", "Newton");
         PlayerPrefs.SetInt("QstLimit", 24);
         Managers.Sound.Play("ClickBtnEff");
-        Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene);
+        _selectGracepopup = Managers.UI.ShowPopupUI<UI_SelectGracePopup>();
+        _selectGracepopup._state = UI_SelectGracePopup.State.OneToOne;
+        //Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene);
     }
 }

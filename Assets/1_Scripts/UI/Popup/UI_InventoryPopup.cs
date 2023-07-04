@@ -5,30 +5,14 @@ using UnityEngine.UI;
 
 public class UI_InventoryPopup : UI_Popup
 {
-    UI_GraceBoxPopup _graceBoxPopup;
-    public int _graceIdx = 0;
-
-    enum GameObjects
-    {
-
-    }
-
-    enum Texts
-    {
-
-    }
-
-    enum Images
-    {
-
-    }
+    UI_SelectGracePopup _selectGracePopup;
 
     enum Buttons
     {
+        SelectOneToOneModeGraceBtn,
+        SelectStoryModeGraceBtn,
+        ReplayStoryBtn,
         ExitBtn,
-        SelectedGrace,
-        SelectedGrace1,
-        SelectedGrace2,
     }
 
     public override bool Init()
@@ -36,15 +20,12 @@ public class UI_InventoryPopup : UI_Popup
         if (base.Init() == false)
             return false;
 
-        BindObject(typeof(GameObjects));
-        BindText(typeof(Texts));
         BindButton(typeof(Buttons));
-        BindImage(typeof(Images));
 
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ClosePopupUI(this); });
-        GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGraceInx = 0; });
-        GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGraceInx = 1; });
-        GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGraceInx = 2; });
+        GetButton((int)Buttons.SelectOneToOneModeGraceBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); _selectGracePopup = Managers.UI.ShowPopupUI<UI_SelectGracePopup>(); _selectGracePopup._state = UI_SelectGracePopup.State.OneToOne; });
+        GetButton((int)Buttons.SelectStoryModeGraceBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); _selectGracePopup = Managers.UI.ShowPopupUI<UI_SelectGracePopup>(); _selectGracePopup._state = UI_SelectGracePopup.State.Story; });
+        GetButton((int)Buttons.ReplayStoryBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
 
         RefreshUI();
 
@@ -53,8 +34,6 @@ public class UI_InventoryPopup : UI_Popup
 
     public void RefreshUI()
     {
-        if (PlayerPrefs.HasKey("SelectedGrace")) GetButton((int)Buttons.SelectedGrace).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace"));
-        if (PlayerPrefs.HasKey("SelectedGrace1")) GetButton((int)Buttons.SelectedGrace1).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1"));
-        if (PlayerPrefs.HasKey("SelectedGrace2")) GetButton((int)Buttons.SelectedGrace2).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2"));
+        // TODO?? 가호 프리셋이 있으면 이미지도 변경되나??
     }
 }

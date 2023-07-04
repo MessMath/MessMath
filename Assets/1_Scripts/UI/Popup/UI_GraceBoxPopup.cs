@@ -38,6 +38,15 @@ public class UI_GraceBoxPopup : UI_Popup
         SelectedGraceImage
     }
 
+    public enum State
+    {
+        None,
+        OneToOne,
+        Story,
+    }
+
+    public State _state = State.None;
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -49,19 +58,50 @@ public class UI_GraceBoxPopup : UI_Popup
         BindImage(typeof(Images));
 
         _jsonReader = new JsonReader();
-        _graceDatas = _jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 1 + "_StoreGaus.json").storeDataList;
+        _graceDatas = _jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 1 + "_StoreGauss.json").storeDataList;
 
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(OnClosePopup);
         GetButton((int)Buttons.SelectBtn).gameObject.BindEvent(OnClickSelectBtn);
 
-        RefreshUI();
+        Debug.Log($"UI_GraceBoxPopup's state is {_state}");
+        if (_state == State.OneToOne)
+        {
+            OneToOneModeRefreshUI();
+        }
+        else if (_state == State.Story)
+        {
+            StoryModeRefreshUI();
+        }
 
         return true;
     }
 
-    void RefreshUI()
+    void OneToOneModeRefreshUI()
     {
         _graces.Clear();
+        GetText((int)Texts.TitleText).text = "수학자모드 가호 선택 창"; // 임시로 그냥 텍스트 넣음
+
+        // 프리펩에 보이는 가호 아이콘 정리
+        Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
+        foreach (Transform t in parent)
+            Managers.Resource.Destroy(t.gameObject);
+
+        // TODO 플레이어 정보로 채우기
+        for (int i = 0; i < _graceDatas.Count; i++)
+        {
+            GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
+            Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
+            Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
+            graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
+            graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
+            graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = graceItem; OnClickGraceBtn(); });
+        }
+    }
+
+    void StoryModeRefreshUI()
+    {
+        _graces.Clear();
+        GetText((int)Texts.TitleText).text = "스토리모드 가호 선택 창"; // 임시로 그냥 텍스트 넣음
 
         // 프리펩에 보이는 가호 아이콘 정리
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
@@ -99,29 +139,51 @@ public class UI_GraceBoxPopup : UI_Popup
 
     void OnClickSelectBtn()
     {
-        if (Managers.Game.SelectGraceInx == 0)
+        if (_state == State.OneToOne)
         {
-            PlayerPrefs.SetString("SelectedGrace", selectedObject.GetComponent<UI_GraceItem>()._name);
+            SettingOneToOneModeGrace();
+            if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // 가호 선택 창이 열려있을 때
+                Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("OneToOneModeRefreshUI", 0);
         }
-        else if (Managers.Game.SelectGraceInx == 1)
+        else if (_state == State.Story)
         {
-            PlayerPrefs.SetString("SelectedGrace1", selectedObject.GetComponent<UI_GraceItem>()._name);
-        }
-        else if (Managers.Game.SelectGraceInx == 2)
-        {
-            PlayerPrefs.SetString("SelectedGrace2", selectedObject.GetComponent<UI_GraceItem>()._name);
+            SettingStoryModeGrace();
+            if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // 가호 선택 창이 열려있을 때
+                Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("StoryModeRefreshUI", 0);
         }
 
-        if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup") != null) // 인벤토리가 열려있을 때
-            Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup").GetComponent<UI_InventoryPopup>().Invoke("RefreshUI", 0);
-
-        if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // 가호 선택 창이 열려있을 때
-            Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("RefreshUI", 0);
-        
         // Sound
         // TODO ClosePopupSound
         Managers.Sound.Play("ClickBtnEff");
 
         Managers.UI.ClosePopupUI(this);
+    }
+
+    void SettingOneToOneModeGrace()
+    {
+        Debug.Log("Init SettingOneToOneModeGrace");
+        Debug.Log(Managers.Game.SelectGraceInx);
+        for (int i = 0; i < 3; i++)
+        {
+            if (Managers.Game.SelectGraceInx == i)
+            {
+                PlayerPrefs.SetString($"SelectedGrace{i}InOneToOne", selectedObject.GetComponent<UI_GraceItem>()._name);
+                Debug.Log(PlayerPrefs.GetString($"SelectedGrace{i}InOneToOne"));
+            }
+        }
+    }
+
+    void SettingStoryModeGrace()
+    {
+        Debug.Log("Init SettingStoryModeGrace");
+        Debug.Log(Managers.Game.SelectGraceInx);
+        for (int i = 0; i < 3; i++)
+        {
+            if (Managers.Game.SelectGraceInx == i)
+            {
+                PlayerPrefs.SetString($"SelectedGrace{i}InStory", selectedObject.GetComponent<UI_GraceItem>()._name);
+                Debug.Log(PlayerPrefs.GetString($"SelectedGrace{i}InStory"));
+            }
+        }
     }
 }

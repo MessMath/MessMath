@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 5090641018228131802}
   - component: {fileID: 2907098937973979652}
   m_Layer: 5
-  m_Name: SelectedGrace2
+  m_Name: ReplayStoryBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,13 +147,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99803771025477841}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3036227993586608469}
-  m_RootOrder: 2
+  m_Father: {fileID: 2904035159362317442}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -278,6 +278,7 @@ RectTransform:
   - {fileID: 7330755569264991055}
   - {fileID: 4771552972860681042}
   - {fileID: 3036227993586608469}
+  - {fileID: 5802412603382865098}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -359,6 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4698ca0b70cfdfc4ca2122526591b2f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _graceIdx: 0
 --- !u!1 &960195298949186902
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,7 +391,6 @@ RectTransform:
   m_Children:
   - {fileID: 4558218701312132222}
   - {fileID: 5298505307735754417}
-  - {fileID: 5802412603382865098}
   m_Father: {fileID: 2904035159362317442}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -411,7 +412,7 @@ GameObject:
   - component: {fileID: 3830465638404169115}
   - component: {fileID: 5554877404650851557}
   m_Layer: 5
-  m_Name: SelectedGrace
+  m_Name: SelectOneToOneModeGraceBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -684,7 +685,7 @@ GameObject:
   - component: {fileID: 185974937157992661}
   - component: {fileID: 2371680615078088066}
   m_Layer: 5
-  m_Name: SelectedGrace1
+  m_Name: SelectStoryModeGraceBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

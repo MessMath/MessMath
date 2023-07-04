@@ -20,11 +20,6 @@ public class UI_GraceItem : UI_Base
         Grace,
     }
 
-    enum Images
-    {
-
-    }
-
     enum Texts
     {
         GraceIconText,
@@ -37,7 +32,6 @@ public class UI_GraceItem : UI_Base
             return false;
 
         BindObject(typeof(GameObjects));
-        BindImage(typeof(Images));
         BindText(typeof(Texts));
 
         return true;
