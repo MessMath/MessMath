@@ -163,26 +163,25 @@ public class UI_TutorialGame : UI_Scene
             GetText((int)Texts.PrintNumber_Text).text = $"={printResult}";
             StartCoroutine(Waitfor2Sec());
         }
-        switch (turn)
+
+        if (turn == 0 && int.Parse(printResult) == 8)
         {
-            case 0:
-                if (int.Parse(printResult) == 8)
-                    damageToWitch(Managers.Game.Damage);
-                    GetText((int)Texts.QuestionNumber_Text).text = "6";
-                    turn++;
-                break;
-            case 1:
-                if (int.Parse(printResult) == 6)
-                    damageToWitch(Managers.Game.Damage);
-                GetText((int)Texts.QuestionNumber_Text).text = "7";
-                turn++;
-                break;
-            case 2:
-                if (int.Parse(printResult) == 7)
-                    damageToWitch(Managers.Game.Damage);
-                GetText((int)Texts.QuestionNumber_Text).text = "5";
-                break;
+            damageToWitch(Managers.Game.Damage);
+            GetText((int)Texts.QuestionNumber_Text).text = "6";
+            turn++;
         }
+        else if (turn == 1 && int.Parse(printResult) == 6)
+        {
+            damageToWitch(Managers.Game.Damage);
+            GetText((int)Texts.QuestionNumber_Text).text = "7";
+            turn++;
+        }
+        else if (turn == 2 && int.Parse(printResult) == 7)
+        {
+            damageToWitch(Managers.Game.Damage);
+            GetText((int)Texts.QuestionNumber_Text).text = "5";
+        }
+            
     }
 
     IEnumerator Waitfor2Sec()
