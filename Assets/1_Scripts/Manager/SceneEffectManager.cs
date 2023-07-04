@@ -86,7 +86,7 @@ public class SceneEffectManager
         {
             fadeCnt += 0.01f;
             yield return waitForSeconds;
-            img.color = new Color(0,0,0,fadeCnt);
+            if(img != null )img.color = new Color(0,0,0,fadeCnt);
         }
         CoroutineHandler.StartCoroutine(FadeIn(img,nxtBtn));
     }
@@ -99,9 +99,9 @@ public class SceneEffectManager
         {
             fadeCnt -= 0.01f;
             yield return waitForSeconds;
-            img.color = new Color(0,0,0,fadeCnt);
+            if(img != null )img.color = new Color(0,0,0,fadeCnt);
         }
-        nxtBtn.interactable = true;
+        if(nxtBtn!=null) nxtBtn.interactable = true;
     }
 }
 

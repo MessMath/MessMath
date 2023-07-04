@@ -21,8 +21,8 @@ public class JsonMaker : MonoBehaviour
     TalkInfo storyTalkInfo = new TalkInfo();
     StoreInfo storeInfo = new StoreInfo();
     TutorialInfo tutorialInfo = new TutorialInfo();
+    bool madeFile = false;
     bool[] isDone = {false, false, false, false};
-    bool doneCompletely = false;
 
     void Awake() 
     {
@@ -37,36 +37,25 @@ public class JsonMaker : MonoBehaviour
 
     void Update()
     {
-        //if(isDone)Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
-        /*for(int i = 0; i < isDone.Length; i++)
+        if(PlayerPrefs.GetInt("DoDiagnosis") == 1)
         {
-            if(!isDone[i]) continue;
-            doneCompletely = true;
-        }*/
-        if(isDone[0] && isDone[1] && isDone[2] && isDone[3]) doneCompletely = true;
-        if (doneCompletely)
-        {
-            //isDone = false;
-            // 진단평가가 완료된 상태라면 로비로 이동
-            if(PlayerPrefs.GetInt("DoDiagnosis") == 1)
-            {
-                Managers.Game.CurrentStatus = Define.CurrentStatus.LEARNING;
-                Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
-            }
-            // 진단평가가 되어 있지 않다면 진단평가부터
-            else
-            {
-                Managers.Scene.ChangeScene(Define.Scene.DiagnosisScene);
-            }
+            Managers.Game.CurrentStatus = Define.CurrentStatus.LEARNING;
+            Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
         }
-        else
+        // 진단평가가 되어 있지 않다면 진단평가부터
+        else if(isDone[0] && isDone[1] && isDone[2] && isDone[3])
         {
-            GetDatas();
+            Managers.Scene.ChangeScene(Define.Scene.DiagnosisScene);
+        }
+        if(madeFile == false) {
+                GetDatas();
+                madeFile = true;
         }
     }
 
     void GetDatas()
     {
+        if(madeFile) return;
         for(int i = 0; i < isDone.Length; i++)
         {
             if(isDone[i]) {
