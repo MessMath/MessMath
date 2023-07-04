@@ -206,7 +206,6 @@ public class GraceManager
         {
             foreach (GameObject arrow in arrows)
             {
-                Debug.Log("arrows num is " + arrows.Count);
                 if (arrow.IsDestroyed()) { exit++; continue; }
                 Vector2 force = playerPos - arrow.transform.position;
                 arrow.GetComponent<Rigidbody2D>().AddForceAtPosition(force, playerPos, ForceMode2D.Impulse);
@@ -233,8 +232,8 @@ public class GraceManager
             wJ_Sample1vs1.SelectAnswer(Managers.Connector.cLearnSet.data.qsts[wJ_Sample1vs1.currentQuestionIndex].qstCransr);
             wJ_Sample1vs1.SelectAnswer(Managers.Connector.cLearnSet.data.qsts[wJ_Sample1vs1.currentQuestionIndex].qstCransr);
             wJ_Sample1vs1.SelectAnswer(Managers.Connector.cLearnSet.data.qsts[wJ_Sample1vs1.currentQuestionIndex].qstCransr);
+            player.transform.parent.GetComponent<UI_Fight1vs1Game>().Invoke("RefreshUI", 0);
         }
-
     }
 
 }
