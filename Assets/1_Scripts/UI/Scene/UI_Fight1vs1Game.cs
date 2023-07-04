@@ -20,11 +20,11 @@ public class UI_Fight1vs1Game : UI_Scene
 
     enum Buttons
     {
-        SettingBtn,
         // 가호 버튼들
         SelectedGrace,
         SelectedGrace1,
         SelectedGrace2,
+        SettingBtn,
     }
 
     enum Images
@@ -89,6 +89,8 @@ public class UI_Fight1vs1Game : UI_Scene
         BindEvent(gameObject, OnPointerUp, Define.UIEvent.PointerUp);
         BindEvent(gameObject, OnDrag, Define.UIEvent.Pressed);
 
+        SettingGraceBtn();
+
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
 
         for (int i = 0; i < 3; i++)
@@ -105,14 +107,23 @@ public class UI_Fight1vs1Game : UI_Scene
         wj_sample1vs1 = GetObject((int)GameObjects.WJ_Sample1vs1).GetComponent<WJ_Sample1vs1>();
 
         #region 가호 버튼 설정
-        GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace")));
-        GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace"));
+        if (PlayerPrefs.GetString("SelectedGrace0InOneToOne") != "")
+        {
+            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InOneToOne")));
+            GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InOneToOne")); 
+        }
 
-        GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1")));
-        GetButton((int)Buttons.SelectedGrace1).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1"));
+        if (PlayerPrefs.GetString("SelectedGrace1InOneToOne") != "")
+        {
+            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InOneToOne")));
+            GetButton((int)Buttons.SelectedGrace1).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1InOneToOne"));
+        }
 
-        GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2")));
-        GetButton((int)Buttons.SelectedGrace2).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2"));
+        if (PlayerPrefs.GetString("SelectedGrace2InOneToOne") != "")
+        {
+            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InOneToOne")));
+            GetButton((int)Buttons.SelectedGrace2).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2InOneToOne"));
+        }
         #endregion
 
         #region 수학자 세팅
@@ -141,13 +152,24 @@ public class UI_Fight1vs1Game : UI_Scene
         if (!GameStarted) return;
 
         // 풀어야하는 문항수를 다 풀면
-        if (curQstnum >= QstMaxNum ) { Managers.UI.ShowPopupUI<UI_GameWin>(); GameStarted = false; }
+        if (curQstnum >= QstMaxNum) { Managers.UI.ShowPopupUI<UI_GameWin>(); GameStarted = false; }
         if (wj_sample1vs1.currentQuestionIndex >= 8)
         {
             Managers.Connector.Learning_GetQuestion();
             return;
         }
-        
+
+    }
+
+    void SettingGraceBtn()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (PlayerPrefs.GetString($"SelectedGrace{i}InOneToOne") != "")
+                GetButton(i).gameObject.SetActive(true);
+            else
+                GetButton(i).gameObject.SetActive(false);
+        }
     }
 
     void RefreshUI()        // 문항이 보이는 영역 (보드) 새로고침
@@ -156,7 +178,7 @@ public class UI_Fight1vs1Game : UI_Scene
         TEXDraw qstCn = GetObject((int)GameObjects.Calculate_BoardqstCn).GetComponent<TEXDraw>();
         int index = wj_sample1vs1.currentQuestionIndex;
 
-        if(Managers.Connector.cLearnSet != null && index < 8)
+        if (Managers.Connector.cLearnSet != null && index < 8)
         {
             textCn.text = Managers.Connector.cLearnSet.data.qsts[index].textCn;
             qstCn.text = Managers.Connector.cLearnSet.data.qsts[index].qstCn;
@@ -174,10 +196,10 @@ public class UI_Fight1vs1Game : UI_Scene
 
         for (int i = 0; i < TEXDrawPool.Length; i++)
         {
-            if(i == 0)
+            if (i == 0)
                 TEXDrawPool[i].text = correctAnswer;
             else
-                TEXDrawPool[i].text = wrongAnswers[i-1];
+                TEXDrawPool[i].text = wrongAnswers[i - 1];
         }
     }
 
@@ -334,7 +356,7 @@ public class UI_Fight1vs1Game : UI_Scene
         GameObject arrowObj = MakeArrow();
         ArrowOnlyin1vs1 arrow = arrowObj.GetComponent<ArrowOnlyin1vs1>();
         arrowObj.GetComponent<Rigidbody2D>().AddForce(arrow.direction.normalized * arrow.speed, ForceMode2D.Impulse);
-        
+
         Debug.Log("------Shoot Arrow------");
         Debug.Log($"Arrow type: {arrow.type} num or operator: {arrow.tmp} speed: {arrow.speed} \n startPosition:{arrow.startPosition.x} , {arrow.startPosition.y} \n direction: {arrow.direction}");
     }
