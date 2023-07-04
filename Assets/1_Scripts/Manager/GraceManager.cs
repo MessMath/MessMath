@@ -94,7 +94,7 @@ public class GraceManager
         int centerIndex = center.transform.GetSiblingIndex();
         int underPlayer = centerIndex + 1;
         int onPlayer = centerIndex + 2;
-        while (true)
+        while (player != null)
         {
             angle -= speed * Time.deltaTime;
             Debug.Log("y : " + Mathf.Sin(angle));
@@ -111,12 +111,12 @@ public class GraceManager
                 Managers.Game.Damage = Managers.Game.Damage / 2;
                 UnityEngine.Object.Destroy(center.gameObject);
                 UnityEngine.Object.Destroy(Ceres.gameObject);
-                gaussOn = false;
                 yield break;
             }
 
             yield return null;
         }
+        gaussOn = false;
     }
 
     /// <summary>

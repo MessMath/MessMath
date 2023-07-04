@@ -60,6 +60,7 @@ public class Managers : MonoBehaviour
         if (s_instance == null)
         {
             //PlayerPrefs.DeleteAll();
+            PlayerPrefs.SetInt("WatchedStory", -2);
             GameObject go = GameObject.Find("@Managers");
             if (go == null)
                 go = new GameObject { name = "@Managers" };

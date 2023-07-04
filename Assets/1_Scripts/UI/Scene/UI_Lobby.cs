@@ -56,7 +56,7 @@ public class UI_Lobby : UI_Scene
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
         GetButton((int)Buttons.Fight1vs1GameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_SelectMathMtcfor1vs1>(); });
 
-        if (PlayerPrefs.HasKey("WatchedStory") && PlayerPrefs.GetInt("WatchesStory")==-2) 
+        if (PlayerPrefs.HasKey("WatchedStory") && PlayerPrefs.GetInt("WatchedStory")==-2) 
         {
             GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() => Managers.Scene.ChangeScene(Define.Scene.StoryGameScene));   
         }

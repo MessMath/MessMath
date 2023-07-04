@@ -55,13 +55,19 @@ public class UI_Story : UI_Scene
         GetText((int)Texts.DialogueTMP).text = "";
         GetButton((int)Buttons.TmpNxtButton).gameObject.BindEvent(StartBtn);
         GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
-        GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(OnClickReplayBtn);
+        //GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(OnClickReplayBtn);
+        GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(Skip);
 
         // Sound
         Managers.Sound.Clear();
         Managers.Sound.Play("StoryBgm", Define.Sound.Bgm);
 
         return true;
+    }
+    void Skip()
+    {
+        PlayerPrefs.SetInt("WatchedStory", -2);
+        Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
     }
 
     void StartBtn()

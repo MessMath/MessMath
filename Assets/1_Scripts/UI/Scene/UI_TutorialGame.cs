@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 using UnityEngine.UI;
 using UnityEngine.Windows;
 using System.Data;
@@ -123,7 +122,7 @@ public class UI_TutorialGame : UI_Scene
         Managers.UI.ShowPopupUI<UI_TutorialGamePopup>();
     }
 
-    #region ¼ö½Ä °è»ê
+    #region ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
     void AllErase()
     {
@@ -139,7 +138,7 @@ public class UI_TutorialGame : UI_Scene
 
         object result = null;
         string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
-        //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("¡À", "/");
+        //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("ï¿½ï¿½", "/");
         string printResult;
 
         GetText((int)Texts.Calculate_BoardText).text = "";
@@ -195,7 +194,7 @@ public class UI_TutorialGame : UI_Scene
 
     #endregion
 
-    #region µ¥¹ÌÁö ÁÖ±â
+    #region ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 
     void damageToPlayer(int damage)
     {
@@ -218,7 +217,7 @@ public class UI_TutorialGame : UI_Scene
 
     #endregion
 
-    #region Á¶ÀÌ½ºÆ½
+    #region ï¿½ï¿½ï¿½Ì½ï¿½Æ½
 
     private float deadZone = 0;
     private float hadndleRange = 0.8f;
@@ -266,7 +265,7 @@ public class UI_TutorialGame : UI_Scene
 
     #endregion
 
-    #region È­»ì °ü¸®
+    #region È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     string[] Operator = { "+", "-" };
 
@@ -293,8 +292,8 @@ public class UI_TutorialGame : UI_Scene
     //    Debug.Log("StartGame");
     //}
 
-    // È­»ìÀÌ »ý¼ºµÇ´Â ½Ã°£ Á¶ÀýÇÏ´Â ÇÔ¼ö 
-    // ÇöÀç È­»ì °³¼ö°¡ ¸î°³ ³ª¿Ô´ÂÁö Ã¼Å©
+    // È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½ 
+    // ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½î°³ ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ Ã¼Å©
     IEnumerator SetArrowGenerationTime(float delayTime)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(delayTime);
@@ -305,7 +304,7 @@ public class UI_TutorialGame : UI_Scene
         StartCoroutine("SetArrowGenerationTime", 1f);
     }
 
-    // ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¸¦ ÇâÇØ ¿ÀºêÁ§Æ® ³¯¸®±â 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
     void ShootArrow()
     {
         GameObject arrowObj = MakeArrow();
@@ -316,7 +315,7 @@ public class UI_TutorialGame : UI_Scene
         Debug.Log($"Arrow type: {arrow.type} num or operator: {arrow.tmp} speed: {arrow.speed} \n startPosition:{arrow.startPosition.x} , {arrow.startPosition.y} \n direction: {arrow.direction}");
     }
 
-    // È­»ì µ¿Àû »ý¼ºÇÏ´Â ÇÔ¼ö
+    // È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
     GameObject MakeArrow()
     {
         //GameObject arrowObject = Instantiate(Managers.Resource.Load<GameObject>($"Prefabs/Arrow"), GetObject((int)GameObjects.ArrowController).transform);
@@ -329,7 +328,7 @@ public class UI_TutorialGame : UI_Scene
         return arrowObject;
     }
 
-    // È­»ì ¼³Á¤ÇÏ´Â ÇÔ¼ö
+    // È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
     void SetArrow(Arrow arrow)
     {
         if (SetArrowType(arrow) == 0)
@@ -341,7 +340,7 @@ public class UI_TutorialGame : UI_Scene
         SetArrowSpeed(arrow);
     }
 
-    // ÇöÀç »ý¼ºµÈ È­»ìÀÇ Å¸ÀÔ ¼ýÀÚÀÎÁö ±âÈ£ÀÎÁö ¼³Á¤ÇÏ´Â ÇÔ¼ö 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½ 
     int SetArrowType(Arrow arrow)
     {
         arrow.type = UnityEngine.Random.Range(0, 2);
@@ -374,10 +373,10 @@ public class UI_TutorialGame : UI_Scene
 
     void SetArrowOperator(Arrow arrow)
     {
-        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[UnityEngine.Random.Range(0, 2)];   // 50%ÀÇ È®·ü·Î SymbolÀÌ »çÄ¢¿¬»ê Áß ÇÏ³ªÀÇ ±âÈ£¿¡ ÇØ´çÇÑ´Ù.
+        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[UnityEngine.Random.Range(0, 2)];   // 50%ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ Symbolï¿½ï¿½ ï¿½ï¿½Ä¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ñ´ï¿½.
     }
 
-    // È­»ìÀÇ »ý¼º À§Ä¡ Á¶ÀýÇÏ´Â ÇÔ¼ö 
+    // È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½ 
     void SetArrowStartPosition(Arrow arrow)
     {
         int randValue = UnityEngine.Random.Range(0, 3);
@@ -430,13 +429,13 @@ public class UI_TutorialGame : UI_Scene
         return newPos;
     }
 
-    // È­»ìÀÇ ¹æÇâ Á¶ÀýÇÏ´Â ÇÔ¼ö 
-    // ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡·Î ¼³Á¤
+    // È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½ 
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     void SetArrowDirection(Arrow arrow)
     {
         //arrow.direction = GetObject((int)GameObjects.Player).transform.position - (Vector3)arrow.startPosition;
         arrow.direction = FindObjectOfType<PlayerControllerCCF>().transform.position - (Vector3)arrow.startPosition;
-        LookAt(GetObject((int)GameObjects.Player), arrow);     // Player¸¦ ¹Ù¶óº¸°í ³¯¶ó°¡°Ô²û
+        LookAt(GetObject((int)GameObjects.Player), arrow);     // Playerï¿½ï¿½ ï¿½Ù¶óº¸°ï¿½ ï¿½ï¿½ï¿½ó°¡°Ô²ï¿½
 
         arrow.GetComponentInChildren<TextMeshProUGUI>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));
     }
@@ -457,7 +456,7 @@ public class UI_TutorialGame : UI_Scene
         }
     }
 
-    // È­»ìÀÇ ¼Óµµ Á¶ÀýÇÏ´Â ÇÔ¼ö 
+    // È­ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½ 
     void SetArrowSpeed(Arrow arrow)
     {
         arrow.speed = UnityEngine.Random.Range(250.0f, 270.0f);

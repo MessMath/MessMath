@@ -79,14 +79,14 @@ public class UI_GraceBoxPopup : UI_Popup
     void OneToOneModeRefreshUI()
     {
         _graces.Clear();
-        GetText((int)Texts.TitleText).text = "¼öÇÐÀÚ¸ðµå °¡È£ ¼±ÅÃ Ã¢"; // ÀÓ½Ã·Î ±×³É ÅØ½ºÆ® ³ÖÀ½
+        GetText((int)Texts.TitleText).text = "ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ Ã¢"; // ï¿½Ó½Ã·ï¿½ ï¿½×³ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 
-        // ÇÁ¸®Æé¿¡ º¸ÀÌ´Â °¡È£ ¾ÆÀÌÄÜ Á¤¸®
+        // ï¿½ï¿½ï¿½ï¿½ï¿½é¿¡ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        // TODO ÇÃ·¹ÀÌ¾î Á¤º¸·Î Ã¤¿ì±â
+        // TODO ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½
         for (int i = 0; i < _graceDatas.Count; i++)
         {
             GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
@@ -101,14 +101,14 @@ public class UI_GraceBoxPopup : UI_Popup
     void StoryModeRefreshUI()
     {
         _graces.Clear();
-        GetText((int)Texts.TitleText).text = "½ºÅä¸®¸ðµå °¡È£ ¼±ÅÃ Ã¢"; // ÀÓ½Ã·Î ±×³É ÅØ½ºÆ® ³ÖÀ½
+        GetText((int)Texts.TitleText).text = "ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ Ã¢"; // ï¿½Ó½Ã·ï¿½ ï¿½×³ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 
-        // ÇÁ¸®Æé¿¡ º¸ÀÌ´Â °¡È£ ¾ÆÀÌÄÜ Á¤¸®
+        // ï¿½ï¿½ï¿½ï¿½ï¿½é¿¡ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        // TODO ÇÃ·¹ÀÌ¾î Á¤º¸·Î Ã¤¿ì±â
+        // TODO ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½
         for (int i = 0; i < _graceDatas.Count; i++)
         {
             GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
@@ -139,16 +139,17 @@ public class UI_GraceBoxPopup : UI_Popup
 
     void OnClickSelectBtn()
     {
+        if(selectedObject == null ) return;
         if (_state == State.OneToOne)
         {
             SettingOneToOneModeGrace();
-            if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // °¡È£ ¼±ÅÃ Ã¢ÀÌ ¿­·ÁÀÖÀ» ¶§
+            if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
                 Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("OneToOneModeRefreshUI", 0);
         }
         else if (_state == State.Story)
         {
             SettingStoryModeGrace();
-            if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // °¡È£ ¼±ÅÃ Ã¢ÀÌ ¿­·ÁÀÖÀ» ¶§
+            if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
                 Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("StoryModeRefreshUI", 0);
         }
 
