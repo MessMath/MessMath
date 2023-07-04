@@ -62,12 +62,13 @@ public class UI_GraceBoxPopup : UI_Popup
 
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(OnClosePopup);
         GetButton((int)Buttons.SelectBtn).gameObject.BindEvent(OnClickSelectBtn);
-        
+
+        Debug.Log($"UI_GraceBoxPopup's state is {_state}");
         if (_state == State.OneToOne)
         {
             OneToOneModeRefreshUI();
         }
-        else if ( _state == State.Story)
+        else if (_state == State.Story)
         {
             StoryModeRefreshUI();
         }
@@ -78,7 +79,7 @@ public class UI_GraceBoxPopup : UI_Popup
     void OneToOneModeRefreshUI()
     {
         _graces.Clear();
-        GetText((int)Texts.TitleText).text = "스토리모드 가호 선택 창"; // 임시로 그냥 텍스트 넣음
+        GetText((int)Texts.TitleText).text = "수학자모드 가호 선택 창"; // 임시로 그냥 텍스트 넣음
 
         // 프리펩에 보이는 가호 아이콘 정리
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
@@ -100,7 +101,7 @@ public class UI_GraceBoxPopup : UI_Popup
     void StoryModeRefreshUI()
     {
         _graces.Clear();
-        GetText((int)Texts.TitleText).text = "수학자모드 가호 선택 창"; // 임시로 그냥 텍스트 넣음
+        GetText((int)Texts.TitleText).text = "스토리모드 가호 선택 창"; // 임시로 그냥 텍스트 넣음
 
         // 프리펩에 보이는 가호 아이콘 정리
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
@@ -141,18 +142,16 @@ public class UI_GraceBoxPopup : UI_Popup
         if (_state == State.OneToOne)
         {
             SettingOneToOneModeGrace();
+            if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // 가호 선택 창이 열려있을 때
+                Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("OneToOneModeRefreshUI", 0);
         }
         else if (_state == State.Story)
         {
             SettingStoryModeGrace();
+            if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // 가호 선택 창이 열려있을 때
+                Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("StoryModeRefreshUI", 0);
         }
 
-        //if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup") != null) // 인벤토리가 열려있을 때
-        //    Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup").GetComponent<UI_InventoryPopup>().Invoke("RefreshUI", 0);
-
-        if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // 가호 선택 창이 열려있을 때
-            Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("RefreshUI", 0);
-        
         // Sound
         // TODO ClosePopupSound
         Managers.Sound.Play("ClickBtnEff");
@@ -162,22 +161,28 @@ public class UI_GraceBoxPopup : UI_Popup
 
     void SettingOneToOneModeGrace()
     {
+        Debug.Log("Init SettingOneToOneModeGrace");
+        Debug.Log(Managers.Game.SelectGraceInx);
         for (int i = 0; i < 3; i++)
         {
             if (Managers.Game.SelectGraceInx == i)
             {
-                PlayerPrefs.SetString($"SelectedGrace{i}InOneToOne", selectedObject.GetComponent<UI_GraceItem>().name);
+                PlayerPrefs.SetString($"SelectedGrace{i}InOneToOne", selectedObject.GetComponent<UI_GraceItem>()._name);
+                Debug.Log(PlayerPrefs.GetString($"SelectedGrace{i}InOneToOne"));
             }
         }
     }
 
     void SettingStoryModeGrace()
     {
+        Debug.Log("Init SettingStoryModeGrace");
+        Debug.Log(Managers.Game.SelectGraceInx);
         for (int i = 0; i < 3; i++)
         {
             if (Managers.Game.SelectGraceInx == i)
             {
-                PlayerPrefs.SetString($"SelectedGrace{i}InStory", selectedObject.GetComponent<UI_GraceItem>().name);
+                PlayerPrefs.SetString($"SelectedGrace{i}InStory", selectedObject.GetComponent<UI_GraceItem>()._name);
+                Debug.Log(PlayerPrefs.GetString($"SelectedGrace{i}InStory"));
             }
         }
     }

@@ -61,7 +61,7 @@ public class JsonMaker : MonoBehaviour
         }
         else
         {
-            GetDatas();
+            //GetDatas();
         }
     }
 

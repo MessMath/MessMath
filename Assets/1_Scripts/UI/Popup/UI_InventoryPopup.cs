@@ -6,29 +6,13 @@ using UnityEngine.UI;
 public class UI_InventoryPopup : UI_Popup
 {
     UI_SelectGracePopup _selectGracePopup;
-    public int _graceIdx = 0;
-
-    enum GameObjects
-    {
-
-    }
-
-    enum Texts
-    {
-
-    }
-
-    enum Images
-    {
-
-    }
 
     enum Buttons
     {
-        ExitBtn,
         SelectOneToOneModeGraceBtn,
         SelectStoryModeGraceBtn,
         ReplayStoryBtn,
+        ExitBtn,
     }
 
     public override bool Init()
@@ -36,10 +20,7 @@ public class UI_InventoryPopup : UI_Popup
         if (base.Init() == false)
             return false;
 
-        BindObject(typeof(GameObjects));
-        BindText(typeof(Texts));
         BindButton(typeof(Buttons));
-        BindImage(typeof(Images));
 
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ClosePopupUI(this); });
         GetButton((int)Buttons.SelectOneToOneModeGraceBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); _selectGracePopup = Managers.UI.ShowPopupUI<UI_SelectGracePopup>(); _selectGracePopup._state = UI_SelectGracePopup.State.OneToOne; });
