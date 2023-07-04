@@ -88,7 +88,7 @@ public class JsonMaker : MonoBehaviour
     void AddFileName()
     {
         fileName.Add("EnterGameStory");
-        fileName.Add("StoreGaus");
+        fileName.Add("StoreGauss");
         fileName.Add("StoreCollection");
         fileName.Add("Tutorial");
     }

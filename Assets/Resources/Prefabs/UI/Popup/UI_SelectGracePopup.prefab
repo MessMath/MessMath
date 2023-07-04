@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d53c9fafb63468a4ba94445abc6bf76b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _state: 0
 --- !u!1 &2479872819575730288
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +170,7 @@ GameObject:
   - component: {fileID: 6133667770721286822}
   - component: {fileID: 4109348389411672083}
   m_Layer: 5
-  m_Name: SelectedGrace
+  m_Name: SelectedGrace0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

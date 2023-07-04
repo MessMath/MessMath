@@ -7,12 +7,22 @@ public class UI_SelectGracePopup : UI_Popup
 {
     enum Buttons
     {
-        ExitBtn,
-        SelectedGrace,
+        SelectedGrace0,
         SelectedGrace1,
         SelectedGrace2,
+        ExitBtn,
         StartGameBtn,
     }
+
+    public enum State
+    {
+        None,
+        OneToOne,
+        Story,
+    }
+    
+    UI_GraceBoxPopup _graceBoxPopup;
+    public State _state = State.None;
 
     public override bool Init()
     {
@@ -22,21 +32,44 @@ public class UI_SelectGracePopup : UI_Popup
         BindButton(typeof(Buttons));
 
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(OnClosePopup);
-        GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGraceInx = 0; });
-        GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGraceInx = 1; });
-        GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); Managers.Game.SelectGraceInx = 2; });
-        GetButton((int)Buttons.StartGameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene); });
 
-        RefreshUI();
+        if (_state == State.OneToOne) 
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                GetButton(i).gameObject.BindEvent(() => { _graceBoxPopup = Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); _graceBoxPopup._state = UI_GraceBoxPopup.State.OneToOne; Managers.Game.SelectGraceInx = i; });
+            }
+            OneToOneModeRefreshUI();
+            GetButton((int)Buttons.StartGameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene); });
+        }
+        else if (_state == State.Story) 
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                GetButton(i).gameObject.BindEvent(() => { _graceBoxPopup = Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); _graceBoxPopup._state = UI_GraceBoxPopup.State.Story; Managers.Game.SelectGraceInx = i; });
+            }
+            StoryModeRefreshUI();
+            GetButton((int)Buttons.StartGameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.StoryGameScene); });
+        }
+
 
         return true;
     }
 
-    public void RefreshUI()
+    public void OneToOneModeRefreshUI()
     {
-        if (PlayerPrefs.HasKey("SelectedGrace")) GetButton((int)Buttons.SelectedGrace).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace"));
-        if (PlayerPrefs.HasKey("SelectedGrace1")) GetButton((int)Buttons.SelectedGrace1).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1"));
-        if (PlayerPrefs.HasKey("SelectedGrace2")) GetButton((int)Buttons.SelectedGrace2).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2"));
+        for (int i = 0; i < 3; i++)
+        {
+            if (PlayerPrefs.HasKey($"SelectedGrace{i}InOneToOne")) GetButton(i).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString($"SelectedGrace{i}InOneToOne"));
+        }
+    }
+
+    public void StoryModeRefreshUI()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (PlayerPrefs.HasKey($"SelectedGrace{i}InStory")) GetButton(i).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString($"SelectedGrace{i}InStory"));
+        }
     }
 
     void OnClosePopup()
