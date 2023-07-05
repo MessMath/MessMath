@@ -8,10 +8,19 @@ public class UI_MakeTxtFile : UI_Scene
     {
         LogTMP,
     }
+    enum GameObjects
+    {
+        MagicCircle,
+    }
 
     private void Start()
     {
         Init();
+    }
+
+    void Update()
+    {
+        GetObject((int)GameObjects.MagicCircle).transform.Rotate(new Vector3(0f, 0f, -30f) * Time.deltaTime);
     }
 
     public override bool Init()
@@ -21,6 +30,7 @@ public class UI_MakeTxtFile : UI_Scene
 
         
         BindText(typeof(Texts));
+        BindObject(typeof(GameObjects));
 
         GetText((int)Texts.LogTMP).text = "업데이트 정보를 불러오는 중입니다...";
 
