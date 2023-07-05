@@ -79,14 +79,14 @@ public class UI_GraceBoxPopup : UI_Popup
     void OneToOneModeRefreshUI()
     {
         _graces.Clear();
-        GetText((int)Texts.TitleText).text = "수학자 1vs1 모드 가호 선택 창"; // ??÷? ??? ???? ????
+        GetText((int)Texts.TitleText).text = "수학자 1vs1 모드 가호 선택 창"; // 한영모드 추가시 변경
 
-        // ?????? ????? ??? ?????? ????
+        // 프리펩에 있는거 삭제
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        // TODO ?÷???? ?????? ????
+        // TODO 유저 정보로 채워주기
         for (int i = 0; i < _graceDatas.Count; i++)
         {
             GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
@@ -139,15 +139,18 @@ public class UI_GraceBoxPopup : UI_Popup
 
     void OnClickSelectBtn()
     {
-        if(selectedObject == null ) return;
+        if (selectedObject == null) { OnClosePopup(); return; }
+
         if (_state == State.OneToOne)
         {
+            CheckSameGrace();
             SettingOneToOneModeGrace();
             if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // ??? ???? ??? ???????? ??
                 Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("OneToOneModeRefreshUI", 0);
         }
         else if (_state == State.Story)
         {
+            CheckSameGrace();
             SettingStoryModeGrace();
             if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // ??? ???? ??? ???????? ??
                 Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("StoryModeRefreshUI", 0);
@@ -158,6 +161,32 @@ public class UI_GraceBoxPopup : UI_Popup
         Managers.Sound.Play("ClickBtnEff");
 
         Managers.UI.ClosePopupUI(this);
+    }
+
+    void CheckSameGrace()
+    {
+        string selectedObjectName = selectedObject.GetComponent<UI_GraceItem>()._name;
+
+        if ( _state == State.OneToOne)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (selectedObjectName == PlayerPrefs.GetString($"SelectedGrace{i}InOneToOne"))
+                {
+                    PlayerPrefs.SetString($"SelectedGrace{i}InOneToOne", "");
+                }
+            }
+        }
+        else if (_state == State.Story)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (selectedObjectName == PlayerPrefs.GetString($"SelectedGrace{i}InStory"))
+                {
+                    PlayerPrefs.SetString($"SelectedGrace{i}InStory", "");
+                }
+            }
+        }
     }
 
     void SettingOneToOneModeGrace()
