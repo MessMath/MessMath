@@ -97,7 +97,6 @@ public class GraceManager
         while (player != null)
         {
             angle -= speed * Time.deltaTime;
-            Debug.Log("y : " + Mathf.Sin(angle));
             center.position = player.transform.position;
             Ceres.transform.position = center.position + new Vector3(Mathf.Cos(angle)*2, Mathf.Sin(angle), 0) * radius;
             

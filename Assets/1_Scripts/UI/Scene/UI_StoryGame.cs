@@ -16,16 +16,18 @@ public class UI_StoryGame : UI_Scene
         Calculate_BoardText,
         PrintNumber_Text,
         QuestionNumber_Text,
+        PreCalculation_Text,
     }
 
     enum Buttons
     {
-        // 가호 버튼들
-        GrcOfGaussBtn,
-        GrcOfPythagorasBtn,
-        GrcOfNewtonBtn,
+        AllErase,
         EqualButton,
         SettingBtn,
+        // 가호 버튼들
+        SelectedGrace,
+        SelectedGrace1,
+        SelectedGrace2,
     }
 
     enum Images
@@ -109,30 +111,28 @@ public class UI_StoryGame : UI_Scene
         // default damage is 15
         Managers.Game.Damage = 15;
 
-        // Graces
-        //GetButton((int)Buttons.GrcOfGaussBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfGauss"));
-        //GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfPythagoras"));
-        //GetButton((int)Buttons.GrcOfNewtonBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfNewton"));
-
         #region 가호 버튼 설정
         if (PlayerPrefs.GetString("SelectedGrace0InStory") != "")
         {
-            GetButton((int)Buttons.GrcOfGaussBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InStory")));
-            GetButton((int)Buttons.GrcOfGaussBtn).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InStory"));
+            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InStory")));
+            GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InStory"));
         }
 
         if (PlayerPrefs.GetString("SelectedGrace1InStory") != "")
         {
-            GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InStory")));
-            GetButton((int)Buttons.GrcOfPythagorasBtn).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1InStory"));
+            GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InStory")));
+            GetButton((int)Buttons.SelectedGrace1).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1InStory"));
         }
 
         if (PlayerPrefs.GetString("SelectedGrace2InStory") != "")
         {
-            GetButton((int)Buttons.GrcOfNewtonBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InStory")));
-            GetButton((int)Buttons.GrcOfNewtonBtn).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2InStory"));
+            GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InStory")));
+            GetButton((int)Buttons.SelectedGrace2).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2InStory"));
         }
         #endregion
+
+        // 지우개 버튼
+        GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
 
         return true;
     }
@@ -150,19 +150,20 @@ public class UI_StoryGame : UI_Scene
 
     #region 수식 계산
 
-    public void Calculate()
+    void AllErase()
     {
-        Debug.Log("Calculate");
+        GetText((int)Texts.Calculate_BoardText).text = "";
+    }
 
-        // Sound
-        Managers.Sound.Play("ClickBtnEff");
+    public void PreCalculate()
+    {
+        Debug.Log("PreCalculate");
 
         object result = null;
         string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
         //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("÷", "/");
         string printResult;
 
-        GetText((int)Texts.Calculate_BoardText).text = "";
         DataTable table = new DataTable();
 
         try
@@ -174,6 +175,41 @@ public class UI_StoryGame : UI_Scene
         catch (System.Exception e)
         {
             Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
+            printResult = "";
+            //damageToPlayer(1);
+            return;
+        }
+
+        if (GetText((int)Texts.PreCalculation_Text))
+        {
+            GetText((int)Texts.PreCalculation_Text).text = $"={printResult}";
+            //StartCoroutine(Waitfor2Sec());
+        }
+    }
+
+    public void Calculate()
+    {
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
+
+        object result = null;
+        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
+        //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("÷", "/");
+        string printResult;
+
+        GetText((int)Texts.Calculate_BoardText).text = "";
+        GetText((int)Texts.PreCalculation_Text).text = "";
+        DataTable table = new DataTable();
+
+        try
+        {
+            result = table.Compute(expressionToCalculate, "");
+            printResult = Math.Truncate(Convert.ToDouble(result)).ToString();
+            //Debug.Log($"\"{expressionToCalculate}\" result is : " + printResult);
+        }
+        catch (System.Exception e)
+        {
+            //Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
             printResult = "";
             damageToPlayer(1);
             return;

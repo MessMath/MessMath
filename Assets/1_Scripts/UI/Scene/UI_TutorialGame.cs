@@ -16,14 +16,17 @@ public class UI_TutorialGame : UI_Scene
         Calculate_BoardText,
         PrintNumber_Text,
         QuestionNumber_Text,
+        PreCalculation_Text,
     }
 
     enum Buttons
     {
-        EqualButton,
-        GrcOfGaussBtn,
-        GrcOfPythagorasBtn,
         AllErase,
+        EqualButton,
+        // 가호 버튼들
+        SelectedGrace,
+        SelectedGrace1,
+        SelectedGrace2,
     }
 
     enum Images
@@ -106,11 +109,28 @@ public class UI_TutorialGame : UI_Scene
         // default damage is 15
         Managers.Game.Damage = 45;
 
-        // Graces
-        GetButton((int)Buttons.GrcOfGaussBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfGauss"));
-        GetButton((int)Buttons.GrcOfPythagorasBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfPythagoras"));
+        #region 가호 버튼 설정
+        if (PlayerPrefs.GetString("SelectedGrace0InStory") != "")
+        {
+            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InStory")));
+            GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InStory"));
+        }
+
+        if (PlayerPrefs.GetString("SelectedGrace1InStory") != "")
+        {
+            GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InStory")));
+            GetButton((int)Buttons.SelectedGrace1).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1InStory"));
+        }
+
+        if (PlayerPrefs.GetString("SelectedGrace2InStory") != "")
+        {
+            GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InStory")));
+            GetButton((int)Buttons.SelectedGrace2).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2InStory"));
+        }
+        #endregion        
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
 
+        // 지우개 버튼
         GetText((int)Texts.QuestionNumber_Text).text = "8";
 
         PlayerPrefs.SetInt("DoTutorial", 2);
@@ -122,11 +142,43 @@ public class UI_TutorialGame : UI_Scene
         Managers.UI.ShowPopupUI<UI_TutorialGamePopup>();
     }
 
-    #region ���� ���
+    #region 수식 계산
 
     void AllErase()
     {
         GetText((int)Texts.Calculate_BoardText).text = "";
+    }
+
+    public void PreCalculate()
+    {
+        Debug.Log("PreCalculate");
+
+        object result = null;
+        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
+        //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("÷", "/");
+        string printResult;
+
+        DataTable table = new DataTable();
+
+        try
+        {
+            result = table.Compute(expressionToCalculate, "");
+            printResult = Math.Truncate(Convert.ToDouble(result)).ToString();
+            Debug.Log($"\"{expressionToCalculate}\" result is : " + printResult);
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
+            printResult = "";
+            //damageToPlayer(1);
+            return;
+        }
+
+        if (GetText((int)Texts.PreCalculation_Text))
+        {
+            GetText((int)Texts.PreCalculation_Text).text = $"={printResult}";
+            //StartCoroutine(Waitfor2Sec());
+        }
     }
 
     public void Calculate()
@@ -148,11 +200,11 @@ public class UI_TutorialGame : UI_Scene
         {
             result = table.Compute(expressionToCalculate, "");
             printResult = Math.Truncate(Convert.ToDouble(result)).ToString();
-            Debug.Log($"\"{expressionToCalculate}\" result is : " + printResult);
+            //Debug.Log($"\"{expressionToCalculate}\" result is : " + printResult);
         }
         catch (System.Exception e)
         {
-            Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
+            //Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
             printResult = "";
             //damageToPlayer(1);
             return;
@@ -193,7 +245,7 @@ public class UI_TutorialGame : UI_Scene
 
     #endregion
 
-    #region ������ �ֱ�
+    #region 데미지 주기
 
     void damageToPlayer(int damage)
     {
@@ -216,7 +268,7 @@ public class UI_TutorialGame : UI_Scene
 
     #endregion
 
-    #region ���̽�ƽ
+    #region 조이스틱
 
     private float deadZone = 0;
     private float hadndleRange = 0.8f;
@@ -264,7 +316,7 @@ public class UI_TutorialGame : UI_Scene
 
     #endregion
 
-    #region ȭ�� ����
+    #region 화살관리
 
     string[] Operator = { "+", "-" };
 
@@ -291,8 +343,8 @@ public class UI_TutorialGame : UI_Scene
     //    Debug.Log("StartGame");
     //}
 
-    // ȭ���� �����Ǵ� �ð� �����ϴ� �Լ� 
-    // ���� ȭ�� ������ � ���Դ��� üũ
+    // 화살이 생성되는 시간 조절하는 함수 
+    // 현재 화살 개수가 몇개 나왔는지 체크
     IEnumerator SetArrowGenerationTime(float delayTime)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(delayTime);
@@ -303,7 +355,7 @@ public class UI_TutorialGame : UI_Scene
         StartCoroutine("SetArrowGenerationTime", 1f);
     }
 
-    // ���� �÷��̾��� ��ġ�� ���� ������Ʈ ������ 
+    // 현재 플레이어의 위치를 향해 오브젝트 날리기 
     void ShootArrow()
     {
         GameObject arrowObj = MakeArrow();
@@ -314,7 +366,7 @@ public class UI_TutorialGame : UI_Scene
         Debug.Log($"Arrow type: {arrow.type} num or operator: {arrow.tmp} speed: {arrow.speed} \n startPosition:{arrow.startPosition.x} , {arrow.startPosition.y} \n direction: {arrow.direction}");
     }
 
-    // ȭ�� ���� �����ϴ� �Լ�
+    // 화살 동적 생성하는 함수
     GameObject MakeArrow()
     {
         //GameObject arrowObject = Instantiate(Managers.Resource.Load<GameObject>($"Prefabs/Arrow"), GetObject((int)GameObjects.ArrowController).transform);
@@ -326,8 +378,7 @@ public class UI_TutorialGame : UI_Scene
         arrowObject.GetOrAddComponent<RectTransform>().position = arrow.startPosition;
         return arrowObject;
     }
-
-    // ȭ�� �����ϴ� �Լ�
+    // 화살 설정하는 함수
     void SetArrow(Arrow arrow)
     {
         if (SetArrowType(arrow) == 0)
@@ -339,7 +390,7 @@ public class UI_TutorialGame : UI_Scene
         SetArrowSpeed(arrow);
     }
 
-    // ���� ������ ȭ���� Ÿ�� �������� ��ȣ���� �����ϴ� �Լ� 
+    // 화살이 들고있는 값을 설정하는 함수 
     int SetArrowType(Arrow arrow)
     {
         arrow.type = UnityEngine.Random.Range(0, 2);
@@ -375,7 +426,7 @@ public class UI_TutorialGame : UI_Scene
         arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[UnityEngine.Random.Range(0, 2)];   // 50%�� Ȯ���� Symbol�� ��Ģ���� �� �ϳ��� ��ȣ�� �ش��Ѵ�.
     }
 
-    // ȭ���� ���� ��ġ �����ϴ� �Լ� 
+    // 화살의 생성 위치 조절하는 함수 
     void SetArrowStartPosition(Arrow arrow)
     {
         int randValue = UnityEngine.Random.Range(0, 3);
@@ -428,8 +479,8 @@ public class UI_TutorialGame : UI_Scene
         return newPos;
     }
 
-    // ȭ���� ���� �����ϴ� �Լ� 
-    // ���� �÷��̾��� ��ġ�� ����
+    // 화살의 방향 조절하는 함수 
+    // 현재 플레이어의 위치로 설정
     void SetArrowDirection(Arrow arrow)
     {
         //arrow.direction = GetObject((int)GameObjects.Player).transform.position - (Vector3)arrow.startPosition;
@@ -455,7 +506,7 @@ public class UI_TutorialGame : UI_Scene
         }
     }
 
-    // ȭ���� �ӵ� �����ϴ� �Լ� 
+    // 화살의 속도 조절하는 함수 
     void SetArrowSpeed(Arrow arrow)
     {
         arrow.speed = UnityEngine.Random.Range(250.0f, 270.0f);

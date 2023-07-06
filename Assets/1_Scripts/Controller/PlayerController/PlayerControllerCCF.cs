@@ -72,6 +72,8 @@ public class PlayerControllerCCF : UI_Base
                 return;
             }
             _onCalculateBoard.GetComponent<TextMeshProUGUI>().text += symbol;
+            transform.parent.GetComponent<UI_Scene>().Invoke("PreCalculate",0);
+
         }
         else if(collision.gameObject.tag == "ArrowOnlyin1vs1")
         {
