@@ -266,6 +266,7 @@ MonoBehaviour:
   wj_sample1vs1: {fileID: 0}
   GameStarted: 0
   pool: []
+  witchController: {fileID: 0}
   QstMaxNum: 0
   curQstnum: 0
 --- !u!1 &656594466369112349
@@ -537,7 +538,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Alignment: {x: 0.5, y: 0.5}
-  m_Text: $$TEXDraw$$
+  m_Text: 
   m_Size: 57.9
   m_ScrollArea:
     serializedVersion: 2
@@ -703,7 +704,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Alignment: {x: 0.5, y: 0.5}
-  m_Text: $$TEXDraw$$
+  m_Text: 
   m_Size: 52.7
   m_ScrollArea:
     serializedVersion: 2
@@ -774,7 +775,6 @@ MonoBehaviour:
   HpBar: {fileID: 2170747594440512121}
   QusetionNumber: 0
   QusetionNumberText: {fileID: 3538951238657409658}
-  isAlive: 1
 --- !u!1 &2170747594440512122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1390,7 +1390,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6065908990780481882
 RectTransform:
   m_ObjectHideFlags: 0

@@ -7,12 +7,11 @@ using UnityEngine.UI;
 
 public class WitchController : MonoBehaviour
 {
-    public int Hp = 100;
+    public float Hp = 100f;
     public Image witchImg;
     public RectTransform HpBar;
     public int QusetionNumber;
     public TextMeshProUGUI QusetionNumberText;
-    public bool isAlive = true;
     Color color;
 
     private void Awake()
@@ -44,12 +43,7 @@ public class WitchController : MonoBehaviour
         yield return null;
     }
 
-    private void Update()
-    {
-        GameWinPopup();
-    }
-
-    public void SetWitchHP(int damage)
+    public void SetWitchHP(float damage)
     {
         Hp -= damage;
         float damaged = (100-Hp) * 14.4f;
@@ -63,12 +57,4 @@ public class WitchController : MonoBehaviour
         QusetionNumberText.text = $"{QusetionNumber}";
     }
 
-    public void GameWinPopup()
-    {
-        if (Hp <= 0 && isAlive == true)
-        {
-            Managers.UI.ShowPopupUI<UI_GameWin>();
-            isAlive = false;
-        }
-    }
 }

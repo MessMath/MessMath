@@ -62,9 +62,10 @@ public class UI_Fight1vs1Game : UI_Scene
     public bool GameStarted = false;
     public TEXDraw[] pool;
     TEXDraw[] TEXDrawPool;
+    public WitchController witchController;
 
-    public int QstMaxNum;
-    public int curQstnum; // Current Question N
+    public int QstMaxNum; // 최대 문제 갯수
+    public int curQstnum; // 지금까지 푼 문제의 갯수
 
     private void Awake()
     {
@@ -101,10 +102,9 @@ public class UI_Fight1vs1Game : UI_Scene
 
         canvas = gameObject.GetComponent<Canvas>();
         canvasGroup = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().GetComponent<CanvasGroup>();
-
         TEXDrawPool = GetObject((int)GameObjects.TEXDrawPool).GetComponentsInChildren<TEXDraw>();
-
         wj_sample1vs1 = GetObject((int)GameObjects.WJ_Sample1vs1).GetComponent<WJ_Sample1vs1>();
+        witchController = GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>();
 
         #region 가호 버튼 설정
         if (PlayerPrefs.GetString("SelectedGrace0InOneToOne") != "")
@@ -280,11 +280,12 @@ public class UI_Fight1vs1Game : UI_Scene
             Managers.Game._idxOfHeart++;
     }
 
-    public void damageToWitch(int damage)
+    public void damageToWitch(float damage)
     {
-        GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>().SetWitchHP(damage);
-        if (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
-            GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>().Questioning();
+        witchController.SetWitchHP(damage);
+
+        if (witchController.Hp <= 0)
+            Managers.UI.ShowPopupUI<UI_GameWin>();
     }
 
     #endregion
