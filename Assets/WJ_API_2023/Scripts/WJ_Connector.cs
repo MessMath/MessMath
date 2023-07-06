@@ -132,7 +132,7 @@ public class WJ_Connector : MonoBehaviour
     /// <summary>
     /// 학습 문제를 받아오기 위해 서버와 통신
     /// </summary>
-    private IEnumerator Send_Learning()
+    public IEnumerator Send_Learning()
     {
         Request_Learning_Setting request = new Request_Learning_Setting();
 
