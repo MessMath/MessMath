@@ -65,7 +65,7 @@ public class GraceManager
         float radius = 100f;
         float angle = 0f;
         float speed = 2f;
-        int prevWitchHp = witch.Hp;
+        float prevWitchHp = witch.Hp;
 
         // 공격 데미지 2배
         Managers.Game.Damage *= 2;
@@ -89,7 +89,7 @@ public class GraceManager
     /// <param name="angle">시작각도</param>
     /// <param name="speed">속도</param>
     /// <param name="prevWitchHp">마녀의 이전 체력</param>
-    IEnumerator RotateCeres(GameObject Ceres, Transform center, float radius, float angle, float speed, int prevWitchHp)
+    IEnumerator RotateCeres(GameObject Ceres, Transform center, float radius, float angle, float speed, float prevWitchHp)
     {
         int centerIndex = center.transform.GetSiblingIndex();
         int underPlayer = centerIndex + 1;
@@ -189,15 +189,16 @@ public class GraceManager
         string tag = isthisStoryScene ? "Arrow" : "ArrowOnlyin1vs1";
         List<GameObject> arrows = GameObject.FindGameObjectsWithTag(tag).ConvertTo<List<GameObject>>();
 
-        CoroutineHandler.StartCoroutine(NewtonForce(arrows));
+        CoroutineHandler.StartCoroutine(NewtonForce(arrows,3));
     }
 
     /// <summary>
     /// 뉴턴의 가호로 화살 끌어오고, 가호 끝내기
     /// </summary>
     /// <param name="arrows">대상 화살들</param>
+    /// <param name="AnsNum">정답 처리 횟수</param>
     /// <returns></returns>
-    IEnumerator NewtonForce(List<GameObject> arrows)
+    IEnumerator NewtonForce(List<GameObject> arrows, int AnsNum)
     {
         int exit = 0;
 
@@ -228,9 +229,19 @@ public class GraceManager
         {
             WJ_Sample1vs1 wJ_Sample1vs1 = player._fight1vs1sceneUi.wj_sample1vs1;
 
-            wJ_Sample1vs1.SelectAnswer(Managers.Connector.cLearnSet.data.qsts[wJ_Sample1vs1.currentQuestionIndex].qstCransr);
-            wJ_Sample1vs1.SelectAnswer(Managers.Connector.cLearnSet.data.qsts[wJ_Sample1vs1.currentQuestionIndex].qstCransr);
-            wJ_Sample1vs1.SelectAnswer(Managers.Connector.cLearnSet.data.qsts[wJ_Sample1vs1.currentQuestionIndex].qstCransr);
+            for (int i = 0; i < AnsNum; i++)
+            {
+                int index = wJ_Sample1vs1.currentQuestionIndex;
+                if(index >= 8)
+                {
+                    yield return CoroutineHandler.StartCoroutine(Managers.Connector.Send_Learning());
+                    i--;
+                    continue;
+                }
+                string qstCransr = Managers.Connector.cLearnSet.data.qsts[index].qstCransr;
+                wJ_Sample1vs1.SelectAnswer(qstCransr);
+            }
+
             player.transform.parent.GetComponent<UI_Fight1vs1Game>().Invoke("RefreshUI", 0);
         }
     }
