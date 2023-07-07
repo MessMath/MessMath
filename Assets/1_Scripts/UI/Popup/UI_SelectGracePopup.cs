@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class UI_SelectGracePopup : UI_Popup
 {
+    enum Images
+    {
+        BG,
+    }
+
     enum Buttons
     {
         SelectedGrace0,
@@ -13,7 +18,6 @@ public class UI_SelectGracePopup : UI_Popup
         Cancel0Btn,
         Cancel1Btn,
         Cancel2Btn,
-        ExitBtn,
         StartGameBtn,
     }
 
@@ -33,13 +37,14 @@ public class UI_SelectGracePopup : UI_Popup
         if (base.Init() == false)
             return false;
 
+        BindImage(typeof(Images));
         BindButton(typeof(Buttons));
         SettingCancelBtn();
 
         if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup") != null) // 인벤토리가 열려있을 때
             GetButton((int)Buttons.StartGameBtn).gameObject.SetActive(false);
 
-        GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(OnClosePopup);
+        GetImage((int)Images.BG).gameObject.BindEvent(OnClosePopup);
         GetButton((int)Buttons.Cancel0Btn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickCancelBtn(0); });
         GetButton((int)Buttons.Cancel1Btn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickCancelBtn(1); });
         GetButton((int)Buttons.Cancel2Btn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickCancelBtn(2); });

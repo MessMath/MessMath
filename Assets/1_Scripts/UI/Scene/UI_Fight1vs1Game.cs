@@ -172,6 +172,15 @@ public class UI_Fight1vs1Game : UI_Scene
         }
     }
 
+    void OnClickGraceBtn()
+    {
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
+
+        // TODO Ani
+
+    }
+
     void RefreshUI()        // 문항이 보이는 영역 (보드) 새로고침
     {
         TEXDraw textCn = GetObject((int)GameObjects.Calculate_BoardtextCn).GetComponent<TEXDraw>();
