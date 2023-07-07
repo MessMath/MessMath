@@ -47,7 +47,6 @@ public class UI_ReplayStory : UI_Popup
             {
                 GameObject item = Managers.UI.MakeSubItem<UI_Area>(GetObject((int)GameObjects.Content).transform, "PlayerArea").gameObject; 
                 UI_Area area = item.GetOrAddComponent<UI_Area>();
-            
                 picture = "Sprites/Story/Characters/Expression";
                 if(area.Init()) 
                 area.SetArea(characterName, dialogue, picture, expression);
