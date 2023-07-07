@@ -9,4 +9,10 @@
 	<TextData ID="10100" kor="수학자 1vs1 모드 가호 선택창" eng="" />
 	<TextData ID="10101" kor="스토리 모드 가호 선택창" eng="" />
 	<TextData ID="10200" kor="다음 수업으로" eng="" />
+	<TextData ID="10300" kor="잘했습니다." eng="" />
+	<TextData ID="10301" kor="좋습니다." eng="" />
+	<TextData ID="10302" kor="훌륭해요." eng="" />
+	<TextData ID="10400" kor="다시 생각해볼까요?" eng="" />
+	<TextData ID="10401" kor="이런..." eng="" />
+	<TextData ID="10402" kor="저런..." eng="" />
 </ArrayOfTextData>

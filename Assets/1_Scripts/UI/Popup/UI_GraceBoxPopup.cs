@@ -80,7 +80,7 @@ public class UI_GraceBoxPopup : UI_Popup
     {
         _graces.Clear();
         //GetText((int)Texts.TitleText).text = "수학자 1vs1 모드 가호 선택 창"; // 한영모드 추가시 변경
-        GetText((int)Texts.TitleText).text = Managers.GetText(10100);
+        GetText((int)Texts.TitleText).text = Managers.GetText(Define.OneToOneModeSelectGracePopupText);
 
         // 프리펩에 있는거 삭제
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
@@ -103,7 +103,7 @@ public class UI_GraceBoxPopup : UI_Popup
     {
         _graces.Clear();
         //GetText((int)Texts.TitleText).text = "스토리 모드 가호 선택 창"; // ??÷? ??? ???? ????
-        GetText((int)Texts.TitleText).text = Managers.GetText(10101);
+        GetText((int)Texts.TitleText).text = Managers.GetText(Define.StoryModeSelectGracePopupText);
 
         // ?????? ????? ??? ?????? ????
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;

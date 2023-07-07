@@ -102,8 +102,8 @@ public class UI_SelectGracePopup : UI_Popup
             {
                 if (idx == i)
                 {
-                    GetButton(i).gameObject.GetComponent<Image>().sprite = null;
                     PlayerPrefs.SetString($"SelectedGrace{i}InOneToOne", "");
+                    GetButton(i).gameObject.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Sprites/Inventory/inven_1vs1_grace");
                     SettingCancelBtn();
                     OneToOneModeRefreshUI();
                 }
@@ -115,8 +115,8 @@ public class UI_SelectGracePopup : UI_Popup
             {
                 if (idx == i)
                 {
-                    GetButton(i).gameObject.GetComponent<Image>().sprite = null;
                     PlayerPrefs.SetString($"SelectedGrace{i}InStory", "");
+                    GetButton(i).gameObject.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Sprites/Inventory/inven_1vs1_grace");
                     SettingCancelBtn();
                     StoryModeRefreshUI();
                 }
@@ -129,7 +129,7 @@ public class UI_SelectGracePopup : UI_Popup
         SettingCancelBtn();
         for (int i = 0; i < 3; i++)
         {
-            if (PlayerPrefs.HasKey($"SelectedGrace{i}InOneToOne"))
+            if (PlayerPrefs.GetString($"SelectedGrace{i}InOneToOne") != "")
                 GetButton(i).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString($"SelectedGrace{i}InOneToOne"));
         }
     }
@@ -139,7 +139,7 @@ public class UI_SelectGracePopup : UI_Popup
         SettingCancelBtn();
         for (int i = 0; i < 3; i++)
         {
-            if (PlayerPrefs.HasKey($"SelectedGrace{i}InStory"))
+            if (PlayerPrefs.GetString($"SelectedGrace{i}InStory") != "")
                 GetButton(i).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString($"SelectedGrace{i}InStory"));
         }
     }

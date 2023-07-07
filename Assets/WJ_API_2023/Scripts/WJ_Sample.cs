@@ -215,7 +215,7 @@ public class WJ_Sample : MonoBehaviour
                     // 다음 수업
                     getLearningButton.gameObject.SetActive(true);
                     //getLearningButton.gameObject.GetComponentInChildren<Text>().text = "다음 수업";
-                    getLearningButton.gameObject.GetComponentInChildren<Text>().text = Managers.GetText(10200);
+                    getLearningButton.gameObject.GetComponentInChildren<Text>().text = Managers.GetText(Define.NextClassText);
 
                     // TODO
                     // 한 수업 당 문제를 6개 이상 맞춘다면 코인 보너스

@@ -133,16 +133,16 @@ public class UI_PracticeGame : UI_Scene
 
         if (Managers.Game.IsCorrect == true)
         {
-            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = "Good Job!!"; }
-            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = "Oh!!"; }
-            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = "Yes!!"; }
+            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.RightAnswerTeacherTalkText + 0); }
+            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.RightAnswerTeacherTalkText + 1); }
+            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.RightAnswerTeacherTalkText + 2); }
             
         }
         else
         {
-            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = "Use your head"; }
-            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = "Not Kidding"; }
-            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = "Hmm..."; }
+            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.WrongAnswerTeacherTalkText + 0); }
+            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.WrongAnswerTeacherTalkText + 1); }
+            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.WrongAnswerTeacherTalkText + 2); }
         }
 
     }
