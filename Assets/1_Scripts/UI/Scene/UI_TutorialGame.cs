@@ -11,6 +11,7 @@ using System.IO;
 
 public class UI_TutorialGame : UI_Scene
 {
+    WitchController witchController;
     enum Texts
     {
         Calculate_BoardText,
@@ -68,11 +69,6 @@ public class UI_TutorialGame : UI_Scene
         StartCoroutine("SetArrowGenerationTime", 0.5f);
     }
 
-    private void Start()
-    {
-
-    }
-
     public override bool Init()
     {
         if (base.Init() == false)
@@ -90,6 +86,7 @@ public class UI_TutorialGame : UI_Scene
         GetText((int)Texts.PrintNumber_Text).text = "";
         GetText((int)Texts.Calculate_BoardText).text = "";
         GetButton((int)Buttons.EqualButton).gameObject.BindEvent(Calculate);
+        witchController = GetObject((int)GameObjects.Witch).GetComponent<WitchController>();
 
         for (int i = 0; i < 3; i++)
         {
@@ -233,7 +230,6 @@ public class UI_TutorialGame : UI_Scene
             damageToWitch(Managers.Game.Damage);
             GetText((int)Texts.QuestionNumber_Text).text = "5";
         }
-            
     }
 
     IEnumerator Waitfor2Sec()
@@ -264,6 +260,10 @@ public class UI_TutorialGame : UI_Scene
     {
         GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().SetWitchHP(damage);
         //GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().Questioning();
+        if(witchController.Hp <= 0)
+        {
+            Managers.UI.ShowPopupUI<UI_GameWin>();
+        }
     }
 
     #endregion

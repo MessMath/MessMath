@@ -6,4 +6,6 @@
 	<TextData ID="10002" kor="테스트는 총 8문제로 진행됩니다." eng="" />
 	<TextData ID="10003" kor="학생의 실력을 파악한 후, 실력에 맞게 교실에 배정되니 참고해주세요." eng="" />
 	<TextData ID="10004" kor="그럼 시작합니다." eng="" />
+	<TextData ID="10100" kor="수학자 1vs1 모드 가호 선택창" eng="" />
+	<TextData ID="10101" kor="스토리 모드 가호 선택창" eng="" />
 </ArrayOfTextData>
