@@ -165,10 +165,10 @@ public class UI_Fight1vs1Game : UI_Scene
     {
         for (int i = 0; i < 3; i++)
         {
-            if (PlayerPrefs.GetString($"SelectedGrace{i}InOneToOne") != "")
-                GetButton(i).gameObject.SetActive(true);
-            else
+            if (PlayerPrefs.GetString($"SelectedGrace{i}InOneToOne") == "")
                 GetButton(i).gameObject.SetActive(false);
+            else
+                GetButton(i).gameObject.SetActive(true);
         }
     }
 

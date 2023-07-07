@@ -21,13 +21,13 @@ public class UI_StoryGame : UI_Scene
 
     enum Buttons
     {
-        AllErase,
-        EqualButton,
-        SettingBtn,
         // 가호 버튼들
         SelectedGrace,
         SelectedGrace1,
         SelectedGrace2,
+        AllErase,
+        EqualButton,
+        SettingBtn,   
     }
 
     enum Images
@@ -141,10 +141,10 @@ public class UI_StoryGame : UI_Scene
     {
         for (int i = 0; i < 3; i++)
         {
-            if (PlayerPrefs.GetString($"SelectedGrace{i}InStory") != "")
-                GetButton(i).gameObject.SetActive(true);
-            else
+            if (PlayerPrefs.GetString($"SelectedGrace{i}InStory") == "")
                 GetButton(i).gameObject.SetActive(false);
+            else
+                GetButton(i).gameObject.SetActive(true);
         }
     }
 
@@ -256,8 +256,15 @@ public class UI_StoryGame : UI_Scene
 
     public void damageToWitch(int damage)
     {
-        GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().SetWitchHP(damage);
-        GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().Questioning();
+        WitchController witchController = GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>();
+        witchController.SetWitchHP(damage);
+        witchController.Questioning();
+        if(witchController.Hp <= 0)
+        {
+            witchController.Hp = 0;
+            Managers.UI.ShowPopupUI<UI_GameWin>();
+        }
+        
     }
 
     #endregion

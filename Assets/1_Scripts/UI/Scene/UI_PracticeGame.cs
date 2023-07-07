@@ -147,7 +147,7 @@ public class UI_PracticeGame : UI_Scene
 
     }
 
-    // TODO? API 코드도 다 넣어서 관리할까..??
+    // TODO API 코드도 다 넣어서 관리할까..??
     #region 웅진 API
 
     #endregion
