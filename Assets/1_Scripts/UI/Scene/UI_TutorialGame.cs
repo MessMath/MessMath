@@ -262,7 +262,7 @@ public class UI_TutorialGame : UI_Scene
         //GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().Questioning();
         if(witchController.Hp <= 0)
         {
-            Managers.UI.ShowPopupUI<UI_GameWin>();
+            Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
         }
     }
 

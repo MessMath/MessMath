@@ -134,6 +134,8 @@ public class UI_GraceBoxPopup : UI_Popup
 
     void OnClickGraceBtn()
     {
+        Managers.Sound.Play("ClickBtnEff");
+
         GetImage((int)Images.SelectedGraceImage).sprite = Utils.FindChild(selectedObject, "Grace").GetOrAddComponent<Image>().sprite;
         GetText((int)Texts.SelectedGraceText).text = Utils.FindChild(selectedObject, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text;
         GetText((int)Texts.SelectedGraceDescription).text = selectedObject.GetOrAddComponent<UI_GraceItem>()._description;

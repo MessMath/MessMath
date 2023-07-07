@@ -56,4 +56,5 @@ public class Define
     public const int NextClassText = 10200;
     public const int RightAnswerTeacherTalkText = 10300; // 10303까지 사용
     public const int WrongAnswerTeacherTalkText = 10400; // 10403까지 사용
+    public const int selectGracePopupTitleText = 5000;
 }
