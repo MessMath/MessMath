@@ -18,6 +18,7 @@ public class Managers : MonoBehaviour
     public static WJ_Connector Connector { get { return s_connector; } }
 
     private static GraceManager s_graceManager = new GraceManager();
+    private static DebuffManager s_debuffManager = new DebuffManager();
     private static DataManager s_dataManager = new DataManager();
     private static GameManagerEx s_gameManagerEx = new GameManagerEx();
     private static ResourceManager s_resourceManager = new ResourceManager();
@@ -29,6 +30,7 @@ public class Managers : MonoBehaviour
     private static CoinManager s_coinManager = new CoinManager();
 
     public static GraceManager Grace { get { Init(); return s_graceManager; } }
+    public static DebuffManager Debuff { get { Init(); return s_debuffManager; } }
     public static DataManager Data { get { Init(); return s_dataManager; } }
     public static GameManagerEx Game { get { Init(); return s_gameManagerEx; } }
     public static ResourceManager Resource { get { Init(); return s_resourceManager; } }

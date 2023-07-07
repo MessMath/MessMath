@@ -131,8 +131,8 @@ public class WJ_Sample1vs1 : MonoBehaviour
         string correctAnswer;
         string[] wrongAnswers;
 
-        Debug.Log(textCn);
-        Debug.Log(qstCn);
+        //Debug.Log(textCn);
+        //Debug.Log(qstCn);
 
         //textDescription.text = textCn;
         //textEquation.text = qstCn;
@@ -192,6 +192,9 @@ public class WJ_Sample1vs1 : MonoBehaviour
                 isCorrect = ansr.CompareTo(Managers.Connector.cLearnSet.data.qsts[currentQuestionIndex].qstCransr) == 0 ? true : false;
                 ansrCwYn = isCorrect ? "Y" : "N";
 
+                currentQuestionIndex++;
+                uI_Fight1Vs1Game.SolvedQstNum++;
+
                 // 테스트로 추가한 부분
                 if (isCorrect)
                 {
@@ -213,8 +216,6 @@ public class WJ_Sample1vs1 : MonoBehaviour
                 }
 
                 isSolvingQuestion = false;
-                currentQuestionIndex++;
-                uI_Fight1Vs1Game.curQstnum++;
 
                 Managers.Connector.Learning_SelectAnswer(currentQuestionIndex, ansr, ansrCwYn, (int)(questionSolveTime * 1000));
 

@@ -40,6 +40,7 @@ public class GraceManager
     /// <param name="graceName"> 가호의 이름을 입력 예. CallGrace </param>
     public void CallGrace(string graceName)
     {
+        Setup();
         switch (graceName)
         {
             case "GraceOfGauss":
@@ -61,7 +62,6 @@ public class GraceManager
     {
         if (gaussOn) return;
         gaussOn = true;
-        Setup();
         float radius = 100f;
         float angle = 0f;
         float speed = 2f;
@@ -128,7 +128,6 @@ public class GraceManager
     {
         if (pythagorasOn) return;
         pythagorasOn = true;
-        Setup();
 
         float Time = 5.0f;      // 지속시간은 5초
 
@@ -183,7 +182,6 @@ public class GraceManager
         newtonOn = true;
         playerCollisionOff = true;
 
-        Setup();
         // Scene에 따라 다르게 행동 => StoryGameScene / Fight1vs1GameScene
         bool isthisStoryScene = (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene);
         string tag = isthisStoryScene ? "Arrow" : "ArrowOnlyin1vs1";

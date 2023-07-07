@@ -65,7 +65,7 @@ public class UI_Fight1vs1Game : UI_Scene
     public WitchController witchController;
 
     public int QstMaxNum; // 최대 문제 갯수
-    public int curQstnum; // 지금까지 푼 문제의 갯수
+    public int SolvedQstNum; // 지금까지 푼 문제의 갯수
 
     private void Awake()
     {
@@ -138,7 +138,7 @@ public class UI_Fight1vs1Game : UI_Scene
 
         // 풀어야하는 문항 수 지정
         QstMaxNum = PlayerPrefs.GetInt("QstLimit");
-        curQstnum = 0;
+        SolvedQstNum = 0;
         #endregion
 
         // 시작하기전에 팝업 등장!
@@ -152,7 +152,7 @@ public class UI_Fight1vs1Game : UI_Scene
         if (!GameStarted) return;
 
         // 풀어야하는 문항수를 다 풀면
-        if (curQstnum >= QstMaxNum) { Managers.UI.ShowPopupUI<UI_GameWin>(); GameStarted = false; }
+        if (SolvedQstNum >= QstMaxNum) { Managers.UI.ShowPopupUI<UI_GameWin>(); GameStarted = false; }
         if (wj_sample1vs1.currentQuestionIndex >= 8)
         {
             Managers.Connector.Learning_GetQuestion();
@@ -197,7 +197,7 @@ public class UI_Fight1vs1Game : UI_Scene
 
     void PoolUpdate()
     {
-        if (Managers.Connector.cLearnSet == null)
+        if (Managers.Connector.cLearnSet == null || wj_sample1vs1.currentQuestionIndex >= 8)
             return;
         int cIndex = wj_sample1vs1.currentQuestionIndex;
         string correctAnswer = Managers.Connector.cLearnSet.data.qsts[cIndex].qstCransr;
@@ -286,6 +286,9 @@ public class UI_Fight1vs1Game : UI_Scene
 
         if (witchController.Hp <= 0)
             Managers.UI.ShowPopupUI<UI_GameWin>();
+
+        if ((QstMaxNum - SolvedQstNum) % 4 == 0)
+            Managers.Debuff.CallDebuff(PlayerPrefs.GetString("Boss"));
     }
 
     #endregion
