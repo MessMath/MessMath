@@ -107,23 +107,26 @@ public class UI_TutorialGame : UI_Scene
         Managers.Game.Damage = 45;
 
         #region 가호 버튼 설정
-        if (PlayerPrefs.GetString("SelectedGrace0InStory") != "")
-        {
-            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InStory")));
-            GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InStory"));
-        }
 
-        if (PlayerPrefs.GetString("SelectedGrace1InStory") != "")
-        {
-            GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InStory")));
-            GetButton((int)Buttons.SelectedGrace1).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1InStory"));
-        }
+        GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfGauss"));
+        GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + "GraceOfGauss");
 
-        if (PlayerPrefs.GetString("SelectedGrace2InStory") != "")
-        {
-            GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InStory")));
-            GetButton((int)Buttons.SelectedGrace2).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2InStory"));
-        }
+        //if (PlayerPrefs.GetString("SelectedGrace0InStory") != "")
+        //{
+        //    GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InStory")));
+        //    GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InStory"));
+        //}
+        //if (PlayerPrefs.GetString("SelectedGrace1InStory") != "")
+        //{
+        //    GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InStory")));
+        //    GetButton((int)Buttons.SelectedGrace1).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1InStory"));
+        //}
+
+        //if (PlayerPrefs.GetString("SelectedGrace2InStory") != "")
+        //{
+        //    GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InStory")));
+        //    GetButton((int)Buttons.SelectedGrace2).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2InStory"));
+        //}
         #endregion        
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
 
@@ -144,6 +147,7 @@ public class UI_TutorialGame : UI_Scene
     void AllErase()
     {
         GetText((int)Texts.Calculate_BoardText).text = "";
+        PreCalculate();
     }
 
     public void PreCalculate()
@@ -155,6 +159,12 @@ public class UI_TutorialGame : UI_Scene
         //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("÷", "/");
         string printResult;
 
+        if(expressionToCalculate.Trim() == "")
+        {
+            GetText((int)Texts.PreCalculation_Text).text = "";
+            return;
+        }
+
         DataTable table = new DataTable();
 
         try
@@ -165,7 +175,7 @@ public class UI_TutorialGame : UI_Scene
         }
         catch (System.Exception e)
         {
-            Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
+            //Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
             printResult = "";
             //damageToPlayer(1);
             return;
@@ -230,6 +240,8 @@ public class UI_TutorialGame : UI_Scene
             damageToWitch(Managers.Game.Damage);
             GetText((int)Texts.QuestionNumber_Text).text = "5";
         }
+
+        PreCalculate();
     }
 
     IEnumerator Waitfor2Sec()

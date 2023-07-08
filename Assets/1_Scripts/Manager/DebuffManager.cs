@@ -2,10 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 /// <summary>
 /// 모든 디버프를 관리하는 Manager
@@ -100,7 +98,8 @@ public class DebuffManager
     private void DebuffOfPythagoras()
     {
         Debug.Log("<color=red>DebuffOfPythagoras</color>");
-
+        GameObject SoPyth = Managers.Resource.Instantiate("Debuffs/ShadowOfPythagoras",player.transform.parent);
+        GameObject.Destroy(SoPyth,3f);
     }
 
     /// <summary>
