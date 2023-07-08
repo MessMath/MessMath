@@ -50,5 +50,12 @@ public class Define
         LEARNING 
     }
 
-    public const int DiagnosisTeacherText = 10000;
+    public const int selectGracePopupTitleText = 5000;
+    public const int DiagnosisTeacherText = 10000; // 10020까지 사용 금지 10100
+    public const int OneToOneModeSelectGracePopupText = 10100;
+    public const int StoryModeSelectGracePopupText = 10101; 
+    public const int NextClassText = 10200;
+    public const int RightAnswerTeacherTalkText = 10300; // 10303까지 사용
+    public const int WrongAnswerTeacherTalkText = 10400; // 10403까지 사용
+    public const int TipText = 20000;
 }

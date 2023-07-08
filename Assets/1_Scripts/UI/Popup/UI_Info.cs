@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Info : UI_Popup
 {
@@ -8,6 +9,9 @@ public class UI_Info : UI_Popup
     {
         UserName,
         UserMessage,
+        CustomizingObject1,
+        CustomizingObject2,
+        CustomizingObject3,
     }
 
     enum Texts
@@ -37,9 +41,19 @@ public class UI_Info : UI_Popup
         BindText(typeof(Texts));
         BindButton(typeof(Buttons));
         BindImage(typeof(Images));
-        
+
+        #region CustomizingObject Clear
+        GetObject((int)GameObjects.CustomizingObject1).gameObject.GetComponent<Image>().sprite = null;
+        GetObject((int)GameObjects.CustomizingObject2).gameObject.GetComponent<Image>().sprite = null;
+        GetObject((int)GameObjects.CustomizingObject3).gameObject.GetComponent<Image>().sprite = null;
+        #endregion
+        if (Managers.Game.Name != null)
+            GetText((int)Texts.UserNameText).text = Managers.Game.Name;
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(()=> Managers.UI.ClosePopupUI(this));
 
         return true;
     }
+
+
+
 }

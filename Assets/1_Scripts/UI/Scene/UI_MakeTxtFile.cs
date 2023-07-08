@@ -7,6 +7,7 @@ public class UI_MakeTxtFile : UI_Scene
     enum Texts
     {
         LogTMP,
+        TipText,
     }
     enum GameObjects
     {
@@ -32,8 +33,15 @@ public class UI_MakeTxtFile : UI_Scene
         BindText(typeof(Texts));
         BindObject(typeof(GameObjects));
 
+        SelectTip();
         GetText((int)Texts.LogTMP).text = "업데이트 정보를 불러오는 중입니다...";
 
         return true;
+    }
+
+    void SelectTip()
+    {
+        int tipTextCount = Random.Range(0, 21);
+        GetText((int)Texts.TipText).text = Managers.GetText(Define.TipText + tipTextCount);
     }
 }

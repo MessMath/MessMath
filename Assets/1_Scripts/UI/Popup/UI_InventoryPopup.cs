@@ -13,6 +13,8 @@ public class UI_InventoryPopup : UI_Popup
         SelectStoryModeGraceBtn,
         ReplayStoryBtn,
         ExitBtn,
+        CostumeBtn,
+        CollectionBtn,
     }
 
     public override bool Init()
@@ -26,6 +28,8 @@ public class UI_InventoryPopup : UI_Popup
         GetButton((int)Buttons.SelectOneToOneModeGraceBtn).gameObject.BindEvent(SelectOneToOneModeGraceBtn);
         GetButton((int)Buttons.SelectStoryModeGraceBtn).gameObject.BindEvent(SelectStoryModeGraceBtn);
         GetButton((int)Buttons.ReplayStoryBtn).gameObject.BindEvent(ReplayStoryBtn);
+        GetButton((int)Buttons.CostumeBtn).gameObject.BindEvent(CostumeBtn);
+        GetButton((int)Buttons.CollectionBtn).gameObject.BindEvent(CollectionBtn);
 
         RefreshUI();
 
@@ -34,7 +38,19 @@ public class UI_InventoryPopup : UI_Popup
 
     public void RefreshUI()
     {
-        // TODO?? 가호 프리셋이 있으면 이미지도 변경되나??
+        
+    }
+
+    void CostumeBtn()
+    {
+        Managers.Sound.Play("ClickBtnEff");
+        Debug.Log("On Click CostumeBtn");
+    }
+
+    void CollectionBtn()
+    {
+        Managers.Sound.Play("ClickBtnEff");
+        Debug.Log("On Click On Click CollectionBtn");
     }
 
     public void ExitBtn()

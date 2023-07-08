@@ -10,7 +10,6 @@ public class UI_TutorialGamePopup : UI_Popup
     int maxCount;
     int count = -1;
     List<TutorialData> tutorialTalkData = new List<TutorialData>();
-
     int numOfpages;
     int index;
     Transform tutorials;

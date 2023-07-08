@@ -38,7 +38,7 @@ public class UI_Lobby : UI_Scene
         GetButton((int)Buttons.StoryModeBtn).gameObject.transform.Rotate(new Vector3(0f, 0f, -30f) * Time.deltaTime);
     }
 
-    UI_SelectGracePopup _SelectGracePopup = null;
+    UI_SelectGracePopup _selectGracePopup = null;
 
     public override bool Init()
     {
@@ -58,7 +58,10 @@ public class UI_Lobby : UI_Scene
 
         if (PlayerPrefs.HasKey("WatchedStory") && PlayerPrefs.GetInt("WatchedStory")==-2) 
         {
-            GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() => Managers.Scene.ChangeScene(Define.Scene.StoryGameScene));   
+            GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() => {
+                _selectGracePopup = Managers.UI.ShowPopupUI<UI_SelectGracePopup>();
+                _selectGracePopup._state = UI_SelectGracePopup.State.Story;
+                 });  
         }
         else
         {

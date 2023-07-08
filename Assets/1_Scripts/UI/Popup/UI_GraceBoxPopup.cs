@@ -79,14 +79,14 @@ public class UI_GraceBoxPopup : UI_Popup
     void OneToOneModeRefreshUI()
     {
         _graces.Clear();
-        GetText((int)Texts.TitleText).text = "수학자 1vs1 모드 가호 선택 창"; // 한영모드 추가시 변경
+        GetText((int)Texts.TitleText).text = Managers.GetText(Define.OneToOneModeSelectGracePopupText);
 
-        // 프리펩에 있는거 삭제
+        // Delete Prefab Item
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        // TODO 유저 정보로 채워주기
+        // TODO Add Item as User Data
         for (int i = 0; i < _graceDatas.Count; i++)
         {
             GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
@@ -94,21 +94,21 @@ public class UI_GraceBoxPopup : UI_Popup
             Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
             graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
             graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
-            graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = graceItem; OnClickGraceBtn(); });
+            graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); selectedObject = graceItem; OnClickGraceBtn(); });
         }
     }
 
     void StoryModeRefreshUI()
     {
         _graces.Clear();
-        GetText((int)Texts.TitleText).text = "스토리 모드 가호 선택 창"; // ??÷? ??? ???? ????
+        GetText((int)Texts.TitleText).text = Managers.GetText(Define.StoryModeSelectGracePopupText);
 
-        // ?????? ????? ??? ?????? ????
+        // Delete Prefab Item
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        // TODO ?÷???? ?????? ????
+        // TODO Add Item as User Data
         for (int i = 0; i < _graceDatas.Count; i++)
         {
             GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
@@ -116,7 +116,7 @@ public class UI_GraceBoxPopup : UI_Popup
             Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
             graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
             graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
-            graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = graceItem; OnClickGraceBtn(); });
+            graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); selectedObject = graceItem; OnClickGraceBtn(); });
         }
     }
 
@@ -132,6 +132,8 @@ public class UI_GraceBoxPopup : UI_Popup
 
     void OnClickGraceBtn()
     {
+        Managers.Sound.Play("ClickBtnEff");
+
         GetImage((int)Images.SelectedGraceImage).sprite = Utils.FindChild(selectedObject, "Grace").GetOrAddComponent<Image>().sprite;
         GetText((int)Texts.SelectedGraceText).text = Utils.FindChild(selectedObject, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text;
         GetText((int)Texts.SelectedGraceDescription).text = selectedObject.GetOrAddComponent<UI_GraceItem>()._description;
@@ -145,14 +147,14 @@ public class UI_GraceBoxPopup : UI_Popup
         {
             CheckSameGrace();
             SettingOneToOneModeGrace();
-            if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // ??? ???? ??? ???????? ??
+            if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null)
                 Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("OneToOneModeRefreshUI", 0);
         }
         else if (_state == State.Story)
         {
             CheckSameGrace();
             SettingStoryModeGrace();
-            if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null) // ??? ???? ??? ???????? ??
+            if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null)
                 Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("StoryModeRefreshUI", 0);
         }
 

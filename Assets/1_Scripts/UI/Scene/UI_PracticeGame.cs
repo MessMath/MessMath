@@ -54,9 +54,12 @@ public class UI_PracticeGame : UI_Scene
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
 
-        // TODO GameManager에서 플레이어 정보로 Coin개수 가져오기
-        GetText((int)Texts.CoinCount).text = Managers.Game.Coin.ToString();
-        
+        #region Set Coin
+        if (PlayerPrefs.HasKey("Coin"))
+            GetText((int)Texts.CoinCount).text = PlayerPrefs.GetInt("Coin").ToString();
+        else { PlayerPrefs.SetInt("Coin", 0); GetText((int)Texts.CoinCount).text = PlayerPrefs.GetInt("Coin").ToString(); }
+        #endregion
+
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(OnClickSettingBtn);
         GetButton((int)Buttons.AnswerBtn_1).gameObject.BindEvent(OnClickAnswerBtn);
         GetButton((int)Buttons.AnswerBtn_2).gameObject.BindEvent(OnClickAnswerBtn);
@@ -90,7 +93,8 @@ public class UI_PracticeGame : UI_Scene
         Managers.Sound.Play("ClickBtnEff");
 
         // 코인 수 연결. TODO 데베랑 연결해야 됨.
-        GetText((int)Texts.CoinCount).text = Managers.Game.Coin.ToString();
+        if (PlayerPrefs.HasKey("Coin"))
+            GetText((int)Texts.CoinCount).text = PlayerPrefs.GetInt("Coin").ToString();
 
         if (Managers.Game.IsCorrect == true && Managers.Game.CurrentStatus == Define.CurrentStatus.LEARNING) // 오답일 경우?
         {
@@ -133,21 +137,21 @@ public class UI_PracticeGame : UI_Scene
 
         if (Managers.Game.IsCorrect == true)
         {
-            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = "Good Job!!"; }
-            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = "Oh!!"; }
-            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = "Yes!!"; }
+            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.RightAnswerTeacherTalkText + 0); }
+            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.RightAnswerTeacherTalkText + 1); }
+            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.RightAnswerTeacherTalkText + 2); }
             
         }
         else
         {
-            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = "Use your head"; }
-            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = "Not Kidding"; }
-            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = "Hmm..."; }
+            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.WrongAnswerTeacherTalkText + 0); }
+            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.WrongAnswerTeacherTalkText + 1); }
+            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.WrongAnswerTeacherTalkText + 2); }
         }
 
     }
 
-    // TODO? API 코드도 다 넣어서 관리할까..??
+    // TODO API 코드도 다 넣어서 관리할까..??
     #region 웅진 API
 
     #endregion
