@@ -196,7 +196,6 @@ public class WJ_Sample1vs1 : MonoBehaviour
                 if (isCorrect)
                 {
                     Debug.Log("Á¤´ä");
-                    Managers.Game.Coin++;
                     Managers.Game.IsCorrect = true;
 
                     float damage = 100f / uI_Fight1Vs1Game.QstMaxNum;

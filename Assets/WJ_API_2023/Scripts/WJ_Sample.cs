@@ -185,7 +185,7 @@ public class WJ_Sample : MonoBehaviour
                 {
                     Debug.Log("Á¤´ä");
 
-                    Managers.Game.Coin++;
+                    PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") + 1);
                     Managers.Game.IsCorrect = true;
                     // TODO? CoinAnim Add?
 

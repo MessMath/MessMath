@@ -5,16 +5,16 @@ using TMPro;
 
 public class CoinManager
 {
-    int coin = 100;
-
     public int GetCoin()
     {
-        return coin;
+        if (PlayerPrefs.HasKey("Coin"))
+            return PlayerPrefs.GetInt("Coin");
+        else { PlayerPrefs.SetInt("Coin", 0); return PlayerPrefs.GetInt("Coin"); }
     }
 
     public bool CheckPurchase(int price)
     {
-        if(price <= coin)
+        if(price <= GetCoin())
         {
             Purchase(price);
             return true;
@@ -27,7 +27,7 @@ public class CoinManager
 
     public void Purchase(int price)
     {
-        coin -= price;
-        if(coin <= 0) coin = 0;
+        PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") - price);
+        if (GetCoin() <= 0) PlayerPrefs.SetInt("Coin", 0);
     }
 }

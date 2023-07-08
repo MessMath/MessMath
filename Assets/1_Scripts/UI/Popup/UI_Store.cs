@@ -10,10 +10,9 @@ public class UI_Store : UI_Popup
     List<StoreData> graceData = new List<StoreData>();
     List<StoreData> collectionData = new List<StoreData>();
     GameObject content;
-    Color unclickedColor = new Color32(217,217,217,255);
-    Color clickedColor = new Color32(241,148,148,255);
+    Color unclickedColor = new Color32(217, 217, 217, 255);
+    Color clickedColor = new Color32(241, 148, 148, 255);
     bool isInitialized = false;
-    int coin;
     enum Images
     {
         CoinImg,
@@ -39,12 +38,8 @@ public class UI_Store : UI_Popup
     }
     void Update()
     {
-        if(isInitialized)
-            if(coin != Managers.Coin.GetCoin())
-            {
-                coin = Managers.Coin.GetCoin();
-                GetText((int)Texts.CoinTMP).text = coin.ToString();
-            }
+        if (isInitialized)
+            SetCoinText();
     }
 
     public override bool Init()
@@ -57,8 +52,8 @@ public class UI_Store : UI_Popup
         BindObject(typeof(GameObjects));
         BindText(typeof(Texts));
 
-        coin = Managers.Coin.GetCoin();
-        GetText((int)Texts.CoinTMP).text = coin.ToString();
+        SetCoinText();
+
         GetButton((int)Buttons.ExitButton).gameObject.BindEvent(() => { ClosePopupUI(); });
         GetButton((int)Buttons.GraceButton).gameObject.BindEvent(OnClickedGraceBtn);
         GetButton((int)Buttons.CollectionButton).gameObject.BindEvent(OnClickedCollectionBtn);
@@ -75,7 +70,7 @@ public class UI_Store : UI_Popup
     }
 
     void OnClickedGraceBtn()
-    {    
+    {
         GetButton((int)Buttons.GraceButton).gameObject.GetComponent<Image>().color = clickedColor;
         GetButton((int)Buttons.CollectionButton).gameObject.GetComponent<Image>().color = unclickedColor;
         foreach (Transform child in content.transform)
@@ -83,15 +78,15 @@ public class UI_Store : UI_Popup
 
         for (int i = 0; i < graceData.Count; i++)
         {
-            GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject; 
+            GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
-            if(storeItem.Init()) 
+            if (storeItem.Init())
                 storeItem.SetInfo(graceData[i]);
         }
     }
 
     void OnClickedCollectionBtn()
-    {    
+    {
         GetButton((int)Buttons.GraceButton).gameObject.GetComponent<Image>().color = unclickedColor;
         GetButton((int)Buttons.CollectionButton).gameObject.GetComponent<Image>().color = clickedColor;
         foreach (Transform child in content.transform)
@@ -99,16 +94,18 @@ public class UI_Store : UI_Popup
 
         for (int i = 0; i < collectionData.Count; i++)
         {
-            GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject; 
+            GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
-            if(storeItem.Init()) 
+            if (storeItem.Init())
                 storeItem.SetInfo(collectionData[i]);
         }
     }
 
     public void SetCoinText()
     {
-        GetText((int)Texts.CoinTMP).text = Managers.Coin.ToString();
+        if (PlayerPrefs.HasKey("Coin"))
+            GetText((int)Texts.CoinTMP).text = PlayerPrefs.GetInt("Coin").ToString();
+        else { PlayerPrefs.SetInt("Coin", 0); GetText((int)Texts.CoinTMP).text = PlayerPrefs.GetInt("Coin").ToString(); }
     }
 }
 

@@ -23,7 +23,6 @@ public class GameManagerEx
     public string Name { get; set; }
 
     public int _idxOfHeart;
-    public int Coin { get; set; }
     public int Damage { get; set; }
     public bool IsCorrect { get; set; }
     public int SelectGraceInx { get; set; } = 0;
