@@ -37,7 +37,7 @@ public class GraceManager
     /// <summary>
     /// 가호 호출은 모두 CallGrace()를 통해서 한다. Managers.Grace.CallGrace("GraceOfGauss")
     /// </summary>
-    /// <param name="graceName"> 가호의 이름을 입력 예. CallGrace </param>
+    /// <param name="graceName"> 가호의 이름을 입력 </param>
     public void CallGrace(string graceName)
     {
         Setup();

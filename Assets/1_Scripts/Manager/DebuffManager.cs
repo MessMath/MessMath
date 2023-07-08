@@ -26,6 +26,10 @@ public class DebuffManager
         witch = GameObject.FindGameObjectWithTag("Witch").GetComponent<WitchController>();
     }
 
+    /// <summary>
+    /// 모든 디버프는 CallDebuff()를 통해서 한다.
+    /// </summary>
+    /// <param name="MathMTCName">수학자의 이름을 입력</param>
     public void CallDebuff(string MathMTCName)
     {
         Setup();
@@ -43,6 +47,9 @@ public class DebuffManager
         }
     }
 
+    /// <summary>
+    /// 가우스의 디버프 : 가우스 기호로 플레이어의 진로를 방해한다.
+    /// </summary>
     private void DebuffOfGauss()
     {
         Debug.Log("<color=yellow>DebuffOfGauss</color>");
@@ -53,38 +60,52 @@ public class DebuffManager
         CoroutineHandler.StartCoroutine(GaussBrackets(bracket1, bracket2));
     }
 
+    /// <summary>
+    /// 가우스 기호 소환
+    /// </summary>
+    /// <param name="bracket1">기호 오브젝트1</param>
+    /// <param name="bracket2">기호 오브젝트2</param>
+    /// <returns></returns>
     IEnumerator GaussBrackets(GameObject bracket1, GameObject bracket2)
     {
-        Vector3 b1Pos = bracket1.transform.position;
-        Vector3 b1DestPos = new Vector3(-172f, b1Pos.y);
+        Vector3 b1Pos = bracket1.transform.localPosition;
+        Vector3 b1DestPos = new Vector3(-172.0f, b1Pos.y, b1Pos.z);
 
-        Vector3 b2Pos = bracket2.transform.position;
-        Vector3 b2DestPos = new Vector3(172f, b2Pos.y);
+        Vector3 b2Pos = bracket2.transform.localPosition;
+        Vector3 b2DestPos = new Vector3(172f, b2Pos.y, b2Pos.z);
 
         while (true)
         {
-            if (Mathf.Approximately(b1Pos.x, b1DestPos.x))
+            if (Vector3.Distance(bracket1.transform.localPosition, b1DestPos) < 0.05f)
             {
-                UnityEngine.Object.Destroy(bracket1);
-                UnityEngine.Object.Destroy(bracket2);
+                GameObject.Destroy(bracket1,2);
+                GameObject.Destroy(bracket2,2);
                 break;
             }
-            bracket1.transform.position = Vector3.Lerp(bracket1.transform.position, b1DestPos, 0.1f);
-            bracket1.transform.localScale = bracket1.transform.localScale * 0.1f;
+            else
+            {
+                bracket1.transform.localPosition = Vector3.MoveTowards(bracket1.transform.localPosition, b1DestPos, 10f);
+                bracket1.transform.localScale = bracket1.transform.localScale * 0.99f;
 
-            bracket2.transform.position = Vector3.Lerp(bracket1.transform.position, b2DestPos, 0.1f);
-            bracket2.transform.localScale = bracket1.transform.localScale * 0.1f;
-
+                bracket2.transform.localPosition = Vector3.MoveTowards(bracket2.transform.localPosition, b2DestPos, 10f);
+                bracket2.transform.localScale = bracket2.transform.localScale * 0.99f;
+            }
             yield return null;
         }
     }
-
+    
+    /// <summary>
+    /// 피타고라스의 디버프
+    /// </summary>
     private void DebuffOfPythagoras()
     {
         Debug.Log("<color=red>DebuffOfPythagoras</color>");
 
     }
 
+    /// <summary>
+    /// 뉴턴의 디버프
+    /// </summary>
     private void DebuffOfNewton()
     {
         Debug.Log("<color=blue>DebuffOfNewton</color>");

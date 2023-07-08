@@ -285,7 +285,10 @@ public class UI_Fight1vs1Game : UI_Scene
         witchController.SetWitchHP(damage);
 
         if (witchController.Hp <= 0)
+        {
             Managers.UI.ShowPopupUI<UI_GameWin>();
+            return;
+        }
 
         if ((QstMaxNum - SolvedQstNum) % 4 == 0)
             Managers.Debuff.CallDebuff(PlayerPrefs.GetString("Boss"));
