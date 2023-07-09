@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 모든 디버프를 관리하는 Manager
@@ -14,13 +15,17 @@ public class DebuffManager
     Vector3 playerPos;
     WitchController witch;
 
+    // 각 디버프들의 실행 중 유무 bool
+    public bool gaussOn = false;
+    public bool newtonOn = false;
+
     /// <summary>
     /// 모든 디버프는 호출될 때 Setup()을 맨처음에 호출해야 한다.
     /// </summary>
     public void Setup()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControllerCCF>();
-        playerPos = player.transform.position;
+        playerPos = player.transform.localPosition;
         witch = GameObject.FindGameObjectWithTag("Witch").GetComponent<WitchController>();
     }
 
@@ -50,6 +55,7 @@ public class DebuffManager
     /// </summary>
     private void DebuffOfGauss()
     {
+        if (gaussOn) return; gaussOn = true;
         Debug.Log("<color=yellow>DebuffOfGauss</color>");
 
         GameObject bracket1 = Managers.Resource.Instantiate("Debuffs/GaussBrackets1", player.transform.parent);
@@ -90,6 +96,7 @@ public class DebuffManager
             }
             yield return null;
         }
+        gaussOn = false;
     }
     
     /// <summary>
@@ -107,18 +114,40 @@ public class DebuffManager
     /// </summary>
     private void DebuffOfNewton()
     {
+        if (newtonOn) return; newtonOn = true;
         Debug.Log("<color=blue>DebuffOfNewton</color>");
 
-        // UptoSky에서 블랙홀
-        //// 블랙홀
-        //if (collision.gameObject.name == "BlackHole")
-        //{
-        //    Vector3 dir = collision.gameObject.transform.position - gameObject.transform.position;
-        //    Vector3.Normalize(dir);
-        //    _rb.AddForce(dir * 70, ForceMode2D.Force);
-        //    return;
-        //}
+        GameObject Apple = Managers.Resource.Instantiate("Debuffs/AppleOfNewton",player.transform.parent);
 
+        CoroutineHandler.StartCoroutine(NewtonApple(Apple));
+    }
+
+    /// <summary>
+    /// 뉴턴 사과 던지기 & 중력효과
+    /// </summary>
+    /// <param name="apple">사과 오브젝트</param>
+    /// <returns></returns>
+    IEnumerator NewtonApple(GameObject apple)
+    {
+        float rotateDegreePerSec = 45f;
+
+        RectTransform rect = apple.transform.parent.GetComponent<RectTransform>();
+        apple.GetComponent<Rigidbody2D>().AddForce((playerPos - apple.transform.localPosition) * 0.7f, ForceMode2D.Impulse);
+        while(true)
+        {
+            if (apple.transform.position.x < Camera.main.ScreenToWorldPoint(Vector3.zero).x )
+            {
+                GameObject.Destroy(apple);
+                break;
+            }
+            Vector3 dir = apple.transform.localPosition - player.transform.localPosition;
+            Vector3.Normalize(dir);
+            player.GetComponent<Rigidbody2D>().AddForce(dir * 30, ForceMode2D.Force);
+            apple.transform.Rotate(Vector3.forward, Time.deltaTime * rotateDegreePerSec);
+
+            yield return null;
+        }
+        newtonOn = false;
     }
 
 }
