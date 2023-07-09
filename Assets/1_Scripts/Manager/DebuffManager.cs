@@ -131,11 +131,10 @@ public class DebuffManager
     {
         float rotateDegreePerSec = 45f;
 
-        RectTransform rect = apple.transform.parent.GetComponent<RectTransform>();
         apple.GetComponent<Rigidbody2D>().AddForce((playerPos - apple.transform.localPosition) * 0.7f, ForceMode2D.Impulse);
         while(true)
         {
-            if (apple.transform.position.x < Camera.main.ScreenToWorldPoint(Vector3.zero).x )
+            if (apple.transform.position.x < Camera.main.ScreenToWorldPoint(Vector3.zero).x - apple.GetComponent<RectTransform>().sizeDelta.x)
             {
                 GameObject.Destroy(apple);
                 break;
