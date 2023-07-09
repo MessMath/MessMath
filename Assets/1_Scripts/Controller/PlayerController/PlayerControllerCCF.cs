@@ -36,12 +36,6 @@ public class PlayerControllerCCF : UI_Base
         }
     }
 
-    private void Update()
-    {
-        GameOverPopup();
-        //StartCoroutine(Managers.Blessing.tempBlessing());
-    }
-
     void FixedUpdate() 
     {
         Vector2 nextVec = _inputVec * _speed * Time.fixedDeltaTime;

@@ -268,10 +268,16 @@ public class UI_Fight1vs1Game : UI_Scene
 
     public void damageToPlayer(int damage)
     {
+
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp -= damage;
         Debug.Log("player damage 1");
-        if (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
-            GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>().Questioning();
+
+        if (GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp <= 0)
+        {
+            Managers.UI.ShowPopupUI<UI_GameOver>();
+            return;
+        }
+
         GameObject.Find($"Player/Circle/heart{Managers.Game._idxOfHeart}").SetActive(false);
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>().BlinkPlayerImg();
         if (Managers.Game._idxOfHeart > GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp)

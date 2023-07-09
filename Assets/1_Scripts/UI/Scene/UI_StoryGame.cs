@@ -245,6 +245,13 @@ public class UI_StoryGame : UI_Scene
     {
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp -= damage;
         Debug.Log("player damage 1");
+
+        if (GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp <= 0)
+        {
+            Managers.UI.ShowPopupUI<UI_GameOver>();
+            return;
+        }
+
         GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().Questioning();
         GameObject.Find($"Player/Circle/heart{Managers.Game._idxOfHeart}").SetActive(false);
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>().BlinkPlayerImg();
