@@ -129,13 +129,18 @@ public class DebuffManager
     /// <returns></returns>
     IEnumerator NewtonApple(GameObject apple)
     {
-        float rotateDegreePerSec = 45f;
+        float rotateDegreePerSec = 90f;
+        RectTransform appleRect = apple.GetComponent<RectTransform>();
 
-        apple.GetComponent<Rigidbody2D>().AddForce((playerPos - apple.transform.localPosition) * 0.7f, ForceMode2D.Impulse);
-        while(true)
+        apple.GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize(playerPos - apple.transform.localPosition) * 1000f, ForceMode2D.Impulse);
+        while(apple != null)
         {
-            if (apple.transform.position.x < Camera.main.ScreenToWorldPoint(Vector3.zero).x - apple.GetComponent<RectTransform>().sizeDelta.x)
+            if (apple.transform.position.x < 0 - appleRect.sizeDelta.x * 0.5f ||
+               apple.transform.position.y < 0 - appleRect.sizeDelta.y * 0.5f ||
+               apple.transform.position.y > Camera.main.pixelHeight + appleRect.sizeDelta.y * 0.5f)
             {
+                Debug.Log("end NewtonApple!");
+                player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                 GameObject.Destroy(apple);
                 break;
             }
