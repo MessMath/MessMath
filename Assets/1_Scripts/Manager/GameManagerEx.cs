@@ -18,7 +18,7 @@ public class GameManagerEx
 
     // �н� ����
     public Define.CurrentStatus CurrentStatus { get; set; }
-    
+    public Define.Mode CurrentMode { get; set; } = Define.Mode.None;
 
     public string Name { get; set; }
 
@@ -26,5 +26,4 @@ public class GameManagerEx
     public int Damage { get; set; }
     public bool IsCorrect { get; set; }
     public int SelectGraceInx { get; set; } = 0;
-
 }

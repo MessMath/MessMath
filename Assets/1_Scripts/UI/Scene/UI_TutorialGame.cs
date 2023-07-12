@@ -173,7 +173,7 @@ public class UI_TutorialGame : UI_Scene
             printResult = Math.Truncate(Convert.ToDouble(result)).ToString();
             Debug.Log($"\"{expressionToCalculate}\" result is : " + printResult);
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
             //Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
             printResult = "";
@@ -209,7 +209,7 @@ public class UI_TutorialGame : UI_Scene
             printResult = Math.Truncate(Convert.ToDouble(result)).ToString();
             //Debug.Log($"\"{expressionToCalculate}\" result is : " + printResult);
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
             //Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
             printResult = "";

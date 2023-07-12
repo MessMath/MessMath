@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -56,7 +58,7 @@ public class PlayerControllerCCF : UI_Base
 
         if (collision.gameObject.tag == "Arrow")
         {
-            Debug.Log("Hit Arrow!");
+            //Debug.Log("Hit Arrow!");
             Arrow arrow = collision.gameObject.GetOrAddComponent<Arrow>();
             string symbol = arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text;
             Destroy(collision.gameObject);
@@ -71,12 +73,25 @@ public class PlayerControllerCCF : UI_Base
         }
         else if(collision.gameObject.tag == "ArrowOnlyin1vs1")
         {
+            WJ_Sample1vs1 wJ_Sample1vs1 = _fight1vs1sceneUi.wj_sample1vs1;
             ArrowOnlyin1vs1 arrow = collision.GetComponent<ArrowOnlyin1vs1>();
+
+            int index = wJ_Sample1vs1.currentQuestionIndex;
+            string qstCransr = Managers.Connector.cLearnSet.data.qsts[index].qstCransr;
+
             _fight1vs1sceneUi.wj_sample1vs1.SelectAnswer(arrow.text);
+
+            // 정답을 맞췃으면서, 모드가 더블솔브 모드일 때
+            if (arrow.text == qstCransr && Managers.Game.CurrentMode == Define.Mode.DoubleSolve)
+            {
+                index = wJ_Sample1vs1.currentQuestionIndex;
+                qstCransr = Managers.Connector.cLearnSet.data.qsts[index].qstCransr;
+                wJ_Sample1vs1.SelectAnswer(qstCransr);
+            }
+
             _fight1vs1sceneUi.Invoke("RefreshUI", 0);
             Destroy(collision.gameObject);
         }
-
     }
 
     private void MoveControl()

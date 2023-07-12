@@ -107,10 +107,14 @@ public class UI_Fight1vs1Game : UI_Scene
         witchController = GetObject((int)GameObjects.MathMtc).GetOrAddComponent<WitchController>();
 
         #region 가호 버튼 설정
+
+        //아인슈타인의 가호 테스트용
+        //GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfEinstein"));
+
         if (PlayerPrefs.GetString("SelectedGrace0InOneToOne") != "")
         {
             GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InOneToOne")));
-            GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InOneToOne")); 
+            GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InOneToOne"));
         }
 
         if (PlayerPrefs.GetString("SelectedGrace1InOneToOne") != "")
@@ -139,6 +143,10 @@ public class UI_Fight1vs1Game : UI_Scene
         // 풀어야하는 문항 수 지정
         QstMaxNum = PlayerPrefs.GetInt("QstLimit");
         SolvedQstNum = 0;
+        #endregion
+
+        #region 모드 설정
+        Managers.Game.CurrentMode = Define.Mode.DoubleSolve;
         #endregion
 
         // 시작하기전에 팝업 등장!

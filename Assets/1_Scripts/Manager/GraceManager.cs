@@ -13,12 +13,16 @@ public class GraceManager
 {
     PlayerControllerCCF player;
     Vector3 playerPos;
+    /// <summary>
+    /// 마녀 혹은 수학자
+    /// </summary>
     WitchController witch;
 
     // 각 가호들의 실행 중 유무 bool
     public bool gaussOn = false;
     public bool pythagorasOn = false;
     public bool newtonOn = false;
+    public bool EinsteinOn = false;
 
     // 플레이어가 화살과 충돌 후 연산 여부 bool
     // playerCollisionOff가 true일 때, 충돌 후 아무런 연산도 하지 않는다
@@ -51,6 +55,9 @@ public class GraceManager
                 break;
             case "GraceOfNewton":
                 GraceOfNewton();
+                break;
+            case "GraceOfEinstein":
+                GraceOfEinstein();
                 break;
         }
     }
@@ -191,7 +198,7 @@ public class GraceManager
     }
 
     /// <summary>
-    /// 뉴턴의 가호로 화살 끌어오고, 가호 끝내기
+    /// 뉴턴의 가호로 화살 끌어오고, 정답처리, 가호 끝내기
     /// </summary>
     /// <param name="arrows">대상 화살들</param>
     /// <param name="AnsNum">정답 처리 횟수</param>
@@ -244,4 +251,35 @@ public class GraceManager
         }
     }
 
+    /// <summary>
+    /// 아인슈타인의 가호 : 3초간 메롱하는 아인슈타인 등장, 공격력 두배 (지속시간 무제한)
+    /// </summary>
+    public void GraceOfEinstein()
+    {
+        if (EinsteinOn) return;
+        EinsteinOn = true;
+        GameObject einstein = Managers.Resource.Instantiate("Grace/EinsteinStickOutTongue", player.transform.parent);
+        GameObject.Destroy(einstein, 3f);
+
+        Image witchImage = witch.transform.Find("MathMtcImage").GetComponent<Image>();
+        Color red = new Color(1, 0.7f, 0.7f, 1);
+        witchImage.CrossFadeColor(red, 3f, false, false);
+
+        if (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
+            Managers.Game.Damage *= 2;
+        else if (Managers.Scene.CurrentSceneType == Define.Scene.Fight1vs1GameScene)
+            Managers.Game.CurrentMode = Define.Mode.DoubleSolve;
+
+        CoroutineHandler.StartCoroutine(EndEinstein());
+    }
+
+    /// <summary>
+    /// 아인슈타인의 가호 끝내기
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator EndEinstein()
+    {
+        yield return new WaitForSecondsRealtime(3f);
+        EinsteinOn = false;
+    }
 }

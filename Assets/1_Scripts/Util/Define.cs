@@ -39,8 +39,8 @@ public class Define
 
     public enum Mode
     {
-        Unknown,
-        
+        None,
+        DoubleSolve,
     }
 
     public enum CurrentStatus 
