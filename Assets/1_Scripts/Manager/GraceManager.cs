@@ -288,7 +288,7 @@ public class GraceManager
 
     /// <summary>
     /// 폰 노이만의 가호 : 모든 화살의 숫자를 0 혹은 1로 바꾼다.
-    /// [스토리모드에서만 가능할것같은데]
+    /// [스토리모드에서만 가능]
     /// </summary>
     public void GraceOfNeumann()
     {
@@ -301,9 +301,7 @@ public class GraceManager
         System.Random random = new System.Random();
 
         foreach (GameObject arrow in arrows)
-        {
             arrow.GetComponentInChildren<TextMeshProUGUI>().text = arr[random.Next(arr.Length)];
-        }
 
     }
 
