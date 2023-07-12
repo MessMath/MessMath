@@ -59,6 +59,9 @@ public class GraceManager
             case "GraceOfEinstein":
                 GraceOfEinstein();
                 break;
+            case "GraceOfNeumann":
+                GraceOfNeumann();
+                break;
         }
     }
 
@@ -282,4 +285,26 @@ public class GraceManager
         yield return new WaitForSecondsRealtime(3f);
         EinsteinOn = false;
     }
+
+    /// <summary>
+    /// 폰 노이만의 가호 : 모든 화살의 숫자를 0 혹은 1로 바꾼다.
+    /// [스토리모드에서만 가능할것같은데]
+    /// </summary>
+    public void GraceOfNeumann()
+    {
+        // Scene에 따라 다르게 행동 => StoryGameScene / Fight1vs1GameScene
+        bool isthisStoryScene = (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene);
+        string tag = isthisStoryScene ? "Arrow" : "ArrowOnlyin1vs1";
+        List<GameObject> arrows = GameObject.FindGameObjectsWithTag(tag).ConvertTo<List<GameObject>>();
+
+        string[] arr = { "0", "1" };
+        System.Random random = new System.Random();
+
+        foreach (GameObject arrow in arrows)
+        {
+            arrow.GetComponentInChildren<TextMeshProUGUI>().text = arr[random.Next(arr.Length)];
+        }
+
+    }
+
 }

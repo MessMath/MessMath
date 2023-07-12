@@ -81,7 +81,7 @@ public class PlayerControllerCCF : UI_Base
 
             _fight1vs1sceneUi.wj_sample1vs1.SelectAnswer(arrow.text);
 
-            // 정답을 맞췃으면서, 모드가 더블솔브 모드일 때
+            // 정답을 맞췃으면서, 모드가 DoubleSolve 모드일 때
             if (arrow.text == qstCransr && Managers.Game.CurrentMode == Define.Mode.DoubleSolve)
             {
                 index = wJ_Sample1vs1.currentQuestionIndex;

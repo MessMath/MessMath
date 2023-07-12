@@ -112,6 +112,9 @@ public class UI_StoryGame : UI_Scene
         Managers.Game.Damage = 15;
 
         #region 가호 버튼 설정
+
+        //GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfNeumann"));
+
         if (PlayerPrefs.GetString("SelectedGrace0InStory") != "")
         {
             GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InStory")));
@@ -170,11 +173,11 @@ public class UI_StoryGame : UI_Scene
         {
             result = table.Compute(expressionToCalculate, "");
             printResult = Math.Truncate(Convert.ToDouble(result)).ToString();
-            Debug.Log($"\"{expressionToCalculate}\" result is : " + printResult);
+            //Debug.Log($"\"{expressionToCalculate}\" result is : " + printResult);
         }
         catch (System.Exception e)
         {
-            Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
+            //Debug.Log($"\"{expressionToCalculate}\" is inappropriate expression! : {e}");
             printResult = "";
             //damageToPlayer(1);
             return;

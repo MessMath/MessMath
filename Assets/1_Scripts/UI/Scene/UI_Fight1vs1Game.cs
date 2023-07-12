@@ -109,7 +109,7 @@ public class UI_Fight1vs1Game : UI_Scene
         #region 가호 버튼 설정
 
         //아인슈타인의 가호 테스트용
-        //GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfEinstein"));
+        //GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfNeumann"));
 
         if (PlayerPrefs.GetString("SelectedGrace0InOneToOne") != "")
         {
