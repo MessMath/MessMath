@@ -133,15 +133,9 @@ public class UI_Fight1vs1Game : UI_Scene
 
         #region 수학자 세팅
         string imagePath = "Sprites/MathMtcInFight1vs1/";
-        if (PlayerPrefs.GetString("Boss") == "Gauss")
-            imagePath += "Gauss";
-        else if (PlayerPrefs.GetString("Boss") == "Pythagoras")
-            imagePath += "Pythagoras";
-        else if (PlayerPrefs.GetString("Boss") == "Newton")
-            imagePath += "Newton";
-        GetImage((int)Images.MathMtcImage).gameObject.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>(imagePath);
-        GetImage((int)Images.MathMtcBGImage).gameObject.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>(imagePath);
-
+        imagePath += PlayerPrefs.GetString("Boss");
+        GetImage((int)Images.MathMtcImage).gameObject.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>(imagePath+"Image");
+        GetImage((int)Images.MathMtcBGImage).gameObject.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>(imagePath+"BGImage");
 
         // 풀어야하는 문항 수 지정
         QstMaxNum = PlayerPrefs.GetInt("QstLimit");
