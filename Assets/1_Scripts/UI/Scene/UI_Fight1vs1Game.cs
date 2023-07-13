@@ -31,6 +31,7 @@ public class UI_Fight1vs1Game : UI_Scene
     {
         BGIMG,
         MathMtcImage,
+        MathMtcBGImage,
         MathMtcHPImage_MASK,
         MathMtcHPBar,
         MathMtcHPImage,
@@ -133,12 +134,14 @@ public class UI_Fight1vs1Game : UI_Scene
         #region 수학자 세팅
         string imagePath = "Sprites/MathMtcInFight1vs1/";
         if (PlayerPrefs.GetString("Boss") == "Gauss")
-            imagePath += "TempGauss";
+            imagePath += "Gauss";
         else if (PlayerPrefs.GetString("Boss") == "Pythagoras")
-            imagePath += "TempPythagoras";
+            imagePath += "Pythagoras";
         else if (PlayerPrefs.GetString("Boss") == "Newton")
-            imagePath += "TempNewton";
+            imagePath += "Newton";
         GetImage((int)Images.MathMtcImage).gameObject.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>(imagePath);
+        GetImage((int)Images.MathMtcBGImage).gameObject.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>(imagePath);
+
 
         // 풀어야하는 문항 수 지정
         QstMaxNum = PlayerPrefs.GetInt("QstLimit");

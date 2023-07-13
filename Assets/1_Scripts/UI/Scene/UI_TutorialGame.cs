@@ -152,7 +152,7 @@ public class UI_TutorialGame : UI_Scene
 
     public void PreCalculate()
     {
-        Debug.Log("PreCalculate");
+        //Debug.Log("PreCalculate");
 
         object result = null;
         string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
