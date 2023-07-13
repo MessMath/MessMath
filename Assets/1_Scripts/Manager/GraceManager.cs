@@ -19,6 +19,7 @@ public class GraceManager
     public bool gaussOn = false;
     public bool pythagorasOn = false;
     public bool newtonOn = false;
+    public bool descartesOn = false;
 
     // 플레이어가 화살과 충돌 후 연산 여부 bool
     // playerCollisionOff가 true일 때, 충돌 후 아무런 연산도 하지 않는다
@@ -51,6 +52,9 @@ public class GraceManager
                 break;
             case "GraceOfNewton":
                 GraceOfNewton();
+                break;
+            case "GraceOfDescartes":
+                GraceOfDescartes();
                 break;
         }
     }
@@ -244,4 +248,30 @@ public class GraceManager
         }
     }
 
+    /// <summary>
+    /// 데카르트의 가호 : 10초동안 플레이어 이동속도 두배, 
+    /// </summary>
+    public void GraceOfDescartes()
+    {
+        if (descartesOn) return;
+        descartesOn = true;
+
+        // Scene이 달라도 같은 역할
+
+        CoroutineHandler.StartCoroutine(Descartes());
+    }
+
+    /// <summary>
+    /// 10초간 이동속도 두배
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator Descartes()
+    {
+        Debug.Log("GraceOfDescartes On");
+        player._speed *= 2;
+        yield return new WaitForSecondsRealtime(10.0f);
+        player._speed /= 2;
+
+        descartesOn = false;
+    }
 }

@@ -89,12 +89,15 @@ public class UI_GraceBoxPopup : UI_Popup
         // TODO Add Item as User Data
         for (int i = 0; i < _graceDatas.Count; i++)
         {
-            GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
-            Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
-            Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
-            graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
-            graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
-            graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); selectedObject = graceItem; OnClickGraceBtn(); });
+            if (PlayerPrefs.HasKey(_graceDatas[i].img) && PlayerPrefs.GetString(_graceDatas[i].img) != "")
+            {
+                GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
+                Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
+                Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
+                graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
+                graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
+                graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); selectedObject = graceItem; OnClickGraceBtn(); });
+            }
         }
     }
 
@@ -111,12 +114,15 @@ public class UI_GraceBoxPopup : UI_Popup
         // TODO Add Item as User Data
         for (int i = 0; i < _graceDatas.Count; i++)
         {
-            GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
-            Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
-            Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
-            graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
-            graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
-            graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); selectedObject = graceItem; OnClickGraceBtn(); });
+            if (PlayerPrefs.HasKey(_graceDatas[i].img) && PlayerPrefs.GetString(_graceDatas[i].img) != "")
+            {
+                GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
+                Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
+                Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
+                graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
+                graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
+                graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); selectedObject = graceItem; OnClickGraceBtn(); });
+            }
         }
     }
 
