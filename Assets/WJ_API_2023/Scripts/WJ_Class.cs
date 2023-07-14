@@ -1,37 +1,37 @@
-namespace WjChallenge
+ï»¿namespace WjChallenge
 {
-    #region Áø´ÜÆò°¡ Å¬·¡½º (Diagnostic Class)
+    #region ì§„ë‹¨í‰ê°€ í´ë˜ìŠ¤ (Diagnostic Class)
     using System.Collections.Generic;
     using UnityEngine.Events;
 
     /// <summary>
-    /// °ÔÀÓ Áø´Ü ¹®Ç×¿äÃ»¿¡ º¸³»´Â °ª(Áø´ÜÆò°¡ Ã¹ ½ÇÇà ½Ã)
+    /// ê²Œì„ ì§„ë‹¨ ë¬¸í•­ìš”ì²­ì— ë³´ë‚´ëŠ” ê°’(ì§„ë‹¨í‰ê°€ ì²« ì‹¤í–‰ ì‹œ)
     /// </summary>
     public class Request_DN_Setting
     {
-        public string gameCd;       //°ÔÀÓÄÚµå
-        public string mbrId;        //È¸¿øID
-        public string deviceNm;     //µğ¹ÙÀÌ½º ÀÌ¸§
-        public string gameVer;      //°ÔÀÓ ¹öÀü
-        public string osScnCd;      //OS ±¸ºĞ
-        public string langCd;       //ÇĞ½À ¾ğ¾îÄÚµå
-        public int timeZone;        //ÇÑ±¹ +9
-        public string bgnLvl;       //½ÃÀÛ ¼öÁØ(A,B,C,D)
+        public string gameCd;       //ê²Œì„ì½”ë“œ
+        public string mbrId;        //íšŒì›ID
+        public string deviceNm;     //ë””ë°”ì´ìŠ¤ ì´ë¦„
+        public string gameVer;      //ê²Œì„ ë²„ì „
+        public string osScnCd;      //OS êµ¬ë¶„
+        public string langCd;       //í•™ìŠµ ì–¸ì–´ì½”ë“œ
+        public int timeZone;        //í•œêµ­ +9
+        public string bgnLvl;       //ì‹œì‘ ìˆ˜ì¤€(A,B,C,D)
     }
 
     /// <summary>
-    /// °ÔÀÓ Áø´Ü ¹®Á¦Ç®ÀÌ½Ã º¸³»´Â °ª(Áø´ÜÆò°¡ ¼öÇà Áß)
+    /// ê²Œì„ ì§„ë‹¨ ë¬¸ì œí’€ì´ì‹œ ë³´ë‚´ëŠ” ê°’(ì§„ë‹¨í‰ê°€ ìˆ˜í–‰ ì¤‘)
     /// </summary>
     public class Request_DN_Progress
     {
-        public string gameCd;       //°ÔÀÓÄÚµå
-        public string mbrId;        //È¸¿øID
-        public string prgsCd;       //ÁøÇàÄÚµå(W : Áø´ÜÁøÇà, E : Áø´Ü¿Ï·á, X : ±âÅ¸Ãë¼Ò)
-        public long sid;            //Áø´ÜID
-        public string qstCd;        //Ç¬ ¹®Á¦ÀÇ ¹®Ç× ÄÚµå
-        public string qstCransr;    //ÀÔ·ÂÇÑ ´ä ³»¿ë
-        public string ansrCwYn;     //Á¤¿À´ä ¿©ºÎ-Y/N
-        public long slvTime;        //¹®Á¦ Ç®ÀÌ ½Ã°£(ms)
+        public string gameCd;       //ê²Œì„ì½”ë“œ
+        public string mbrId;        //íšŒì›ID
+        public string prgsCd;       //ì§„í–‰ì½”ë“œ(W : ì§„ë‹¨ì§„í–‰, E : ì§„ë‹¨ì™„ë£Œ, X : ê¸°íƒ€ì·¨ì†Œ)
+        public long sid;            //ì§„ë‹¨ID
+        public string qstCd;        //í‘¼ ë¬¸ì œì˜ ë¬¸í•­ ì½”ë“œ
+        public string qstCransr;    //ì…ë ¥í•œ ë‹µ ë‚´ìš©
+        public string ansrCwYn;     //ì •ì˜¤ë‹µ ì—¬ë¶€-Y/N
+        public long slvTime;        //ë¬¸ì œ í’€ì´ ì‹œê°„(ms)
 
         public Request_DN_Progress()
         {
@@ -40,7 +40,7 @@ namespace WjChallenge
     }
 
     /// <summary>
-    /// Áø´ÜÆò°¡ ½Ã ¹Ş¾Æ¿À´Â °ª(Áø´ÜÆò°¡ Ã¹½ÇÇà, ¼öÇàÁß µ¿ÀÏ)
+    /// ì§„ë‹¨í‰ê°€ ì‹œ ë°›ì•„ì˜¤ëŠ” ê°’(ì§„ë‹¨í‰ê°€ ì²«ì‹¤í–‰, ìˆ˜í–‰ì¤‘ ë™ì¼)
     /// </summary>
     [System.Serializable]
     public class DN_Response
@@ -56,28 +56,28 @@ namespace WjChallenge
     }
 
     /// <summary>
-    /// Áø´ÜÆò°¡ ÀÀ´ä ½Ã ¹Ş¾Æ¿À´Â ¹®Á¦ µ¥ÀÌÅÍ
+    /// ì§„ë‹¨í‰ê°€ ì‘ë‹µ ì‹œ ë°›ì•„ì˜¤ëŠ” ë¬¸ì œ ë°ì´í„°
     /// </summary>
     [System.Serializable]
     public class Diagnotics_Data
     {
         public long sid;
-        public string prgsCd;       //ÁøÇà ÄÚµå(W : Áø´ÜÁøÇà, E : Áø´Ü¿Ï·á)
-        public string qstCd;        //¹®Ç×ÄÚµå
-        public string qstCn;        //¹®Ç×³»¿ë
-        public string textCn;       //Áö¹®³»¿ë
-        public string qstCransr;    //¹®Ç×Á¤´ä
-        public string qstWransr;    //¹®Ç×¿À´ä
-        public int accuracy;        //Áø´Ü Á¤È®µµ ¼öÁØ
-        public int estQstNowNo;     //ÇöÀç±îÁö ¹®Ç× ¼ö(ÇöÀç ¹®Ç× Æ÷ÇÔ)
-        public string estPreStgCd;  //ÀûÁ¤ ½ÃÀÛ ÁöÁ¡ÀÇ ½ºÅ×ÀÌÁö ÄÚµå
+        public string prgsCd;       //ì§„í–‰ ì½”ë“œ(W : ì§„ë‹¨ì§„í–‰, E : ì§„ë‹¨ì™„ë£Œ)
+        public string qstCd;        //ë¬¸í•­ì½”ë“œ
+        public string qstCn;        //ë¬¸í•­ë‚´ìš©
+        public string textCn;       //ì§€ë¬¸ë‚´ìš©
+        public string qstCransr;    //ë¬¸í•­ì •ë‹µ
+        public string qstWransr;    //ë¬¸í•­ì˜¤ë‹µ
+        public int accuracy;        //ì§„ë‹¨ ì •í™•ë„ ìˆ˜ì¤€
+        public int estQstNowNo;     //í˜„ì¬ê¹Œì§€ ë¬¸í•­ ìˆ˜(í˜„ì¬ ë¬¸í•­ í¬í•¨)
+        public string estPreStgCd;  //ì ì • ì‹œì‘ ì§€ì ì˜ ìŠ¤í…Œì´ì§€ ì½”ë“œ
     }
 
     #endregion
 
-    #region ÇĞ½À Å¬·¡½º (Learning Class)
+    #region í•™ìŠµ í´ë˜ìŠ¤ (Learning Class)
     /// <summary>
-    /// ¹®Á¦Ç®ÀÌ(ÇĞ½À) ½Ã ¹®Ç×¿äÃ»¿¡ º¸³»´Â °ª
+    /// ë¬¸ì œí’€ì´(í•™ìŠµ) ì‹œ ë¬¸í•­ìš”ì²­ì— ë³´ë‚´ëŠ” ê°’
     /// </summary>
     [System.Serializable]
     public class Request_Learning_Setting
@@ -93,7 +93,7 @@ namespace WjChallenge
     }
 
     /// <summary>
-    /// ¹®Á¦Ç®ÀÌ(ÇĞ½À) ¿äÃ» ½Ã ¹Ş¾Æ¿À´Â °ª
+    /// ë¬¸ì œí’€ì´(í•™ìŠµ) ìš”ì²­ ì‹œ ë°›ì•„ì˜¤ëŠ” ê°’
     /// </summary>
     [System.Serializable]
     public class Response_Learning_Setting
@@ -112,7 +112,7 @@ namespace WjChallenge
     }
 
     /// <summary>
-    /// ¹®Á¦Ç®ÀÌ(ÇĞ½À) ¿Ï·á ½Ã º¸³»´Â °ª
+    /// ë¬¸ì œí’€ì´(í•™ìŠµ) ì™„ë£Œ ì‹œ ë³´ë‚´ëŠ” ê°’
     /// </summary>
     public class Request_Learning_Progress
     {
@@ -138,7 +138,7 @@ namespace WjChallenge
     }
 
     /// <summary>
-    /// ¹®Á¦Ç®ÀÌ °á°ú
+    /// ë¬¸ì œí’€ì´ ê²°ê³¼
     /// </summary>
     [System.Serializable]
     public class Response_Learning_ProgressData
@@ -151,7 +151,7 @@ namespace WjChallenge
     }
 
     /// <summary>
-    /// ¹®Á¦Ç®ÀÌ ¿äÃ» ½Ã ¹Ş¾Æ¿À´Â °³º° ¹®Á¦
+    /// ë¬¸ì œí’€ì´ ìš”ì²­ ì‹œ ë°›ì•„ì˜¤ëŠ” ê°œë³„ ë¬¸ì œ
     /// </summary>
     [System.Serializable]
     public class Learning_Question
@@ -164,7 +164,7 @@ namespace WjChallenge
     }
 
     /// <summary>
-    /// ¹®Á¦Ç®ÀÌ ¿Ï·á ½Ã º¸³»´Â °³º° ´ä¾È
+    /// ë¬¸ì œí’€ì´ ì™„ë£Œ ì‹œ ë³´ë‚´ëŠ” ê°œë³„ ë‹µì•ˆ
     /// </summary>
     [System.Serializable]
     public class Learning_MyAnsr

@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,13 +13,13 @@ public class WJ_Sample : MonoBehaviour
     // public Managers.Game.CurrentStatus CurrentStatus => currentStatus;
 
     [Header("Panels")]
-    [SerializeField] GameObject panel_diag_chooseDiff;  //³­ÀÌµµ ¼±ÅÃ ÆĞ³Î
-    [SerializeField] GameObject panel_question;         //¹®Á¦ ÆĞ³Î(Áø´Ü,ÇĞ½À)
+    [SerializeField] GameObject panel_diag_chooseDiff;  //ë‚œì´ë„ ì„ íƒ íŒ¨ë„
+    [SerializeField] GameObject panel_question;         //ë¬¸ì œ íŒ¨ë„(ì§„ë‹¨,í•™ìŠµ)
 
-    [SerializeField] Text textDescription;              //¹®Á¦ ¼³¸í ÅØ½ºÆ®
-    [SerializeField] TEXDraw textEquation;              //¹®Á¦ ÅØ½ºÆ®(¡ØTextDraw·Î º¯°æ ÇÊ¿ä)
-    [SerializeField] Button[] btAnsr = new Button[4];   //Á¤´ä ¹öÆ°µé
-    TEXDraw[] textAnsr;                                 //Á¤´ä ¹öÆ°µé ÅØ½ºÆ®(¡ØTextDraw·Î º¯°æ ÇÊ¿ä)
+    [SerializeField] Text textDescription;              //ë¬¸ì œ ì„¤ëª… í…ìŠ¤íŠ¸
+    [SerializeField] TEXDraw textEquation;              //ë¬¸ì œ í…ìŠ¤íŠ¸(â€»TextDrawë¡œ ë³€ê²½ í•„ìš”)
+    [SerializeField] Button[] btAnsr = new Button[4];   //ì •ë‹µ ë²„íŠ¼ë“¤
+    TEXDraw[] textAnsr;                                 //ì •ë‹µ ë²„íŠ¼ë“¤ í…ìŠ¤íŠ¸(â€»TextDrawë¡œ ë³€ê²½ í•„ìš”)
 
     [Header("Status")]
     int currentQuestionIndex;
@@ -27,8 +27,8 @@ public class WJ_Sample : MonoBehaviour
     float questionSolveTime;
 
     [Header("For Debug")]
-    [SerializeField] WJ_DisplayText wj_displayText;     //ÅØ½ºÆ® Ç¥½Ã¿ë(ÇÊ¼öX)
-    [SerializeField] Button getLearningButton;          //¹®Á¦ ¹Ş¾Æ¿À±â ¹öÆ°
+    [SerializeField] WJ_DisplayText wj_displayText;     //í…ìŠ¤íŠ¸ í‘œì‹œìš©(í•„ìˆ˜X)
+    [SerializeField] Button getLearningButton;          //ë¬¸ì œ ë°›ì•„ì˜¤ê¸° ë²„íŠ¼
 
     private void Awake()
     {
@@ -38,7 +38,7 @@ public class WJ_Sample : MonoBehaviour
 
             textAnsr[i] = btAnsr[i].GetComponentInChildren<TEXDraw>();
 
-        wj_displayText.SetState("´ë±âÁß", "", "", "");
+        wj_displayText.SetState("ëŒ€ê¸°ì¤‘", "", "", "");
     }
 
     private void OnEnable()
@@ -72,7 +72,7 @@ public class WJ_Sample : MonoBehaviour
     }
 
     /// <summary>
-    /// Áø´ÜÆò°¡ ¹®Á¦ ¹Ş¾Æ¿À±â
+    /// ì§„ë‹¨í‰ê°€ ë¬¸ì œ ë°›ì•„ì˜¤ê¸°
     /// </summary>
     private void GetDiagnosis()
     {
@@ -83,11 +83,11 @@ public class WJ_Sample : MonoBehaviour
                             Managers.Connector.cDiagnotics.data.qstCn,
                             Managers.Connector.cDiagnotics.data.qstCransr,
                             Managers.Connector.cDiagnotics.data.qstWransr);
-                wj_displayText.SetState("Áø´ÜÆò°¡ Áß", "", "", "");
+                wj_displayText.SetState("ì§„ë‹¨í‰ê°€ ì¤‘", "", "", "");
                 break;
             case "E":
-                Debug.Log("Áø´ÜÆò°¡ ³¡! ÇĞ½À ´Ü°è·Î ³Ñ¾î°©´Ï´Ù.");
-                wj_displayText.SetState("Áø´ÜÆò°¡ ¿Ï·á", "", "", "");
+                Debug.Log("ì§„ë‹¨í‰ê°€ ë! í•™ìŠµ ë‹¨ê³„ë¡œ ë„˜ì–´ê°‘ë‹ˆë‹¤.");
+                wj_displayText.SetState("ì§„ë‹¨í‰ê°€ ì™„ë£Œ", "", "", "");
                 Managers.Game.CurrentStatus = Define.CurrentStatus.LEARNING;
                 PlayerPrefs.SetInt("DoDiagnosis", 1);
                 getLearningButton.interactable = true;
@@ -97,7 +97,7 @@ public class WJ_Sample : MonoBehaviour
 
     /// <summary>
     /// 
-    ///  n ¹øÂ° ÇĞ½À ¹®Á¦ ¹Ş¾Æ¿À±â
+    ///  n ë²ˆì§¸ í•™ìŠµ ë¬¸ì œ ë°›ì•„ì˜¤ê¸°
     /// </summary>
     private void GetLearning(int _index)
     {
@@ -110,7 +110,7 @@ public class WJ_Sample : MonoBehaviour
     }
 
     /// <summary>
-    /// ¹Ş¾Æ¿Â µ¥ÀÌÅÍ¸¦ °¡Áö°í ¹®Á¦¸¦ Ç¥½Ã
+    /// ë°›ì•„ì˜¨ ë°ì´í„°ë¥¼ ê°€ì§€ê³  ë¬¸ì œë¥¼ í‘œì‹œ
     /// </summary>
     private void MakeQuestion(string textCn, string qstCn, string qstCransr, string qstWransr)
     {
@@ -153,7 +153,7 @@ public class WJ_Sample : MonoBehaviour
     }
 
     /// <summary>
-    /// ´äÀ» °í¸£°í ¸Â¾Ò´Â Áö Ã¼Å©
+    /// ë‹µì„ ê³ ë¥´ê³  ë§ì•˜ëŠ” ì§€ ì²´í¬
     /// </summary>
     public void SelectAnswer(int _idx)
     {
@@ -170,7 +170,7 @@ public class WJ_Sample : MonoBehaviour
 
                 Managers.Connector.Diagnosis_SelectAnswer(textAnsr[_idx].text, ansrCwYn, (int)(questionSolveTime * 1000));
 
-                wj_displayText.SetState("Áø´ÜÆò°¡ Áß", textAnsr[_idx].text, ansrCwYn, questionSolveTime + " ÃÊ");
+                wj_displayText.SetState("ì§„ë‹¨í‰ê°€ ì¤‘", textAnsr[_idx].text, ansrCwYn, questionSolveTime + " ì´ˆ");
 
                 panel_question.SetActive(false);
                 questionSolveTime = 0;
@@ -180,10 +180,10 @@ public class WJ_Sample : MonoBehaviour
                 isCorrect = textAnsr[_idx].text.CompareTo(Managers.Connector.cLearnSet.data.qsts[currentQuestionIndex].qstCransr) == 0 ? true : false;
                 ansrCwYn = isCorrect ? "Y" : "N";
 
-                // Å×½ºÆ®·Î Ãß°¡ÇÑ ºÎºĞ
+                // í…ŒìŠ¤íŠ¸ë¡œ ì¶”ê°€í•œ ë¶€ë¶„
                 if (isCorrect)
                 {
-                    Debug.Log("Á¤´ä");
+                    Debug.Log("ì •ë‹µ");
 
                     PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") + 1);
                     Managers.Game.IsCorrect = true;
@@ -194,7 +194,7 @@ public class WJ_Sample : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("¿À´ä");
+                    Debug.Log("ì˜¤ë‹µ");
                     Managers.Game.IsCorrect = false;
 
                     // Sound
@@ -206,19 +206,19 @@ public class WJ_Sample : MonoBehaviour
 
                 Managers.Connector.Learning_SelectAnswer(currentQuestionIndex, textAnsr[_idx].text, ansrCwYn, (int)(questionSolveTime * 1000));
 
-                wj_displayText.SetState("¹®Á¦Ç®ÀÌ Áß", textAnsr[_idx].text, ansrCwYn, questionSolveTime + " ÃÊ");
+                wj_displayText.SetState("ë¬¸ì œí’€ì´ ì¤‘", textAnsr[_idx].text, ansrCwYn, questionSolveTime + " ì´ˆ");
 
                 if (currentQuestionIndex >= 8)
                 {
                     panel_question.SetActive(false);
-                    wj_displayText.SetState("¹®Á¦Ç®ÀÌ ¿Ï·á", "", "", "");
-                    // ´ÙÀ½ ¼ö¾÷
+                    wj_displayText.SetState("ë¬¸ì œí’€ì´ ì™„ë£Œ", "", "", "");
+                    // ë‹¤ìŒ ìˆ˜ì—…
                     getLearningButton.gameObject.SetActive(true);
-                    //getLearningButton.gameObject.GetComponentInChildren<Text>().text = "´ÙÀ½ ¼ö¾÷";
+                    //getLearningButton.gameObject.GetComponentInChildren<Text>().text = "ë‹¤ìŒ ìˆ˜ì—…";
                     getLearningButton.gameObject.GetComponentInChildren<Text>().text = Managers.GetText(Define.NextClassText);
 
                     // TODO
-                    // ÇÑ ¼ö¾÷ ´ç ¹®Á¦¸¦ 6°³ ÀÌ»ó ¸ÂÃá´Ù¸é ÄÚÀÎ º¸³Ê½º
+                    // í•œ ìˆ˜ì—… ë‹¹ ë¬¸ì œë¥¼ 6ê°œ ì´ìƒ ë§ì¶˜ë‹¤ë©´ ì½”ì¸ ë³´ë„ˆìŠ¤
                     //Managers.Game.Coin += 10;
                 }
                 else GetLearning(currentQuestionIndex);
@@ -245,7 +245,7 @@ public class WJ_Sample : MonoBehaviour
     public void ButtonEvent_GetLearning()
     {
         Managers.Connector.Learning_GetQuestion();
-        wj_displayText.SetState("¹®Á¦Ç®ÀÌ Áß", "-", "-", "-");
+        wj_displayText.SetState("ë¬¸ì œí’€ì´ ì¤‘", "-", "-", "-");
     }
     #endregion
 }
