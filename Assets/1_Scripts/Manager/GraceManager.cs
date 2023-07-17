@@ -329,7 +329,7 @@ public class GraceManager
     {
         Debug.Log("GraceOfDescartes On");
         player._speed *= 2;
-        yield return new WaitForSecondsRealtime(10.0f);
+        yield return new WaitForSeconds(10.0f);
         player._speed /= 2;
 
         descartesOn = false;
