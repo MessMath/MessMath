@@ -37,7 +37,7 @@ public class JsonMaker : MonoBehaviour
 
     void Update()
     {
-        if(PlayerPrefs.GetInt("DoDiagnosis") == 1)
+        if(PlayerPrefs.GetInt("DoDiagnosis") == 1 && isDone[0] && isDone[1] && isDone[2] && isDone[3])
         {
             Managers.Game.CurrentStatus = Define.CurrentStatus.LEARNING;
             Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
@@ -69,7 +69,7 @@ public class JsonMaker : MonoBehaviour
     void AddRange()
     {
         range.Add("A2:G46");
-        range.Add("A2:D4");
+        range.Add("A2:D7");
         range.Add("A2:D4");
         range.Add("A2:A7");
     }

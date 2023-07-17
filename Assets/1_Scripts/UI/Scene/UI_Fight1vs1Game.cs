@@ -25,6 +25,7 @@ public class UI_Fight1vs1Game : UI_Scene
         SelectedGrace1,
         SelectedGrace2,
         SettingBtn,
+        TestBtn,
     }
 
     enum Images
@@ -129,6 +130,9 @@ public class UI_Fight1vs1Game : UI_Scene
             GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InOneToOne")));
             GetButton((int)Buttons.SelectedGrace2).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2InOneToOne"));
         }
+
+        GetButton((int)Buttons.TestBtn).gameObject.BindEvent(() => Managers.Grace.CallGrace(("GraceOfDescartes")));
+        GetButton((int)Buttons.TestBtn).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + "GraceOfDescartes");
         #endregion
 
         #region 수학자 세팅
