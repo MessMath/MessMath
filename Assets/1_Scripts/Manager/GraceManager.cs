@@ -62,6 +62,7 @@ public class GraceManager
                 break;
             case "GraceOfNeumann":
                 GraceOfNeumann();
+                break;
             case "GraceOfDescartes":
                 GraceOfDescartes();
                 break;
