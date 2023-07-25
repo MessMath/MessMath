@@ -60,7 +60,7 @@ public class PlayerControllerCCF : UI_Base
         {
             //Debug.Log("Hit Arrow!");
             Arrow arrow = collision.gameObject.GetOrAddComponent<Arrow>();
-            string symbol = arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text;
+            string symbol = arrow.text;
             Destroy(collision.gameObject);
             if(Managers.Grace.pythagorasOn)
             {

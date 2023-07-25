@@ -25,13 +25,16 @@ public class Arrow : MonoBehaviour
     //public float speed;
     //public Vector2 startPosition;
     //public Vector2 direction;
-    public TextMeshPro tmp;            // 화살의 Symbol이 표시될 TextMeshPro
-    //public string text;
+    public TextMeshProUGUI tmp;            // 화살의 Symbol이 표시될 TextMeshPro
+
+    private void Awake()
+    {
+        tmp = GetComponentInChildren<TextMeshProUGUI>();
+    }
 
     private void Start()
     {
-        //if (tmp.text != null)
-        //    text = tmp.text;
+        text = tmp.text;
     }
 
     private void OnValidate()
