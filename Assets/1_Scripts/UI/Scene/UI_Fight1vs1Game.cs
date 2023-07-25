@@ -275,18 +275,18 @@ public class UI_Fight1vs1Game : UI_Scene
     public void damageToPlayer(int damage)
     {
 
-        GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp -= damage;
+        GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>()._hp -= damage;
         Debug.Log("player damage 1");
 
-        if (GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp <= 0)
+        if (GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>()._hp <= 0)
         {
             Managers.UI.ShowPopupUI<UI_GameOver>();
             return;
         }
 
         GameObject.Find($"Player/Circle/heart{Managers.Game._idxOfHeart}").SetActive(false);
-        GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>().BlinkPlayerImg();
-        if (Managers.Game._idxOfHeart > GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp)
+        GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>().BlinkPlayerImg();
+        if (Managers.Game._idxOfHeart > GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>()._hp)
             return;
         else
             Managers.Game._idxOfHeart++;
@@ -485,7 +485,7 @@ public class UI_Fight1vs1Game : UI_Scene
     void SetArrowDirection(ArrowOnlyin1vs1 arrow)
     {
         //arrow.direction = GetObject((int)GameObjects.Player).transform.position - (Vector3)arrow.startPosition;
-        arrow.direction = FindObjectOfType<PlayerControllerCCF>().transform.position - (Vector3)arrow.startPosition;
+        arrow.direction = FindObjectOfType<PlayerController>().transform.position - (Vector3)arrow.startPosition;
         LookAt(GetObject((int)GameObjects.Player), arrow);     // Player를 바라보고 날라가게끔
 
         arrow.GetComponentInChildren<TEXDraw>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));

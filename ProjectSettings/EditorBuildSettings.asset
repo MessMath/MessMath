@@ -29,10 +29,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/0_Scenes/TutorialGameScene.unity
     guid: e6dedfc7d90a1224cb7129d7a6138b9c
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/0_Scenes/DiagnosisScene.unity
     guid: fffdaf70b1b84ef43a0734bccef637c8
+  - enabled: 1
+    path: Assets/0_Scenes/PvpGameScene.unity
+    guid: 7b19570112578e946bc72c09ea6d6e81
   m_configObjects: {}

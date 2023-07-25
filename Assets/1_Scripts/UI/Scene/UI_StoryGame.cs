@@ -156,6 +156,7 @@ public class UI_StoryGame : UI_Scene
     void AllErase()
     {
         GetText((int)Texts.Calculate_BoardText).text = "";
+        PreCalculate();
     }
 
     public void PreCalculate()
@@ -168,6 +169,12 @@ public class UI_StoryGame : UI_Scene
         string printResult;
 
         DataTable table = new DataTable();
+
+        if (expressionToCalculate == "")
+        {
+            GetText((int)Texts.PreCalculation_Text).text = "";
+            return;
+        }
 
         try
         {
@@ -246,10 +253,10 @@ public class UI_StoryGame : UI_Scene
 
     public void damageToPlayer(int damage)
     {
-        GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp -= damage;
+        GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>()._hp -= damage;
         Debug.Log("player damage 1");
 
-        if (GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp <= 0)
+        if (GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>()._hp <= 0)
         {
             Managers.UI.ShowPopupUI<UI_GameOver>();
             return;
@@ -257,8 +264,8 @@ public class UI_StoryGame : UI_Scene
 
         GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().Questioning();
         GameObject.Find($"Player/Circle/heart{Managers.Game._idxOfHeart}").SetActive(false);
-        GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>().BlinkPlayerImg();
-        if (Managers.Game._idxOfHeart > GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp)
+        GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>().BlinkPlayerImg();
+        if (Managers.Game._idxOfHeart > GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>()._hp)
             return;
         else
             Managers.Game._idxOfHeart++;
@@ -496,7 +503,7 @@ public class UI_StoryGame : UI_Scene
     void SetArrowDirection(Arrow arrow)
     {
         //arrow.direction = GetObject((int)GameObjects.Player).transform.position - (Vector3)arrow.startPosition;
-        arrow.direction = FindObjectOfType<PlayerControllerCCF>().transform.position - (Vector3)arrow.startPosition;
+        arrow.direction = FindObjectOfType<PlayerController>().transform.position - (Vector3)arrow.startPosition;
         LookAt(GetObject((int)GameObjects.Player), arrow);     // Player를 바라보고 날라가게끔
 
         arrow.GetComponentInChildren<TextMeshProUGUI>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));

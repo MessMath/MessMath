@@ -27,6 +27,7 @@ public class Define
         Fight1vs1GameScene,
         TutorialGameScene,
         DiagnosisScene,
+        PvpGameScene,
     }
 
     public enum Sound

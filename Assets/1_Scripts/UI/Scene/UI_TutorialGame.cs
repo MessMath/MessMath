@@ -167,6 +167,12 @@ public class UI_TutorialGame : UI_Scene
 
         DataTable table = new DataTable();
 
+        if (expressionToCalculate == "")
+        {
+            GetText((int)Texts.PreCalculation_Text).text = "";
+            return;
+        }
+
         try
         {
             result = table.Compute(expressionToCalculate, "");
@@ -257,12 +263,12 @@ public class UI_TutorialGame : UI_Scene
 
     void damageToPlayer(int damage)
     {
-        GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp -= damage;
+        GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>()._hp -= damage;
         Debug.Log("player damage 1");
         //GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().Questioning();
         GameObject.Find($"Player/Circle/heart{Managers.Game._idxOfHeart}").SetActive(false);
-        GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>().BlinkPlayerImg();
-        if (Managers.Game._idxOfHeart > GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerControllerCCF>()._hp)
+        GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>().BlinkPlayerImg();
+        if (Managers.Game._idxOfHeart > GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>()._hp)
             return;
         else
             Managers.Game._idxOfHeart++;
@@ -496,7 +502,7 @@ public class UI_TutorialGame : UI_Scene
     void SetArrowDirection(Arrow arrow)
     {
         //arrow.direction = GetObject((int)GameObjects.Player).transform.position - (Vector3)arrow.startPosition;
-        arrow.direction = FindObjectOfType<PlayerControllerCCF>().transform.position - (Vector3)arrow.startPosition;
+        arrow.direction = FindObjectOfType<PlayerController>().transform.position - (Vector3)arrow.startPosition;
         LookAt(GetObject((int)GameObjects.Player), arrow);     // Player�� �ٶ󺸰� ���󰡰Բ�
 
         arrow.GetComponentInChildren<TextMeshProUGUI>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));

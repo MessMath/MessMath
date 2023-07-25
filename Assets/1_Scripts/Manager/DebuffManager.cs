@@ -11,7 +11,7 @@ using UnityEngine.UIElements;
 /// </summary>
 public class DebuffManager
 {
-    PlayerControllerCCF player;
+    PlayerController player;
     Vector3 playerPos;
     WitchController witch;
 
@@ -24,7 +24,7 @@ public class DebuffManager
     /// </summary>
     public void Setup()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControllerCCF>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         playerPos = player.transform.localPosition;
         witch = GameObject.FindGameObjectWithTag("Witch").GetComponent<WitchController>();
     }

@@ -11,7 +11,7 @@ using UnityEngine.UI;
 /// </summary>
 public class GraceManager
 {
-    PlayerControllerCCF player;
+    PlayerController player;
     Vector3 playerPos;
     /// <summary>
     /// 마녀 혹은 수학자
@@ -34,7 +34,7 @@ public class GraceManager
     /// </summary>
     public void Setup()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControllerCCF>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         playerPos = player.transform.position;
         witch = GameObject.FindGameObjectWithTag("Witch").GetComponent<WitchController>();
     }

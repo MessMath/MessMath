@@ -16,9 +16,10 @@ public class UI_Lobby : UI_Scene
         SettingBtn,
         StoryModeBtn,
         Fight1vs1GameBtn,
-        QuestBtn,
         StoreBtn,
+        PvpBtn,
         InventoryBtn,
+        QuestBtn,
         ExerciseBtn,
     }
 
@@ -55,6 +56,9 @@ public class UI_Lobby : UI_Scene
         GetButton((int)Buttons.InventoryBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_InventoryPopup>(); });
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
         GetButton((int)Buttons.Fight1vs1GameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_SelectMathMtcfor1vs1>(); });
+
+        GetButton((int)Buttons.PvpBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.PvpGameScene); });
+
 
         if (PlayerPrefs.HasKey("WatchedStory") && PlayerPrefs.GetInt("WatchedStory")==-2) 
         {
