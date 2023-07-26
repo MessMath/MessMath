@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1066595506965",
+    "project_id": "messmath-926ea",
+    "storage_bucket": "messmath-926ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066595506965:android:11b785dfda465e8b5a271c",
+        "android_client_info": {
+          "package_name": "com.RagtagCompany.MessMath"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066595506965-pvd5daoikp18o5o3obbdr3sq5f1luq9e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgqqwlpT64zhbBUnSJPbGVHE11PsRsOc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066595506965-pvd5daoikp18o5o3obbdr3sq5f1luq9e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
