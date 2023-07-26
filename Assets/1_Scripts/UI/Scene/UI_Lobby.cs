@@ -16,7 +16,6 @@ public class UI_Lobby : UI_Scene
         SettingBtn,
         StoryModeBtn,
         Fight1vs1GameBtn,
-        QuestBtn,
         StoreBtn,
         InventoryBtn,
         ExerciseBtn,
@@ -34,8 +33,7 @@ public class UI_Lobby : UI_Scene
 
     private void Update()
     {
-        // Ani
-        GetButton((int)Buttons.StoryModeBtn).gameObject.transform.Rotate(new Vector3(0f, 0f, -30f) * Time.deltaTime);
+        
     }
 
     UI_SelectGracePopup _selectGracePopup = null;
@@ -65,7 +63,7 @@ public class UI_Lobby : UI_Scene
         }
         else
         {
-            GetButton((int)Buttons.QuestBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
+            //GetButton((int)Buttons.QuestBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
         }
 
         // Sound
