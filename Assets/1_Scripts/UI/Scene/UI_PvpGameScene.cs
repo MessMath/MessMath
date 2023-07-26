@@ -371,6 +371,23 @@ public class UI_PvpGameScene : UI_Scene
     {
         arrow.direction = FindObjectOfType<PlayerControllerOnlyinPvp>().transform.position - (Vector3)arrow.startPosition;
 
+        int randValue = UnityEngine.Random.Range(0, 2);
+        switch (randValue)
+        {
+            case 0:
+                if (GameObject.FindGameObjectsWithTag("Player")[0] != null)
+                    LookAt(GameObject.FindGameObjectsWithTag("Player")[0], arrow);
+                else
+                    LookAt(GameObject.FindGameObjectsWithTag("Player")[1], arrow);
+                break;
+            case 1:
+                if (GameObject.FindGameObjectsWithTag("Player")[0] != null)
+                    LookAt(GameObject.FindGameObjectsWithTag("Player")[0], arrow);
+                else
+                    LookAt(GameObject.FindGameObjectsWithTag("Player")[0], arrow);
+                break;
+        }
+        
         arrow.GetComponentInChildren<TextMeshProUGUI>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));
     }
 

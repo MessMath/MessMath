@@ -26,7 +26,8 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
 
     PhotonView PV;
     Vector3 curPos;
-
+    Quaternion curRot;
+    
     private void Awake()
     {
         tmp = GetComponentInChildren<TextMeshProUGUI>();
@@ -81,6 +82,7 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         if(stream.IsWriting)
         {
             stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
             stream.SendNext(type);
             stream.SendNext(speed);
             stream.SendNext(startPosition);
@@ -90,6 +92,7 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         else
         {
             curPos = (Vector3)stream.ReceiveNext();
+            curRot = (Quaternion)stream.ReceiveNext();
             type = (int) stream.ReceiveNext();
             speed = (float) stream.ReceiveNext();
             startPosition = (Vector2) stream.ReceiveNext();
