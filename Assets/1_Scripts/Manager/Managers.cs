@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +17,9 @@ public class Managers : MonoBehaviour
 
     public static WJ_Connector s_connector = null;
     public static WJ_Connector Connector { get { return s_connector; } }
+
+    public static PvpNetworkManager s_pvpNetworkManager = null;
+    public static PvpNetworkManager Network { get { return s_pvpNetworkManager; } }
 
     private static GraceManager s_graceManager = new GraceManager();
     private static DebuffManager s_debuffManager = new DebuffManager();
@@ -71,10 +75,18 @@ public class Managers : MonoBehaviour
             if (connectorGo == null)
                 connectorGo = new GameObject { name = "@Connector" };
 
+            GameObject NetworkGo = GameObject.Find("@Network");
+            if (NetworkGo == null)
+                NetworkGo = new GameObject { name = "@Network" };
+
             s_connector = Utils.GetOrAddComponent<WJ_Connector>(connectorGo);
             s_instance = Utils.GetOrAddComponent<Managers>(go);
+            s_pvpNetworkManager = Utils.GetOrAddComponent<PvpNetworkManager>(NetworkGo);
+            Utils.GetOrAddComponent<PhotonView>(NetworkGo);
+
             DontDestroyOnLoad(go);
             DontDestroyOnLoad(connectorGo);
+            DontDestroyOnLoad(NetworkGo);
 
             s_resourceManager.Init();
             s_soundManager.Init();

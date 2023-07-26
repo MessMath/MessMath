@@ -53,6 +53,8 @@ public class UI_PvpGameScene : UI_Scene
     private void Start()
     {   
         StartCoroutine("SetArrowGenerationTime", 0.5f);
+
+        Managers.Network.Spawn();
     }
 
     public override bool Init()
