@@ -100,6 +100,8 @@ public class UI_Diagnosis : UI_Scene
     {
         if (Managers.Game.CurrentStatus == Define.CurrentStatus.LEARNING)
         {
+            GetImage((int)Images.Crystal).gameObject.SetActive(false);
+            GetImage((int)Images.CrystalImage).gameObject.SetActive(false);
             GetButton((int)Buttons.ToLobbyBtn).gameObject.SetActive(true);
         }
 
