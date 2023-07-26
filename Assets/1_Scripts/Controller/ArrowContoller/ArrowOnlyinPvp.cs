@@ -55,7 +55,7 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         }
         else if (collision.gameObject.tag == "DeadLine")
         {
-            Destroy(gameObject);
+            PV.RPC("DestroyRPC", RpcTarget.AllBufferedViaServer);
         }
     }
 
