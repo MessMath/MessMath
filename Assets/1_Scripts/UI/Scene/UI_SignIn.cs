@@ -5,9 +5,10 @@ using UnityEngine;
 public class UI_SignIn : UI_Scene
 {
 
-    enum GameObjects
+    enum Buttons
     {
-
+        SignInButton,
+        SignOutButton,
     }
 
     private void Start()
@@ -20,6 +21,20 @@ public class UI_SignIn : UI_Scene
         if (base.Init() == false)
             return false;
 
+        BindButton(typeof(Buttons));
+
+        GetButton((int)Buttons.SignInButton).gameObject.BindEvent(OnClickedSignIn);
+        GetButton((int)Buttons.SignOutButton).gameObject.BindEvent(OnClickedSignOut);
         return true;
+    }
+
+    void OnClickedSignIn()
+    {
+        Debug.Log("로그인");
+    }
+
+    void OnClickedSignOut()
+    {
+        Debug.Log("로그아웃");
     }
 }
