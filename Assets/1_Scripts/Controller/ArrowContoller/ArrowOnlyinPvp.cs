@@ -24,10 +24,12 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
     public string text;
     public TextMeshProUGUI tmp;            // 화살의 Symbol이 표시될 TextMeshPro
 
+
     PhotonView PV;
     Vector3 curPos;
-    Quaternion curRot;
-    
+    Quaternion textRot;
+    bool isSet = false;
+
     private void Awake()
     {
         tmp = GetComponentInChildren<TextMeshProUGUI>();
@@ -51,11 +53,11 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
     {
         if(PV.IsMine && collision.CompareTag("Player"))
         {
-            PV.RPC("DestroyRPC", RpcTarget.AllBufferedViaServer);
+            PV.RPC("DestroyRPC", RpcTarget.AllViaServer);
         }
         else if (collision.gameObject.tag == "DeadLine")
         {
-            PV.RPC("DestroyRPC", RpcTarget.AllBufferedViaServer);
+            PV.RPC("DestroyRPC", RpcTarget.AllViaServer);
         }
     }
 
@@ -63,12 +65,11 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
     {
         if (PV.IsMine) return;
 
-        // 부드럽게 위치 동기화
-        if ((transform.position - curPos).sqrMagnitude >= 100) transform.position = curPos;
+        // isMine이 아닌것들은 부드럽게 위치 동기화
+        else if ((transform.position - curPos).sqrMagnitude >= 100) transform.position = curPos;
         else transform.position = Vector3.Lerp(transform.position, curPos, Time.deltaTime * 10);
 
         tmp.text = text;
-
     }
 
     [PunRPC]
@@ -82,22 +83,30 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         if(stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-            stream.SendNext(type);
-            stream.SendNext(speed);
-            stream.SendNext(startPosition);
-            stream.SendNext(direction);
-            stream.SendNext(text);
+            
+            if(!isSet)      // 초기 값 설정
+            {
+                stream.SendNext(transform.rotation);
+                stream.SendNext(tmp.transform.rotation);
+                stream.SendNext(text);
+                
+                isSet = true;
+            }
+
         }
         else
         {
             curPos = (Vector3)stream.ReceiveNext();
-            curRot = (Quaternion)stream.ReceiveNext();
-            type = (int) stream.ReceiveNext();
-            speed = (float) stream.ReceiveNext();
-            startPosition = (Vector2) stream.ReceiveNext();
-            direction = (Vector2) stream.ReceiveNext();
-            text = (string) stream.ReceiveNext();
+
+            if (!isSet)      // 초기 값 설정
+            {
+                transform.rotation = (Quaternion)stream.ReceiveNext();
+                tmp.transform.rotation = (Quaternion)stream.ReceiveNext();
+                text = (string)stream.ReceiveNext();
+
+                isSet = true;
+            }
+
         }
     }
 }

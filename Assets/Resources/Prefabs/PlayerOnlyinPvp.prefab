@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7309438934494358316}
   - component: {fileID: 2329482589005785262}
   - component: {fileID: 4193122459079438717}
-  - component: {fileID: 2720078661280173692}
+  - component: {fileID: 5825385626229097633}
   m_Layer: 0
   m_Name: PlayerOnlyinPvp
   m_TagString: Player
@@ -185,11 +185,11 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 184413048020251452}
-  - {fileID: 2720078661280173692}
+  - {fileID: 5825385626229097633}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &2720078661280173692
+--- !u!114 &5825385626229097633
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -202,6 +202,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
+  m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3

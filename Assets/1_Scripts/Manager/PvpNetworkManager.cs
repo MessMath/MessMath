@@ -54,8 +54,7 @@ public class PvpNetworkManager : MonoBehaviourPunCallbacks
 
     public void Spawn()
     {
-        Transform ui = transform.parent;
-        PhotonNetwork.Instantiate("Prefabs/PlayerOnlyinPvp", new Vector2(1600, 720), Quaternion.identity);
+        PhotonNetwork.Instantiate("Prefabs/PlayerOnlyinPvp", new Vector2(Screen.width / 2, Screen.height / 2), Quaternion.identity);
     }
 
     public override void OnDisconnected(DisconnectCause cause)

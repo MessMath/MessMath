@@ -91,8 +91,8 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
         }
     }
 
-    // 위치 변수 동기화
-    // 위치동기화는 Photon Transform View보다 이렇게가 Better
+    //위치 변수 동기화
+    //위치동기화는 Photon Transform View보다 이렇게가 Better
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
