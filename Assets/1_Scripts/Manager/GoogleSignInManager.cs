@@ -12,12 +12,12 @@ using TMPro;
 public class GoogleSignInManager : MonoBehaviour
 {
     public TMP_Text infoText;
-    public string webClientId = "1066595506965-kkl0r6ot157j3kqjq0kamtc01rptj17u.apps.googleusercontent.com";
+    private string webClientId = "1066595506965-kkl0r6ot157j3kqjq0kamtc01rptj17u.apps.googleusercontent.com";
 
     private FirebaseAuth auth;
     private GoogleSignInConfiguration configuration;
 
-    private void Awake()
+    public void Init()
     {
         configuration = new GoogleSignInConfiguration { WebClientId = webClientId, RequestEmail = true, RequestIdToken = true };
         CheckFirebaseDependencies();
@@ -31,12 +31,12 @@ public class GoogleSignInManager : MonoBehaviour
             {
                 if (task.Result == DependencyStatus.Available)
                     auth = FirebaseAuth.DefaultInstance;
-                else
-                    AddToInformation("Could not resolve all Firebase dependencies: " + task.Result.ToString());
+                //else
+                    //AddToInformation("Could not resolve all Firebase dependencies: " + task.Result.ToString());
             }
             else
             {
-                AddToInformation("Dependency check was not completed. Error : " + task.Exception.Message);
+                //AddToInformation("Dependency check was not completed. Error : " + task.Exception.Message);
             }
         });
     }
@@ -49,20 +49,20 @@ public class GoogleSignInManager : MonoBehaviour
         GoogleSignIn.Configuration = configuration;
         GoogleSignIn.Configuration.UseGameSignIn = false;
         GoogleSignIn.Configuration.RequestIdToken = true;
-        AddToInformation("Calling SignIn");
+        //AddToInformation("Calling SignIn");
 
         GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinished);
     }
 
     private void OnSignOut()
     {
-        AddToInformation("Calling SignOut");
+        //AddToInformation("Calling SignOut");
         GoogleSignIn.DefaultInstance.SignOut();
     }
 
     public void OnDisconnect()
     {
-        AddToInformation("Calling Disconnect");
+        //AddToInformation("Calling Disconnect");
         GoogleSignIn.DefaultInstance.Disconnect();
     }
 
@@ -75,24 +75,24 @@ public class GoogleSignInManager : MonoBehaviour
                 if (enumerator.MoveNext())
                 {
                     GoogleSignIn.SignInException error = (GoogleSignIn.SignInException)enumerator.Current;
-                    AddToInformation("Got Error: " + error.Status + " " + error.Message);
+                    //AddToInformation("Got Error: " + error.Status + " " + error.Message);
                 }
                 else
                 {
-                    AddToInformation("Got Unexpected Exception?!?" + task.Exception);
+                    //AddToInformation("Got Unexpected Exception?!?" + task.Exception);
                 }
             }
         }
         else if (task.IsCanceled)
         {
-            AddToInformation("Canceled");
+            //AddToInformation("Canceled");
         }
         else
         {
-            AddToInformation("Welcome: " + task.Result.DisplayName + "!");
-            AddToInformation("Email = " + task.Result.Email);
-            AddToInformation("Google ID Token = " + task.Result.IdToken);
-            AddToInformation("Email = " + task.Result.Email);
+            //AddToInformation("Welcome: " + task.Result.DisplayName + "!");
+            //AddToInformation("Email = " + task.Result.Email);
+            //AddToInformation("Google ID Token = " + task.Result.IdToken);
+            //AddToInformation("Email = " + task.Result.Email);
             SignInWithGoogleOnFirebase(task.Result.IdToken);
         }
     }
@@ -104,15 +104,15 @@ public class GoogleSignInManager : MonoBehaviour
         auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
         {
             AggregateException ex = task.Exception;
-            if (ex != null)
-            {
-                if (ex.InnerExceptions[0] is FirebaseException inner && (inner.ErrorCode != 0))
-                    AddToInformation("\nError code = " + inner.ErrorCode + " Message = " + inner.Message);
-            }
-            else
-            {
-                AddToInformation("Sign In Successful.");
-            }
+            //if (ex != null)
+            //{
+            //    if (ex.InnerExceptions[0] is FirebaseException inner && (inner.ErrorCode != 0))
+            //        AddToInformation("\nError code = " + inner.ErrorCode + " Message = " + inner.Message);
+            //}
+            //else
+            //{
+            //    AddToInformation("Sign In Successful.");
+            //}
         });
     }
 
@@ -121,7 +121,7 @@ public class GoogleSignInManager : MonoBehaviour
         GoogleSignIn.Configuration = configuration;
         GoogleSignIn.Configuration.UseGameSignIn = false;
         GoogleSignIn.Configuration.RequestIdToken = true;
-        AddToInformation("Calling SignIn Silently");
+        //AddToInformation("Calling SignIn Silently");
 
         GoogleSignIn.DefaultInstance.SignInSilently().ContinueWith(OnAuthenticationFinished);
     }
@@ -132,10 +132,10 @@ public class GoogleSignInManager : MonoBehaviour
         GoogleSignIn.Configuration.UseGameSignIn = true;
         GoogleSignIn.Configuration.RequestIdToken = false;
 
-        AddToInformation("Calling Games SignIn");
+        //AddToInformation("Calling Games SignIn");
 
         GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinished);
     }
 
-    private void AddToInformation(string str) { infoText.text += "\n" + str; }
+    //private void AddToInformation(string str) { infoText.text += "\n" + str; }
 }

@@ -30,11 +30,13 @@ public class UI_SignIn : UI_Scene
 
     void OnClickedSignIn()
     {
+        Managers.GoogleSignIn.SignInWithGoogle();
         Debug.Log("로그인");
     }
 
     void OnClickedSignOut()
     {
+        Managers.GoogleSignIn.SignOutFromGoogle();
         Debug.Log("로그아웃");
     }
 }

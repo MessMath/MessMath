@@ -81,6 +81,7 @@ public class Managers : MonoBehaviour
             s_soundManager.Init();
             s_dataManager.Init();
             s_connector.Init();
+            s_gogleSigninManager.Init();
 
             Application.targetFrameRate = 60;
         }
