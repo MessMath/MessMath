@@ -26,7 +26,7 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
 
 
     PhotonView PV;
-    Vector2 curPos;
+    Vector3 curPos;
     Quaternion textRot;
     bool isSet = false;
     RectTransform RT;
@@ -68,8 +68,8 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         if (PV.IsMine) return;
 
         // isMine이 아닌것들은 부드럽게 위치 동기화
-        else if ((RT.anchoredPosition - curPos).sqrMagnitude >= 100) RT.anchoredPosition = curPos;
-        else RT.anchoredPosition = Vector2.Lerp(RT.anchoredPosition, curPos, Time.deltaTime * 10);
+        else if ((RT.position - curPos).sqrMagnitude >= 100) RT.position = curPos;
+        else RT.position = Vector3.Lerp(RT.position, curPos, Time.deltaTime * 10);
 
         tmp.text = text;
     }
@@ -84,10 +84,11 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
     {
         if(stream.IsWriting)
         {
-            stream.SendNext(RT.anchoredPosition);
+            stream.SendNext(RT.position);
             
             if(!isSet)      // 초기 값 설정
             {
+                stream.SendNext(RT.localScale);
                 stream.SendNext(RT.rotation);
                 stream.SendNext(tmp.GetComponent<RectTransform>().rotation);
                 stream.SendNext(text);
@@ -98,10 +99,11 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            curPos = (Vector2)stream.ReceiveNext();
+            curPos = (Vector3)stream.ReceiveNext();
 
             if (!isSet)      // 초기 값 설정
             {
+                RT.localScale = (Vector3)stream.ReceiveNext();
                 RT.rotation = (Quaternion)stream.ReceiveNext();
                 tmp.GetComponent<RectTransform>().rotation = (Quaternion)stream.ReceiveNext();
                 text = (string)stream.ReceiveNext();

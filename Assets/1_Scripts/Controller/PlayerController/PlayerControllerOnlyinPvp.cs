@@ -24,7 +24,7 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
 
     // 멀티 관련 변수들
     PhotonView PV;
-    Vector2 curPos;
+    Vector3 curPos;
 
     Color oppsColor = new Color(1f, 0.6f, 0.6f);
     Color myColor = new Color(0.6f, 0.6f, 1f);
@@ -61,8 +61,8 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
         }
 
         // isMine이 아닌것들은 부드럽게 위치 동기화
-        else if ((_rectTransform.anchoredPosition - curPos).sqrMagnitude >= 100) _rectTransform.anchoredPosition = curPos;
-        else _rectTransform.anchoredPosition = Vector2.Lerp(_rectTransform.anchoredPosition, curPos, Time.deltaTime * 10);
+        else if ((_rectTransform.position - curPos).sqrMagnitude >= 100) _rectTransform.position = curPos;
+        else _rectTransform.position = Vector3.Lerp(_rectTransform.position, curPos, Time.deltaTime * 10);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -99,11 +99,11 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(_rectTransform.anchoredPosition);
+            stream.SendNext(_rectTransform.position);
         }
         else
         {
-            curPos = (Vector2)stream.ReceiveNext();
+            curPos = (Vector3)stream.ReceiveNext();
         }
     }
 }
