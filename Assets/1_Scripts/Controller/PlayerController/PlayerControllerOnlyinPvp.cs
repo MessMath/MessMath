@@ -47,6 +47,7 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
         _rectTransform = GetComponent<RectTransform>();
 
         transform.SetParent(GameObject.Find("UI_PvpGameScene").transform);
+        _rectTransform.anchoredPosition = Vector3.zero;
 
         // 상대방과 나의 색 설정
         if (!PV.IsMine)
@@ -139,9 +140,10 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
             if (!isSet)
             {
                 stream.SendNext(_rectTransform.localScale);
+
+                isSet = true;
             }
 
-            isSet = true;
         }
         else
         {
@@ -150,9 +152,9 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
             if (!isSet)
             {
                 _rectTransform.localScale = (Vector3)stream.ReceiveNext();
-            }
 
-            isSet = true;
+                isSet = true;
+            }
 
             // 예측 위치 업데이트
             predictedPosition = curPos + (curPos - _rectTransform.position);

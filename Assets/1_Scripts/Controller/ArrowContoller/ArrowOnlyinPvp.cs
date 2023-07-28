@@ -43,6 +43,7 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         RT = GetComponent<RectTransform>();
 
         transform.SetParent(GameObject.Find("ArrowController").transform);
+
     }
 
     private void Start()
@@ -52,6 +53,7 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
             // 텍스트를 초기 값으로 설정
             tmp.text = text;
         }
+
     }
 
     private void OnValidate()

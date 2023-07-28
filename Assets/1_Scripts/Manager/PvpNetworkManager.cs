@@ -12,8 +12,6 @@ public class PvpNetworkManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        PhotonNetwork.SendRate = 30;
-        PhotonNetwork.SerializationRate = 20;
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
@@ -40,9 +38,6 @@ public class PvpNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        // TODO
-        // 대기!
-        // 플레이어가 둘이 찻다! -> Scene 이동
         if (PhotonNetwork.IsMasterClient)
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
