@@ -31,6 +31,11 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
     bool isSet = false;
     RectTransform RT;
 
+    // 추가된 변수
+    private Vector3 predictedPosition;
+    private float lastUpdateTime;
+    private float updateInterval = 0.1f; // 예측 업데이트 간격
+
     private void Awake()
     {
         tmp = GetComponentInChildren<TextMeshProUGUI>();
@@ -42,7 +47,11 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
 
     private void Start()
     {
-        tmp.text = text;
+        if (PV.IsMine)
+        {
+            // 텍스트를 초기 값으로 설정
+            tmp.text = text;
+        }
     }
 
     private void OnValidate()
@@ -67,28 +76,19 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
     {
         if (PV.IsMine) return;
 
-        // isMine이 아닌것들은 부드럽게 위치 동기화
-        else if ((RT.position - curPos).sqrMagnitude >= 100) RT.position = curPos;
-        else RT.position = Vector3.Lerp(RT.position, curPos, Time.deltaTime * 10);
-
-        tmp.text = text;
+        // 예측 위치로 부드럽게 이동
+        if (Time.time - lastUpdateTime > updateInterval)
+        {
+            predictedPosition = curPos + (curPos - RT.position);
+            lastUpdateTime = Time.time;
+        }
+        RT.position = Vector3.Lerp(RT.position, predictedPosition, Time.deltaTime / updateInterval);
     }
 
     [PunRPC]
     void DestroyRPC()
     {
         Destroy(gameObject);
-    }
-
-    public Vector3 Ratio()
-    {
-        int width = Screen.width;
-        int height = Screen.height;
-
-        float ratioX = transform.position.x / width;
-        float ratioY = transform.position.y / height;
-
-        return new Vector3(ratioX, ratioY, 0);
     }
 
     Vector3 transPosIntoRatio()
@@ -142,9 +142,14 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
                 tmp.GetComponent<RectTransform>().rotation = (Quaternion)stream.ReceiveNext();
                 text = (string)stream.ReceiveNext();
 
+                tmp.text = text;
+
                 isSet = true;
             }
 
+            // 예측 위치 업데이트
+            predictedPosition = curPos + (curPos - RT.position);
+            lastUpdateTime = Time.time;
         }
     }
 }

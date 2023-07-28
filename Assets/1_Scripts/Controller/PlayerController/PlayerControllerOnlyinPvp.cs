@@ -30,6 +30,11 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
     Color oppsColor = new Color(1f, 0.6f, 0.6f);
     Color myColor = new Color(0.6f, 0.6f, 1f);
 
+    // 추가된 변수
+    private Vector3 predictedPosition;
+    private float lastUpdateTime;
+    private float updateInterval = 0.1f; // 예측 업데이트 간격
+
     void Awake()
     {
         _hp = 3;
@@ -50,7 +55,7 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
             _image.color = myColor;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (PV.IsMine)
         {
@@ -60,10 +65,16 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
             if (Managers.Game.Horizontal != 0 || Managers.Game.Vertical != 0)
                 MoveControl();
         }
-
-        // isMine이 아닌것들은 부드럽게 위치 동기화
-        else if ((_rectTransform.position - curPos).sqrMagnitude >= 100) _rectTransform.position = curPos;
-        else _rectTransform.position = Vector3.Lerp(_rectTransform.position, curPos, Time.deltaTime * 10);
+        else
+        {
+            // 예측 위치로 부드럽게 이동
+            if (Time.time - lastUpdateTime > updateInterval)
+            {
+                predictedPosition = curPos + (curPos - _rectTransform.position);
+                lastUpdateTime = Time.time;
+            }
+            _rectTransform.position = Vector3.Lerp(_rectTransform.position, predictedPosition, Time.deltaTime / updateInterval);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -142,6 +153,10 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
             }
 
             isSet = true;
+
+            // 예측 위치 업데이트
+            predictedPosition = curPos + (curPos - _rectTransform.position);
+            lastUpdateTime = Time.time;
         }
     }
 }
