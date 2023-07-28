@@ -263,6 +263,7 @@ public class UI_PvpGameScene : UI_Scene
     void ShootArrow()
     {
         GameObject arrowObj = MakeArrow();
+        arrowObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         ArrowOnlyinPvp arrow = arrowObj.GetComponent<ArrowOnlyinPvp>();
         arrowObj.GetComponent<Rigidbody2D>().AddForce(arrow.direction.normalized * arrow.speed, ForceMode2D.Impulse);
 

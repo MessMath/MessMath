@@ -53,7 +53,7 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(PV.IsMine && collision.CompareTag("Player"))
+        if (PV.IsMine && collision.CompareTag("Player"))
         {
             PV.RPC("DestroyRPC", RpcTarget.AllViaServer);
         }
@@ -80,19 +80,30 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         Destroy(gameObject);
     }
 
+    public Vector3 Ratio()
+    {
+        int width = Screen.width;
+        int height = Screen.height;
+
+        float ratioX = transform.position.x / width;
+        float ratioY = transform.position.y / height;
+
+        return new Vector3(ratioX, ratioY, 0);
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if(stream.IsWriting)
+        if (stream.IsWriting)
         {
             stream.SendNext(RT.position);
-            
-            if(!isSet)      // 초기 값 설정
+
+            if (!isSet)      // 초기 값 설정
             {
                 stream.SendNext(RT.localScale);
                 stream.SendNext(RT.rotation);
                 stream.SendNext(tmp.GetComponent<RectTransform>().rotation);
                 stream.SendNext(text);
-                
+
                 isSet = true;
             }
 

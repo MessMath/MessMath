@@ -24,12 +24,13 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
 
     // 멀티 관련 변수들
     PhotonView PV;
+    bool isSet = false;
     Vector3 curPos;
 
     Color oppsColor = new Color(1f, 0.6f, 0.6f);
     Color myColor = new Color(0.6f, 0.6f, 1f);
 
-    void Start()
+    void Awake()
     {
         _hp = 3;
         _speed = 400;
@@ -45,11 +46,11 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
         // 상대방과 나의 색 설정
         if (!PV.IsMine)
             _image.color = oppsColor;
-        else 
+        else
             _image.color = myColor;
     }
 
-    void FixedUpdate() 
+    void FixedUpdate()
     {
         if (PV.IsMine)
         {
@@ -74,7 +75,7 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
             string symbol = arrow.text;
 
             _onCalculateBoard.text += symbol;
-            transform.parent.GetComponent<UI_Scene>().Invoke("PreCalculate",0);
+            transform.parent.GetComponent<UI_Scene>().Invoke("PreCalculate", 0);
         }
     }
 
@@ -100,10 +101,24 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(_rectTransform.position);
+
+            if (!isSet)
+            {
+                stream.SendNext(_rectTransform.localScale);
+            }
+
+            isSet = true;
         }
         else
         {
             curPos = (Vector3)stream.ReceiveNext();
+
+            if (!isSet)
+            {
+                _rectTransform.localScale = (Vector3)stream.ReceiveNext();
+            }
+
+            isSet = true;
         }
     }
 }
