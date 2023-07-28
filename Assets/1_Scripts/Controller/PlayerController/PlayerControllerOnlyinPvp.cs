@@ -94,13 +94,36 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
         }
     }
 
+    Vector3 transPosIntoRatio()
+    {
+        float actualH = Screen.width / 3200f * 1440f;
+
+        float xRatio = _rectTransform.position.x / Screen.width;
+        float yRatio = (_rectTransform.position.y - ((Screen.height - actualH) / 2f)) / actualH;
+
+        return new Vector3(xRatio, yRatio, 0f);
+    }
+
+    void transRatioIntoPos(Vector3 vector3)
+    {
+        float xRatio = vector3.x;
+        float yRatio = vector3.y;
+
+        float actualH = Screen.width / 3200f * 1440f;
+
+        float xPos = Screen.width * xRatio;
+        float yPos = actualH * yRatio + ((Screen.height - actualH)/2f);
+
+        curPos = new Vector3(xPos, yPos, 0f);
+    }
+
     //위치 변수 동기화
     //위치동기화는 Photon Transform View보다 이렇게가 Better
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(_rectTransform.position);
+            stream.SendNext(transPosIntoRatio());
 
             if (!isSet)
             {
@@ -111,7 +134,7 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            curPos = (Vector3)stream.ReceiveNext();
+            transRatioIntoPos((Vector3)stream.ReceiveNext());
 
             if (!isSet)
             {

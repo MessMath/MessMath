@@ -91,11 +91,34 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         return new Vector3(ratioX, ratioY, 0);
     }
 
+    Vector3 transPosIntoRatio()
+    {
+        float actualH = Screen.width / 3200f * 1440f;
+
+        float xRatio = RT.position.x / Screen.width;
+        float yRatio = (RT.position.y - ((Screen.height - actualH) / 2f)) / actualH;
+
+        return new Vector3(xRatio, yRatio, 0f);
+    }
+
+    void transRatioIntoPos(Vector3 vector3)
+    {
+        float xRatio = vector3.x;
+        float yRatio = vector3.y;
+
+        float actualH = Screen.width / 3200f * 1440f;
+
+        float xPos = Screen.width * xRatio;
+        float yPos = actualH * yRatio + ((Screen.height - actualH) / 2f);
+
+        curPos = new Vector3(xPos, yPos, 0f);
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(RT.position);
+            stream.SendNext(transPosIntoRatio());
 
             if (!isSet)      // 초기 값 설정
             {
@@ -110,7 +133,7 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            curPos = (Vector3)stream.ReceiveNext();
+            transRatioIntoPos((Vector3)stream.ReceiveNext());
 
             if (!isSet)      // 초기 값 설정
             {
