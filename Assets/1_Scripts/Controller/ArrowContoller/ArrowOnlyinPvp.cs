@@ -26,14 +26,16 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
 
 
     PhotonView PV;
-    Vector3 curPos;
+    Vector2 curPos;
     Quaternion textRot;
     bool isSet = false;
+    RectTransform RT;
 
     private void Awake()
     {
         tmp = GetComponentInChildren<TextMeshProUGUI>();
         PV = GetComponent<PhotonView>();
+        RT = GetComponent<RectTransform>();
 
         transform.SetParent(GameObject.Find("ArrowController").transform);
     }
@@ -66,8 +68,8 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         if (PV.IsMine) return;
 
         // isMine이 아닌것들은 부드럽게 위치 동기화
-        else if ((transform.position - curPos).sqrMagnitude >= 100) transform.position = curPos;
-        else transform.position = Vector3.Lerp(transform.position, curPos, Time.deltaTime * 10);
+        else if ((RT.anchoredPosition - curPos).sqrMagnitude >= 100) RT.anchoredPosition = curPos;
+        else RT.anchoredPosition = Vector2.Lerp(RT.anchoredPosition, curPos, Time.deltaTime * 10);
 
         tmp.text = text;
     }
@@ -82,12 +84,12 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
     {
         if(stream.IsWriting)
         {
-            stream.SendNext(transform.position);
+            stream.SendNext(RT.anchoredPosition);
             
             if(!isSet)      // 초기 값 설정
             {
-                stream.SendNext(transform.rotation);
-                stream.SendNext(tmp.transform.rotation);
+                stream.SendNext(RT.rotation);
+                stream.SendNext(tmp.GetComponent<RectTransform>().rotation);
                 stream.SendNext(text);
                 
                 isSet = true;
@@ -96,12 +98,12 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            curPos = (Vector3)stream.ReceiveNext();
+            curPos = (Vector2)stream.ReceiveNext();
 
             if (!isSet)      // 초기 값 설정
             {
-                transform.rotation = (Quaternion)stream.ReceiveNext();
-                tmp.transform.rotation = (Quaternion)stream.ReceiveNext();
+                RT.rotation = (Quaternion)stream.ReceiveNext();
+                tmp.GetComponent<RectTransform>().rotation = (Quaternion)stream.ReceiveNext();
                 text = (string)stream.ReceiveNext();
 
                 isSet = true;

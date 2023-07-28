@@ -97,6 +97,7 @@ MonoBehaviour:
   _inputVec: {x: 0, y: 0}
   _speed: 10
   _onCalculateBoard: {fileID: 0}
+  _rectTransform: {fileID: 0}
 --- !u!114 &6139911662124141744
 MonoBehaviour:
   m_ObjectHideFlags: 0
