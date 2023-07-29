@@ -53,7 +53,4 @@ public class UI_TestInfo : UI_Popup
 
         return true;
     }
-
-
-
 }

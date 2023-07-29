@@ -16,7 +16,7 @@ public class GoogleSignInManager : MonoBehaviour
 
     private FirebaseAuth auth;
     private GoogleSignInConfiguration configuration;
-
+    string UID;
     public void Init()
     {
         configuration = new GoogleSignInConfiguration { WebClientId = webClientId, RequestEmail = true, RequestIdToken = true };
@@ -47,6 +47,12 @@ public class GoogleSignInManager : MonoBehaviour
                 //AddToInformation("Dependency check was not completed. Error : " + task.Exception.Message);
             }
         });
+    }
+    public string GetUID()
+    {
+        if (auth.CurrentUser != null)
+            UID = auth.CurrentUser.UserId;
+        return UID;
     }
 
     public void SignInWithGoogle() { OnSignIn(); }
@@ -101,6 +107,7 @@ public class GoogleSignInManager : MonoBehaviour
             //AddToInformation("Email = " + task.Result.Email);
             //AddToInformation("Google ID Token = " + task.Result.IdToken);
             //AddToInformation("Email = " + task.Result.Email);
+            
             SignInWithGoogleOnFirebase(task.Result.IdToken);
         }
     }

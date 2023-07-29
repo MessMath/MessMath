@@ -38,6 +38,7 @@ public class UI_SignIn : UI_Scene
     void OnClickedSignIn()
     {
         Managers.GoogleSignIn.SignInWithGoogle();
+        Managers.DBManager.CreateNewUser("test");
         Debug.Log("로그인");
     }
 
