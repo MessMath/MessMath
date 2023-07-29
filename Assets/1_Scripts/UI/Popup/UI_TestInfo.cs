@@ -50,7 +50,13 @@ public class UI_TestInfo : UI_Popup
         if (Managers.Game.Name != null)
             GetText((int)Texts.UserNameText).text = Managers.Game.Name;
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(()=> Managers.UI.ClosePopupUI(this));
+        GetImage((int)Images.UserImageBG).gameObject.BindEvent(() => OnClickedUserImgBG());
 
         return true;
+    }
+
+    void OnClickedUserImgBG()
+    {
+        GetText((int)Texts.UserNameText).text = Managers.DBManager.readData(Managers.GoogleSignIn.GetUID(), "nickname");
     }
 }

@@ -68,32 +68,39 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(userID).SetRawJsonValueAsync(json);
     }
 
-    public void readData(string userID, string key)
+    public string readData(string userID, string key)
     {
-        readUser(userID, key);
+        return readUser(userID, key);
     }
 
-    private void readUser(string userID, string key)
+    private string readUser(string userId, string key)
     {
-        reference.Child(userID).GetValueAsync().ContinueWith(task =>
+        //reference의 자식(userEmail)를 task로 받음
+        reference.Child("Users").Child(userId).GetValueAsync().ContinueWith(task =>
         {
             if (task.IsFaulted)
             {
                 Debug.Log("error");
+                return "error";
             }
-    
+            //task가 성공적이면
             else if (task.IsCompleted)
             {
+                // DataSnapshot 변수를 선언하여 task의 결과 값을 반환
                 DataSnapshot snapshot = task.Result;
-                
+                // snapshot의 자식 개수를 확인
                 Debug.Log(snapshot.ChildrenCount);
 
+                //foreach문으로 각각 데이터를 IDictionary로 변환해 각 이름에 맞게 변수 초기화
                 foreach (DataSnapshot data in snapshot.Children)
                 {
-                    if (data.ToString() == key)
+                    if(data.Key == key)
                         Debug.Log(data.Value);
+                    return data.Value;
                 }
             }
+            return "error";
         });
+        return "error";
     }
 }
