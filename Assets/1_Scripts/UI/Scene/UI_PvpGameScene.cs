@@ -260,114 +260,92 @@ public class UI_PvpGameScene : UI_Scene
     }
 
     // 현재 플레이어의 위치를 향해 오브젝트 날리기 
-    public void ShootArrow()
+    void ShootArrow()
     {
-        // 화살 속성 설정
-        int type = SetArrowType();
-        string text = type == 0 ? SetArrowNum() : SetArrowOperator();
-        Vector2 startPosition = SetArrowStartPosition();
-        //Vector2 direction = SetArrowDirection();
-        //float speed = SetArrowSpeed();
-
-        // 화살 오브젝트 생성
-        GameObject arrowObj = PhotonNetwork.Instantiate("Prefabs/ArrowOnlyinPvp", startPosition, Quaternion.identity);
+        GameObject arrowObj = MakeArrow();
+        arrowObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         ArrowOnlyinPvp arrow = arrowObj.GetComponent<ArrowOnlyinPvp>();
-
-        // 화살 속성 적용
-        arrow.type = type;
-        arrow.text = text;
-        arrow.startPosition = startPosition;
-
-        SetArrowDirection(arrow);
-        SetArrowSpeed(arrow);
-
-        // 화살 발사
         arrowObj.GetComponent<Rigidbody2D>().AddForce(arrow.direction.normalized * arrow.speed, ForceMode2D.Impulse);
 
         Debug.Log("------Shoot Arrow------");
         Debug.Log($"Arrow type: {arrow.type} num or operator: {arrow.text} speed: {arrow.speed} \n startPosition:{arrow.startPosition.x} , {arrow.startPosition.y} \n direction: {arrow.direction}");
-
     }
 
     // 화살 동적 생성하는 함수
-    //GameObject MakeArrow()
-    //{
-    //    GameObject arrowObject = PhotonNetwork.Instantiate("Prefabs/ArrowOnlyinPvp", new Vector3(1800f,5000f,0f), Quaternion.identity);
+    GameObject MakeArrow()
+    {
+        GameObject arrowObject = PhotonNetwork.Instantiate("Prefabs/ArrowOnlyinPvp", Vector3.zero, Quaternion.identity);
 
-    //    ArrowOnlyinPvp arrow = arrowObject.GetOrAddComponent<ArrowOnlyinPvp>();
-    //    SetArrow(arrow);
-    //    arrowObject.GetOrAddComponent<RectTransform>().position = arrow.startPosition;
-    //    return arrowObject;
-    //}
+        ArrowOnlyinPvp arrow = arrowObject.GetOrAddComponent<ArrowOnlyinPvp>();
+        SetArrow(arrow);
+        arrowObject.GetOrAddComponent<RectTransform>().position = arrow.startPosition;
+        return arrowObject;
+    }
 
     // 화살 설정하는 함수
-    //void SetArrow(ArrowOnlyinPvp arrow)
-    //{
-    //    if (SetArrowType(arrow) == 0)
-    //        SetArrowNum(arrow);
-    //    else
-    //        SetArrowOperator(arrow);
-    //    SetArrowStartPosition(arrow);
-    //    SetArrowDirection(arrow);
-    //    SetArrowSpeed(arrow);
-    //}
+    void SetArrow(ArrowOnlyinPvp arrow)
+    {
+        if (SetArrowType(arrow) == 0)
+            SetArrowNum(arrow);
+        else
+            SetArrowOperator(arrow);
+        SetArrowStartPosition(arrow);
+        SetArrowDirection(arrow);
+        SetArrowSpeed(arrow);
+    }
 
     // 현재 생성된 화살의 타입 숫자인지 기호인지 설정하는 함수 
-    int SetArrowType()
+    int SetArrowType(ArrowOnlyinPvp arrow)
     {
-        int type = UnityEngine.Random.Range(0, 2);
+        arrow.type = UnityEngine.Random.Range(0, 2);
 
-        if (type == 0)
+        if (arrow.type == 0)
         {
             numArrowCnt++;
             if (MAX_NUM_ARROW < numArrowCnt)
             {
-                type = 1;
+                arrow.type = 1;
                 numArrowCnt = 0;
             }
         }
-        else if (type == 1)
+        else if (arrow.type == 1)
         {
             symbolArrowCnt++;
             if (MAX_SYMBOL_ARROW < symbolArrowCnt)
             {
-                type = 0;
+                arrow.type = 0;
                 symbolArrowCnt = 0;
             }
         }
-        return type;
+        return arrow.type;
     }
 
-    string SetArrowNum()
+    void SetArrowNum(ArrowOnlyinPvp arrow)
     {
-        return  UnityEngine.Random.Range(1, 10).ToString();
+        arrow.text = UnityEngine.Random.Range(1, 10).ToString();
     }
 
-    string SetArrowOperator()
+    void SetArrowOperator(ArrowOnlyinPvp arrow)
     {
-        return Operator[UnityEngine.Random.Range(0, 4)];   // 50%의 확률로 Symbol이 사칙연산 중 하나의 기호에 해당한다.
+        arrow.text = Operator[UnityEngine.Random.Range(0, 4)];   // 50%의 확률로 Symbol이 사칙연산 중 하나의 기호에 해당한다.
     }
 
     // 화살의 생성 위치 조절하는 함수 
-    Vector2 SetArrowStartPosition()
+    void SetArrowStartPosition(ArrowOnlyinPvp arrow)
     {
         int randValue = UnityEngine.Random.Range(0, 3);
-        Vector2 startPosition = Vector2.zero;
-
         switch (randValue)
         {
             case 0:
-                startPosition = GetRandPosOfLeft();
+                arrow.startPosition = GetRandPosOfLeft();
                 break;
             case 1:
-                startPosition = GetRandPosOfUp();
+                arrow.startPosition = GetRandPosOfUp();
                 break;
             case 2:
-                startPosition = GetRandPosOfRight();
+                arrow.startPosition = GetRandPosOfRight();
                 break;
         }
-
-        return startPosition;
     }
 
     Vector2 GetRandPosOfLeft()
