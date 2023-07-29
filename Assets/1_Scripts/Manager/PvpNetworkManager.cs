@@ -12,8 +12,6 @@ public class PvpNetworkManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        PhotonNetwork.SendRate = 30;
-        PhotonNetwork.SerializationRate = 20;
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 

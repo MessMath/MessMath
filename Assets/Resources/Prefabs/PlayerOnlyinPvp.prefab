@@ -74,12 +74,12 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 46.33
+  m_Radius: 69.23
 --- !u!114 &184413048020251452
 MonoBehaviour:
   m_ObjectHideFlags: 0

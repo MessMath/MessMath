@@ -24,10 +24,8 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
     public string text;
     public TextMeshProUGUI tmp;            // 화살의 Symbol이 표시될 TextMeshPro
 
-
     PhotonView PV;
     Vector3 curPos;
-    Quaternion textRot;
     bool isSet = false;
     RectTransform RT;
 
@@ -42,7 +40,7 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         PV = GetComponent<PhotonView>();
         RT = GetComponent<RectTransform>();
 
-        transform.SetParent(GameObject.Find("ArrowController").transform);
+        RT.SetParent(GameObject.Find("ArrowController").transform);
     }
 
     private void Start()
@@ -62,27 +60,33 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (PV.IsMine && collision.CompareTag("Player"))
-        {
-            PV.RPC("DestroyRPC", RpcTarget.AllViaServer);
-        }
-        else if (collision.gameObject.tag == "DeadLine")
+        if (collision.CompareTag("DeadLine"))
         {
             PV.RPC("DestroyRPC", RpcTarget.AllViaServer);
         }
     }
 
+    float initialPositionDelay = 0.5f; // 초기 위치 설정을 지연할 시간(초)
+    float initialPositionTimer = 0f;
+
     private void Update()
     {
         if (PV.IsMine) return;
 
-        // 예측 위치로 부드럽게 이동
-        if (Time.time - lastUpdateTime > updateInterval)
-        {
-            predictedPosition = curPos + (curPos - RT.position);
-            lastUpdateTime = Time.time;
+        if (initialPositionTimer < initialPositionDelay)
+    {
+            RT.position = curPos;
+            initialPositionTimer += Time.deltaTime;
         }
-        RT.position = Vector3.Lerp(RT.position, predictedPosition, Time.deltaTime / updateInterval);
+    else
+        {
+            if (Time.time - lastUpdateTime > updateInterval)
+        {
+                predictedPosition = curPos + (curPos - RT.position);
+                lastUpdateTime = Time.time;
+            }
+            RT.position = Vector3.Slerp(RT.position, predictedPosition, Time.deltaTime / updateInterval);
+        }
     }
 
     [PunRPC]
@@ -94,7 +98,6 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
     Vector3 transPosIntoRatio()
     {
         float actualH = Screen.width / 3200f * 1440f;
-
         float xRatio = RT.position.x / Screen.width;
         float yRatio = (RT.position.y - ((Screen.height - actualH) / 2f)) / actualH;
 
@@ -105,7 +108,6 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
     {
         float xRatio = vector3.x;
         float yRatio = vector3.y;
-
         float actualH = Screen.width / 3200f * 1440f;
 
         float xPos = Screen.width * xRatio;
