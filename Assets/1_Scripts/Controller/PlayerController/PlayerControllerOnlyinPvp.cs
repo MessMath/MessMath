@@ -35,6 +35,15 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
     private float lastUpdateTime;
     private float updateInterval = 0.1f; // 예측 업데이트 간격
 
+    float referenceWidth = 3200f; // 기준 해상도의 너비
+    float referenceHeight = 1440f; // 기준 해상도의 높이
+    float currentWidth = Screen.width; // 현재 화면의 너비
+    float currentHeight = Screen.height; // 현재 화면의 높이
+
+    float widthRatio;
+    float heightRatio;
+    float adjustedSpeed;
+
     void Awake()
     {
         _hp = 3;
@@ -47,19 +56,22 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
         _rectTransform = GetComponent<RectTransform>();
 
         transform.SetParent(GameObject.Find("UI_PvpGameScene").transform);
+        _rectTransform.anchoredPosition = Vector3.zero;
 
         // 상대방과 나의 색 설정
-        if (!PV.IsMine)
-            _image.color = oppsColor;
-        else
-            _image.color = myColor;
+        _image.color = !PV.IsMine ? oppsColor : myColor;
+
+        widthRatio = currentWidth / referenceWidth;
+        heightRatio = currentHeight / referenceHeight;
+
+        adjustedSpeed = _speed * Mathf.Min(widthRatio, heightRatio);
     }
 
     void Update()
     {
         if (PV.IsMine)
         {
-            Vector2 nextVec = _inputVec * _speed * Time.fixedDeltaTime;
+            Vector2 nextVec = _inputVec * adjustedSpeed * Time.fixedDeltaTime;
             _rigid.MovePosition(_rigid.position + nextVec);
 
             if (Managers.Game.Horizontal != 0 || Managers.Game.Vertical != 0)
@@ -80,10 +92,11 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!PV.IsMine) return;
-        if (collision.gameObject.tag == "Arrow")
+        if (collision.CompareTag("Arrow"))
         {
             ArrowOnlyinPvp arrow = collision.gameObject.GetOrAddComponent<ArrowOnlyinPvp>();
             string symbol = arrow.text;
+            collision.gameObject.GetPhotonView().RPC("DestroyRPC", RpcTarget.AllViaServer);
 
             _onCalculateBoard.text += symbol;
             transform.parent.GetComponent<UI_Scene>().Invoke("PreCalculate", 0);
@@ -92,8 +105,8 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
 
     private void MoveControl()
     {
-        gameObject.GetComponent<RectTransform>().position += Vector3.up * _speed * Time.deltaTime * Managers.Game.Vertical;
-        gameObject.GetComponent<RectTransform>().position += Vector3.right * _speed * Time.deltaTime * Managers.Game.Horizontal;
+        gameObject.GetComponent<RectTransform>().position += Vector3.up * adjustedSpeed * Time.deltaTime * Managers.Game.Vertical;
+        gameObject.GetComponent<RectTransform>().position += Vector3.right * adjustedSpeed * Time.deltaTime * Managers.Game.Horizontal;
     }
 
     public void GameOverPopup()
@@ -108,7 +121,6 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
     Vector3 transPosIntoRatio()
     {
         float actualH = Screen.width / 3200f * 1440f;
-
         float xRatio = _rectTransform.position.x / Screen.width;
         float yRatio = (_rectTransform.position.y - ((Screen.height - actualH) / 2f)) / actualH;
 
@@ -119,7 +131,6 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
     {
         float xRatio = vector3.x;
         float yRatio = vector3.y;
-
         float actualH = Screen.width / 3200f * 1440f;
 
         float xPos = Screen.width * xRatio;
@@ -139,9 +150,9 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
             if (!isSet)
             {
                 stream.SendNext(_rectTransform.localScale);
+                isSet = true;   
             }
 
-            isSet = true;
         }
         else
         {
@@ -150,9 +161,8 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
             if (!isSet)
             {
                 _rectTransform.localScale = (Vector3)stream.ReceiveNext();
+                isSet = true;
             }
-
-            isSet = true;
 
             // 예측 위치 업데이트
             predictedPosition = curPos + (curPos - _rectTransform.position);
