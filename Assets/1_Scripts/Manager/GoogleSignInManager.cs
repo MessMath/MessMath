@@ -23,6 +23,14 @@ public class GoogleSignInManager : MonoBehaviour
         CheckFirebaseDependencies();
     }
 
+    public bool isLogin()
+    {
+        if (auth.CurrentUser != null)
+            return true;
+        else
+            return false;
+    }
+
     private void CheckFirebaseDependencies()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>

@@ -49,6 +49,7 @@ public class UI_SignIn : UI_Scene
 
     void OnClickBG()
     {
-        Managers.UI.ShowPopupUI<UI_TestInfo>();
+        if(Managers.GoogleSignIn.isLogin() == true)
+            Managers.UI.ShowPopupUI<UI_TestInfo>();
     }
 }
