@@ -11,6 +11,7 @@ public class UI_Story : UI_Scene
     List<TalkData> storyTalkData = new List<TalkData>();
     GameObject replayPopup;
     bool isFadeDone = false;
+    bool openSide = true;
 
     enum Images
     {
@@ -18,10 +19,13 @@ public class UI_Story : UI_Scene
         PlayerImage,
         CharacterImage,
         FadeImage,
+        OpenedSide,
+        ClosedSide
     }
     enum Buttons
     {
         nxtButton,
+        SettingButton,
         ReplayButton,
         TmpNxtButton,
     }
@@ -56,6 +60,9 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.TmpNxtButton).gameObject.BindEvent(StartBtn);
         GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
         GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(OnClickReplayBtn);
+        GetImage((int)Images.OpenedSide).gameObject.BindEvent(OnClickedSide);
+        GetImage((int)Images.OpenedSide).gameObject.SetActive(!openSide);
+        GetImage((int)Images.ClosedSide).gameObject.BindEvent(OnClickedSide);
         //GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(Skip);
 
         // Sound
@@ -121,5 +128,12 @@ public class UI_Story : UI_Scene
     void OnClickReplayBtn()
     {
         replayPopup.SetActive(true);
+    }
+
+    void OnClickedSide()
+    {
+        GetImage((int)Images.OpenedSide).gameObject.SetActive(openSide);
+        GetImage((int)Images.ClosedSide).gameObject.SetActive(!openSide);
+        openSide = !openSide;
     }
 }
