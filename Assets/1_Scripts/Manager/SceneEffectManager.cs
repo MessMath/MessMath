@@ -92,6 +92,7 @@ public class SceneEffectManager
         switch(sceneEffect)
         {
             case "FadeOut":
+                nxtBtn.gameObject.SetActive(false);
                 CoroutineHandler.StartCoroutine(FadeOut(img, nxtBtn));
                 break;
             case "FadeIn":
@@ -105,11 +106,10 @@ public class SceneEffectManager
     IEnumerator FadeOut(Image img, Button nxtBtn)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
-        nxtBtn.interactable = false;
         float fadeCnt = 0;
         while (fadeCnt < 1.0f)
         {
-            fadeCnt += 0.01f;
+            fadeCnt += 0.015f;
             yield return waitForSeconds;
             if(img != null )img.color = new Color(0,0,0,fadeCnt);
         }
@@ -122,11 +122,17 @@ public class SceneEffectManager
         float fadeCnt = 1.0f;
         while (fadeCnt > 0)
         {
-            fadeCnt -= 0.01f;
+            fadeCnt -= 0.015f;
             yield return waitForSeconds;
             if(img != null )img.color = new Color(0,0,0,fadeCnt);
+            Debug.Log(fadeCnt);
+            if(fadeCnt <= 0.1) break;
         }
-        if(nxtBtn!=null) nxtBtn.interactable = true;
+        Debug.Log("done: " + fadeCnt);
+        if(img.color == new Color(0,0,0,fadeCnt)) {
+            nxtBtn.gameObject.SetActive(true);
+            nxtBtn.transform.parent.transform.GetComponentInParent<UI_Story>().OnClickNxtBtn();
+        }
     }
 }
 

@@ -84,7 +84,7 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.TmpNxtButton).gameObject.SetActive(false);
     }
 
-    void OnClickNxtBtn()
+    public void OnClickNxtBtn()
     {
         if(!Managers.TextEffect.isTypingEnd)
         {
@@ -100,7 +100,6 @@ public class UI_Story : UI_Scene
             return;
         }
         PlayerPrefs.SetInt("WatchedStory", count);
-        if(storyTalkData[count].sceneEffect!="") GetButton((int)Buttons.nxtButton).interactable = false;
         Managers.SceneEffect.SceneEffect(GetImage((int)Images.FadeImage),GetButton((int)Buttons.nxtButton), storyTalkData[count].sceneEffect);
         Managers.SceneEffect.ChangeBackground(GetImage((int)Images.BackGroundImage), storyTalkData[count].backgroundImg);
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), storyTalkData[count].characterName);
