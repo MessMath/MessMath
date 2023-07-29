@@ -32,6 +32,7 @@ public class UI_SignIn : UI_Scene
     {
         Managers.GoogleSignIn.SignInWithGoogle();
         Debug.Log("로그인");
+        Managers.UI.ShowPopupUI<UI_TestInfo>();
     }
 
     void OnClickedSignOut()
