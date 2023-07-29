@@ -20,7 +20,8 @@ public class UI_Story : UI_Scene
         CharacterImage,
         FadeImage,
         OpenedSide,
-        ClosedSide
+        ClosedSide,
+        CharacterBG,
     }
     enum Buttons
     {
@@ -102,6 +103,7 @@ public class UI_Story : UI_Scene
         if(storyTalkData[count].sceneEffect!="") GetButton((int)Buttons.nxtButton).interactable = false;
         Managers.SceneEffect.SceneEffect(GetImage((int)Images.FadeImage),GetButton((int)Buttons.nxtButton), storyTalkData[count].sceneEffect);
         Managers.SceneEffect.ChangeBackground(GetImage((int)Images.BackGroundImage), storyTalkData[count].backgroundImg);
+        Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), storyTalkData[count].characterName);
         Managers.SceneEffect.ChangeCharacter(GetImage((int)Images.PlayerImage), GetImage((int)Images.CharacterImage), storyTalkData[count].characterName, storyTalkData[count].expression);
 
         if(storyTalkData[count].txtEffect == "MAX") {

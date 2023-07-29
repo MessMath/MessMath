@@ -17,6 +17,31 @@ public class SceneEffectManager
         img.sprite = Resources.Load("Sprites/Story/Background/" + imgName, typeof(Sprite)) as Sprite;
     }
 
+    public void ChangeCharacterBG(Image img, string characterName)
+    {
+        string imgName;
+        switch(characterName)
+        {
+            case "주인공":
+                imgName = "Script_player_UI";
+                break;
+            case "???":
+                imgName = "Script_witch_UI";
+                break;
+            case "변절된 마법사":
+                imgName = "Script_witch_UI";
+                break;
+            case "가우스":
+                imgName = "Script_book_UI";
+                break;
+            default:
+                imgName = "Script_Principal_UI";
+                break;
+        }
+        
+        img.sprite = Resources.Load("Sprites/UI/5_Story_UI/" + imgName, typeof(Sprite)) as Sprite;
+    }
+
     public void ChangeCharacter(Image playerImg, Image characterImg, string characterName, string expression)
     {
         switch(characterName)
