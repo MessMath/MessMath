@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class UI_SignIn : UI_Scene
 {
+    enum Images
+    {
+        BG
+    }
 
     enum Buttons
     {
@@ -22,9 +26,12 @@ public class UI_SignIn : UI_Scene
             return false;
 
         BindButton(typeof(Buttons));
+        BindImage(typeof(Images));
 
         GetButton((int)Buttons.SignInButton).gameObject.BindEvent(OnClickedSignIn);
         GetButton((int)Buttons.SignOutButton).gameObject.BindEvent(OnClickedSignOut);
+
+        GetImage((int)Images.BG).gameObject.BindEvent(OnClickBG);
         return true;
     }
 
@@ -32,12 +39,16 @@ public class UI_SignIn : UI_Scene
     {
         Managers.GoogleSignIn.SignInWithGoogle();
         Debug.Log("로그인");
-        Managers.UI.ShowPopupUI<UI_TestInfo>();
     }
 
     void OnClickedSignOut()
     {
         Managers.GoogleSignIn.SignOutFromGoogle();
         Debug.Log("로그아웃");
+    }
+
+    void OnClickBG()
+    {
+        Managers.UI.ShowPopupUI<UI_TestInfo>();
     }
 }
