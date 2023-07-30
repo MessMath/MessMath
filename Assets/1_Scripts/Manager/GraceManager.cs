@@ -74,6 +74,9 @@ public class GraceManager
     /// </summary>
     public void GraceOfGauss()
     {
+        GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Gauss", player.transform.parent);
+        GameObject.Destroy(effect, 2f);
+
         if (gaussOn) return;
         gaussOn = true;
         float radius = 100f;
@@ -140,6 +143,9 @@ public class GraceManager
     /// </summary>
     public void GraceOfPythagoras()
     {
+        GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Pythagoras", player.transform.parent);
+        GameObject.Destroy(effect, 2f);
+
         if (pythagorasOn) return;
         pythagorasOn = true;
 
@@ -192,6 +198,9 @@ public class GraceManager
     /// </summary>
     public void GraceOfNewton()
     {
+        GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Newton", player.transform.parent);
+        GameObject.Destroy(effect, 2f);
+
         if (newtonOn) return;
         newtonOn = true;
         playerCollisionOff = true;
@@ -263,12 +272,19 @@ public class GraceManager
     /// </summary>
     public void GraceOfEinstein()
     {
+        GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Einstein", player.transform.parent);
+        GameObject.Destroy(effect, 2f);
+
         if (EinsteinOn) return;
         EinsteinOn = true;
         GameObject einstein = Managers.Resource.Instantiate("Grace/EinsteinStickOutTongue", player.transform.parent);
         GameObject.Destroy(einstein, 3f);
 
-        Image witchImage = witch.transform.Find("MathMtcImage").GetComponent<Image>();
+        Transform WitchOrMathMtc = witch.transform.Find("WitchImage"); 
+
+        if (WitchOrMathMtc == null) WitchOrMathMtc = witch.transform.Find("MathMtcImage");
+
+        Image witchImage = WitchOrMathMtc.GetComponent<Image>();
         Color red = new Color(1, 0.7f, 0.7f, 1);
         witchImage.CrossFadeColor(red, 3f, false, false);
 
@@ -296,6 +312,9 @@ public class GraceManager
     /// </summary>
     public void GraceOfNeumann()
     {
+        GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Newmann", player.transform.parent);
+        GameObject.Destroy(effect,2f);
+
         // Scene에 따라 다르게 행동 => StoryGameScene / Fight1vs1GameScene
         bool isthisStoryScene = (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene);
         string tag = isthisStoryScene ? "Arrow" : "ArrowOnlyin1vs1";
@@ -313,6 +332,9 @@ public class GraceManager
     /// </summary>
     public void GraceOfDescartes()
     {
+        GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Descartes", player.transform.parent);
+        GameObject.Destroy(effect, 2f);
+
         if (descartesOn) return;
         descartesOn = true;
 
