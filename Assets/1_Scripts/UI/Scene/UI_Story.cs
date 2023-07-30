@@ -11,6 +11,7 @@ public class UI_Story : UI_Scene
     List<TalkData> storyTalkData = new List<TalkData>();
     GameObject replayPopup;
     bool isFadeDone = false;
+    bool openSide = true;
 
     enum Images
     {
@@ -18,10 +19,14 @@ public class UI_Story : UI_Scene
         PlayerImage,
         CharacterImage,
         FadeImage,
+        OpenedSide,
+        ClosedSide,
+        CharacterBG,
     }
     enum Buttons
     {
         nxtButton,
+        SettingButton,
         ReplayButton,
         TmpNxtButton,
     }
@@ -56,6 +61,9 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.TmpNxtButton).gameObject.BindEvent(StartBtn);
         GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
         GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(OnClickReplayBtn);
+        GetImage((int)Images.OpenedSide).gameObject.BindEvent(OnClickedSide);
+        GetImage((int)Images.OpenedSide).gameObject.SetActive(!openSide);
+        GetImage((int)Images.ClosedSide).gameObject.BindEvent(OnClickedSide);
         //GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(Skip);
 
         // Sound
@@ -76,7 +84,7 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.TmpNxtButton).gameObject.SetActive(false);
     }
 
-    void OnClickNxtBtn()
+    public void OnClickNxtBtn()
     {
         if(!Managers.TextEffect.isTypingEnd)
         {
@@ -92,9 +100,9 @@ public class UI_Story : UI_Scene
             return;
         }
         PlayerPrefs.SetInt("WatchedStory", count);
-        if(storyTalkData[count].sceneEffect!="") GetButton((int)Buttons.nxtButton).interactable = false;
         Managers.SceneEffect.SceneEffect(GetImage((int)Images.FadeImage),GetButton((int)Buttons.nxtButton), storyTalkData[count].sceneEffect);
         Managers.SceneEffect.ChangeBackground(GetImage((int)Images.BackGroundImage), storyTalkData[count].backgroundImg);
+        Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), storyTalkData[count].characterName);
         Managers.SceneEffect.ChangeCharacter(GetImage((int)Images.PlayerImage), GetImage((int)Images.CharacterImage), storyTalkData[count].characterName, storyTalkData[count].expression);
 
         if(storyTalkData[count].txtEffect == "MAX") {
@@ -121,5 +129,12 @@ public class UI_Story : UI_Scene
     void OnClickReplayBtn()
     {
         replayPopup.SetActive(true);
+    }
+
+    void OnClickedSide()
+    {
+        GetImage((int)Images.OpenedSide).gameObject.SetActive(openSide);
+        GetImage((int)Images.ClosedSide).gameObject.SetActive(!openSide);
+        openSide = !openSide;
     }
 }
