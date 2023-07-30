@@ -17,6 +17,31 @@ public class SceneEffectManager
         img.sprite = Resources.Load("Sprites/Story/Background/" + imgName, typeof(Sprite)) as Sprite;
     }
 
+    public void ChangeCharacterBG(Image img, string characterName)
+    {
+        string imgName;
+        switch(characterName)
+        {
+            case "주인공":
+                imgName = "Script_player_UI";
+                break;
+            case "???":
+                imgName = "Script_witch_UI";
+                break;
+            case "변절된 마법사":
+                imgName = "Script_witch_UI";
+                break;
+            case "가우스":
+                imgName = "Script_book_UI";
+                break;
+            default:
+                imgName = "Script_Principal_UI";
+                break;
+        }
+        
+        img.sprite = Resources.Load("Sprites/UI/5_Story_UI/" + imgName, typeof(Sprite)) as Sprite;
+    }
+
     public void ChangeCharacter(Image playerImg, Image characterImg, string characterName, string expression)
     {
         switch(characterName)
@@ -67,6 +92,7 @@ public class SceneEffectManager
         switch(sceneEffect)
         {
             case "FadeOut":
+                nxtBtn.gameObject.SetActive(false);
                 CoroutineHandler.StartCoroutine(FadeOut(img, nxtBtn));
                 break;
             case "FadeIn":
@@ -80,11 +106,10 @@ public class SceneEffectManager
     IEnumerator FadeOut(Image img, Button nxtBtn)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
-        nxtBtn.interactable = false;
         float fadeCnt = 0;
         while (fadeCnt < 1.0f)
         {
-            fadeCnt += 0.01f;
+            fadeCnt += 0.015f;
             yield return waitForSeconds;
             if(img != null )img.color = new Color(0,0,0,fadeCnt);
         }
@@ -97,11 +122,17 @@ public class SceneEffectManager
         float fadeCnt = 1.0f;
         while (fadeCnt > 0)
         {
-            fadeCnt -= 0.01f;
+            fadeCnt -= 0.015f;
             yield return waitForSeconds;
             if(img != null )img.color = new Color(0,0,0,fadeCnt);
+            Debug.Log(fadeCnt);
+            if(fadeCnt <= 0.1) break;
         }
-        if(nxtBtn!=null) nxtBtn.interactable = true;
+        Debug.Log("done: " + fadeCnt);
+        if(img.color == new Color(0,0,0,fadeCnt)) {
+            nxtBtn.gameObject.SetActive(true);
+            nxtBtn.transform.parent.transform.GetComponentInParent<UI_Story>().OnClickNxtBtn();
+        }
     }
 }
 
