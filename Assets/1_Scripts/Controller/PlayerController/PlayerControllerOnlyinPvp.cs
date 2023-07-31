@@ -23,7 +23,7 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
     bool _isAlive = true;
 
     // 멀티 관련 변수들
-    PhotonView PV;
+    public PhotonView PV;
     bool isSet = false;
     Vector3 curPos;
 

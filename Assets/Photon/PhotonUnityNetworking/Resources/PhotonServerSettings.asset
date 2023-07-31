@@ -41,6 +41,8 @@ MonoBehaviour:
   - RespawnSpaceship
   - Spawn
   - DestroyRPC
+  - IsTrue
+  - Answer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

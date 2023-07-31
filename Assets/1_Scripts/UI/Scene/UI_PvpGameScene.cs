@@ -13,9 +13,16 @@ using Unity.VisualScripting;
 using System.Linq;
 using System.Reflection;
 using Random = UnityEngine.Random;
+using Photon.Realtime;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class UI_PvpGameScene : UI_Scene
 {
+    PhotonView PhotonView;
+    public int QusetionNumber;
+    public int _player1Score;
+    public int _player2Score;
+
     enum Texts
     {
         Calculate_BoardText,
@@ -35,6 +42,12 @@ public class UI_PvpGameScene : UI_Scene
     {
         BGIMG,
         JoyStickHandle,
+        MyScore1,
+        MyScore2,
+        MyScore3,
+        OpponentScore1,
+        OpponentScore2,
+        OpponentScore3,
     }
 
     enum GameObjects
@@ -51,6 +64,7 @@ public class UI_PvpGameScene : UI_Scene
     private void Awake()
     {
         Init();
+
     }
 
     private void Start()
@@ -82,6 +96,9 @@ public class UI_PvpGameScene : UI_Scene
         canvas = gameObject.GetComponent<Canvas>();
         canvasGroup = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().GetComponent<CanvasGroup>();
 
+        // 배경 숫자
+        Questioning();
+
         // Sound
         Managers.Sound.Clear();
         Managers.Sound.Play("BattleBgm", Define.Sound.Bgm);
@@ -89,10 +106,40 @@ public class UI_PvpGameScene : UI_Scene
         // 지우개 버튼
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
 
+        // ScoreSet
+        ScoreSet();
+
+        
+        
         return true;
     }
 
+    public void ScoreSet()
+    {
+        GetImage((int)Images.MyScore1).gameObject.SetActive(false);
+        GetImage((int)Images.MyScore2).gameObject.SetActive(false);
+        GetImage((int)Images.MyScore3).gameObject.SetActive(false);
+        GetImage((int)Images.OpponentScore1).gameObject.SetActive(false);
+        GetImage((int)Images.OpponentScore2).gameObject.SetActive(false);
+        GetImage((int)Images.OpponentScore3).gameObject.SetActive(false);
+
+        if (_player1Score == 1) GetImage((int)Images.MyScore1).gameObject.SetActive(true);
+        if (_player1Score == 2) { GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); }
+        if (_player1Score == 3) { GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); GetImage((int)Images.MyScore3).gameObject.SetActive(true); }
+        if (_player2Score == 1) GetImage((int)Images.OpponentScore1).gameObject.SetActive(true);
+        if (_player2Score == 2) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); }
+        if (_player2Score == 3) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); GetImage((int)Images.OpponentScore3).gameObject.SetActive(true); }
+
+
+    }
+
     #region 수식 계산
+
+    public void Questioning()
+    {
+        QusetionNumber = Random.Range(10, 100);
+        GetText((int)Texts.QuestionNumber_Text).text = $"{QusetionNumber}";
+    }
 
     void AllErase()
     {
@@ -163,6 +210,8 @@ public class UI_PvpGameScene : UI_Scene
             StartCoroutine(Waitfor2Sec());
         }
 
+        PhotonView = GameObject.FindGameObjectWithTag("RPCSychronizer").GetComponent<PhotonView>();
+        PhotonView.RPC("Answer", RpcTarget.AllViaServer, printResult, QusetionNumber, PhotonNetwork.LocalPlayer.ActorNumber);
     }
 
     IEnumerator Waitfor2Sec()
