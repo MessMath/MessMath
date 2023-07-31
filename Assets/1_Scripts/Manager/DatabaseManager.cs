@@ -16,7 +16,7 @@ public class DatabaseManager : MonoBehaviour
         reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
-    public bool CheckExistingUser(string userId, GameObject LogTMP)
+    /*public bool CheckExistingUser(string userId, GameObject LogTMP)
     {
         reference.Child("Users").Child(userId).GetValueAsync().ContinueWith(task =>
         {
@@ -48,7 +48,7 @@ public class DatabaseManager : MonoBehaviour
             return false;
         });
         return false;
-    }
+    }*/
 
     public void CreateNewUser(string nickname)
     {

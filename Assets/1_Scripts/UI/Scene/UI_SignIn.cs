@@ -50,21 +50,22 @@ public class UI_SignIn : UI_Scene
     void OnClickedSignIn()
     {
         Managers.GoogleSignIn.SignInWithGoogle();
+        Managers.DBManager.CreateNewUser("test");
         //Managers.DBManager.CreateNewUser("test");
-        GetText((int)Texts.LogTMP).text += "\nSignInWithGoogle\n" + Managers.GoogleSignIn.GetUID();
+        /*GetText((int)Texts.LogTMP).text += "\nSignInWithGoogle\n" + Managers.GoogleSignIn.GetUID();
         GetText((int)Texts.LogTMP).text += "\nDBUid\n" + Managers.DBManager.ReadData(Managers.GoogleSignIn.GetUID(), "UID");
         GetText((int)Texts.LogTMP).text += "\nDBNickName: " + Managers.DBManager.ReadData(Managers.GoogleSignIn.GetUID(), "nickname");
         if(Managers.GoogleSignIn.GetUID() == Managers.DBManager.ReadData(Managers.GoogleSignIn.GetUID(), "UID"))
         {
             isExist = true;
             GetText((int)Texts.LogTMP).text += "\nExistUser";
-        }
+        }*/
         Debug.Log("로그인");
     }
 
     void OnclickedTest()
     {
-        GetText((int)Texts.LogTMP).text += "\nOnClickedTest\n" + Managers.GoogleSignIn.GetUID();
+        /*GetText((int)Texts.LogTMP).text += "\nOnClickedTest\n" + Managers.GoogleSignIn.GetUID();
         if(isExist)
         {
             GetText((int)Texts.LogTMP).text += "\n Exist User";
@@ -75,7 +76,7 @@ public class UI_SignIn : UI_Scene
         {
             GetText((int)Texts.LogTMP).text += "\n New User";
             Managers.DBManager.CreateNewUser("test");
-        }
+        }*/
     }
 
     void OnClickedSignOut()
