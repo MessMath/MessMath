@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 using Firebase;
 using Firebase.Database;
@@ -15,15 +16,48 @@ public class DatabaseManager : MonoBehaviour
         reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
-    public void CreateNewUser(string nickname)
+    public bool CheckExistingUser(string userId, GameObject LogTMP)
     {
-        WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, nickname);
+        reference.Child("Users").Child(userId).GetValueAsync().ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                LogTMP.GetComponent<TextMeshProUGUI>().text += "\n Load Faulted";
+                return false;
+            }
+            //task가 성공적이면
+            else if (task.IsCompleted)
+            {
+                LogTMP.GetComponent<TextMeshProUGUI>().text += "\n Load Completed";
+                DataSnapshot snapshot = task.Result;
+
+                //foreach문으로 각각 데이터를 IDictionary로 변환해 각 이름에 맞게 변수 초기화
+                foreach (DataSnapshot data in snapshot.Children)
+                {
+                    
+                    if(data.Key == "userId")
+                    {
+                        LogTMP.GetComponent<TextMeshProUGUI>().text += "\nGetUserId";
+                        LogTMP.GetComponent<TextMeshProUGUI>().text += "\npersonInfo[userId] = " + data.Value;
+                        LogTMP.GetComponent<TextMeshProUGUI>().text += "\nuserId = " + userId;
+                        return true;
+                    }
+                }
+                return true;
+            }
+            return false;
+        });
+        return false;
     }
 
-    private void WriteNewUser(string userId, int coin, int score, bool IsCompleteStory, bool IsCompleteTutorial,string nickname)
+    public void CreateNewUser(string nickname)
     {
-        //User user = new User(userID, gold, score, IsCompleteStory, IsCompleteTutorial, nickname);
-        Managers.UserMng.InitUser(userId, coin, score, IsCompleteStory, IsCompleteTutorial, nickname);
+        WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, false, nickname);
+    }
+
+    private void WriteNewUser(string userId, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname)
+    {
+        Managers.UserMng.InitUser(userId, coin, score, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname);
 
         string json = JsonUtility.ToJson(Managers.UserMng.user);
 
@@ -32,7 +66,7 @@ public class DatabaseManager : MonoBehaviour
 
     public string ReadData(string userId, string key)
     {
-        return ReadData(userId, key);
+        return ReadUser(userId, key);
     }
 
     private string ReadUser(string userId, string key)
@@ -58,7 +92,7 @@ public class DatabaseManager : MonoBehaviour
                 {
                     if(data.Key == key)
                         Debug.Log(data.Value);
-                    return data.Value;
+                    return data.Value.ToString();
                 }
             }
             return "error";
@@ -69,6 +103,6 @@ public class DatabaseManager : MonoBehaviour
     public void AddCoin(int coin)
     {
         Managers.UserMng.AddUserCoin(coin);
-        reference.Child("Users").Child(Managers.UserMng.user.userId).Child("Coin").SetValueAsync(Managers.UserMng.user.coin);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Coin").SetValueAsync(Managers.UserMng.user.coin);
     }
 }

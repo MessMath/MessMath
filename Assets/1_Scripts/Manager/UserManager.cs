@@ -19,24 +19,26 @@ public class UserManager
 
     public class User
     {
-        public string userId;
+        public string UID;
         public int coin;
         public int score;
         //public Inventory inventory;
-        public bool IsCompleteStory;
-        public bool IsCompleteTutorial;
+        public bool isCompletedStory;
+        public bool isCompletedTutorial;
+        public bool isCompletedDiagnosis;
         public string nickname;
         //public PVPModeGrace pvpModeGrace;
         //public StoryModeGrace storyModeGrace;
 
-        public User(string userId, int coin, int score, bool IsCompleteStory, bool IsCompleteTutorial, string nickname)
+        public User(string UID, int coin, int score, bool isCompletedStory, bool isCompletedTutorial,  bool isCompletedDiagnosis, string nickname)
         {
-            this.userId = userId;
+            this.UID = UID;
             this.coin = coin;
             this.score = score;
             //this.inventory = inventory;
-            this.IsCompleteStory = IsCompleteStory;
-            this.IsCompleteTutorial= IsCompleteTutorial;
+            this.isCompletedStory = isCompletedStory;
+            this.isCompletedTutorial= isCompletedTutorial;
+            this.isCompletedDiagnosis = isCompletedDiagnosis;
             this.nickname = nickname;
             //this.pvpModeGrace= pvpModeGrace;
             //this.storyModeGrace= storyModeGrace;
@@ -45,18 +47,42 @@ public class UserManager
 
     public User user {get;set;}
 
-    public void Init()
+    public void InitUser(string UID, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname)
     {
-        
+        user = new User(UID, coin, score, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname);
     }
 
-    public void InitUser(string userId, int coin, int score, bool IsCompleteStory, bool IsCompleteTutorial, string nickname)
+    public void SetExistingUser()
     {
-        user = new User(userId, coin, score, IsCompleteStory, IsCompleteTutorial, nickname);
+        string UID = Managers.GoogleSignIn.GetUID();
+        int coin = int.Parse(Managers.DBManager.ReadData(UID, "coin"));
+        int score = int.Parse(Managers.DBManager.ReadData(UID, "score"));
+        bool isCompletedStory = bool.Parse(Managers.DBManager.ReadData(UID, "isCompletedStory"));
+        bool isCompletedTutorial = bool.Parse(Managers.DBManager.ReadData(UID, "isCompletedTutorial"));
+        bool isCompletedDiagnosis = bool.Parse(Managers.DBManager.ReadData(UID, "isCompletedDiagnosis"));
+        string nickname = Managers.DBManager.ReadData(UID, "nickname");
+
+        InitUser(UID, coin, score, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname);
     }
 
     public void AddUserCoin(int coin)
     {
         user.coin += coin;
     }
+
+    public void SetIsCompletedStory()
+    {
+        user.isCompletedStory = true;
+    }
+
+    public void isCompletedTutorial()
+    {
+        user.isCompletedTutorial = true;
+    }
+
+    public void isCompletedDiagnosis()
+    {
+        user.isCompletedDiagnosis = true;
+    }
+
 }

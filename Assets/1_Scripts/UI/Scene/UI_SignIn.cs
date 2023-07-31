@@ -5,6 +5,7 @@ using TMPro;
 
 public class UI_SignIn : UI_Scene
 {
+    bool isExist = false;
     enum Images
     {
         BG
@@ -15,6 +16,12 @@ public class UI_SignIn : UI_Scene
         SignInButton,
         SignOutButton,
         AddCoinButton,
+        TestButton,
+    }
+
+    enum Texts
+    {
+        LogTMP,
     }
 
     private void Start()
@@ -29,10 +36,12 @@ public class UI_SignIn : UI_Scene
 
         BindButton(typeof(Buttons));
         BindImage(typeof(Images));
+        BindText(typeof(Texts));
 
         GetButton((int)Buttons.SignInButton).gameObject.BindEvent(OnClickedSignIn);
         GetButton((int)Buttons.SignOutButton).gameObject.BindEvent(OnClickedSignOut);
         GetButton((int)Buttons.AddCoinButton).gameObject.BindEvent(AddCoin);
+        GetButton((int)Buttons.TestButton).gameObject.BindEvent(OnclickedTest);
 
         GetImage((int)Images.BG).gameObject.BindEvent(OnClickBG);
         return true;
@@ -41,8 +50,32 @@ public class UI_SignIn : UI_Scene
     void OnClickedSignIn()
     {
         Managers.GoogleSignIn.SignInWithGoogle();
-        Managers.DBManager.CreateNewUser("test");
+        //Managers.DBManager.CreateNewUser("test");
+        GetText((int)Texts.LogTMP).text += "\nSignInWithGoogle\n" + Managers.GoogleSignIn.GetUID();
+        GetText((int)Texts.LogTMP).text += "\nDBUid\n" + Managers.DBManager.ReadData(Managers.GoogleSignIn.GetUID(), "UID");
+        GetText((int)Texts.LogTMP).text += "\nDBNickName: " + Managers.DBManager.ReadData(Managers.GoogleSignIn.GetUID(), "nickname");
+        if(Managers.GoogleSignIn.GetUID() == Managers.DBManager.ReadData(Managers.GoogleSignIn.GetUID(), "UID"))
+        {
+            isExist = true;
+            GetText((int)Texts.LogTMP).text += "\nExistUser";
+        }
         Debug.Log("로그인");
+    }
+
+    void OnclickedTest()
+    {
+        GetText((int)Texts.LogTMP).text += "\nOnClickedTest\n" + Managers.GoogleSignIn.GetUID();
+        if(isExist)
+        {
+            GetText((int)Texts.LogTMP).text += "\n Exist User";
+            Managers.UserMng.SetExistingUser();
+            GetButton((int)Buttons.AddCoinButton).gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Managers.UserMng.user.coin.ToString();
+        }
+        else
+        {
+            GetText((int)Texts.LogTMP).text += "\n New User";
+            Managers.DBManager.CreateNewUser("test");
+        }
     }
 
     void OnClickedSignOut()
