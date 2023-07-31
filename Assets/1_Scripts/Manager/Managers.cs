@@ -17,6 +17,7 @@ public class Managers : MonoBehaviour
     public static WJ_Connector s_connector = null;
     public static WJ_Connector Connector { get { return s_connector; } }
 
+    private static UserManager s_userManager = new UserManager();
     private static GraceManager s_graceManager = new GraceManager();
     private static DebuffManager s_debuffManager = new DebuffManager();
     private static DataManager s_dataManager = new DataManager();
@@ -31,6 +32,7 @@ public class Managers : MonoBehaviour
     private static DatabaseManager s_dbManager = new DatabaseManager();
     private static GoogleSignInManager s_gogleSigninManager = new GoogleSignInManager();
 
+    public static UserManager UserMng = new UserManager();
     public static GraceManager Grace { get { Init(); return s_graceManager; } }
     public static DebuffManager Debuff { get { Init(); return s_debuffManager; } }
     public static DataManager Data { get { Init(); return s_dataManager; } }
@@ -80,6 +82,7 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(go);
             DontDestroyOnLoad(connectorGo);
 
+            //s_userManager.Init();
             s_resourceManager.Init();
             s_soundManager.Init();
             s_dataManager.Init();

@@ -57,6 +57,6 @@ public class UI_TestInfo : UI_Popup
 
     void OnClickedUserImgBG()
     {
-        GetText((int)Texts.UserNameText).text = Managers.DBManager.readData(Managers.GoogleSignIn.GetUID(), "nickname");
+        GetText((int)Texts.UserNameText).text = Managers.DBManager.ReadData(Managers.GoogleSignIn.GetUID(), "nickname");
     }
 }

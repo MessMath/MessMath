@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UI_SignIn : UI_Scene
 {
@@ -13,6 +14,7 @@ public class UI_SignIn : UI_Scene
     {
         SignInButton,
         SignOutButton,
+        AddCoinButton,
     }
 
     private void Start()
@@ -30,6 +32,7 @@ public class UI_SignIn : UI_Scene
 
         GetButton((int)Buttons.SignInButton).gameObject.BindEvent(OnClickedSignIn);
         GetButton((int)Buttons.SignOutButton).gameObject.BindEvent(OnClickedSignOut);
+        GetButton((int)Buttons.AddCoinButton).gameObject.BindEvent(AddCoin);
 
         GetImage((int)Images.BG).gameObject.BindEvent(OnClickBG);
         return true;
@@ -52,5 +55,11 @@ public class UI_SignIn : UI_Scene
     {
         if(Managers.GoogleSignIn.isLogin() == true)
             Managers.UI.ShowPopupUI<UI_TestInfo>();
+    }
+
+    void AddCoin()
+    {
+        Managers.DBManager.AddCoin(3);
+        GetButton((int)Buttons.AddCoinButton).gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Managers.UserMng.user.coin.ToString();
     }
 }

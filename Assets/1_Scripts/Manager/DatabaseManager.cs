@@ -8,46 +8,7 @@ using Firebase.Unity;
 
 public class DatabaseManager : MonoBehaviour
 {
-    /*public class Inventory
-    {
-
-    }
-    public class PVPModeGrace
-    {
-
-    }
-    public class StoryModeGrace
-    {
-
-    }*/
-
-    public class User
-    {
-        public string userID;
-        public int gold;
-        public int score;
-        //public Inventory inventory;
-        public bool IsCompleteStory;
-        public bool IsCompleteTutorial;
-        public string nickname;
-        //public PVPModeGrace pvpModeGrace;
-        //public StoryModeGrace storyModeGrace;
-
-        public User(string userID, int gold, int score, bool IsCompleteStory, bool IsCompleteTutorial, string nickname)
-        {
-            this.userID = userID;
-            this.gold = gold;
-            this.score = score;
-            //this.inventory = inventory;
-            this.IsCompleteStory = IsCompleteStory;
-            this.IsCompleteTutorial= IsCompleteTutorial;
-            this.nickname = nickname;
-            //this.pvpModeGrace= pvpModeGrace;
-            //this.storyModeGrace= storyModeGrace;
-        }
-    }
-
-    DatabaseReference reference;
+    public DatabaseReference reference{get;set;}
 
     public void Init()
     {
@@ -56,24 +17,25 @@ public class DatabaseManager : MonoBehaviour
 
     public void CreateNewUser(string nickname)
     {
-        writeNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, nickname);
+        WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, nickname);
     }
 
-    private void writeNewUser(string userID, int gold, int score, bool IsCompleteStory, bool IsCompleteTutorial,string nickname)
+    private void WriteNewUser(string userId, int coin, int score, bool IsCompleteStory, bool IsCompleteTutorial,string nickname)
     {
-        User user = new User(userID, gold, score, IsCompleteStory, IsCompleteTutorial, nickname);
+        //User user = new User(userID, gold, score, IsCompleteStory, IsCompleteTutorial, nickname);
+        Managers.UserMng.InitUser(userId, coin, score, IsCompleteStory, IsCompleteTutorial, nickname);
 
-        string json = JsonUtility.ToJson(user);
+        string json = JsonUtility.ToJson(Managers.UserMng.user);
 
-        reference.Child("Users").Child(userID).SetRawJsonValueAsync(json);
+        reference.Child("Users").Child(userId).SetRawJsonValueAsync(json);
     }
 
-    public string readData(string userID, string key)
+    public string ReadData(string userId, string key)
     {
-        return readUser(userID, key);
+        return ReadData(userId, key);
     }
 
-    private string readUser(string userId, string key)
+    private string ReadUser(string userId, string key)
     {
         //reference의 자식(userEmail)를 task로 받음
         reference.Child("Users").Child(userId).GetValueAsync().ContinueWith(task =>
@@ -102,5 +64,11 @@ public class DatabaseManager : MonoBehaviour
             return "error";
         });
         return "error";
+    }
+
+    public void AddCoin(int coin)
+    {
+        Managers.UserMng.AddUserCoin(coin);
+        reference.Child("Users").Child(Managers.UserMng.user.userId).Child("Coin").SetValueAsync(Managers.UserMng.user.coin);
     }
 }
