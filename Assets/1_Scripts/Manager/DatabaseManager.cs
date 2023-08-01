@@ -6,10 +6,12 @@ using TMPro;
 using Firebase;
 using Firebase.Database;
 using Firebase.Unity;
+using UnityEngine.InputSystem;
 
 public class DatabaseManager : MonoBehaviour
 {
     public DatabaseReference reference{get;set;}
+    private string str;
 
     public void Init()
     {
@@ -52,12 +54,12 @@ public class DatabaseManager : MonoBehaviour
 
     public void CreateNewUser(string nickname)
     {
-        WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, false, nickname);
+       WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, false, nickname, "");
     }
 
-    private void WriteNewUser(string userId, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname)
+    private void WriteNewUser(string userId, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname, string message)
     {
-        Managers.UserMng.InitUser(userId, coin, score, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname);
+        Managers.UserMng.InitUser(userId, coin, score, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, message);
 
         string json = JsonUtility.ToJson(Managers.UserMng.user);
 
@@ -77,7 +79,7 @@ public class DatabaseManager : MonoBehaviour
             if (task.IsFaulted)
             {
                 Debug.Log("error");
-                return "error";
+                //return "error";
             }
             //task가 성공적이면
             else if (task.IsCompleted)
@@ -85,19 +87,35 @@ public class DatabaseManager : MonoBehaviour
                 // DataSnapshot 변수를 선언하여 task의 결과 값을 반환
                 DataSnapshot snapshot = task.Result;
                 // snapshot의 자식 개수를 확인
-                Debug.Log(snapshot.ChildrenCount);
+                //Debug.Log(snapshot.ChildrenCount);
 
                 //foreach문으로 각각 데이터를 IDictionary로 변환해 각 이름에 맞게 변수 초기화
                 foreach (DataSnapshot data in snapshot.Children)
                 {
                     if(data.Key == key)
-                        Debug.Log(data.Value);
-                    return data.Value.ToString();
+                    {
+                        str = data.Value.ToString();
+                        //Debug.Log(data.Value);
+                        //Debug.Log(data.Key);
+                    }
+                    //return data.Value.ToString();
                 }
             }
-            return "error";
+            //return "error";
         });
-        return "error";
+        //return "error";
+        return str;
+    }
+
+    public void SetNickname(string nickname)
+    {
+        Managers.UserMng.SetNickname(nickname);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("nickname").SetValueAsync(Managers.UserMng.user.nickname);
+    }
+    public void SetUserMessage(string message)
+    {
+        Managers.UserMng.SetUserMessage(message);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("message").SetValueAsync(Managers.UserMng.user.message);
     }
 
     public void AddCoin(int coin)

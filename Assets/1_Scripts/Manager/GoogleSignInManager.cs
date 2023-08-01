@@ -12,7 +12,7 @@ using TMPro;
 public class GoogleSignInManager : MonoBehaviour
 {
     public TMP_Text infoText;
-    private string webClientId = "1066595506965-kkl0r6ot157j3kqjq0kamtc01rptj17u.apps.googleusercontent.com";
+    private string webClientId = "571063997782-k040dqj6fnrd57rgck2ocblfp4gkaff0.apps.googleusercontent.com";
 
     private FirebaseAuth auth;
     private GoogleSignInConfiguration configuration;

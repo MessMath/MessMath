@@ -51,6 +51,7 @@ public class UI_SignIn : UI_Scene
     {
         Managers.GoogleSignIn.SignInWithGoogle();
         Managers.DBManager.CreateNewUser("test");
+
         //Managers.DBManager.CreateNewUser("test");
         /*GetText((int)Texts.LogTMP).text += "\nSignInWithGoogle\n" + Managers.GoogleSignIn.GetUID();
         GetText((int)Texts.LogTMP).text += "\nDBUid\n" + Managers.DBManager.ReadData(Managers.GoogleSignIn.GetUID(), "UID");
@@ -88,7 +89,7 @@ public class UI_SignIn : UI_Scene
     void OnClickBG()
     {
         if(Managers.GoogleSignIn.isLogin() == true)
-            Managers.UI.ShowPopupUI<UI_TestInfo>();
+            Managers.UI.ShowPopupUI<UI_GetNicknamePopup>();
     }
 
     void AddCoin()

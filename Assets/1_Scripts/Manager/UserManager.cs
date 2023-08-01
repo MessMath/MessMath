@@ -27,10 +27,11 @@ public class UserManager
         public bool isCompletedTutorial;
         public bool isCompletedDiagnosis;
         public string nickname;
+        public string message;
         //public PVPModeGrace pvpModeGrace;
         //public StoryModeGrace storyModeGrace;
 
-        public User(string UID, int coin, int score, bool isCompletedStory, bool isCompletedTutorial,  bool isCompletedDiagnosis, string nickname)
+        public User(string UID, int coin, int score, bool isCompletedStory, bool isCompletedTutorial,  bool isCompletedDiagnosis, string nickname, string message)
         {
             this.UID = UID;
             this.coin = coin;
@@ -40,6 +41,7 @@ public class UserManager
             this.isCompletedTutorial= isCompletedTutorial;
             this.isCompletedDiagnosis = isCompletedDiagnosis;
             this.nickname = nickname;
+            this.message = message;
             //this.pvpModeGrace= pvpModeGrace;
             //this.storyModeGrace= storyModeGrace;
         }
@@ -47,9 +49,9 @@ public class UserManager
 
     public User user {get;set;}
 
-    public void InitUser(string UID, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname)
+    public void InitUser(string UID, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname, string message)
     {
-        user = new User(UID, coin, score, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname);
+        user = new User(UID, coin, score, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, message);
     }
 
     public void SetExistingUser()
@@ -61,8 +63,19 @@ public class UserManager
         bool isCompletedTutorial = bool.Parse(Managers.DBManager.ReadData(UID, "isCompletedTutorial"));
         bool isCompletedDiagnosis = bool.Parse(Managers.DBManager.ReadData(UID, "isCompletedDiagnosis"));
         string nickname = Managers.DBManager.ReadData(UID, "nickname");
+        string message = Managers.DBManager.ReadData(UID, "message");
 
-        InitUser(UID, coin, score, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname);
+        InitUser(UID, coin, score, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, message);
+    }
+
+    public void SetNickname(string nickname)
+    {
+        user.nickname = nickname;
+    }
+
+    public void SetUserMessage(string messsage)
+    {
+        user.message = messsage;
     }
 
     public void AddUserCoin(int coin)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,11 +17,15 @@ public class UI_TestInfo : UI_Popup
 
     enum Texts
     {
+        UserNamePlaceholder,
         UserNameText,
+        UserMessagePlaceholder,
+        UserMessageText,
     }
 
     enum Buttons
     {
+        SaveBtn,
         ExitBtn,
     }
 
@@ -47,16 +52,24 @@ public class UI_TestInfo : UI_Popup
         GetObject((int)GameObjects.CustomizingObject2).gameObject.GetComponent<Image>().sprite = null;
         GetObject((int)GameObjects.CustomizingObject3).gameObject.GetComponent<Image>().sprite = null;
         #endregion
-        if (Managers.Game.Name != null)
-            GetText((int)Texts.UserNameText).text = Managers.Game.Name;
+
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(()=> Managers.UI.ClosePopupUI(this));
         GetImage((int)Images.UserImageBG).gameObject.BindEvent(() => OnClickedUserImgBG());
+        GetButton((int)Buttons.SaveBtn).gameObject.BindEvent(() => OnClickedSaveBtn());
 
         return true;
     }
-
+    
+    void OnClickedSaveBtn()
+    {
+        Managers.DBManager.SetNickname(GetText((int)Texts.UserNameText).text);
+        Managers.DBManager.SetUserMessage(GetText((int)Texts.UserMessageText).text);
+    }
     void OnClickedUserImgBG()
     {
-        GetText((int)Texts.UserNameText).text = Managers.DBManager.ReadData(Managers.GoogleSignIn.GetUID(), "nickname");
+        Debug.Log(Managers.DBManager.ReadData(Managers.UserMng.user.UID, "nickname"));
+        GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.DBManager.ReadData(Managers.UserMng.user.UID, "nickname");
+        GetText((int)Texts.UserNamePlaceholder).gameObject.SetActive(false);
     }
+    
 }

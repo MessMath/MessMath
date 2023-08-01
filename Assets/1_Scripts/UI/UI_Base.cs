@@ -50,6 +50,7 @@ public abstract class UI_Base : MonoBehaviour
     protected void BindText(Type type) { Bind<TextMeshProUGUI>(type); }
     protected void BindButton(Type type) { Bind<Button>(type); }
 
+
     protected T Get<T>(int idx) where T : UnityEngine.Object
     {
         UnityEngine.Object[] objects = null;
