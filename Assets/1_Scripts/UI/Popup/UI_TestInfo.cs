@@ -1,6 +1,9 @@
+using Firebase.Database;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +16,9 @@ public class UI_TestInfo : UI_Popup
         CustomizingObject1,
         CustomizingObject2,
         CustomizingObject3,
+        Grace1,
+        Grace2,
+        Grace3,
     }
 
     enum Texts
@@ -21,6 +27,9 @@ public class UI_TestInfo : UI_Popup
         UserNameText,
         UserMessagePlaceholder,
         UserMessageText,
+        Grace1Text,
+        Grace2Text,
+        Grace3Text,
     }
 
     enum Buttons
@@ -42,6 +51,8 @@ public class UI_TestInfo : UI_Popup
         if (base.Init() == false)
             return false;
 
+        Managers.DBManager.reference.Child("Users").Child(Managers.UserMng.user.UID).ValueChanged += HandleValueChanged;
+
         BindObject(typeof(GameObjects));
         BindText(typeof(Texts));
         BindButton(typeof(Buttons));
@@ -54,22 +65,42 @@ public class UI_TestInfo : UI_Popup
         #endregion
 
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(()=> Managers.UI.ClosePopupUI(this));
-        GetImage((int)Images.UserImageBG).gameObject.BindEvent(() => OnClickedUserImgBG());
         GetButton((int)Buttons.SaveBtn).gameObject.BindEvent(() => OnClickedSaveBtn());
 
         return true;
     }
-    
+
     void OnClickedSaveBtn()
     {
+        string grace1 = GetText((int)Texts.Grace1Text).text;
+        string grace2 = GetText((int)Texts.Grace2Text).text;
+        string grace3 = GetText((int)Texts.Grace3Text).text;
+
+        Debug.Log(grace1);
+        Debug.Log(grace2);
+        Debug.Log(grace3);
+
         Managers.DBManager.SetNickname(GetText((int)Texts.UserNameText).text);
         Managers.DBManager.SetUserMessage(GetText((int)Texts.UserMessageText).text);
+        Managers.DBManager.SetStoryGrace(grace1, grace2, grace3);
     }
-    void OnClickedUserImgBG()
+
+    void HandleValueChanged(object sender, ValueChangedEventArgs args)
     {
-        Debug.Log(Managers.DBManager.ReadData(Managers.UserMng.user.UID, "nickname"));
-        GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.DBManager.ReadData(Managers.UserMng.user.UID, "nickname");
-        GetText((int)Texts.UserNamePlaceholder).gameObject.SetActive(false);
+        if (args.DatabaseError != null)
+        {
+            Debug.LogError("DatabaseError: " + args.DatabaseError.Message);
+            return;
+        }
+
+        if (args.Snapshot != null && args.Snapshot.Exists)
+        {
+            string newNickname = args.Snapshot.Child("nickname").Value.ToString();
+            GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = newNickname;
+        }
+        else
+        {
+            Debug.LogWarning("Data not found in the database.");
+        }
     }
-    
 }

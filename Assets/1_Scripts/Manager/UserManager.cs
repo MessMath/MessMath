@@ -4,21 +4,26 @@ using UnityEngine;
 
 public class UserManager
 {
-    /*public class Inventory
-    {
+    //public class Inventory
+    //{
 
-    }
-    public class PVPModeGrace
-    {
-
-    }
-    public class StoryModeGrace
-    {
-
-    }*/
+    //}
 
     public class User
     {
+        public class OneOnOneModeGrace
+        {
+            public string grace1;
+            public string grace2;
+            public string grace3;
+        };
+        public class StoryModeGrace
+        {
+            public string grace1;
+            public string grace2;
+            public string grace3;
+        }
+
         public string UID;
         public int coin;
         public int score;
@@ -28,8 +33,9 @@ public class UserManager
         public bool isCompletedDiagnosis;
         public string nickname;
         public string message;
-        //public PVPModeGrace pvpModeGrace;
-        //public StoryModeGrace storyModeGrace;
+
+        public OneOnOneModeGrace onOneModeGrace;
+        public StoryModeGrace storyModeGrace;
 
         public User(string UID, int coin, int score, bool isCompletedStory, bool isCompletedTutorial,  bool isCompletedDiagnosis, string nickname, string message)
         {
@@ -42,7 +48,7 @@ public class UserManager
             this.isCompletedDiagnosis = isCompletedDiagnosis;
             this.nickname = nickname;
             this.message = message;
-            //this.pvpModeGrace= pvpModeGrace;
+            //this.onOneModeGrace= pvpModeGrace;
             //this.storyModeGrace= storyModeGrace;
         }
     }
@@ -76,6 +82,20 @@ public class UserManager
     public void SetUserMessage(string messsage)
     {
         user.message = messsage;
+    }
+
+    public void SetOneOnOneGrace(string grace1, string grace2, string grace3)
+    {
+        user.onOneModeGrace.grace1 = grace1;
+        user.onOneModeGrace.grace2 = grace2;
+        user.onOneModeGrace.grace2 = grace3;
+    }
+    public void SetStoryGrace(string grace1, string grace2, string grace3)
+    {
+        user.storyModeGrace.grace1 = grace1;
+        user.storyModeGrace.grace2 = grace2;
+        user.storyModeGrace.grace3 = grace3;
+        Debug.Log("UserManager");
     }
 
     public void AddUserCoin(int coin)

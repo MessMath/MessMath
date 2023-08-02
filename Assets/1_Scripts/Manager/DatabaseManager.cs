@@ -8,7 +8,7 @@ using Firebase.Database;
 using Firebase.Unity;
 using UnityEngine.InputSystem;
 
-public class DatabaseManager : MonoBehaviour
+public class DatabaseManager 
 {
     public DatabaseReference reference{get;set;}
     private string str;
@@ -92,7 +92,7 @@ public class DatabaseManager : MonoBehaviour
                 //foreach문으로 각각 데이터를 IDictionary로 변환해 각 이름에 맞게 변수 초기화
                 foreach (DataSnapshot data in snapshot.Children)
                 {
-                    if(data.Key == key)
+                    if (data.Key == key)
                     {
                         str = data.Value.ToString();
                         //Debug.Log(data.Value);
@@ -106,7 +106,6 @@ public class DatabaseManager : MonoBehaviour
         //return "error";
         return str;
     }
-
     public void SetNickname(string nickname)
     {
         Managers.UserMng.SetNickname(nickname);
@@ -116,6 +115,22 @@ public class DatabaseManager : MonoBehaviour
     {
         Managers.UserMng.SetUserMessage(message);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("message").SetValueAsync(Managers.UserMng.user.message);
+    }
+
+    public void SetOneOnOneGrace(string grace1, string grace2, string grace3)
+    {
+        Managers.UserMng.SetOneOnOneGrace(grace1, grace2, grace3);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("OneOnOneGrace").SetValueAsync(Managers.UserMng.user.onOneModeGrace.grace1);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("OneOnOneGrace").SetValueAsync(Managers.UserMng.user.onOneModeGrace.grace2);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("OneOnOneGrace").SetValueAsync(Managers.UserMng.user.onOneModeGrace.grace3);
+    }
+
+    public void SetStoryGrace(string grace1, string grace2, string grace3)
+    {
+        Managers.UserMng.SetStoryGrace(grace1, grace2, grace3);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("StoryGrace").SetValueAsync(Managers.UserMng.user.storyModeGrace.grace1);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("StoryGrace").SetValueAsync(Managers.UserMng.user.storyModeGrace.grace2);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("StoryGrace").SetValueAsync(Managers.UserMng.user.storyModeGrace.grace3);
     }
 
     public void AddCoin(int coin)
