@@ -125,12 +125,43 @@ public class UI_PvpGameScene : UI_Scene
 
         if (_player1Score == 1) GetImage((int)Images.MyScore1).gameObject.SetActive(true);
         if (_player1Score == 2) { GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); }
-        if (_player1Score == 3) { GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); GetImage((int)Images.MyScore3).gameObject.SetActive(true); }
+        if (_player1Score == 3) { GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); GetImage((int)Images.MyScore3).gameObject.SetActive(true);
+            PvpResult(); }
         if (_player2Score == 1) GetImage((int)Images.OpponentScore1).gameObject.SetActive(true);
         if (_player2Score == 2) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); }
-        if (_player2Score == 3) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); GetImage((int)Images.OpponentScore3).gameObject.SetActive(true); }
+        if (_player2Score == 3) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); GetImage((int)Images.OpponentScore3).gameObject.SetActive(true);
+            PvpResult(); }
 
 
+    }
+
+    public void PvpResult()
+    {
+        UI_PvpGameResult ui_PvpGameResult;
+        // 승리화면
+        if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
+        {
+            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult>();
+            ui_PvpGameResult._isWin= true;
+        }
+        if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
+        {
+            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult>();
+            ui_PvpGameResult._isWin = true;
+        }
+
+        // 패배화면
+        if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
+        {
+            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult>();
+            ui_PvpGameResult._isWin = false;
+
+        }
+        if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
+        {
+            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult>();
+            ui_PvpGameResult._isWin = false;
+        }
     }
 
     #region 수식 계산

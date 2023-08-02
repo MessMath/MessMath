@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class RPCSychronizer : MonoBehaviourPun
 {
-    UI_PvpGameScene uI_PvpGameScene;
+    UI_PvpGameScene ui_PvpGameScene;
 
     void Start()
     {
-        uI_PvpGameScene = GameObject.Find("UI_PvpGameScene").GetComponent<UI_PvpGameScene>();
+        ui_PvpGameScene = GameObject.Find("UI_PvpGameScene").GetComponent<UI_PvpGameScene>();
     }
 
     [PunRPC]
@@ -18,15 +18,15 @@ public class RPCSychronizer : MonoBehaviourPun
     {
         if (int.Parse(printResult) == QusetionNumber && Who == 1)
         {
-            uI_PvpGameScene._player1Score++;
-            uI_PvpGameScene.ScoreSet();
-            uI_PvpGameScene.Questioning();
+            ui_PvpGameScene._player1Score++;
+            ui_PvpGameScene.ScoreSet();
+            ui_PvpGameScene.Questioning();
         }
         else if (int.Parse(printResult) == QusetionNumber && Who == 2)
         {
-            uI_PvpGameScene._player2Score++;
-            uI_PvpGameScene.ScoreSet();
-            uI_PvpGameScene.Questioning();
+            ui_PvpGameScene._player2Score++;
+            ui_PvpGameScene.ScoreSet();
+            ui_PvpGameScene.Questioning();
         }
     }
 }
