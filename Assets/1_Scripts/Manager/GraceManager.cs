@@ -87,12 +87,12 @@ public class GraceManager
         // 공격 데미지 2배
         Managers.Game.Damage *= 2;
 
-        GameObject CeresBack = Managers.Resource.Instantiate("Grace/CeresBack",player.transform.parent);
-        GameObject Ceres = Managers.Resource.Instantiate("Grace/Ceres", player.transform.parent);
+        GameObject CeresBack = Managers.Resource.Instantiate("Grace/VFXs/VFX_Gauss/CeresBack", player.transform.parent);
+        GameObject Ceres = Managers.Resource.Instantiate("Grace/VFXs/VFX_Gauss/Ceres", player.transform.parent);
         Ceres.transform.position = new Vector3(playerPos.x - radius, playerPos.y, 0);
         CeresBack.transform.SetSiblingIndex(1);
         Ceres.transform.SetSiblingIndex(2);
-
+        
         // 세레스 돌리기
         CoroutineHandler.StartCoroutine(RotateCeres(Ceres, CeresBack.transform, radius, angle, speed, prevWitchHp));
     }
@@ -151,8 +151,8 @@ public class GraceManager
 
         float Time = 5.0f;      // 지속시간은 5초
 
-        GameObject PtriangleBack = Managers.Resource.Instantiate("Grace/PythagorasTriangleBack", player.transform.parent);
-        GameObject Ptriangle = Managers.Resource.Instantiate("Grace/PythagorasTriangle", player.transform.parent);
+        GameObject PtriangleBack = Managers.Resource.Instantiate("Grace/VFXs/VFX_Pythagoras/PythagorasTriangleBack", player.transform.parent);
+        GameObject Ptriangle = Managers.Resource.Instantiate("Grace/VFXs/VFX_Pythagoras/PythagorasTriangle", player.transform.parent);
         PtriangleBack.transform.position = playerPos;
         Ptriangle.transform.position = playerPos;
         PtriangleBack.GetComponent<Image>().CrossFadeAlpha(0f, Time, false);
@@ -273,12 +273,12 @@ public class GraceManager
     public void GraceOfEinstein()
     {
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Einstein", player.transform.parent);
+        GameObject VFX = Managers.Resource.Instantiate("Grace/VFXs/VFX_Einstein/GraceVFX_Einstein", player.transform.parent);
         GameObject.Destroy(effect, 2f);
+        GameObject.Destroy(VFX, 2f);
 
         if (EinsteinOn) return;
         EinsteinOn = true;
-        GameObject einstein = Managers.Resource.Instantiate("Grace/EinsteinStickOutTongue", player.transform.parent);
-        GameObject.Destroy(einstein, 3f);
 
         Transform WitchOrMathMtc = witch.transform.Find("WitchImage"); 
 
@@ -302,7 +302,7 @@ public class GraceManager
     /// <returns></returns>
     IEnumerator EndEinstein()
     {
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(2f);
         EinsteinOn = false;
     }
 
@@ -312,8 +312,10 @@ public class GraceManager
     /// </summary>
     public void GraceOfNeumann()
     {
-        GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Newmann", player.transform.parent);
+        GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Neumann", player.transform.parent);
+        GameObject VFX = Managers.Resource.Instantiate("Grace/VFXs/VFX_Neumann/GraceVFX_Neumann", player.transform.parent);
         GameObject.Destroy(effect,2f);
+        GameObject.Destroy(VFX, 2f);
 
         // Scene에 따라 다르게 행동 => StoryGameScene / Fight1vs1GameScene
         bool isthisStoryScene = (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene);
@@ -325,33 +327,36 @@ public class GraceManager
 
         foreach (GameObject arrow in arrows)
             arrow.GetComponentInChildren<TextMeshProUGUI>().text = arr[random.Next(arr.Length)];
-
     }
 
     /// 데카르트의 가호 : 10초동안 플레이어 이동속도 두배, 
     /// </summary>
     public void GraceOfDescartes()
     {
+        float duration = 10f;
+
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Descartes", player.transform.parent);
+        GameObject VFX = Managers.Resource.Instantiate("Grace/VFXs/VFX_Descartes/GraceVFX_Descartes", player.transform.parent);
         GameObject.Destroy(effect, 2f);
+        GameObject.Destroy(VFX, duration);
 
         if (descartesOn) return;
         descartesOn = true;
 
         // Scene이 달라도 같은 역할
 
-        CoroutineHandler.StartCoroutine(Descartes());
+        CoroutineHandler.StartCoroutine(Descartes(duration));
     }
 
     /// <summary>
     /// 10초간 이동속도 두배
     /// </summary>
     /// <returns></returns>
-    IEnumerator Descartes()
+    IEnumerator Descartes(float duration)
     {
         Debug.Log("GraceOfDescartes On");
         player._speed *= 2;
-        yield return new WaitForSeconds(10.0f);
+        yield return new WaitForSeconds(duration);
         player._speed /= 2;
 
         descartesOn = false;

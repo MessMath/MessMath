@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 3239331796195284424}
   - component: {fileID: 8714922042166237840}
   m_Layer: 5
-  m_Name: Newmann
+  m_Name: MathMTC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c3bc7dbac906b1647bb74e7bf8dcf8d4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b27d2d21983f374439c686aebcaea0ca, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
