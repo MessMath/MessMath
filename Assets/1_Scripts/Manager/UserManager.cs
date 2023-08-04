@@ -27,16 +27,19 @@ public class UserManager
     public class User
     {
         public string UID;
-        public int coin { get; set; }
-        public int score { get; set; }
-        public Inventory inventory { get; set; }
-        public bool isCompletedStory { get; set; }
-        public bool isCompletedTutorial { get; set; }
-        public bool isCompletedDiagnosis { get; set; }
-        public string nickname { get; set; }
-        public OneOnOneModeGrace oneOnOneModeGrace { get; set; }
-        public StoryModeGrace storyModeGrace { get; set; }
-        public string message { get; set; }
+        public int coin;
+        public int score;
+        public Inventory inventory;
+        public bool isCompletedStory;
+        public bool isCompletedTutorial;
+        public bool isCompletedDiagnosis;
+        public string nickname;
+        public OneOnOneModeGrace oneOnOneModeGrace;
+        public StoryModeGrace storyModeGrace;
+        public string message;
+        public string obtainedCollections;
+        public string obtainedClothes;
+        public string obtainedGraces;
 
         public User(string UID, int coin, int score, Inventory inventory ,bool isCompletedStory, bool isCompletedTutorial,
             bool isCompletedDiagnosis, string nickname, OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message)
@@ -44,14 +47,17 @@ public class UserManager
             this.UID = UID;
             this.coin = coin;
             this.score = score;
-            this.inventory = inventory;
+            //this.inventory = inventory;
             this.isCompletedStory = isCompletedStory;
             this.isCompletedTutorial= isCompletedTutorial;
             this.isCompletedDiagnosis = isCompletedDiagnosis;
             this.nickname = nickname;
-            this.oneOnOneModeGrace = oneOnOneModeGrace;
-            this.storyModeGrace= storyModeGrace;
+            //this.oneOnOneModeGrace = oneOnOneModeGrace;
+            //this.storyModeGrace= storyModeGrace;
             this.message = message;
+            this.inventory = new Inventory();
+            this.oneOnOneModeGrace = new OneOnOneModeGrace();
+            this.storyModeGrace= new StoryModeGrace();
         }
     }
 
@@ -133,6 +139,74 @@ public class UserManager
         user.inventory.obtainedCollections = collections;
     }
 
+    public string GetNickname()
+    {
+        return user.nickname;
+    }
 
+    public int GetCoin()
+    {
+        return user.coin;
+    }
+
+    public int GetScore()
+    {
+        return user.score;
+    }
+    public List<string> GetObtainedClothes()
+    {
+        return StringToList(user.inventory.obtainedClothes);
+    }
+
+    public List<string> GetObtainedGraces()
+    {
+        return StringToList(user.inventory.obtainedGraces);
+    }
+
+    public List<string> GetObtainedCollections()
+    {
+        return StringToList(user.inventory.obtainedCollections);
+    }
+
+    public bool GetIsCompletedStory()
+    {
+        return user.isCompletedStory;
+    }
+
+    public bool GetIsCompletedTutorial()
+    {
+        return user.isCompletedTutorial;
+    }
+
+    public bool GetIsCompletedDiagnosis()
+    {
+        return user.isCompletedDiagnosis;
+    }
+
+    public OneOnOneModeGrace GetOneOnOneModeGrace()
+    {
+        return user.oneOnOneModeGrace;
+    }
+    public StoryModeGrace GetStoryModeGrace()
+    {
+        return user.storyModeGrace;
+    }
+
+    public string GetMessage()
+    {
+        return user.message;
+    }
+
+    private List<string> StringToList(string data)
+    {
+        string[] lines = data.Split(',');
+        List<string> list = new List<string>();
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            list.Add(lines[i]);
+        }
+        return list;
+    }
 
 }

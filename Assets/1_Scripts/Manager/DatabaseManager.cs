@@ -17,6 +17,7 @@ public class DatabaseManager : MonoBehaviour
     }
     public void CreateNewUser(string nickname)
     {
+        Debug.Log("CreateNewUser");
         WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, false, nickname);
     }
 
@@ -25,6 +26,8 @@ public class DatabaseManager : MonoBehaviour
         Managers.UserMng.InitUser(userId, coin, score, null, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, null, null, "안녕하세요!");
 
         string json = JsonUtility.ToJson(Managers.UserMng.user);
+        Debug.Log("WriteNewUser");
+        Debug.Log(json);
 
         reference.Child("Users").Child(userId).SetRawJsonValueAsync(json);
     }
@@ -136,42 +139,23 @@ public class DatabaseManager : MonoBehaviour
     public void SetObtainedClothes(string clothes)
     {
         Managers.UserMng.SetUserObtainedClothes(clothes);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Inventory").SetValueAsync(Managers.UserMng.user.inventory.obtainedClothes);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Inventory").Child("ObtainedClothes").SetValueAsync(Managers.UserMng.user.inventory.obtainedClothes);
     }
-    public List<string> GetObtainedClothes(string userId)
-    {
-        return StringToList(ReadUser(userId, "obtainedClothes"));
-    }
+    //public List<string> GetObtainedClothes(string userId)
+    //{
+    //    return StringToList(ReadUser(userId, "obtainedClothes"));
+    //}
 
     public void SetObtainedGraces(string graces)
     {
         Managers.UserMng.SetUserObtainedGraces(graces);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Inventory").SetValueAsync(Managers.UserMng.user.inventory.obtainedGraces);
-    }
-    public List<string> GetObtainedGraces(string userId)
-    {
-        return StringToList(ReadUser(userId, "obtainedGraces"));
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Inventory").Child("ObtainedGraces").SetValueAsync(Managers.UserMng.user.inventory.obtainedGraces);
     }
 
     public void SetObtainedCollections(string collections)
     {
         Managers.UserMng.SetUserObtainedCollections(collections);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Inventory").SetValueAsync(Managers.UserMng.user.inventory.obtainedCollections);
-    }
-    public List<string> GetObtainedCollections(string userId)
-    {
-        return StringToList(ReadUser(userId, "obtainedCollections"));
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Inventory").Child("ObtainedCollections").SetValueAsync(Managers.UserMng.user.inventory.obtainedCollections);
     }
 
-    private List<string> StringToList(string data)
-    {
-        string[] lines = data.Split(',');
-        List<string> list = new List<string>();
-
-        for (int i = 0; i < lines.Length; i++)
-        {
-            list.Add(lines[i]);
-        }
-        return list;
-    }
 }

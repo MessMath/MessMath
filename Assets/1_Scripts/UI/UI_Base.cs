@@ -18,7 +18,6 @@ public abstract class UI_Base : MonoBehaviour
     {
         if (_init)
             return false;
-        Managers.DBManager.reference.Child("Users").Child(Managers.UserMng.user.UID).ValueChanged += HandleValueChanged;
         return _init = true;
     }
 
@@ -92,7 +91,6 @@ public abstract class UI_Base : MonoBehaviour
 
     protected void HandleValueChanged(object sender, ValueChangedEventArgs args)
     {
-        Debug.Log("Ã³À½");
         if (args.DatabaseError != null)
         {
             Debug.LogError("DatabaseError: " + args.DatabaseError.Message);
@@ -101,20 +99,39 @@ public abstract class UI_Base : MonoBehaviour
 
         if (args.Snapshot != null && args.Snapshot.Exists)
         {
-            Debug.Log("Áß°£");
             string newNickname = args.Snapshot.Child("nickname").Value.ToString();
             string newCoin = args.Snapshot.Child("coin").Value.ToString();
             string newIsCompletedDiagnosis = args.Snapshot.Child("isCompletedDiagnosis").Value.ToString();
-            string newIsCompletedStroy = args.Snapshot.Child("isCompletedTutorial").Value.ToString();
+            string newIsCompletedStory = args.Snapshot.Child("isCompletedStory").Value.ToString();
+            string newIsTutorial = args.Snapshot.Child("isCompletedTutorial").Value.ToString();
             string newMessage = args.Snapshot.Child("message").Value.ToString();
             string newScore = args.Snapshot.Child("score").Value.ToString();
+            string newStoryGrace1 = args.Snapshot.Child("StoryGrace").Child("1").Value.ToString();
+            string newStoryGrace2 = args.Snapshot.Child("StoryGrace").Child("2").Value.ToString();
+            string newStoryGrace3 = args.Snapshot.Child("StoryGrace").Child("3").Value.ToString();
+            string newOneOnOneGrace1 = args.Snapshot.Child("OneOnOneGrace").Child("1").Value.ToString();
+            string newOneOnOneGrace2 = args.Snapshot.Child("OneOnOneGrace").Child("2").Value.ToString();
+            string newOneOnOneGrace3 = args.Snapshot.Child("OneOnOneGrace").Child("3").Value.ToString();
+            string newObtainedClothes = args.Snapshot.Child("Inventory").Child("ObtainedClothes").Value.ToString();
+            string newObtainedCollections = args.Snapshot.Child("Inventory").Child("ObtainedCollections").Value.ToString();
+            string newObtainedGraces = args.Snapshot.Child("Inventory").Child("ObtainedGraces").Value.ToString();
 
             Managers.UserMng.user.nickname = newNickname;
             Managers.UserMng.user.coin = int.Parse(newCoin);
             Managers.UserMng.user.isCompletedDiagnosis = bool.Parse(newIsCompletedDiagnosis);
-            Managers.UserMng.user.isCompletedStory = bool.Parse(newIsCompletedStroy);
+            Managers.UserMng.user.isCompletedStory = bool.Parse(newIsCompletedStory);
+            Managers.UserMng.user.isCompletedTutorial = bool.Parse(newIsTutorial);
             Managers.UserMng.user.message = newMessage;
             Managers.UserMng.user.score = int.Parse(newScore);
+            Managers.UserMng.user.storyModeGrace.grace1 = newStoryGrace1;
+            Managers.UserMng.user.storyModeGrace.grace2 = newStoryGrace2;
+            Managers.UserMng.user.storyModeGrace.grace3 = newStoryGrace3;
+            Managers.UserMng.user.oneOnOneModeGrace.grace1 = newOneOnOneGrace1;
+            Managers.UserMng.user.oneOnOneModeGrace.grace2 = newOneOnOneGrace2;
+            Managers.UserMng.user.oneOnOneModeGrace.grace3 = newOneOnOneGrace3;
+            Managers.UserMng.user.obtainedClothes = newObtainedClothes;
+            Managers.UserMng.user.obtainedCollections = newObtainedCollections;
+            Managers.UserMng.user.obtainedGraces = newObtainedGraces;
         }
         else
         {

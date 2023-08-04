@@ -55,6 +55,7 @@ public class UI_TestInfo : UI_Popup
         BindButton(typeof(Buttons));
         BindImage(typeof(Images));
 
+        Managers.DBManager.reference.Child("Users").Child(Managers.UserMng.user.UID).ValueChanged += HandleValueChanged;
         #region CustomizingObject Clear
         GetObject((int)GameObjects.CustomizingObject1).gameObject.GetComponent<Image>().sprite = null;
         GetObject((int)GameObjects.CustomizingObject2).gameObject.GetComponent<Image>().sprite = null;
@@ -65,7 +66,7 @@ public class UI_TestInfo : UI_Popup
         GetButton((int)Buttons.SaveBtn).gameObject.BindEvent(() => OnClickedSaveBtn());
 
         //if (Managers.Game.Name != null)
-            GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.Game.Name;
+            GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.UserMng.user.nickname;
         //else GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = "testText";
         return true;
     }
