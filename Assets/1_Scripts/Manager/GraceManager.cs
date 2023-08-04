@@ -199,7 +199,10 @@ public class GraceManager
     public void GraceOfNewton()
     {
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Newton", player.transform.parent);
+        GameObject VFX = Managers.Resource.Instantiate("Grace/VFXs/VFX_Newton/GraceVFX_Newton", player.transform.parent);
         GameObject.Destroy(effect, 2f);
+        GameObject.Destroy(VFX, 2f);
+
 
         if (newtonOn) return;
         newtonOn = true;
