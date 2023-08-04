@@ -6,67 +6,28 @@ using TMPro;
 using Firebase;
 using Firebase.Database;
 using Firebase.Unity;
-using UnityEngine.InputSystem;
 
-public class DatabaseManager 
+public class DatabaseManager : MonoBehaviour
 {
     public DatabaseReference reference{get;set;}
-    private string str;
 
     public void Init()
     {
         reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
-
-    /*public bool CheckExistingUser(string userId, GameObject LogTMP)
-    {
-        reference.Child("Users").Child(userId).GetValueAsync().ContinueWith(task =>
-        {
-            if (task.IsFaulted)
-            {
-                LogTMP.GetComponent<TextMeshProUGUI>().text += "\n Load Faulted";
-                return false;
-            }
-            //task가 성공적이면
-            else if (task.IsCompleted)
-            {
-                LogTMP.GetComponent<TextMeshProUGUI>().text += "\n Load Completed";
-                DataSnapshot snapshot = task.Result;
-
-                //foreach문으로 각각 데이터를 IDictionary로 변환해 각 이름에 맞게 변수 초기화
-                foreach (DataSnapshot data in snapshot.Children)
-                {
-                    
-                    if(data.Key == "userId")
-                    {
-                        LogTMP.GetComponent<TextMeshProUGUI>().text += "\nGetUserId";
-                        LogTMP.GetComponent<TextMeshProUGUI>().text += "\npersonInfo[userId] = " + data.Value;
-                        LogTMP.GetComponent<TextMeshProUGUI>().text += "\nuserId = " + userId;
-                        return true;
-                    }
-                }
-                return true;
-            }
-            return false;
-        });
-        return false;
-    }*/
-
     public void CreateNewUser(string nickname)
     {
-       WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, false, nickname, "");
+        WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, false, nickname);
     }
 
-    private void WriteNewUser(string userId, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname, string message)
+    private void WriteNewUser(string userId, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname)
     {
-        Managers.UserMng.InitUser(userId, coin, score, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, message);
+        Managers.UserMng.InitUser(userId, coin, score, null, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, null, null, "안녕하세요!");
 
         string json = JsonUtility.ToJson(Managers.UserMng.user);
 
         reference.Child("Users").Child(userId).SetRawJsonValueAsync(json);
     }
-
-
 
     public string ReadData(string userId, string key)
     {
@@ -81,7 +42,7 @@ public class DatabaseManager
             if (task.IsFaulted)
             {
                 Debug.Log("error");
-                //return "error";
+                return "error";
             }
             //task가 성공적이면
             else if (task.IsCompleted)
@@ -89,25 +50,21 @@ public class DatabaseManager
                 // DataSnapshot 변수를 선언하여 task의 결과 값을 반환
                 DataSnapshot snapshot = task.Result;
                 // snapshot의 자식 개수를 확인
-                //Debug.Log(snapshot.ChildrenCount);
+                Debug.Log(snapshot.ChildrenCount);
 
                 //foreach문으로 각각 데이터를 IDictionary로 변환해 각 이름에 맞게 변수 초기화
                 foreach (DataSnapshot data in snapshot.Children)
                 {
-                    if (data.Key == key)
-                    {
-                        str = data.Value.ToString();
-                        //Debug.Log(data.Value);
-                        //Debug.Log(data.Key);
-                    }
-                    //return data.Value.ToString();
+                    if(data.Key == key)
+                        Debug.Log(data.Value);
+                    return data.Value.ToString();
                 }
             }
-            //return "error";
+            return "error";
         });
-        //return "error";
-        return str;
+        return "error";
     }
+
     public void SetNickname(string nickname)
     {
         Managers.UserMng.SetNickname(nickname);
@@ -135,9 +92,86 @@ public class DatabaseManager
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("StoryGrace").Child("3").SetValueAsync(Managers.UserMng.user.storyModeGrace.grace3);
     }
 
-    public void AddCoin(int coin)
+
+    public void SetCoin(int coin)
     {
-        Managers.UserMng.AddUserCoin(coin);
+        Managers.UserMng.SetUserCoin(coin);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Coin").SetValueAsync(Managers.UserMng.user.coin);
+    }
+    public int GetCoin(string userId)
+    {
+        return int.Parse(ReadUser(userId, "coin"));
+    }
+
+    public void SetIsCompletedDiagnosis(bool isCompleted)
+    {
+        Managers.UserMng.SetUserIsCompletedDiagnosis(isCompleted);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("isCompletedDiagnosis").SetValueAsync(Managers.UserMng.user.isCompletedDiagnosis);
+    }
+    public bool GetIsCompletedDiagnosis(string userId)
+    {
+        return bool.Parse(ReadUser(userId, "isCompletedDiagnosis"));
+    }
+
+    public void SetIsCompletedStory(bool isCompleted)
+    {
+        Managers.UserMng.SetUserIsCompletedStory(isCompleted);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("isCompletedStory").SetValueAsync(Managers.UserMng.user.isCompletedStory);
+    }
+    public bool GetIsCompletedStory(string userId)
+    {
+        return bool.Parse(ReadUser(userId, "isCompletedStory"));
+    }
+
+    public void SetIsCompletedTutorial(bool isCompleted)
+    {
+        Managers.UserMng.SetUserIsCompletedTutorial(isCompleted);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("isCompletedTutorial").SetValueAsync(Managers.UserMng.user.isCompletedTutorial);
+    }
+    public bool GetIsCompletedTutorial(string userId)
+    {
+        return bool.Parse(ReadUser(userId, "isCompletedTutorial"));
+    }
+
+    public void SetObtainedClothes(string clothes)
+    {
+        Managers.UserMng.SetUserObtainedClothes(clothes);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Inventory").SetValueAsync(Managers.UserMng.user.inventory.obtainedClothes);
+    }
+    public List<string> GetObtainedClothes(string userId)
+    {
+        return StringToList(ReadUser(userId, "obtainedClothes"));
+    }
+
+    public void SetObtainedGraces(string graces)
+    {
+        Managers.UserMng.SetUserObtainedGraces(graces);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Inventory").SetValueAsync(Managers.UserMng.user.inventory.obtainedGraces);
+    }
+    public List<string> GetObtainedGraces(string userId)
+    {
+        return StringToList(ReadUser(userId, "obtainedGraces"));
+    }
+
+    public void SetObtainedCollections(string collections)
+    {
+        Managers.UserMng.SetUserObtainedCollections(collections);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Inventory").SetValueAsync(Managers.UserMng.user.inventory.obtainedCollections);
+    }
+    public List<string> GetObtainedCollections(string userId)
+    {
+        return StringToList(ReadUser(userId, "obtainedCollections"));
+    }
+
+    private List<string> StringToList(string data)
+    {
+        string[] lines = data.Split(',');
+        List<string> list = new List<string>();
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            list.Add(lines[i]);
+        }
+        return list;
     }
 }
