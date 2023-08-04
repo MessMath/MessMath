@@ -21,6 +21,7 @@ public class Managers : MonoBehaviour
     public static PvpNetworkManager s_pvpNetworkManager = null;
     public static PvpNetworkManager Network { get { return s_pvpNetworkManager; } }
 
+    private static UserManager s_userManager = new UserManager();
     private static GraceManager s_graceManager = new GraceManager();
     private static DebuffManager s_debuffManager = new DebuffManager();
     private static DataManager s_dataManager = new DataManager();
@@ -32,7 +33,10 @@ public class Managers : MonoBehaviour
     private static SceneEffectManager s_sceneEffectManager = new SceneEffectManager();
     private static UIManager s_uiManager = new UIManager();
     private static CoinManager s_coinManager = new CoinManager();
+    private static DatabaseManager s_dbManager = new DatabaseManager();
+    private static GoogleSignInManager s_gogleSigninManager = new GoogleSignInManager();
 
+    public static UserManager UserMng { get { Init(); return s_userManager; } }
     public static GraceManager Grace { get { Init(); return s_graceManager; } }
     public static DebuffManager Debuff { get { Init(); return s_debuffManager; } }
     public static DataManager Data { get { Init(); return s_dataManager; } }
@@ -44,6 +48,8 @@ public class Managers : MonoBehaviour
     public static SceneEffectManager SceneEffect { get { Init(); return s_sceneEffectManager; } }
     public static UIManager UI { get { Init(); return s_uiManager; } }
     public static CoinManager Coin { get { Init(); return s_coinManager; } }
+    public static DatabaseManager DBManager {get { Init(); return s_dbManager; } }
+    public static GoogleSignInManager GoogleSignIn { get { Init(); return s_gogleSigninManager; } }
 
     public static string GetText(int id)
     {
@@ -88,10 +94,13 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(connectorGo);
             DontDestroyOnLoad(NetworkGo);
 
+            //s_userManager.Init();
             s_resourceManager.Init();
             s_soundManager.Init();
             s_dataManager.Init();
             s_connector.Init();
+            s_dbManager.Init();
+            s_gogleSigninManager.Init();
 
             Application.targetFrameRate = 60;
         }

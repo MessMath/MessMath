@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "571063997782",
+    "firebase_url": "https://messmath-db8ef-default-rtdb.firebaseio.com",
+    "project_id": "messmath-db8ef",
+    "storage_bucket": "messmath-db8ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571063997782:android:ab5ddabc898775b843b2f7",
+        "android_client_info": {
+          "package_name": "com.RagtagCompany.MessMath"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "571063997782-l9lp71nq0q4ku38a44qm8eb8adem0muu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.RagtagCompany.MessMath",
+            "certificate_hash": "f8924e7f1fd280c692341fae15cd95d541666c0f"
+          }
+        },
+        {
+          "client_id": "571063997782-k040dqj6fnrd57rgck2ocblfp4gkaff0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5iCKhppFmVZx77_t3EHFfV_fotaU0TFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "571063997782-1rtqvi6jphedd71cgrjnudlcu6ut3bt7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
