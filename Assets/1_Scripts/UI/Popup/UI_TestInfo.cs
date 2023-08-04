@@ -16,9 +16,9 @@ public class UI_TestInfo : UI_Popup
         CustomizingObject1,
         CustomizingObject2,
         CustomizingObject3,
-        Grace1,
-        Grace2,
-        Grace3,
+        //Grace1,
+        //Grace2,
+        //Grace3,
     }
 
     enum Texts
@@ -27,9 +27,9 @@ public class UI_TestInfo : UI_Popup
         UserNameText,
         UserMessagePlaceholder,
         UserMessageText,
-        Grace1Text,
-        Grace2Text,
-        Grace3Text,
+        GraceText1,
+        GraceText2,
+        GraceText3,
     }
 
     enum Buttons
@@ -43,15 +43,12 @@ public class UI_TestInfo : UI_Popup
         BG,
         UserImageBG,
         UserImage,
-
     }
 
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
-
-        Managers.DBManager.reference.Child("Users").Child(Managers.UserMng.user.UID).ValueChanged += HandleValueChanged;
 
         BindObject(typeof(GameObjects));
         BindText(typeof(Texts));
@@ -67,14 +64,17 @@ public class UI_TestInfo : UI_Popup
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(()=> Managers.UI.ClosePopupUI(this));
         GetButton((int)Buttons.SaveBtn).gameObject.BindEvent(() => OnClickedSaveBtn());
 
+        //if (Managers.Game.Name != null)
+            GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.Game.Name;
+        //else GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = "testText";
         return true;
     }
 
     void OnClickedSaveBtn()
     {
-        string grace1 = GetText((int)Texts.Grace1Text).text;
-        string grace2 = GetText((int)Texts.Grace2Text).text;
-        string grace3 = GetText((int)Texts.Grace3Text).text;
+        string grace1 = GetText((int)Texts.GraceText1).text;
+        string grace2 = GetText((int)Texts.GraceText2).text;
+        string grace3 = GetText((int)Texts.GraceText3).text;
 
         Debug.Log(grace1);
         Debug.Log(grace2);
@@ -85,22 +85,23 @@ public class UI_TestInfo : UI_Popup
         Managers.DBManager.SetStoryGrace(grace1, grace2, grace3);
     }
 
-    void HandleValueChanged(object sender, ValueChangedEventArgs args)
-    {
-        if (args.DatabaseError != null)
-        {
-            Debug.LogError("DatabaseError: " + args.DatabaseError.Message);
-            return;
-        }
+    //public void HandleValueChanged(object sender, ValueChangedEventArgs args)
+    //{
+    //    if (args.DatabaseError != null)
+    //    {
+    //        Debug.LogError("DatabaseError: " + args.DatabaseError.Message);
+    //        return;
+    //    }
 
-        if (args.Snapshot != null && args.Snapshot.Exists)
-        {
-            string newNickname = args.Snapshot.Child("nickname").Value.ToString();
-            GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = newNickname;
-        }
-        else
-        {
-            Debug.LogWarning("Data not found in the database.");
-        }
-    }
+    //    if (args.Snapshot != null && args.Snapshot.Exists)
+    //    {
+    //        string newNickname = args.Snapshot.Child("nickname").Value.ToString();
+    //        Managers.Game.Name = newNickname;
+    //        GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = newNickname;
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning("Data not found in the database.");
+    //    }
+    //}
 }

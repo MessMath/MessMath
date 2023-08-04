@@ -1,3 +1,4 @@
+using Firebase.Database;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ public abstract class UI_Base : MonoBehaviour
     {
         if (_init)
             return false;
+
+        Managers.DBManager.reference.Child("Users").Child(Managers.UserMng.user.UID).ValueChanged += HandleValueChanged;
 
         return _init = true;
     }
@@ -89,5 +92,37 @@ public abstract class UI_Base : MonoBehaviour
                 break;
         }
     }
-    
+
+    protected void HandleValueChanged(object sender, ValueChangedEventArgs args)
+    {
+        Debug.Log("처음");
+        if (args.DatabaseError != null)
+        {
+            Debug.LogError("DatabaseError: " + args.DatabaseError.Message);
+            return;
+        }
+
+        if (args.Snapshot != null && args.Snapshot.Exists)
+        {
+            Debug.Log("중간");
+            string newNickname = args.Snapshot.Child("nickname").Value.ToString();
+            string newCoin = args.Snapshot.Child("coin").Value.ToString();
+            string newIsCompletedDiagnosis = args.Snapshot.Child("isCompletedDiagnosis").Value.ToString();
+            string newIsCompletedStroy = args.Snapshot.Child("isCompletedTutorial").Value.ToString();
+            string newMessage = args.Snapshot.Child("message").Value.ToString();
+            string newScore = args.Snapshot.Child("score").Value.ToString();
+
+            Managers.UserMng.user.nickname = newNickname;
+            Managers.UserMng.user.coin = int.Parse(newCoin);
+            Managers.UserMng.user.isCompletedDiagnosis = bool.Parse(newIsCompletedDiagnosis);
+            Managers.UserMng.user.isCompletedStory = bool.Parse(newIsCompletedStroy);
+            Managers.UserMng.user.message = newMessage;
+            Managers.UserMng.user.score= int.Parse(newScore);
+        }
+        else
+        {
+            Debug.LogWarning("Data not found in the database.");
+        }
+    }
+
 }

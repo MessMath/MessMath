@@ -34,7 +34,7 @@ public class UserManager
         public string nickname;
         public string message;
 
-        public OneOnOneModeGrace onOneModeGrace;
+        public OneOnOneModeGrace oneOnOneModeGrace;
         public StoryModeGrace storyModeGrace;
 
         public User(string UID, int coin, int score, bool isCompletedStory, bool isCompletedTutorial,  bool isCompletedDiagnosis, string nickname, string message)
@@ -49,7 +49,6 @@ public class UserManager
             this.nickname = nickname;
             this.message = message;
             //this.onOneModeGrace= pvpModeGrace;
-            //this.storyModeGrace= storyModeGrace;
         }
     }
 
@@ -58,6 +57,8 @@ public class UserManager
     public void InitUser(string UID, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname, string message)
     {
         user = new User(UID, coin, score, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, message);
+        user.storyModeGrace = new User.StoryModeGrace();
+        user.oneOnOneModeGrace = new User.OneOnOneModeGrace();
     }
 
     public void SetExistingUser()
@@ -84,18 +85,17 @@ public class UserManager
         user.message = messsage;
     }
 
-    public void SetOneOnOneGrace(string grace1, string grace2, string grace3)
+    public void SetOneOnOneGrace(string grace1 = null, string grace2 = null, string grace3 = null)
     {
-        user.onOneModeGrace.grace1 = grace1;
-        user.onOneModeGrace.grace2 = grace2;
-        user.onOneModeGrace.grace2 = grace3;
+        user.oneOnOneModeGrace.grace1 = grace1;
+        user.oneOnOneModeGrace.grace2 = grace2;
+        user.oneOnOneModeGrace.grace2 = grace3;
     }
-    public void SetStoryGrace(string grace1, string grace2, string grace3)
+    public void SetStoryGrace(string grace1 = null, string grace2 = null, string grace3 = null)
     {
         user.storyModeGrace.grace1 = grace1;
         user.storyModeGrace.grace2 = grace2;
         user.storyModeGrace.grace3 = grace3;
-        Debug.Log("UserManager");
     }
 
     public void AddUserCoin(int coin)

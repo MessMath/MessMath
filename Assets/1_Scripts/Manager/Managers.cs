@@ -32,7 +32,7 @@ public class Managers : MonoBehaviour
     private static DatabaseManager s_dbManager = new DatabaseManager();
     private static GoogleSignInManager s_gogleSigninManager = new GoogleSignInManager();
 
-    public static UserManager UserMng = new UserManager();
+    public static UserManager UserMng { get { Init(); return s_userManager; } }
     public static GraceManager Grace { get { Init(); return s_graceManager; } }
     public static DebuffManager Debuff { get { Init(); return s_debuffManager; } }
     public static DataManager Data { get { Init(); return s_dataManager; } }

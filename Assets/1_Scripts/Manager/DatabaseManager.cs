@@ -66,6 +66,8 @@ public class DatabaseManager
         reference.Child("Users").Child(userId).SetRawJsonValueAsync(json);
     }
 
+
+
     public string ReadData(string userId, string key)
     {
         return ReadUser(userId, key);
@@ -120,17 +122,17 @@ public class DatabaseManager
     public void SetOneOnOneGrace(string grace1, string grace2, string grace3)
     {
         Managers.UserMng.SetOneOnOneGrace(grace1, grace2, grace3);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("OneOnOneGrace").SetValueAsync(Managers.UserMng.user.onOneModeGrace.grace1);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("OneOnOneGrace").SetValueAsync(Managers.UserMng.user.onOneModeGrace.grace2);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("OneOnOneGrace").SetValueAsync(Managers.UserMng.user.onOneModeGrace.grace3);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("OneOnOneGrace").Child("1").SetValueAsync(Managers.UserMng.user.oneOnOneModeGrace.grace1);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("OneOnOneGrace").Child("2").SetValueAsync(Managers.UserMng.user.oneOnOneModeGrace.grace2);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("OneOnOneGrace").Child("3").SetValueAsync(Managers.UserMng.user.oneOnOneModeGrace.grace3);
     }
 
     public void SetStoryGrace(string grace1, string grace2, string grace3)
     {
         Managers.UserMng.SetStoryGrace(grace1, grace2, grace3);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("StoryGrace").SetValueAsync(Managers.UserMng.user.storyModeGrace.grace1);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("StoryGrace").SetValueAsync(Managers.UserMng.user.storyModeGrace.grace2);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("StoryGrace").SetValueAsync(Managers.UserMng.user.storyModeGrace.grace3);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("StoryGrace").Child("1").SetValueAsync(Managers.UserMng.user.storyModeGrace.grace1);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("StoryGrace").Child("2").SetValueAsync(Managers.UserMng.user.storyModeGrace.grace2);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("StoryGrace").Child("3").SetValueAsync(Managers.UserMng.user.storyModeGrace.grace3);
     }
 
     public void AddCoin(int coin)
