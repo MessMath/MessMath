@@ -48,7 +48,8 @@ public class UI_PvpGameResult : UI_Popup
 
     public void toMain()
     {
-        //Managers.Network.OnDisconnected();
+        PhotonNetwork.Disconnect();
+        PhotonNetwork.AutomaticallySyncScene = false;
 
         // Sound
         Managers.Sound.Play("ClickBtnEff");
