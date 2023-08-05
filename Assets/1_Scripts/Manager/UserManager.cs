@@ -47,13 +47,10 @@ public class UserManager
             this.UID = UID;
             this.coin = coin;
             this.score = score;
-            //this.inventory = inventory;
             this.isCompletedStory = isCompletedStory;
             this.isCompletedTutorial= isCompletedTutorial;
             this.isCompletedDiagnosis = isCompletedDiagnosis;
             this.nickname = nickname;
-            //this.oneOnOneModeGrace = oneOnOneModeGrace;
-            //this.storyModeGrace= storyModeGrace;
             this.message = message;
             this.inventory = new Inventory();
             this.oneOnOneModeGrace = new OneOnOneModeGrace();
@@ -107,6 +104,10 @@ public class UserManager
     public void SetUserCoin(int coin)
     {
         user.coin = coin;
+    }
+    public void SetUserScore(int score)
+    {
+        user.score = score;
     }
 
     public void SetUserIsCompletedStory(bool isCompleted)

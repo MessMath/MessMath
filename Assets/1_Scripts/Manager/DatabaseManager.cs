@@ -99,11 +99,17 @@ public class DatabaseManager : MonoBehaviour
     public void SetCoin(int coin)
     {
         Managers.UserMng.SetUserCoin(coin);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Coin").SetValueAsync(Managers.UserMng.user.coin);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("coin").SetValueAsync(Managers.UserMng.user.coin);
     }
     public int GetCoin(string userId)
     {
         return int.Parse(ReadUser(userId, "coin"));
+    }
+
+    public void SetScore(int score)
+    {
+        Managers.UserMng.SetUserCoin(coin);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("score").SetValueAsync(Managers.UserMng.user.score);
     }
 
     public void SetIsCompletedDiagnosis(bool isCompleted)
