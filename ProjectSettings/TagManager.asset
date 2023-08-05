@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - ArrowOnlyin1vs1
   - Witch
+  - RPCSychronizer
   layers:
   - Default
   - TransparentFX

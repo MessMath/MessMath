@@ -53,6 +53,7 @@ public class PvpNetworkManager : MonoBehaviourPunCallbacks
     public void Spawn()
     {
         GameObject player = PhotonNetwork.Instantiate("Prefabs/PlayerOnlyinPvp", new Vector2(Screen.width / 2f, Screen.height / 2f), Quaternion.identity);
+        if (PhotonNetwork.IsMasterClient) { PhotonNetwork.InstantiateRoomObject("Prefabs/RPCSychronizer", Vector3.zero, Quaternion.identity); }
         player.transform.localScale = new Vector3(1, 1, 1);
     }
 
