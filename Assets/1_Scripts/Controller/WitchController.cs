@@ -47,7 +47,14 @@ public class WitchController : MonoBehaviour
     {
         Hp -= damage;
         float damaged = (100-Hp) * 14.4f;
-        HpBar.offsetMax = new Vector2(-0, -damaged);
+        if(damaged <= 0f)
+        {
+            HpBar.offsetMax = new Vector2(-0, -0);
+        }
+        else
+        {
+            HpBar.offsetMax = new Vector2(-0, -damaged);
+        }
         StartCoroutine("BlinkWitchImg", .1f);
     }
 
