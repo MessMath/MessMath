@@ -55,6 +55,7 @@ public class UI_StoryGame : UI_Scene
         JoyStick,
         ArrowController,
         Player,
+        JoyStickPanel,
     }
 
     private void Awake()
@@ -82,9 +83,9 @@ public class UI_StoryGame : UI_Scene
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
 
-        BindEvent(gameObject, OnPointerDown, Define.UIEvent.PointerDown);
-        BindEvent(gameObject, OnPointerUp, Define.UIEvent.PointerUp);
-        BindEvent(gameObject, OnDrag, Define.UIEvent.Pressed);
+        GetObject((int)GameObjects.JoyStickPanel).BindEvent(OnPointerDown, Define.UIEvent.PointerDown);
+        GetObject((int)GameObjects.JoyStickPanel).BindEvent(OnPointerUp, Define.UIEvent.PointerUp);
+        GetObject((int)GameObjects.JoyStickPanel).BindEvent(OnDrag, Define.UIEvent.Pressed);
 
         SettingGraceBtn();
 
@@ -136,6 +137,8 @@ public class UI_StoryGame : UI_Scene
 
         // 지우개 버튼
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
+
+        UnityEngine.Input.multiTouchEnabled = true;
 
         return true;
     }
@@ -304,7 +307,7 @@ public class UI_StoryGame : UI_Scene
     public void OnDrag()
     {
         Vector2 radius = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().sizeDelta / 2;
-        Managers.Game._input = (UnityEngine.Input.mousePosition - (Vector3)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().position) / (radius * canvas.scaleFactor);
+        Managers.Game._input = (UnityEngine.Input.touches[0].position - (Vector2)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().position) / (radius * canvas.scaleFactor);
 
         HandleInput(Managers.Game._input.magnitude, Managers.Game._input.normalized);
         GetImage((int)Images.JoyStickHandle).gameObject.GetComponent<RectTransform>().anchoredPosition = Managers.Game._input * radius * hadndleRange / 3;

@@ -108,7 +108,7 @@ public class DatabaseManager : MonoBehaviour
 
     public void SetScore(int score)
     {
-        Managers.UserMng.SetUserCoin(coin);
+        Managers.UserMng.SetUserScore(score);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("score").SetValueAsync(Managers.UserMng.user.score);
     }
 
