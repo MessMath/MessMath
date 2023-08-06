@@ -67,7 +67,14 @@ public class SceneEffectManager
 
     void ChangeExpression(Image img, string expression)
     {
-        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Story/Characters/Expression");
+        //Sprite expressionSprite = Resources.Load("Sprites/Story/Characters/Expression/Worry", typeof(Sprite)) as Sprite;
+        img.sprite = Resources.Load("Sprites/Story/Characters/Expression/" + expression, typeof(Sprite)) as Sprite;
+        Debug.Log(img.gameObject.name);
+        Debug.Log(img.sprite);
+        //Debug.Log(expressionSprite);
+        Debug.Log("Sprites/Story/Characters/Expression/" + expression);
+        Debug.Log("expression: " + expression);
+        /*Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Story/Characters/Expression");
         switch(expression)
         {
             case "SOMBER\r":
@@ -84,7 +91,7 @@ public class SceneEffectManager
                 break;
             case "":
                 break;
-        }
+        }*/
     }
 
     public void SceneEffect(Image img, Button nxtBtn, string sceneEffect)
@@ -125,10 +132,10 @@ public class SceneEffectManager
             fadeCnt -= 0.015f;
             yield return waitForSeconds;
             if(img != null )img.color = new Color(0,0,0,fadeCnt);
-            Debug.Log(fadeCnt);
+            //Debug.Log(fadeCnt);
             if(fadeCnt <= 0.1) break;
         }
-        Debug.Log("done: " + fadeCnt);
+        //Debug.Log("done: " + fadeCnt);
         if(img.color == new Color(0,0,0,fadeCnt)) {
             nxtBtn.gameObject.SetActive(true);
             nxtBtn.transform.parent.transform.GetComponentInParent<UI_Story>().OnClickNxtBtn();
