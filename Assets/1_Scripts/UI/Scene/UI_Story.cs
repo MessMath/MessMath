@@ -12,7 +12,15 @@ public class UI_Story : UI_Scene
     GameObject replayPopup;
     bool isFadeDone = false;
     bool openSide = true;
+    bool enteredOffice = false;
 
+    enum GameObjects
+    {
+        Panel,
+        SidePanel,
+        SchoolHallway,
+        EntranceOffice,
+    }
     enum Images
     {
         BackGroundImage,
@@ -22,6 +30,8 @@ public class UI_Story : UI_Scene
         OpenedSide,
         ClosedSide,
         CharacterBG,
+        LeftImage,
+        RightImage,
     }
     enum Buttons
     {
@@ -29,6 +39,14 @@ public class UI_Story : UI_Scene
         SettingButton,
         ReplayButton,
         TmpNxtButton,
+        NeumannBtn,
+        StainedGlassBtn,
+        EinsteinBtn,
+        NewtonBtn,
+        PythagorasBtn,
+        GaussBtn,
+        EntranceBtn,
+        DoorBtn,
     }
     enum Texts
     {
@@ -46,6 +64,7 @@ public class UI_Story : UI_Scene
         if (base.Init() == false)
             return false;
 
+        BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
@@ -61,10 +80,28 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.TmpNxtButton).gameObject.BindEvent(StartBtn);
         GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
         GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(OnClickReplayBtn);
+
+        GetButton((int)Buttons.NeumannBtn).gameObject.BindEvent(OnClickedNeumannBtn);
+        GetButton((int)Buttons.StainedGlassBtn).gameObject.BindEvent(OnClickedStainedGlassBtn);
+        GetButton((int)Buttons.EinsteinBtn).gameObject.BindEvent(OnClickedEinsteinBtn);
+        GetButton((int)Buttons.NewtonBtn).gameObject.BindEvent(OnClickedNewtonBtn);
+        GetButton((int)Buttons.PythagorasBtn).gameObject.BindEvent(OnClickedPythagorasBtn);
+        GetButton((int)Buttons.GaussBtn).gameObject.BindEvent(OnClickedGaussBtn);
+        GetButton((int)Buttons.EntranceBtn).gameObject.BindEvent(OnClickedEntranceBtn);
+        GetButton((int)Buttons.DoorBtn).gameObject.BindEvent(OnClickedDoorBtn);
+
         GetImage((int)Images.OpenedSide).gameObject.BindEvent(OnClickedSide);
         GetImage((int)Images.OpenedSide).gameObject.SetActive(!openSide);
         GetImage((int)Images.ClosedSide).gameObject.BindEvent(OnClickedSide);
-        //GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(Skip);
+
+        GetButton((int)Buttons.nxtButton).gameObject.SetActive(false);
+        GetImage((int)Images.FadeImage).gameObject.SetActive(false);
+        GetObject((int)GameObjects.Panel).SetActive(false);
+        GetObject((int)GameObjects.SidePanel).SetActive(false);
+        GetObject((int)GameObjects.EntranceOffice).SetActive(false);
+        
+        
+        
 
         // Sound
         Managers.Sound.Clear();
@@ -80,8 +117,15 @@ public class UI_Story : UI_Scene
 
     void StartBtn()
     {
-        OnClickNxtBtn();
+        //OnClickNxtBtn();
         GetButton((int)Buttons.TmpNxtButton).gameObject.SetActive(false);
+        GetText((int)Texts.CharacterNameTMP).text = "주인공";
+        Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "주인공");
+        CoroutineHandler.StartCoroutine(ShowInfo("수학 성적이 떨어졌다고 교장실로 오라니... 그나저나 교장실이 이 근처였는데 어디였지...?"));
+        
+        GetText((int)Texts.CharacterNameTMP).text = "";
+        Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "");
+        CoroutineHandler.StartCoroutine(ShowInfo("화면을 드래그 해 교장실 입구를 찾아보자."));
     }
 
     public void OnClickNxtBtn()
@@ -136,5 +180,76 @@ public class UI_Story : UI_Scene
         GetImage((int)Images.OpenedSide).gameObject.SetActive(openSide);
         GetImage((int)Images.ClosedSide).gameObject.SetActive(!openSide);
         openSide = !openSide;
+    }
+
+    void OnClickedNeumannBtn()
+    {
+        CoroutineHandler.StartCoroutine(ShowInfo("폰 노인만의 방. 지금은 들어갈 수 없습니다."));
+    }
+
+    void OnClickedStainedGlassBtn()
+    {
+        if(enteredOffice) 
+        {
+
+        }
+        else 
+        {
+            CoroutineHandler.StartCoroutine(ShowInfo("아름다운 장식의 스테인드 글라스입니다."));
+        }
+    }
+
+    void OnClickedEinsteinBtn()
+    {
+        CoroutineHandler.StartCoroutine(ShowInfo("아인슈타인의 방. 지금은 들어갈 수 없습니다."));
+    }
+
+    void OnClickedNewtonBtn()
+    {
+        CoroutineHandler.StartCoroutine(ShowInfo("뉴턴의 방. 지금은 들어갈 수 없습니다."));
+    }
+
+    void OnClickedPythagorasBtn()
+    {
+        CoroutineHandler.StartCoroutine(ShowInfo("피타고라스의 방. 지금은 들어갈 수 없습니다."));
+    }
+
+    void OnClickedGaussBtn()
+    {
+        CoroutineHandler.StartCoroutine(ShowInfo("가우스의 방. 지금은 들어갈 수 없습니다."));
+    }
+
+    void OnClickedEntranceBtn()
+    {
+        enteredOffice = true;
+        GetImage((int)Images.LeftImage).sprite = Resources.Load("Sprites/Story/Background/school_hallway_black_left", typeof(Sprite)) as Sprite;
+        GetImage((int)Images.RightImage).sprite = Resources.Load("Sprites/Story/Background/school_hallway_black_right", typeof(Sprite)) as Sprite;
+        GetObject((int)GameObjects.SchoolHallway).SetActive(false);
+        GetButton((int)Buttons.EntranceBtn).gameObject.SetActive(false);
+        GetText((int)Texts.CharacterNameTMP).text = "주인공";
+        Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "주인공");
+        CoroutineHandler.StartCoroutine(ShowInfo("맞아. 여기였어!"));
+        GetObject((int)GameObjects.EntranceOffice).SetActive(true);
+    }
+
+    void OnClickedDoorBtn()
+    {
+        GetObject((int)GameObjects.EntranceOffice).SetActive(false);
+        GetObject((int)GameObjects.Panel).SetActive(true);
+        GetButton((int)Buttons.nxtButton).gameObject.SetActive(true);
+        GetImage((int)Images.FadeImage).gameObject.SetActive(true);
+        GetObject((int)GameObjects.SidePanel).SetActive(true);
+        OnClickNxtBtn();
+    }
+
+    IEnumerator ShowInfo(string dialgoue)
+    {
+        WaitForSeconds waitForSeconds = new WaitForSeconds(1.0f);
+        GetObject((int)GameObjects.Panel).SetActive(true);
+        GetText((int)Texts.CharacterNameTMP).text = "";
+        Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "");
+        GetText((int)Texts.DialogueTMP).text = dialgoue;
+        yield return waitForSeconds;
+        GetObject((int)GameObjects.Panel).SetActive(false);
     }
 }
