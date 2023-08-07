@@ -9,14 +9,14 @@ public class WitchController : MonoBehaviour
 {
     public float Hp = 100f;
     public Image witchImg;
-    public RectTransform HpBar;
+    public Image HpBar;
     public int QusetionNumber;
     public TextMeshProUGUI QusetionNumberText;
     Color color;
 
     private void Awake()
     {
-        HpBar = HpBar.gameObject.GetComponent<RectTransform>();
+        HpBar = HpBar.gameObject.GetComponent<Image>();
         witchImg = witchImg.gameObject.GetComponent<Image>();
         color = witchImg.color;
         if(Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
@@ -46,14 +46,15 @@ public class WitchController : MonoBehaviour
     public void SetWitchHP(float damage)
     {
         Hp -= damage;
+        float curHpRatio = Hp / 100;
         float damaged = (100-Hp) * 14.4f;
         if(damaged <= 0f)
         {
-            HpBar.offsetMax = new Vector2(-0, -0);
+            HpBar.fillAmount = 0;
         }
         else
         {
-            HpBar.offsetMax = new Vector2(-0, -damaged);
+            HpBar.fillAmount = curHpRatio;
         }
         StartCoroutine("BlinkWitchImg", .1f);
     }
