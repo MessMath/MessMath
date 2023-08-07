@@ -184,7 +184,7 @@ public class UI_PvpGameScene : UI_Scene
         Debug.Log("PreCalculate");
 
         object result = null;
-        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
+        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("×", "*").Replace("÷", "/");
         string printResult;
 
         DataTable table = new DataTable();
@@ -218,7 +218,7 @@ public class UI_PvpGameScene : UI_Scene
         Managers.Sound.Play("ClickBtnEff");
 
         object result = null;
-        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
+        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("×", "*").Replace("÷", "/");
         string printResult;
 
         GetText((int)Texts.Calculate_BoardText).text = "";

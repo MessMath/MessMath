@@ -167,8 +167,7 @@ public class UI_StoryGame : UI_Scene
         Debug.Log("PreCalculate");
 
         object result = null;
-        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
-        //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("÷", "/");
+        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("×", "*").Replace("÷", "/");
         string printResult;
 
         DataTable table = new DataTable();
@@ -206,8 +205,7 @@ public class UI_StoryGame : UI_Scene
         Managers.Sound.Play("ClickBtnEff");
 
         object result = null;
-        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
-        //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("÷", "/");
+        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("×", "*").Replace("÷", "/");
         string printResult;
 
         GetText((int)Texts.Calculate_BoardText).text = "";
@@ -344,7 +342,7 @@ public class UI_StoryGame : UI_Scene
 
     #region 화살 관리
 
-    string[] Operator = { "+", "-", "x", "/" };
+    string[] Operator = { "+", "-", "×", "÷" };
 
     private const int MAX_NUM_ARROW = 3;
     private const int MAX_SYMBOL_ARROW = 2;

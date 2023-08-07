@@ -155,8 +155,7 @@ public class UI_TutorialGame : UI_Scene
         //Debug.Log("PreCalculate");
 
         object result = null;
-        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
-        //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("÷", "/");
+        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("×", "*").Replace("÷", "/");
         string printResult;
 
         if(expressionToCalculate.Trim() == "")
