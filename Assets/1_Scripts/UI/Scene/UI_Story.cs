@@ -100,8 +100,6 @@ public class UI_Story : UI_Scene
         GetObject((int)GameObjects.SidePanel).SetActive(false);
         GetObject((int)GameObjects.EntranceOffice).SetActive(false);
         
-        
-        
 
         // Sound
         Managers.Sound.Clear();
@@ -135,12 +133,20 @@ public class UI_Story : UI_Scene
             Managers.TextEffect.SetFastSpeed();
             return;
         }
-        if(++count >= maxCount) {
+        if(++count >= maxCount) 
+        {
             PlayerPrefs.SetInt("WatchedStory", -2);
             if (PlayerPrefs.GetInt("DoTutorial") == 2)
                 Managers.Scene.ChangeScene(Define.Scene.StoryGameScene);
             else
                 Managers.Scene.ChangeScene(Define.Scene.TutorialGameScene);
+            return;
+        }
+        if(count == 12)
+        {
+            GetButton((int)Buttons.nxtButton).gameObject.SetActive(false);
+            GetObject((int)GameObjects.SchoolHallway).gameObject.SetActive(true);
+            GetObject((int)GameObjects.Panel).gameObject.SetActive(false);
             return;
         }
         PlayerPrefs.SetInt("WatchedStory", count);
@@ -191,7 +197,10 @@ public class UI_Story : UI_Scene
     {
         if(enteredOffice) 
         {
-
+            OnClickNxtBtn();
+            GetObject((int)GameObjects.SchoolHallway).gameObject.SetActive(false);
+            GetObject((int)GameObjects.Panel).gameObject.SetActive(true);
+            GetButton((int)Buttons.nxtButton).gameObject.SetActive(true);
         }
         else 
         {
@@ -245,11 +254,13 @@ public class UI_Story : UI_Scene
     IEnumerator ShowInfo(string dialgoue)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(1.0f);
+        GetButton((int)Buttons.DoorBtn).gameObject.SetActive(false);
         GetObject((int)GameObjects.Panel).SetActive(true);
         GetText((int)Texts.CharacterNameTMP).text = "";
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "");
         GetText((int)Texts.DialogueTMP).text = dialgoue;
         yield return waitForSeconds;
         GetObject((int)GameObjects.Panel).SetActive(false);
+        GetButton((int)Buttons.DoorBtn).gameObject.SetActive(true);
     }
 }

@@ -67,31 +67,32 @@ public class SceneEffectManager
 
     void ChangeExpression(Image img, string expression)
     {
-        //Sprite expressionSprite = Resources.Load("Sprites/Story/Characters/Expression/Worry", typeof(Sprite)) as Sprite;
-        img.sprite = Resources.Load("Sprites/Story/Characters/Expression/" + expression, typeof(Sprite)) as Sprite;
+        Debug.Log(Resources.Load("Sprites/Story/Characters/Expression/worry", typeof(Sprite)) as Sprite);
+        /*img.sprite = Resources.Load("Sprites/Story/Characters/Expression/" + expression, typeof(Sprite)) as Sprite;
         Debug.Log(img.gameObject.name);
         Debug.Log(img.sprite);
-        //Debug.Log(expressionSprite);
+        Debug.Log(expressionSprite);
         Debug.Log("Sprites/Story/Characters/Expression/" + expression);
-        Debug.Log("expression: " + expression);
-        /*Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Story/Characters/Expression");
+        Debug.Log("expression: " + expression);*/
+        //Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Story/Characters/Expression");
         switch(expression)
         {
-            case "SOMBER\r":
-                img.sprite = sprites[4];
+            case "worry":
+                img.sprite = Resources.Load("Sprites/Story/Characters/Expression/worry", typeof(Sprite)) as Sprite;
                 break;
-            case "CURIOSITY\r":
-                img.sprite = sprites[6];
+            case "curiosity":
+                img.sprite = Resources.Load("Sprites/Story/Characters/Expression/curiosity", typeof(Sprite)) as Sprite;
                 break;
-            case "DISGUSTED\r":
-                img.sprite = sprites[5];
+            case "difficulty":
+                img.sprite = Resources.Load("Sprites/Story/Characters/Expression/difficulty", typeof(Sprite)) as Sprite;
                 break;
-            case "SUPRISED\r":
-                img.sprite = sprites[5];
+            case "shock":
+                img.sprite = Resources.Load("Sprites/Story/Characters/Expression/shock", typeof(Sprite)) as Sprite;
                 break;
             case "":
                 break;
-        }*/
+        }
+        Debug.Log(img.sprite);
     }
 
     public void SceneEffect(Image img, Button nxtBtn, string sceneEffect)
@@ -119,8 +120,13 @@ public class SceneEffectManager
             fadeCnt += 0.015f;
             yield return waitForSeconds;
             if(img != null )img.color = new Color(0,0,0,fadeCnt);
+            if(fadeCnt >= 0.9f) break;
         }
-        CoroutineHandler.StartCoroutine(FadeIn(img,nxtBtn));
+        //CoroutineHandler.StartCoroutine(FadeIn(img,nxtBtn));
+        if(img.color == new Color(0,0,0,fadeCnt)) 
+        {
+            img.gameObject.GetComponentInParent<UI_Story>().OnClickNxtBtn();
+        }
     }
 
     IEnumerator FadeIn(Image img, Button nxtBtn)
@@ -132,11 +138,10 @@ public class SceneEffectManager
             fadeCnt -= 0.015f;
             yield return waitForSeconds;
             if(img != null )img.color = new Color(0,0,0,fadeCnt);
-            //Debug.Log(fadeCnt);
             if(fadeCnt <= 0.1) break;
         }
-        //Debug.Log("done: " + fadeCnt);
-        if(img.color == new Color(0,0,0,fadeCnt)) {
+        if(img.color == new Color(0,0,0,fadeCnt)) 
+        {
             nxtBtn.gameObject.SetActive(true);
             nxtBtn.transform.parent.transform.GetComponentInParent<UI_Story>().OnClickNxtBtn();
         }
