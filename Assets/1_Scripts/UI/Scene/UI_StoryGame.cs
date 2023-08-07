@@ -237,7 +237,12 @@ public class UI_StoryGame : UI_Scene
         if (printResult == "")
             damageToPlayer(1);
         else if (int.Parse(printResult) == GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().QusetionNumber)
+        {
+            // Sound
+            Managers.Sound.Play("AttackEff");
+
             damageToWitch(Managers.Game.Damage);
+        }
         else
             damageToPlayer(1);
 
@@ -382,6 +387,9 @@ public class UI_StoryGame : UI_Scene
         GameObject arrowObj = MakeArrow();
         Arrow arrow = arrowObj.GetComponent<Arrow>();
         arrowObj.GetComponent<Rigidbody2D>().AddForce(arrow.direction.normalized * arrow.speed, ForceMode2D.Impulse);
+
+        // Sound
+        Managers.Sound.Play("ArrowEff");
 
         Debug.Log("------Shoot Arrow------");
         Debug.Log($"Arrow type: {arrow.type} num or operator: {arrow.tmp} speed: {arrow.speed} \n startPosition:{arrow.startPosition.x} , {arrow.startPosition.y} \n direction: {arrow.direction}");

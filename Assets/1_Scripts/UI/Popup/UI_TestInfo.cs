@@ -65,9 +65,7 @@ public class UI_TestInfo : UI_Popup
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(()=> Managers.UI.ClosePopupUI(this));
         GetButton((int)Buttons.SaveBtn).gameObject.BindEvent(() => OnClickedSaveBtn());
 
-        //if (Managers.Game.Name != null)
-            GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.UserMng.user.nickname;
-        //else GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = "testText";
+        GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.UserMng.user.nickname;
         return true;
     }
 
@@ -86,23 +84,4 @@ public class UI_TestInfo : UI_Popup
         Managers.DBManager.SetStoryGrace(grace1, grace2, grace3);
     }
 
-    //public void HandleValueChanged(object sender, ValueChangedEventArgs args)
-    //{
-    //    if (args.DatabaseError != null)
-    //    {
-    //        Debug.LogError("DatabaseError: " + args.DatabaseError.Message);
-    //        return;
-    //    }
-
-    //    if (args.Snapshot != null && args.Snapshot.Exists)
-    //    {
-    //        string newNickname = args.Snapshot.Child("nickname").Value.ToString();
-    //        Managers.Game.Name = newNickname;
-    //        GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = newNickname;
-    //    }
-    //    else
-    //    {
-    //        Debug.LogWarning("Data not found in the database.");
-    //    }
-    //}
 }

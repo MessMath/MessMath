@@ -35,7 +35,6 @@ public class UI_PvpGameScene : UI_Scene
     {
         AllErase,
         EqualButton,
-        SettingBtn,
     }
 
     enum Images
@@ -92,7 +91,6 @@ public class UI_PvpGameScene : UI_Scene
         GetText((int)Texts.PrintNumber_Text).text = "";
         GetText((int)Texts.Calculate_BoardText).text = "";
         GetButton((int)Buttons.EqualButton).gameObject.BindEvent(Calculate);
-        GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
 
         canvas = gameObject.GetComponent<Canvas>();
         canvasGroup = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().GetComponent<CanvasGroup>();
@@ -100,15 +98,19 @@ public class UI_PvpGameScene : UI_Scene
         // 배경 숫자
         Questioning();
 
-        // Sound
+        #region 사운드 설정
         Managers.Sound.Clear();
         Managers.Sound.Play("BattleBgm", Define.Sound.Bgm);
+        #endregion
 
         // 지우개 버튼
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
 
         // ScoreSet
         ScoreSet();
+
+        // Sound
+        Managers.Sound.Play("ArrowEff");
 
         return true;
     }
@@ -270,7 +272,7 @@ public class UI_PvpGameScene : UI_Scene
     public void OnDrag()
     {
         Vector2 radius = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().sizeDelta / 2;
-        Managers.Game._input = (UnityEngine.Input.touches[0].position - (Vector2)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().position) / (radius * canvas.scaleFactor);
+        Managers.Game._input = (UnityEngine.Input.mousePosition - (Vector3)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().position) / (radius * canvas.scaleFactor);
 
         HandleInput(Managers.Game._input.magnitude, Managers.Game._input.normalized);
         GetImage((int)Images.JoyStickHandle).gameObject.GetComponent<RectTransform>().anchoredPosition = Managers.Game._input * radius * hadndleRange / 3;

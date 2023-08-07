@@ -20,7 +20,7 @@ public class UI_PvpMatchingScene : UI_Scene
 
     enum Buttons
     {
-        
+        BackBtn,
     }
 
     enum Images
@@ -55,9 +55,16 @@ public class UI_PvpMatchingScene : UI_Scene
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
 
-        
+        GetButton((int)Buttons.BackBtn).gameObject.BindEvent(toMain);
 
         return true;
     }
 
+    public void toMain()
+    {
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
+
+        Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
+    }
 }

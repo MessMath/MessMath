@@ -51,7 +51,7 @@ public class UI_Lobby : UI_Scene
 
         GetImage((int)Images.UserImage).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Info>(); });
         GetButton((int)Buttons.ExerciseBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.PracticeGameScene); });
-        GetButton((int)Buttons.StoreBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Store>(); });
+        GetButton((int)Buttons.StoreBtn).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_Store>(); });
         GetButton((int)Buttons.InventoryBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_InventoryPopup>(); });
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
         GetButton((int)Buttons.Fight1vs1GameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_SelectMathMtcfor1vs1>(); });
@@ -62,6 +62,7 @@ public class UI_Lobby : UI_Scene
         if (PlayerPrefs.HasKey("WatchedStory") && PlayerPrefs.GetInt("WatchedStory")==-2) 
         {
             GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() => {
+                Managers.Sound.Play("ClickBtnEff");
                 _selectGracePopup = Managers.UI.ShowPopupUI<UI_SelectGracePopup>();
                 _selectGracePopup._state = UI_SelectGracePopup.State.Story;
                  });  
