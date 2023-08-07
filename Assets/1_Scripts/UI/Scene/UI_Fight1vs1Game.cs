@@ -150,6 +150,11 @@ public class UI_Fight1vs1Game : UI_Scene
         Managers.Game.CurrentMode = Define.Mode.DoubleSolve;
         #endregion
 
+        #region 사운드 설정
+        Managers.Sound.Clear();
+        Managers.Sound.Play("BattleBgm", Define.Sound.Bgm);
+        #endregion
+
         // 시작하기전에 팝업 등장!
         Managers.UI.ShowPopupUI<UI_BeforeFight1vs1Start>().UI_Fight1Vs1Game = this;
 
@@ -329,7 +334,7 @@ public class UI_Fight1vs1Game : UI_Scene
     public void OnDrag()
     {
         Vector2 radius = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().sizeDelta / 2;
-        Managers.Game._input = (UnityEngine.Input.touches[0].position - (Vector2)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().position) / (radius * canvas.scaleFactor);
+        Managers.Game._input = (UnityEngine.Input.mousePosition - (Vector3)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().position) / (radius * canvas.scaleFactor);
 
         HandleInput(Managers.Game._input.magnitude, Managers.Game._input.normalized);
         GetImage((int)Images.JoyStickHandle).gameObject.GetComponent<RectTransform>().anchoredPosition = Managers.Game._input * radius * hadndleRange / 3;
@@ -387,6 +392,9 @@ public class UI_Fight1vs1Game : UI_Scene
         GameObject arrowObj = MakeArrow();
         ArrowOnlyin1vs1 arrow = arrowObj.GetComponent<ArrowOnlyin1vs1>();
         arrowObj.GetComponent<Rigidbody2D>().AddForce(arrow.direction.normalized * arrow.speed, ForceMode2D.Impulse);
+
+        // Sound
+        Managers.Sound.Play("ArrowEff");
 
         Debug.Log("------Shoot Arrow------");
         Debug.Log($"Arrow type: {arrow.type} num or operator: {arrow.tmp} speed: {arrow.speed} \n startPosition:{arrow.startPosition.x} , {arrow.startPosition.y} \n direction: {arrow.direction}");

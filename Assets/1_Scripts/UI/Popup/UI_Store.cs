@@ -54,7 +54,7 @@ public class UI_Store : UI_Popup
 
         SetCoinText();
 
-        GetButton((int)Buttons.ExitButton).gameObject.BindEvent(() => { ClosePopupUI(); });
+        GetButton((int)Buttons.ExitButton).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ClosePopupUI(); });
         GetButton((int)Buttons.GraceButton).gameObject.BindEvent(OnClickedGraceBtn);
         GetButton((int)Buttons.CollectionButton).gameObject.BindEvent(OnClickedCollectionBtn);
 
@@ -71,6 +71,8 @@ public class UI_Store : UI_Popup
 
     void OnClickedGraceBtn()
     {
+        Managers.Sound.Play("ClickBtnEff");
+
         GetButton((int)Buttons.GraceButton).gameObject.GetComponent<Image>().color = clickedColor;
         GetButton((int)Buttons.CollectionButton).gameObject.GetComponent<Image>().color = unclickedColor;
         foreach (Transform child in content.transform)
@@ -79,6 +81,7 @@ public class UI_Store : UI_Popup
         for (int i = 0; i < graceData.Count; i++)
         {
             GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
+            item.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
             if (storeItem.Init())
                 storeItem.SetInfo(graceData[i]);
@@ -87,6 +90,8 @@ public class UI_Store : UI_Popup
 
     void OnClickedCollectionBtn()
     {
+        Managers.Sound.Play("ClickBtnEff");
+
         GetButton((int)Buttons.GraceButton).gameObject.GetComponent<Image>().color = unclickedColor;
         GetButton((int)Buttons.CollectionButton).gameObject.GetComponent<Image>().color = clickedColor;
         foreach (Transform child in content.transform)

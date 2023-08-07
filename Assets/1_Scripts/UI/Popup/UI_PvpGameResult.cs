@@ -25,7 +25,7 @@ public class UI_PvpGameResult : UI_Popup
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
 
-        GetButton((int)Buttons.ToMainBtn).gameObject.BindEvent(() => toMain());
+        GetButton((int)Buttons.ToMainBtn).gameObject.BindEvent(toMain);
         ResultText();
 
         Time.timeScale = 0;
@@ -39,10 +39,14 @@ public class UI_PvpGameResult : UI_Popup
         if (_isWin)
         {
             GetText((int)Texts.ResultText).text = "Win";
+            // Sound
+            Managers.Sound.Play("ClearEff");
         }
         else if (!_isWin)
         {
             GetText((int)Texts.ResultText).text = "Defeat";
+            // Sound
+            Managers.Sound.Play("DefeatEff");
         }
     }
 

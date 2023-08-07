@@ -24,6 +24,9 @@ public class UI_GameWin : UI_Popup
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
 
+        // Sound
+        Managers.Sound.Play("ClearEff");
+
         return true;
     }
 

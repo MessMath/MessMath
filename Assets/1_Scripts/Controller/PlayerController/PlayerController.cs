@@ -87,6 +87,9 @@ public class PlayerController : UI_Base
                 index = wJ_Sample1vs1.currentQuestionIndex;
                 qstCransr = Managers.Connector.cLearnSet.data.qsts[index].qstCransr;
                 wJ_Sample1vs1.SelectAnswer(qstCransr);
+
+                // Sound
+                Managers.Sound.Play("AttackEff");
             }
 
             _fight1vs1sceneUi.Invoke("RefreshUI", 0);
