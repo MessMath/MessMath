@@ -13,6 +13,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.UI;
 using WjChallenge;
+using Random = UnityEngine.Random;
 
 public class UI_Fight1vs1Game : UI_Scene
 {
@@ -368,11 +369,6 @@ public class UI_Fight1vs1Game : UI_Scene
 
     string[] Operator = { "+", "-", "x", "/" };
 
-    //private const int MAX_NUM_ARROW = 3;
-    //private const int MAX_SYMBOL_ARROW = 2;
-    //private int numArrowCnt = 0;
-    //private int symbolArrowCnt = 0;
-
     // 화살이 생성되는 시간 조절하는 함수 
     // 현재 화살 개수가 몇개 나왔는지 체크
     IEnumerator SetArrowGenerationTime(float delayTime)
@@ -403,8 +399,6 @@ public class UI_Fight1vs1Game : UI_Scene
     // 화살 동적 생성하는 함수
     GameObject MakeArrow()
     {
-        //GameObject arrowObject = Instantiate(Managers.Resource.Load<GameObject>($"Prefabs/Arrow"), GetObject((int)GameObjects.ArrowController).transform);
-        //GameObject arrowObject = Managers.Resource.Instantiate("Arrow", GetObject((int)GameObjects.ArrowController).transform);
         GameObject arrowObject = Managers.Resource.Instantiate("ArrowOnlyin1vs1", gameObject.transform.Find("ArrowController").transform);
 
         ArrowOnlyin1vs1 arrow = arrowObject.GetOrAddComponent<ArrowOnlyin1vs1>();
@@ -417,10 +411,6 @@ public class UI_Fight1vs1Game : UI_Scene
     // 화살 설정하는 함수
     void SetArrow(ArrowOnlyin1vs1 arrow)
     {
-        //if (SetArrowType(arrow) == 0)
-        //    SetArrowNum(arrow);
-        //else
-        //    SetArrowOperator(arrow);
         SetArrowValue(arrow);
 
         SetArrowStartPosition(arrow);
@@ -432,7 +422,7 @@ public class UI_Fight1vs1Game : UI_Scene
     void SetArrowValue(ArrowOnlyin1vs1 arrow)
     {
         int randmax = TEXDrawPool.Length;
-        int rand = UnityEngine.Random.Range(0, randmax);
+        int rand = Random.Range(0, randmax);
         arrow.tmp = TEXDrawPool[rand];              // 화살의 텍스트로 무작위 답
         arrow.text = TEXDrawPool[rand].text;
         arrow.GetComponentInChildren<TEXDraw>().text = TEXDrawPool[rand].text;
@@ -441,7 +431,7 @@ public class UI_Fight1vs1Game : UI_Scene
     // 화살의 생성 위치 조절하는 함수 
     void SetArrowStartPosition(ArrowOnlyin1vs1 arrow)
     {
-        int randValue = UnityEngine.Random.Range(0, 3);
+        int randValue = Random.Range(0, 3);
         switch (randValue)
         {
             case 0:
@@ -458,35 +448,20 @@ public class UI_Fight1vs1Game : UI_Scene
 
     Vector2 GetRandPosOfLeft()
     {
-        //Vector2 newPos = new Vector2
-        //    (UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[0].x, 
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].x), 
-        //    UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[0].y, 
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].y));
-        Vector2 newPos = new Vector2(-100, UnityEngine.Random.Range(700, 1500));
+        Vector2 newPos = new Vector2(-100, Random.Range(700, 1500));
         return newPos;
     }
 
     Vector2 GetRandPosOfUp()
     {
-        //Vector2 newPos = new Vector2
-        //    (UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].x,
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[2].x),
-        //    UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].y,
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[2].y));
-        Vector2 newPos = new Vector2(UnityEngine.Random.Range(-100, 3300), 1500);
+        Vector2 newPos = new Vector2(Random.Range(-100, 3300), 1500);
 
         return newPos;
     }
 
     Vector2 GetRandPosOfRight()
     {
-        //Vector2 newPos = new Vector2
-        //    (UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[2].x,
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[3].x),
-        //    UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[2].y,
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[3].y));
-        Vector2 newPos = new Vector2(3300, UnityEngine.Random.Range(700, 1500));
+        Vector2 newPos = new Vector2(3300, Random.Range(700, 1500));
 
         return newPos;
     }
@@ -518,10 +493,18 @@ public class UI_Fight1vs1Game : UI_Scene
         }
     }
 
+    float referenceWidth = 3200f; // 기준 해상도의 너비
+    float referenceHeight = 1440f; // 기준 해상도의 높이
+    float currentWidth = Screen.width; // 현재 화면의 너비
+    float currentHeight = Screen.height; // 현재 화면의 높이
+
     // 화살의 속도 조절하는 함수 
     void SetArrowSpeed(ArrowOnlyin1vs1 arrow)
     {
-        arrow.speed = UnityEngine.Random.Range(200.0f, 250.0f);
+        float widthRatio = currentWidth / referenceWidth;
+        float heightRatio = currentHeight / referenceHeight;
+
+        arrow.speed = Random.Range(200.0f, 250.0f) * Mathf.Min(widthRatio, heightRatio);
     }
 
     #endregion

@@ -61,6 +61,7 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
         // 상대방과 나의 색 설정
         _image.color = !PV.IsMine ? oppsColor : myColor;
 
+        // 속도를 해상도에 맞춰 조절
         widthRatio = currentWidth / referenceWidth;
         heightRatio = currentHeight / referenceHeight;
 

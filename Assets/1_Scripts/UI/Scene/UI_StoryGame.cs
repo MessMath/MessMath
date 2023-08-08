@@ -8,6 +8,7 @@ using System.Data;
 using System;
 using TMPro;
 using System.IO;
+using Random = UnityEngine.Random;
 
 public class UI_StoryGame : UI_Scene
 {
@@ -479,30 +480,20 @@ public class UI_StoryGame : UI_Scene
         //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].x), 
         //    UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[0].y, 
         //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].y));
-        Vector2 newPos = new Vector2(-100, UnityEngine.Random.Range(700, 1500));
+        Vector2 newPos = new Vector2(-100, Random.Range(700, 1500));
         return newPos;
     }
 
     Vector2 GetRandPosOfUp()
     {
-        //Vector2 newPos = new Vector2
-        //    (UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].x,
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[2].x),
-        //    UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].y,
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[2].y));
-        Vector2 newPos = new Vector2(UnityEngine.Random.Range(-100, 3300), 1500);
+        Vector2 newPos = new Vector2(Random.Range(-100, 3300), 1500);
 
         return newPos;
     }
 
     Vector2 GetRandPosOfRight()
     {
-        //Vector2 newPos = new Vector2
-        //    (UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[2].x,
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[3].x),
-        //    UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[2].y,
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[3].y));
-        Vector2 newPos = new Vector2(3300, UnityEngine.Random.Range(700, 1500));
+        Vector2 newPos = new Vector2(3300, Random.Range(700, 1500));
 
         return newPos;
     }
@@ -534,10 +525,18 @@ public class UI_StoryGame : UI_Scene
         }
     }
 
+    float referenceWidth = 3200f; // 기준 해상도의 너비
+    float referenceHeight = 1440f; // 기준 해상도의 높이
+    float currentWidth = Screen.width; // 현재 화면의 너비
+    float currentHeight = Screen.height; // 현재 화면의 높이
+
     // 화살의 속도 조절하는 함수 
     void SetArrowSpeed(Arrow arrow)
     {
-        arrow.speed = UnityEngine.Random.Range(200.0f, 250.0f);
+        float widthRatio = currentWidth / referenceWidth;
+        float heightRatio = currentHeight / referenceHeight;
+
+        arrow.speed = Random.Range(200.0f, 250.0f) * Mathf.Min(widthRatio, heightRatio);
     }
 
     #endregion

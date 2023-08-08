@@ -20,6 +20,15 @@ public class PlayerController : UI_Base
 
     bool _isAlive = true;
 
+    float referenceWidth = 3200f; // 기준 해상도의 너비
+    float referenceHeight = 1440f; // 기준 해상도의 높이
+    float currentWidth = Screen.width; // 현재 화면의 너비
+    float currentHeight = Screen.height; // 현재 화면의 높이
+
+    float widthRatio;
+    float heightRatio;
+    float adjustedSpeed;
+
     void Start()
     {
         _hp = 3;
@@ -36,11 +45,18 @@ public class PlayerController : UI_Base
         {
             _onCalculateBoard = gameObject.transform.parent.GetComponentInChildren<TextMeshProUGUI>().gameObject;
         }
+
+        // 속도를 해상도에 맞춰 조절
+        widthRatio = currentWidth / referenceWidth;
+        heightRatio = currentHeight / referenceHeight;
+
+        adjustedSpeed = _speed * Mathf.Min(widthRatio, heightRatio);
+
     }
 
     void FixedUpdate() 
     {
-        Vector2 nextVec = _inputVec * _speed * Time.fixedDeltaTime;
+        Vector2 nextVec = _inputVec * adjustedSpeed * Time.fixedDeltaTime;
         _rigid.MovePosition(_rigid.position + nextVec);
 
         if (Managers.Game.Horizontal != 0 || Managers.Game.Vertical != 0)
@@ -99,8 +115,8 @@ public class PlayerController : UI_Base
 
     private void MoveControl()
     {
-        gameObject.GetComponent<RectTransform>().position += Vector3.up * _speed * Time.deltaTime * Managers.Game.Vertical;
-        gameObject.GetComponent<RectTransform>().position += Vector3.right * _speed * Time.deltaTime * Managers.Game.Horizontal;
+        gameObject.GetComponent<RectTransform>().position += Vector3.up * adjustedSpeed * Time.deltaTime * Managers.Game.Vertical;
+        gameObject.GetComponent<RectTransform>().position += Vector3.right * adjustedSpeed * Time.deltaTime * Managers.Game.Horizontal;
     }
 
     void OnMove(InputValue value)
