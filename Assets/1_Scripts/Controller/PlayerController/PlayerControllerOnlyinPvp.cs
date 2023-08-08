@@ -66,6 +66,13 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
         heightRatio = currentHeight / referenceHeight;
 
         adjustedSpeed = _speed * Mathf.Min(widthRatio, heightRatio);
+
+        // 처음에 시작하면 위치 잡기
+        if (PhotonNetwork.IsMasterClient)
+            _rectTransform.anchoredPosition = GameObject.Find("SpawnPoint1").GetComponent<RectTransform>().anchoredPosition;
+        else
+            _rectTransform.anchoredPosition = GameObject.Find("SpawnPoint2").GetComponent<RectTransform>().anchoredPosition;
+
     }
 
     void Update()
