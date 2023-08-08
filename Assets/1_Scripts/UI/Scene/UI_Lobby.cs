@@ -19,7 +19,6 @@ public class UI_Lobby : UI_Scene
         StoreBtn,
         PvpBtn,
         InventoryBtn,
-        QuestBtn,
         ExerciseBtn,
     }
 
