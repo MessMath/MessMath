@@ -87,27 +87,27 @@ public class UI_PvpMatchingScene : UI_Scene
     {
         Managers.Sound.Play("휙");
         GetImage((int)Images.PlayerImageBackground).gameObject.GetOrAddComponent<Animator>().Play("MatchingPlayerAni");
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         Managers.Sound.Play("휙");
         GetImage((int)Images.AnemyImageBackground).gameObject.GetOrAddComponent<Animator>().Play("MatchingAnemyPlayerAni");
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         Managers.Sound.Play("휙");
         GetImage((int)Images.AnemyGraceBackground).gameObject.GetOrAddComponent<Animator>().Play("MatchingAnemyGraceAni");
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         Managers.Sound.Play("휙");
         GetImage((int)Images.PlayerGraceBackground).gameObject.GetOrAddComponent<Animator>().Play("MatchingPlayerGrace");
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         Managers.Sound.Play("휙");
         GetImage((int)Images.MatchingTime).gameObject.GetOrAddComponent<Animator>().Play("MatchingTime");
-        yield return new WaitForSeconds(1.0f);
-        GetImage((int)Images.DecoImage).gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
         Managers.Sound.Play("챙2");
-        yield return new WaitForSeconds(1.5f);
+        GetImage((int)Images.DecoImage).gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
 
         Managers.Sound.Play("챙3");
         GetImage((int)Images.PlayerImage).gameObject.GetOrAddComponent<Animator>().Play("MatchingPlayerImageAni");
         GetImage((int)Images.AnemyImage).gameObject.GetOrAddComponent<Animator>().Play("MatchingAnemyImageAni");
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.0f);
 
         GetImage((int)Images.FightImage).gameObject.GetOrAddComponent<Animator>().Play("MatchingFight");
         yield return new WaitForSeconds(0.15f);
