@@ -18,6 +18,8 @@ public class UI_StoryGame : UI_Scene
         PrintNumber_Text,
         QuestionNumber_Text,
         PreCalculation_Text,
+        // 테스트용
+        PhaseText,
     }
 
     enum Buttons
@@ -140,6 +142,10 @@ public class UI_StoryGame : UI_Scene
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
 
         UnityEngine.Input.multiTouchEnabled = true;
+
+
+
+        GetText((int)Texts.PhaseText).text = currentPhase.ToString();
 
         return true;
     }
@@ -285,8 +291,12 @@ public class UI_StoryGame : UI_Scene
         witchController.Questioning();
         if(witchController.Hp <= 0)
         {
-            witchController.Hp = 0;
-            Managers.UI.ShowPopupUI<UI_GameWin>();
+            if(currentPhase == Phase.Phase1)
+                ChangePhase(Phase.Phase2);
+            else if(currentPhase == Phase.Phase2) 
+                ChangePhase(Phase.Phase3);
+            else
+                Managers.UI.ShowPopupUI<UI_GameWin>();
         }
         
     }
@@ -345,21 +355,40 @@ public class UI_StoryGame : UI_Scene
 
     string[] Operator = { "+", "-", "×", "÷" };
 
-    private const int MAX_NUM_ARROW = 3;
-    private const int MAX_SYMBOL_ARROW = 2;
+    // 페이즈 관리를 위한 열거형과 해당 타입 변수.
+    public enum Phase
+    {
+        Phase1,
+        Phase2,
+        Phase3,
+    }
+    public Phase currentPhase = Phase.Phase1;
+
+    // TODO
+    // Phase에 따라 변하는 여러변수들을 배열형태로 선언.
+    // (int)currentPhase로 인덱싱을 해보자.
+
+    private int[] numberMin = { 1, 1, 10 };             // 등장 숫자 최소값
+    private int[] numberMax = { 10, 100, 100 };         // 등장 숫자 최대값
+    private float[] delayTime = { 1f, 0.8f, 0.6f};      // 화살 발사 딜레이
+    private float[] speedMin = { 200f, 280f, 360f};     // 화살 속도 최소값
+    private float[] speedMax = { 250f, 330f, 410f};     // 화살 속도 최대값
+
+    private int MAX_NUM_ARROW = 3;
+    private int MAX_SYMBOL_ARROW = 2;
     private int numArrowCnt = 0;
     private int symbolArrowCnt = 0;
 
     // 화살이 생성되는 시간 조절하는 함수 
     // 현재 화살 개수가 몇개 나왔는지 체크
-    IEnumerator SetArrowGenerationTime(float delayTime)
+    IEnumerator SetArrowGenerationTime(float delaytime)
     {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(delayTime);
+        WaitForSeconds waitForSeconds = new WaitForSeconds(delaytime);
 
         ShootArrow();
 
         yield return waitForSeconds;
-        StartCoroutine("SetArrowGenerationTime", 1f);
+        StartCoroutine("SetArrowGenerationTime", delayTime[(int)currentPhase]);
     }
 
     // 현재 플레이어의 위치를 향해 오브젝트 날리기 
@@ -429,18 +458,18 @@ public class UI_StoryGame : UI_Scene
 
     void SetArrowNum(Arrow arrow)
     {
-        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Random.Range(1, 10).ToString();
+        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Random.Range(numberMin[(int)currentPhase], numberMax[(int)currentPhase]).ToString();
     }
 
     void SetArrowOperator(Arrow arrow)
     {
-        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[Random.Range(0, 4)];   // 50%의 확률로 Symbol이 사칙연산 중 하나의 기호에 해당한다.
+        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[Random.Range(0, 4)];
     }
 
     // 화살의 생성 위치 조절하는 함수 
     void SetArrowStartPosition(Arrow arrow)
     {
-        int randValue = UnityEngine.Random.Range(0, 3);
+        int randValue = Random.Range(0, 3);
         switch (randValue)
         {
             case 0:
@@ -512,9 +541,23 @@ public class UI_StoryGame : UI_Scene
         float widthRatio = currentWidth / referenceWidth;
         float heightRatio = currentHeight / referenceHeight;
 
-        arrow.speed = Random.Range(200.0f, 250.0f) * Mathf.Min(widthRatio, heightRatio);
+        arrow.speed = Random.Range(speedMin[(int)currentPhase], speedMax[(int)currentPhase]) * Mathf.Min(widthRatio, heightRatio);
     }
 
     #endregion
 
+    /// <summary>
+    /// 페이즈 변경
+    /// </summary>
+    /// <param name="phase">변경하고자 하는 페이즈</param>
+    public void ChangePhase(Phase phase)
+    {
+        WitchController witchController = GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>();
+        witchController.Hp = 100;           
+        witchController.HpBar.fillAmount = 1f;      // 마녀 풀피 회복
+        currentPhase = phase;
+
+        // 디버그용
+        GetText((int)Texts.PhaseText).text = currentPhase.ToString();
+    }
 }
