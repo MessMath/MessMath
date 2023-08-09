@@ -1732,7 +1732,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB3C4\uC6C0\uB9D0\nON"
+  m_text: "\uB3C4\uC6C0\uB9D0\\nON"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 47621ee058d6a9543a72f9a7813e4f0c, type: 2}
   m_sharedMaterial: {fileID: -2233455217176817040, guid: 47621ee058d6a9543a72f9a7813e4f0c, type: 2}
