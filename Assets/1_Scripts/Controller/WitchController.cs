@@ -10,8 +10,8 @@ public class WitchController : MonoBehaviour
     public float Hp = 100f;
     public Image witchImg;
     public Image HpBar;
-    public int QusetionNumber;
-    public TextMeshProUGUI QusetionNumberText;
+    public int QuestionNumber;
+    public TextMeshProUGUI QuestionNumberText;
     Color color;
 
     private void Awake()
@@ -61,8 +61,8 @@ public class WitchController : MonoBehaviour
 
     public void Questioning()
     {
-        QusetionNumber = Random.Range(10, 100);
-        QusetionNumberText.text = $"{QusetionNumber}";
+        QuestionNumber = Random.Range(10, 100);
+        QuestionNumberText.text = $"{QuestionNumber}";
     }
 
 }

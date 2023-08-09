@@ -235,7 +235,7 @@ public class UI_StoryGame : UI_Scene
 
         if (printResult == "")
             damageToPlayer(1);
-        else if (int.Parse(printResult) == GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().QusetionNumber)
+        else if (int.Parse(printResult) == GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().QuestionNumber)
         {
             // Sound
             Managers.Sound.Play("AttackEff");
@@ -349,24 +349,6 @@ public class UI_StoryGame : UI_Scene
     private const int MAX_SYMBOL_ARROW = 2;
     private int numArrowCnt = 0;
     private int symbolArrowCnt = 0;
-    //public GameObject arrowPrefab;
-    //EdgeCollider2D edgeCollider;
-    //public TextMeshProUGUI SetText;
-
-    //IEnumerator SetGame()
-    //{
-    //    Time.timeScale = 0.0f;
-    //    Debug.Log("SetGame");
-    //    SetText.text = "3";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.text = "2";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.text = "1";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.enabled = false;
-    //    Time.timeScale = 1.0f;
-    //    Debug.Log("StartGame");
-    //}
 
     // 화살이 생성되는 시간 조절하는 함수 
     // 현재 화살 개수가 몇개 나왔는지 체크
@@ -422,7 +404,7 @@ public class UI_StoryGame : UI_Scene
     // 현재 생성된 화살의 타입 숫자인지 기호인지 설정하는 함수 
     int SetArrowType(Arrow arrow)
     {
-        arrow.type = UnityEngine.Random.Range(0, 2);
+        arrow.type = Random.Range(0, 2);
 
         if (arrow.type == 0)
         {
@@ -447,12 +429,12 @@ public class UI_StoryGame : UI_Scene
 
     void SetArrowNum(Arrow arrow)
     {
-        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = UnityEngine.Random.Range(1, 10).ToString();
+        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Random.Range(1, 10).ToString();
     }
 
     void SetArrowOperator(Arrow arrow)
     {
-        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[UnityEngine.Random.Range(0, 4)];   // 50%의 확률로 Symbol이 사칙연산 중 하나의 기호에 해당한다.
+        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[Random.Range(0, 4)];   // 50%의 확률로 Symbol이 사칙연산 중 하나의 기호에 해당한다.
     }
 
     // 화살의 생성 위치 조절하는 함수 
@@ -475,22 +457,16 @@ public class UI_StoryGame : UI_Scene
 
     Vector2 GetRandPosOfLeft()
     {
-        //Vector2 newPos = new Vector2
-        //    (UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[0].x, 
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].x), 
-        //    UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[0].y, 
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].y));
         Vector2 newPos = new Vector2(-100, Random.Range(700, 1500));
+
         return newPos;
     }
-
     Vector2 GetRandPosOfUp()
     {
         Vector2 newPos = new Vector2(Random.Range(-100, 3300), 1500);
 
         return newPos;
     }
-
     Vector2 GetRandPosOfRight()
     {
         Vector2 newPos = new Vector2(3300, Random.Range(700, 1500));
