@@ -115,5 +115,7 @@ public class UI_PvpMatchingScene : UI_Scene
         yield return new WaitForSeconds(0.5f);
         Managers.Sound.Play("DuongEff");
 
+        Managers.Sound.Play("MatchingBgm", Define.Sound.Bgm);
+
     }
 }
