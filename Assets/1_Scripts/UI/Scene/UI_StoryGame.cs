@@ -559,5 +559,36 @@ public class UI_StoryGame : UI_Scene
 
         // 디버그용
         GetText((int)Texts.PhaseText).text = currentPhase.ToString();
+        
+        // 2페이즈의 특수효과 시작, 간격은 일단 10초
+        if(phase == Phase.Phase2 )
+            StartCoroutine(SpecialEffects(10f));
     }
+
+    #region 2페이즈 특수 효과
+
+    IEnumerator SpecialEffects(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+
+        ChangeDirectionOfArrows();
+
+        StartCoroutine(SpecialEffects(delay));
+    }
+
+    public void ChangeDirectionOfArrows()
+    {
+        GameObject[] arrows = GameObject.FindGameObjectsWithTag("Arrow");
+        
+        foreach (GameObject arrow in arrows)
+        {
+            Vector2 RandomVector2 = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            float speed = arrow.GetComponent<Arrow>().speed;
+            arrow.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            arrow.GetComponent<Rigidbody2D>().AddRelativeForce(RandomVector2.normalized * speed,ForceMode2D.Impulse);
+        }
+    }
+
+    #endregion
 }
