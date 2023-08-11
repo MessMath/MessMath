@@ -99,7 +99,7 @@ public class UI_PvpGameScene : UI_Scene
 
         #region 사운드 설정
         Managers.Sound.Clear();
-        Managers.Sound.Play("BattleBgm", Define.Sound.Bgm);
+        Managers.Sound.Play("PvpGameBgm", Define.Sound.Bgm);
         #endregion
 
         // 지우개 버튼
@@ -107,9 +107,6 @@ public class UI_PvpGameScene : UI_Scene
 
         // ScoreSet
         ScoreSet();
-
-        // Sound
-        Managers.Sound.Play("ArrowEff");
 
         return true;
     }

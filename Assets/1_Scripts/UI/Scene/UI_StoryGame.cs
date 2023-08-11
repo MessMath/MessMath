@@ -237,9 +237,6 @@ public class UI_StoryGame : UI_Scene
             damageToPlayer(1);
         else if (int.Parse(printResult) == GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().QusetionNumber)
         {
-            // Sound
-            Managers.Sound.Play("AttackEff");
-
             damageToWitch(Managers.Game.Damage);
         }
         else
@@ -260,6 +257,9 @@ public class UI_StoryGame : UI_Scene
 
     public void damageToPlayer(int damage)
     {
+        // Sound
+        Managers.Sound.Play("AttackEff");
+
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>()._hp -= damage;
         Debug.Log("player damage 1");
 
@@ -280,6 +280,9 @@ public class UI_StoryGame : UI_Scene
 
     public void damageToWitch(int damage)
     {
+        // Sound
+        Managers.Sound.Play("AttackEff");
+
         WitchController witchController = GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>();
         witchController.SetWitchHP(damage);
         witchController.Questioning();
