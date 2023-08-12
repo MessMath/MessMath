@@ -9,6 +9,7 @@ using System;
 using TMPro;
 using System.IO;
 using Random = UnityEngine.Random;
+using Unity.VisualScripting;
 
 public class UI_StoryGame : UI_Scene
 {
@@ -18,6 +19,8 @@ public class UI_StoryGame : UI_Scene
         PrintNumber_Text,
         QuestionNumber_Text,
         PreCalculation_Text,
+        // 테스트용
+        PhaseText,
     }
 
     enum Buttons
@@ -28,7 +31,7 @@ public class UI_StoryGame : UI_Scene
         SelectedGrace2,
         AllErase,
         EqualButton,
-        SettingBtn,   
+        SettingBtn,
     }
 
     enum Images
@@ -141,6 +144,8 @@ public class UI_StoryGame : UI_Scene
 
         UnityEngine.Input.multiTouchEnabled = true;
 
+        GetText((int)Texts.PhaseText).text = currentPhase.ToString();
+
         return true;
     }
 
@@ -235,7 +240,7 @@ public class UI_StoryGame : UI_Scene
 
         if (printResult == "")
             damageToPlayer(1);
-        else if (int.Parse(printResult) == GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().QusetionNumber)
+        else if (int.Parse(printResult) == GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().QuestionNumber)
         {
             damageToWitch(Managers.Game.Damage);
         }
@@ -286,12 +291,16 @@ public class UI_StoryGame : UI_Scene
         WitchController witchController = GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>();
         witchController.SetWitchHP(damage);
         witchController.Questioning();
-        if(witchController.Hp <= 0)
+        if (witchController.Hp <= 0)
         {
-            witchController.Hp = 0;
-            Managers.UI.ShowPopupUI<UI_GameWin>();
+            if (currentPhase == Phase.Phase1)
+                ChangePhase(Phase.Phase2);
+            else if (currentPhase == Phase.Phase2)
+                ChangePhase(Phase.Phase3);
+            else
+                Managers.UI.ShowPopupUI<UI_GameWin>();
         }
-        
+
     }
 
     #endregion
@@ -348,39 +357,41 @@ public class UI_StoryGame : UI_Scene
 
     string[] Operator = { "+", "-", "×", "÷" };
 
-    private const int MAX_NUM_ARROW = 3;
-    private const int MAX_SYMBOL_ARROW = 2;
+    // 페이즈 관리를 위한 열거형과 해당 타입 변수.
+    public enum Phase
+    {
+        Phase1,
+        Phase2,
+        Phase3,
+    }
+    public Phase currentPhase = Phase.Phase1;
+
+    // TODO
+    // Phase에 따라 변하는 여러변수들을 배열형태로 선언.
+    // (int)currentPhase로 인덱싱을 해보자.
+
+    private int[] numberMin = { 1, 1, 10 };             // 등장 숫자 최소값
+    private int[] numberMax = { 10, 100, 100 };         // 등장 숫자 최대값
+    private float[] delayTime = { 1f, 0.8f, 0.6f };      // 화살 발사 딜레이
+    private float[] speedMin = { 200f, 280f, 360f };     // 화살 속도 최소값
+    private float[] speedMax = { 250f, 330f, 410f };     // 화살 속도 최대값
+
+    private int MAX_NUM_ARROW = 3;
+    private int MAX_SYMBOL_ARROW = 2;
     private int numArrowCnt = 0;
     private int symbolArrowCnt = 0;
-    //public GameObject arrowPrefab;
-    //EdgeCollider2D edgeCollider;
-    //public TextMeshProUGUI SetText;
-
-    //IEnumerator SetGame()
-    //{
-    //    Time.timeScale = 0.0f;
-    //    Debug.Log("SetGame");
-    //    SetText.text = "3";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.text = "2";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.text = "1";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.enabled = false;
-    //    Time.timeScale = 1.0f;
-    //    Debug.Log("StartGame");
-    //}
 
     // 화살이 생성되는 시간 조절하는 함수 
     // 현재 화살 개수가 몇개 나왔는지 체크
-    IEnumerator SetArrowGenerationTime(float delayTime)
+    IEnumerator SetArrowGenerationTime(float delaytime)
     {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(delayTime);
+        float minDelaytime = delayTime[(int)currentPhase] * 0.5f;
+        WaitForSeconds waitForSeconds = new WaitForSeconds(delaytime);
 
         ShootArrow();
 
         yield return waitForSeconds;
-        StartCoroutine("SetArrowGenerationTime", 1f);
+        StartCoroutine("SetArrowGenerationTime", Random.Range(minDelaytime, delayTime[(int)currentPhase]));
     }
 
     // 현재 플레이어의 위치를 향해 오브젝트 날리기 
@@ -425,7 +436,7 @@ public class UI_StoryGame : UI_Scene
     // 현재 생성된 화살의 타입 숫자인지 기호인지 설정하는 함수 
     int SetArrowType(Arrow arrow)
     {
-        arrow.type = UnityEngine.Random.Range(0, 2);
+        arrow.type = Random.Range(0, 2);
 
         if (arrow.type == 0)
         {
@@ -450,18 +461,18 @@ public class UI_StoryGame : UI_Scene
 
     void SetArrowNum(Arrow arrow)
     {
-        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = UnityEngine.Random.Range(1, 10).ToString();
+        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Random.Range(numberMin[(int)currentPhase], numberMax[(int)currentPhase]).ToString();
     }
 
     void SetArrowOperator(Arrow arrow)
     {
-        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[UnityEngine.Random.Range(0, 4)];   // 50%의 확률로 Symbol이 사칙연산 중 하나의 기호에 해당한다.
+        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[Random.Range(0, 4)];
     }
 
     // 화살의 생성 위치 조절하는 함수 
     void SetArrowStartPosition(Arrow arrow)
     {
-        int randValue = UnityEngine.Random.Range(0, 3);
+        int randValue = Random.Range(0, 3);
         switch (randValue)
         {
             case 0:
@@ -478,22 +489,16 @@ public class UI_StoryGame : UI_Scene
 
     Vector2 GetRandPosOfLeft()
     {
-        //Vector2 newPos = new Vector2
-        //    (UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[0].x, 
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].x), 
-        //    UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[0].y, 
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].y));
         Vector2 newPos = new Vector2(-100, Random.Range(700, 1500));
+
         return newPos;
     }
-
     Vector2 GetRandPosOfUp()
     {
         Vector2 newPos = new Vector2(Random.Range(-100, 3300), 1500);
 
         return newPos;
     }
-
     Vector2 GetRandPosOfRight()
     {
         Vector2 newPos = new Vector2(3300, Random.Range(700, 1500));
@@ -539,9 +544,152 @@ public class UI_StoryGame : UI_Scene
         float widthRatio = currentWidth / referenceWidth;
         float heightRatio = currentHeight / referenceHeight;
 
-        arrow.speed = Random.Range(200.0f, 250.0f) * Mathf.Min(widthRatio, heightRatio);
+        arrow.speed = Random.Range(speedMin[(int)currentPhase], speedMax[(int)currentPhase]) * Mathf.Min(widthRatio, heightRatio);
     }
 
     #endregion
 
+    /// <summary>
+    /// 페이즈 변경
+    /// </summary>
+    /// <param name="phase">변경하고자 하는 페이즈</param>
+    public void ChangePhase(Phase phase)
+    {
+        WitchController witchController = GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>();
+        witchController.Hp = 100;
+        witchController.HpBar.fillAmount = 1f;      // 마녀 풀피 회복
+        currentPhase = phase;
+
+        // 디버그용
+        GetText((int)Texts.PhaseText).text = currentPhase.ToString();
+
+        // 2페이즈의 특수효과 시작, 간격은 일단 10초
+        if (phase == Phase.Phase2)
+        {
+            // TODO 2페이즈 마녀 이미지 변환 및 애니메이션
+            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Phase2");
+            GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase2");
+            StartCoroutine(SpecialEffects(5f));
+        }
+
+        if (phase == Phase.Phase3)
+        {
+            // TODO 3페이즈 마녀 이미지 변환 및 애니메이션
+            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Phase3");
+            GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase3");
+
+            StopAllCoroutines();
+            StartCoroutine(SetArrowGenerationTime(delayTime[(int)currentPhase]));
+
+            StartCoroutine(SpecialEffectsForPhase3(1.0f));
+        }
+
+    }
+
+    #region 2페이즈 특수 효과
+
+    float _phase2Skill1Delay = 10f;
+    IEnumerator SpecialEffects(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        float minDelay = delay * 0.5f;
+
+        StartCoroutine(MiddleDirectionOfArrow());
+
+        StartCoroutine(SpecialEffects(Random.Range(minDelay, _phase2Skill1Delay)));
+    }
+
+    IEnumerator MiddleDirectionOfArrow()
+    {
+        StopCoroutine("SetArrowGenerationTime");
+        yield return new WaitForSeconds(1.0f);
+
+        Managers.Sound.Play("ArrowEff");
+
+        for (int i = 0; i < 9; i++)
+        {
+            GameObject arrowObject = Managers.Resource.Instantiate("Arrow", gameObject.transform.Find("ArrowController").transform);
+
+            Arrow arrow = arrowObject.GetOrAddComponent<Arrow>();
+
+            if (SetArrowType(arrow) == 0)
+                SetArrowNum(arrow);
+            else
+                SetArrowOperator(arrow);
+
+            // 고정된 곳에서 화살 날라오기
+            if (i == 0) arrow.startPosition = new Vector2(-100, 100);
+            else if (i == 1) arrow.startPosition = new Vector2(3300, 100);
+            else if (i == 2) arrow.startPosition = new Vector2(800, 1500);
+            else if (i == 3) arrow.startPosition = new Vector2(-100, 700);
+            else if (i == 4) arrow.startPosition = new Vector2(3300, 700);
+            else if (i == 5) arrow.startPosition = new Vector2(1600, 1500);
+            else if (i == 6) arrow.startPosition = new Vector2(-100, 1500);
+            else if (i == 7) arrow.startPosition = new Vector2(3300, 1500);
+            else if (i == 8) arrow.startPosition = new Vector2(2400, 1500);
+
+            float x = Screen.width / 2;
+            float y = Screen.height / 2;
+            Vector3 middle = new(x, y, 0.0f);
+            arrow.direction = middle - (Vector3)arrow.startPosition;
+            LookAt(GetImage((int)Images.BGIMG).gameObject, arrow);
+
+            arrow.GetComponentInChildren<TextMeshProUGUI>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));
+
+            float widthRatio = currentWidth / referenceWidth;
+            float heightRatio = currentHeight / referenceHeight;
+            arrow.speed = speedMax[(int)currentPhase] * Mathf.Min(widthRatio, heightRatio);
+
+            arrowObject.GetOrAddComponent<RectTransform>().position = arrow.startPosition;
+
+            arrowObject.GetComponent<Rigidbody2D>().AddForce(arrow.direction.normalized * arrow.speed, ForceMode2D.Impulse);
+        }
+
+        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(SetArrowGenerationTime(delayTime[(int)currentPhase]));
+    }
+
+    #endregion
+
+    #region 3페이즈 특수 효과
+
+    float _phase3Skill1Delay = 10f;
+
+    IEnumerator SpecialEffectsForPhase3(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        float minDelay = delay * 0.5f;
+
+        ChangeDirectionOfArrows();
+
+        StartCoroutine(SpecialEffectsForPhase3(Random.Range(minDelay, _phase3Skill1Delay)));
+    }
+
+    public void ChangeDirectionOfArrows()
+    {
+        GameObject[] arrows = GameObject.FindGameObjectsWithTag("Arrow");
+
+        foreach (GameObject arrow in arrows)
+        {
+            Vector2 curVec = new Vector2(arrow.GetComponent<Arrow>().direction.x, arrow.GetComponent<Arrow>().direction.y);
+            Vector2 RandomVector2 = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            float speed = arrow.GetComponent<Arrow>().speed;
+            arrow.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            arrow.GetComponent<Rigidbody2D>().AddForce(RandomVector2.normalized * speed, ForceMode2D.Impulse);
+            
+            float angle = Mathf.Atan2(curVec.y, curVec.x) * Mathf.Rad2Deg;
+            float angle2 = Mathf.Atan2(RandomVector2.y, RandomVector2.x) * Mathf.Rad2Deg;
+            
+            Quaternion angleAxis = Quaternion.AngleAxis(angle2 + angle, Vector3.forward);
+            //angleAxis = Quaternion.AngleAxis(angle + angle2 + 180, Vector3.forward);
+            Quaternion rotation = Quaternion.Slerp(arrow.gameObject.GetComponentInChildren<Image>().transform.rotation, angleAxis, 1);
+
+            arrow.transform.rotation = rotation;
+
+            arrow.gameObject.GetComponentInChildren<Image>().transform.rotation = rotation;
+            arrow.GetComponentInChildren<TextMeshProUGUI>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));
+
+        }
+    }
+    #endregion
 }
