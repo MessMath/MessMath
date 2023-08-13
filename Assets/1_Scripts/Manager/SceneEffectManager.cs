@@ -56,7 +56,7 @@ public class SceneEffectManager
                 break;
             case "가우스":
                 characterImg.color = Color.white;
-                characterImg.sprite = Resources.Load("Sprites/Story/Characters/gaus", typeof(Sprite)) as Sprite;
+                characterImg.sprite = Resources.Load("Sprites/Story/Characters/gauss", typeof(Sprite)) as Sprite;
                 break;
             case "":
                 playerImg.color = Color.clear;
@@ -67,32 +67,27 @@ public class SceneEffectManager
 
     void ChangeExpression(Image img, string expression)
     {
-        Debug.Log(Resources.Load("Sprites/Story/Characters/Expression/worry", typeof(Sprite)) as Sprite);
-        /*img.sprite = Resources.Load("Sprites/Story/Characters/Expression/" + expression, typeof(Sprite)) as Sprite;
-        Debug.Log(img.gameObject.name);
-        Debug.Log(img.sprite);
-        Debug.Log(expressionSprite);
-        Debug.Log("Sprites/Story/Characters/Expression/" + expression);
-        Debug.Log("expression: " + expression);*/
-        //Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Story/Characters/Expression");
         switch(expression)
         {
             case "worry":
-                img.sprite = Resources.Load("Sprites/Story/Characters/Expression/worry", typeof(Sprite)) as Sprite;
+                //img.sprite = Resources.Load("Sprites/Story/Characters/Expression/worry", typeof(Sprite)) as Sprite;
+                img.sprite = Resources.Load<Sprite>("Sprites/Story/Characters/Expression/worry");
                 break;
             case "curiosity":
-                img.sprite = Resources.Load("Sprites/Story/Characters/Expression/curiosity", typeof(Sprite)) as Sprite;
+                //img.sprite = Resources.Load("Sprites/Story/Characters/Expression/curiosity", typeof(Sprite)) as Sprite;
+                img.sprite = Resources.Load<Sprite>("Sprites/Story/Characters/Expression/curiosity");
                 break;
             case "difficulty":
-                img.sprite = Resources.Load("Sprites/Story/Characters/Expression/difficulty", typeof(Sprite)) as Sprite;
+                //img.sprite = Resources.Load("Sprites/Story/Characters/Expression/difficulty", typeof(Sprite)) as Sprite;
+                img.sprite = Resources.Load<Sprite>("Sprites/Story/Characters/Expression/difficulty");
                 break;
             case "shock":
-                img.sprite = Resources.Load("Sprites/Story/Characters/Expression/shock", typeof(Sprite)) as Sprite;
+                //img.sprite = Resources.Load("Sprites/Story/Characters/Expression/shock", typeof(Sprite)) as Sprite;
+                img.sprite = Resources.Load<Sprite>("Sprites/Story/Characters/Expression/shock");
                 break;
             case "":
                 break;
         }
-        Debug.Log(img.sprite);
     }
 
     public void SceneEffect(Image img, Button nxtBtn, string sceneEffect)

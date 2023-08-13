@@ -40,6 +40,8 @@ public class UI_Story : UI_Scene
         ThirdBrokeImg,
         FogImage,
         SealCircleImage,
+        SpeechBubbleImg,
+        SmallSpeechBubbleImg,
     }
     enum Buttons
     {
@@ -82,6 +84,13 @@ public class UI_Story : UI_Scene
         jsonReader = new JsonReader();
         storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 0 + "_EnterGameStory.json").talkDataList;
         maxCount = storyTalkData.Count;
+
+        for(int i = 0; i < maxCount; i++)
+        {
+            Debug.Log("expression: " + storyTalkData[i].expression);
+        }
+
+
         replayPopup = Managers.UI.ShowPopupUI<UI_ReplayStory>().gameObject;
         replayPopup.SetActive(false);
 
@@ -105,10 +114,6 @@ public class UI_Story : UI_Scene
         GetImage((int)Images.OpenedSide).gameObject.SetActive(!openSide);
         GetImage((int)Images.ClosedSide).gameObject.BindEvent(OnClickedSide);
 
-        /*GetButton((int)Buttons.nxtButton).gameObject.SetActive(false);
-        GetImage((int)Images.FadeImage).gameObject.SetActive(false);
-        GetObject((int)GameObjects.Panel).SetActive(false);
-        GetObject((int)GameObjects.SidePanel).SetActive(false);*/
         GetObject((int)GameObjects.EntranceOffice).SetActive(false);
         GetObject((int)GameObjects.SchoolHallway).SetActive(false);
         GetObject((int)GameObjects.Library).SetActive(false);
@@ -118,6 +123,8 @@ public class UI_Story : UI_Scene
         GetImage((int)Images.FirstBrokeImg).gameObject.SetActive(false);
         GetImage((int)Images.SecondBrokeImg).gameObject.SetActive(false);
         GetImage((int)Images.ThirdBrokeImg).gameObject.SetActive(false);
+        GetImage((int)Images.SpeechBubbleImg).gameObject.SetActive(false);
+        GetImage((int)Images.SmallSpeechBubbleImg).gameObject.SetActive(false);
 
         // Sound
         Managers.Sound.Clear();
@@ -167,12 +174,20 @@ public class UI_Story : UI_Scene
             GetObject((int)GameObjects.SchoolHallway).gameObject.SetActive(true);
             return;
         }
-        if (count == 59)
+        if (count == 46)
+        {
+            HideDialogue();
+            GetObject((int)GameObjects.Library).gameObject.SetActive(true);
+            GetImage((int)Images.SmallSpeechBubbleImg).gameObject.SetActive(true);
+            return;
+        }
+        if(count == 52)
+        {
+            CoroutineHandler.StartCoroutine(ShowSpeechBubble(1.5f));
+        }
+        if (count == 60)
         {
             GetButton((int)Buttons.LockedBtn).gameObject.BindEvent(OnClickedLockedBtn);
-        }
-        if (count == 46 || count == 59)
-        {
             HideDialogue();
             GetObject((int)GameObjects.Library).gameObject.SetActive(true);
             return;
@@ -182,6 +197,7 @@ public class UI_Story : UI_Scene
         Managers.SceneEffect.ChangeBackground(GetImage((int)Images.BackGroundImage), storyTalkData[count].backgroundImg);
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), storyTalkData[count].characterName);
         Managers.SceneEffect.ChangeCharacter(GetImage((int)Images.PlayerImage), GetImage((int)Images.CharacterImage), storyTalkData[count].characterName, storyTalkData[count].expression);
+        
 
         if(storyTalkData[count].txtEffect == "MAX") {
             GetText((int)Texts.DialogueTMP).fontSize = 100;
@@ -287,6 +303,7 @@ public class UI_Story : UI_Scene
     {
         ShowDialogue();
         OnClickNxtBtn();
+        GetImage((int)Images.SmallSpeechBubbleImg).gameObject.SetActive(false);
         GetObject((int)GameObjects.Library).gameObject.SetActive(true);
         GetButton((int)Buttons.LockedBookBtn).gameObject.SetActive(false);
         GetButton((int)Buttons.LockedBtn).gameObject.SetActive(true);
@@ -350,6 +367,18 @@ public class UI_Story : UI_Scene
             GetImage((int)Images.PlayerImage).gameObject.SetActive(true);
             OnClickNxtBtn();
         }
+    }
+
+    IEnumerator ShowSpeechBubble(float time)
+    {
+        HideDialogue();
+        GetImage((int)Images.SpeechBubbleImg).gameObject.SetActive(true);
+        WaitForSeconds waitForSeconds = new WaitForSeconds(time);
+        yield return waitForSeconds;
+        GetImage((int)Images.SpeechBubbleImg).gameObject.SetActive(false);
+        ShowDialogue();
+        GetObject((int)GameObjects.Library).gameObject.SetActive(true);
+        OnClickNxtBtn();
     }
 
     void HideDialogue()
