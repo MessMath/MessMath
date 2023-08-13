@@ -94,12 +94,13 @@ public class UI_Story : UI_Scene
         GetImage((int)Images.OpenedSide).gameObject.SetActive(!openSide);
         GetImage((int)Images.ClosedSide).gameObject.BindEvent(OnClickedSide);
 
-        GetButton((int)Buttons.nxtButton).gameObject.SetActive(false);
+        /*GetButton((int)Buttons.nxtButton).gameObject.SetActive(false);
         GetImage((int)Images.FadeImage).gameObject.SetActive(false);
         GetObject((int)GameObjects.Panel).SetActive(false);
-        GetObject((int)GameObjects.SidePanel).SetActive(false);
+        GetObject((int)GameObjects.SidePanel).SetActive(false);*/
         GetObject((int)GameObjects.EntranceOffice).SetActive(false);
-        
+        GetObject((int)GameObjects.SchoolHallway).SetActive(false);
+
 
         // Sound
         Managers.Sound.Clear();
@@ -115,15 +116,16 @@ public class UI_Story : UI_Scene
 
     void StartBtn()
     {
-        //OnClickNxtBtn();
+        OnClickNxtBtn();
         GetButton((int)Buttons.TmpNxtButton).gameObject.SetActive(false);
+        /*GetButton((int)Buttons.TmpNxtButton).gameObject.SetActive(false);
         GetText((int)Texts.CharacterNameTMP).text = "주인공";
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "주인공");
         CoroutineHandler.StartCoroutine(ShowInfo("수학 성적이 떨어졌다고 교장실로 오라니... 그나저나 교장실이 이 근처였는데 어디였지...?"));
         
         GetText((int)Texts.CharacterNameTMP).text = "";
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "");
-        CoroutineHandler.StartCoroutine(ShowInfo("화면을 드래그 해 교장실 입구를 찾아보자."));
+        CoroutineHandler.StartCoroutine(ShowInfo("화면을 드래그 해 교장실 입구를 찾아보자."));*/
     }
 
     public void OnClickNxtBtn()
@@ -142,7 +144,7 @@ public class UI_Story : UI_Scene
                 Managers.Scene.ChangeScene(Define.Scene.TutorialGameScene);
             return;
         }
-        if(count == 12)
+        if(count == 6 || count == 11 || count == 32)
         {
             GetButton((int)Buttons.nxtButton).gameObject.SetActive(false);
             GetObject((int)GameObjects.SchoolHallway).gameObject.SetActive(true);
@@ -230,20 +232,31 @@ public class UI_Story : UI_Scene
 
     void OnClickedEntranceBtn()
     {
-        enteredOffice = true;
-        GetImage((int)Images.LeftImage).sprite = Resources.Load("Sprites/Story/Background/school_hallway_black_left", typeof(Sprite)) as Sprite;
-        GetImage((int)Images.RightImage).sprite = Resources.Load("Sprites/Story/Background/school_hallway_black_right", typeof(Sprite)) as Sprite;
-        GetObject((int)GameObjects.SchoolHallway).SetActive(false);
-        GetButton((int)Buttons.EntranceBtn).gameObject.SetActive(false);
-        GetText((int)Texts.CharacterNameTMP).text = "주인공";
-        Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "주인공");
-        CoroutineHandler.StartCoroutine(ShowInfo("맞아. 여기였어!"));
-        GetObject((int)GameObjects.EntranceOffice).SetActive(true);
+        if (!enteredOffice)
+        {
+            enteredOffice = true;
+            GetImage((int)Images.LeftImage).sprite = Resources.Load("Sprites/Story/Background/school_hallway_black_left", typeof(Sprite)) as Sprite;
+            GetImage((int)Images.RightImage).sprite = Resources.Load("Sprites/Story/Background/school_hallway_black_right", typeof(Sprite)) as Sprite;
+            GetObject((int)GameObjects.SchoolHallway).SetActive(false);
+            GetObject((int)GameObjects.EntranceOffice).SetActive(enteredOffice);
+            OnClickNxtBtn();
+            GetButton((int)Buttons.nxtButton).gameObject.SetActive(true);
+            GetObject((int)GameObjects.Panel).SetActive(true);
+            /*GetText((int)Texts.CharacterNameTMP).text = "주인공";
+            Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "주인공");
+            CoroutineHandler.StartCoroutine(ShowInfo("맞아. 여기였어!"));
+            */
+        }
+        else
+        {
+            CoroutineHandler.StartCoroutine(ShowInfo("아까까진 교장실 입구로 이어졌지만 지금은 어디에도 연결되어 있지 않습니다."));
+        }
     }
 
     void OnClickedDoorBtn()
     {
         GetObject((int)GameObjects.EntranceOffice).SetActive(false);
+        GetObject((int)GameObjects.SchoolHallway).SetActive(false);
         GetObject((int)GameObjects.Panel).SetActive(true);
         GetButton((int)Buttons.nxtButton).gameObject.SetActive(true);
         GetImage((int)Images.FadeImage).gameObject.SetActive(true);
