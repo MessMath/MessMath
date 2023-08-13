@@ -189,6 +189,23 @@ public class TextEffectManager
         textObj.text = "<size=42>" + textObj.text + SIZETAG;
     }
 
+    public void ApplyTextEffect(string content, TextMeshProUGUI textObj, int textSize)
+    {
+        content = content.Replace("\\n ", "\n");
+        content = content.Replace("ⓝ", "");
+        textObj.text = "";
+
+        char[] chars = content.ToCharArray();
+        int currentChar = 0;
+        int charLength = chars.Length;
+        while (currentChar < charLength)
+        {
+            CheckTextEffect(chars[currentChar]);
+            textObj.text += ChangeReplayTxtEffect(chars[currentChar++]);
+        }
+        textObj.text = "<size=" + textSize.ToString() + ">" + textObj.text + SIZETAG;
+    }
+
     IEnumerator Typer(char[] chars, TextMeshProUGUI textObj)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
