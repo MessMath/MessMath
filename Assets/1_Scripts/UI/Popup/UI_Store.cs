@@ -17,6 +17,9 @@ public class UI_Store : UI_Popup
     {
         CoinImg,
         ShopKeeperImage,
+        GraceLightBar,
+        CollectionLightBar,
+        ImportantLightBar,
     }
 
     enum Texts
@@ -29,6 +32,7 @@ public class UI_Store : UI_Popup
         ExitButton,
         GraceButton,
         CollectionButton,
+        ImportantThingButton,
     }
 
     enum GameObjects
@@ -57,6 +61,7 @@ public class UI_Store : UI_Popup
         GetButton((int)Buttons.ExitButton).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ClosePopupUI(); });
         GetButton((int)Buttons.GraceButton).gameObject.BindEvent(OnClickedGraceBtn);
         GetButton((int)Buttons.CollectionButton).gameObject.BindEvent(OnClickedCollectionBtn);
+        GetButton((int)Buttons.ImportantThingButton).gameObject.BindEvent(OnClickedImportantThingBtn);
 
         content = GetObject((int)GameObjects.StoreContent);
         jsonReader = new JsonReader();
@@ -73,10 +78,14 @@ public class UI_Store : UI_Popup
     {
         Managers.Sound.Play("ClickBtnEff");
 
-        GetButton((int)Buttons.GraceButton).gameObject.GetComponent<Image>().color = clickedColor;
-        GetButton((int)Buttons.CollectionButton).gameObject.GetComponent<Image>().color = unclickedColor;
+        //GetButton((int)Buttons.GraceButton).gameObject.GetComponent<Image>().color = clickedColor;
+        //GetButton((int)Buttons.CollectionButton).gameObject.GetComponent<Image>().color = unclickedColor;
         foreach (Transform child in content.transform)
             Managers.Resource.Destroy(child.gameObject);
+
+        GetImage((int)Images.GraceLightBar).gameObject.SetActive(true);
+        GetImage((int)Images.CollectionLightBar).gameObject.SetActive(false);
+        GetImage((int)Images.ImportantLightBar).gameObject.SetActive(false);
 
         for (int i = 0; i < graceData.Count; i++)
         {
@@ -92,10 +101,36 @@ public class UI_Store : UI_Popup
     {
         Managers.Sound.Play("ClickBtnEff");
 
-        GetButton((int)Buttons.GraceButton).gameObject.GetComponent<Image>().color = unclickedColor;
-        GetButton((int)Buttons.CollectionButton).gameObject.GetComponent<Image>().color = clickedColor;
+        //GetButton((int)Buttons.GraceButton).gameObject.GetComponent<Image>().color = unclickedColor;
+        //GetButton((int)Buttons.CollectionButton).gameObject.GetComponent<Image>().color = clickedColor;
         foreach (Transform child in content.transform)
             Managers.Resource.Destroy(child.gameObject);
+
+        GetImage((int)Images.GraceLightBar).gameObject.SetActive(false);
+        GetImage((int)Images.CollectionLightBar).gameObject.SetActive(true);
+        GetImage((int)Images.ImportantLightBar).gameObject.SetActive(false);
+
+        for (int i = 0; i < collectionData.Count; i++)
+        {
+            GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
+            UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
+            if (storeItem.Init())
+                storeItem.SetInfo(collectionData[i]);
+        }
+    }
+
+    void OnClickedImportantThingBtn()
+    {
+        Managers.Sound.Play("ClickBtnEff");
+
+        //GetButton((int)Buttons.GraceButton).gameObject.GetComponent<Image>().color = unclickedColor;
+        //GetButton((int)Buttons.CollectionButton).gameObject.GetComponent<Image>().color = clickedColor;
+        foreach (Transform child in content.transform)
+            Managers.Resource.Destroy(child.gameObject);
+
+        GetImage((int)Images.GraceLightBar).gameObject.SetActive(false);
+        GetImage((int)Images.CollectionLightBar).gameObject.SetActive(false);
+        GetImage((int)Images.ImportantLightBar).gameObject.SetActive(true);
 
         for (int i = 0; i < collectionData.Count; i++)
         {
