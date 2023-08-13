@@ -68,7 +68,7 @@ public class JsonMaker : MonoBehaviour
 
     void AddRange()
     {
-        range.Add("A2:G81");
+        range.Add("A2:G82");
         range.Add("A2:D7");
         range.Add("A2:D4");
         range.Add("A2:A7");
@@ -130,7 +130,7 @@ public class JsonMaker : MonoBehaviour
             talkData.soundEffect = tap[3];
             talkData.soundEffectDuration = float.Parse(tap[4]);
             talkData.backgroundImg = tap[5];
-            talkData.expression = tap[6];
+            talkData.expression = tap[6].Replace("\r","");
             storyTalkInfo.talkDataList.Add(talkData);
         }
     }

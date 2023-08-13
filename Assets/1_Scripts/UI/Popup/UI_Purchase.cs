@@ -55,7 +55,6 @@ public class UI_Purchase : UI_Popup
     public void SetPopup(string name, string explanation, int price, string img)
     {
         GetText((int)Texts.NameTMP).text = name;
-        GetText((int)Texts.ExplanationTMP).text = explanation;
         GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Grace/" + img, typeof(Sprite)) as Sprite;
         GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(()=>ClosePopupUI());
         GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(()=>OnClickedPurchaseBtn(img, price));
