@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using StoryData;
 
 public class UI_Story : UI_Scene
@@ -8,6 +9,7 @@ public class UI_Story : UI_Scene
     JsonReader jsonReader;
     int maxCount;
     int count = -1;
+    int unlockCnt = 0;
     List<TalkData> storyTalkData = new List<TalkData>();
     GameObject replayPopup;
     bool isFadeDone = false;
@@ -20,7 +22,7 @@ public class UI_Story : UI_Scene
         SidePanel,
         SchoolHallway,
         EntranceOffice,
-        Library
+        Library,
     }
     enum Images
     {
@@ -33,6 +35,11 @@ public class UI_Story : UI_Scene
         CharacterBG,
         LeftImage,
         RightImage,
+        FirstBrokeImg,
+        SecondBrokeImg,
+        ThirdBrokeImg,
+        FogImage,
+        SealCircleImage,
     }
     enum Buttons
     {
@@ -49,6 +56,7 @@ public class UI_Story : UI_Scene
         EntranceBtn,
         DoorBtn,
         LockedBookBtn,
+        LockedBtn,
     }
     enum Texts
     {
@@ -82,6 +90,8 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.TmpNxtButton).gameObject.BindEvent(StartBtn);
         GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
         GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(OnClickReplayBtn);
+        GetButton((int)Buttons.LockedBookBtn).gameObject.BindEvent(OnClickedLockedBookBtn);
+        GetButton((int)Buttons.LockedBtn).gameObject.BindEvent(OnClickedLockedBtn);
 
         GetButton((int)Buttons.NeumannBtn).gameObject.BindEvent(OnClickedNeumannBtn);
         GetButton((int)Buttons.StainedGlassBtn).gameObject.BindEvent(OnClickedStainedGlassBtn);
@@ -91,8 +101,7 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.GaussBtn).gameObject.BindEvent(OnClickedGaussBtn);
         GetButton((int)Buttons.EntranceBtn).gameObject.BindEvent(OnClickedEntranceBtn);
         GetButton((int)Buttons.DoorBtn).gameObject.BindEvent(OnClickedDoorBtn);
-        GetButton((int)Buttons.LockedBookBtn).gameObject.BindEvent(OnClickedLockedBookBtn);
-
+       
         GetImage((int)Images.OpenedSide).gameObject.BindEvent(OnClickedSide);
         GetImage((int)Images.OpenedSide).gameObject.SetActive(!openSide);
         GetImage((int)Images.ClosedSide).gameObject.BindEvent(OnClickedSide);
@@ -104,7 +113,12 @@ public class UI_Story : UI_Scene
         GetObject((int)GameObjects.EntranceOffice).SetActive(false);
         GetObject((int)GameObjects.SchoolHallway).SetActive(false);
         GetObject((int)GameObjects.Library).SetActive(false);
-
+        GetButton((int)Buttons.LockedBtn).gameObject.SetActive(false);
+        GetImage((int)Images.FogImage).gameObject.SetActive(false);
+        GetImage((int)Images.SealCircleImage).gameObject.SetActive(false);
+        GetImage((int)Images.FirstBrokeImg).gameObject.SetActive(false);
+        GetImage((int)Images.SecondBrokeImg).gameObject.SetActive(false);
+        GetImage((int)Images.ThirdBrokeImg).gameObject.SetActive(false);
 
         // Sound
         Managers.Sound.Clear();
@@ -270,7 +284,43 @@ public class UI_Story : UI_Scene
     {
         ShowDialogue();
         OnClickNxtBtn();
+        GetObject((int)GameObjects.Library).gameObject.SetActive(true);
         GetButton((int)Buttons.LockedBookBtn).gameObject.SetActive(false);
+        GetButton((int)Buttons.LockedBtn).gameObject.SetActive(true);
+        GetImage((int)Images.FogImage).gameObject.SetActive(true);
+    }
+
+    void OnClickedLockedBtn()
+    {
+        unlockCnt++;
+        
+        switch(unlockCnt)
+        {
+            case 5:
+                GetImage((int)Images.FirstBrokeImg).gameObject.SetActive(true);
+                GetImage((int)Images.SealCircleImage).gameObject.SetActive(true);
+                GetObject((int)GameObjects.Library).GetComponent<Image>().color = HexColor("#A2A2A2FF");
+                break;
+            case 10:
+                GetImage((int)Images.SecondBrokeImg).gameObject.SetActive(true);
+                GetImage((int)Images.SealCircleImage).sprite = Resources.Load("Sprites/Story/seal_circle2", typeof(Sprite)) as Sprite;
+                GetObject((int)GameObjects.Library).GetComponent<Image>().color = HexColor("#686868FF");
+                break;
+            case 15:
+                GetImage((int)Images.ThirdBrokeImg).gameObject.SetActive(true);
+                GetImage((int)Images.SealCircleImage).sprite = Resources.Load("Sprites/Story/seal_circle3", typeof(Sprite)) as Sprite;
+                GetObject((int)GameObjects.Library).GetComponent<Image>().color = HexColor("#000000FF");
+                break;
+            case 20:
+                GetObject((int)GameObjects.Library).SetActive(false);
+                Invoke("OnClickNxtBtn", 0.3f);
+                Invoke("OnClickNxtBtn", 0.5f);
+                Invoke("OnClickNxtBtn", 0.5f);
+                OnClickNxtBtn();
+                ShowDialogue();
+                break;
+        }
+        
     }
 
     IEnumerator ShowInfo(string dialgoue)
@@ -300,5 +350,16 @@ public class UI_Story : UI_Scene
         GetObject((int)GameObjects.SchoolHallway).SetActive(false);
         GetObject((int)GameObjects.EntranceOffice).SetActive(false);
         GetObject((int)GameObjects.Library).gameObject.SetActive(false);
+    }
+
+    Color HexColor(string hexCode)
+    {
+        Color color;
+       
+        if (ColorUtility.TryParseHtmlString("#A2A2A2", out color))
+        {
+            return color;
+        }
+        return Color.white;
     }
 }
