@@ -605,8 +605,8 @@ MonoBehaviour:
   Hp: 100
   witchImg: {fileID: 2170747595501142027}
   HpBar: {fileID: 2170747594440512121}
-  QusetionNumber: 0
-  QusetionNumberText: {fileID: 3538951238657409658}
+  QuestionNumber: 0
+  QuestionNumberText: {fileID: 0}
 --- !u!1 &2170747594440512122
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,14 +666,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4292453, g: 1, b: 0.97853196, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2b6273de90ef4c6429e5cbf5c7f2de32, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 20b5e783c300199469c95de257dad528, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -719,7 +719,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 130, y: -139}
-  m_SizeDelta: {x: 742.55, y: 1320.1}
+  m_SizeDelta: {x: 982.21, y: 1291.67}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &2170747595501142026
 CanvasRenderer:
@@ -749,7 +749,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cd02ad38400fd934aa90ec7ef6e69a51, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 80e3093e25996854f8ab0b79346e050f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
