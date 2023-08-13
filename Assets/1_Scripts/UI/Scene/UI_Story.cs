@@ -20,6 +20,7 @@ public class UI_Story : UI_Scene
         SidePanel,
         SchoolHallway,
         EntranceOffice,
+        Library
     }
     enum Images
     {
@@ -47,6 +48,7 @@ public class UI_Story : UI_Scene
         GaussBtn,
         EntranceBtn,
         DoorBtn,
+        LockedBookBtn,
     }
     enum Texts
     {
@@ -89,6 +91,7 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.GaussBtn).gameObject.BindEvent(OnClickedGaussBtn);
         GetButton((int)Buttons.EntranceBtn).gameObject.BindEvent(OnClickedEntranceBtn);
         GetButton((int)Buttons.DoorBtn).gameObject.BindEvent(OnClickedDoorBtn);
+        GetButton((int)Buttons.LockedBookBtn).gameObject.BindEvent(OnClickedLockedBookBtn);
 
         GetImage((int)Images.OpenedSide).gameObject.BindEvent(OnClickedSide);
         GetImage((int)Images.OpenedSide).gameObject.SetActive(!openSide);
@@ -100,6 +103,7 @@ public class UI_Story : UI_Scene
         GetObject((int)GameObjects.SidePanel).SetActive(false);*/
         GetObject((int)GameObjects.EntranceOffice).SetActive(false);
         GetObject((int)GameObjects.SchoolHallway).SetActive(false);
+        GetObject((int)GameObjects.Library).SetActive(false);
 
 
         // Sound
@@ -144,11 +148,16 @@ public class UI_Story : UI_Scene
                 Managers.Scene.ChangeScene(Define.Scene.TutorialGameScene);
             return;
         }
-        if(count == 6 || count == 11 || count == 32)
+        if(count == 7 || count == 11 || count == 32)
         {
-            GetButton((int)Buttons.nxtButton).gameObject.SetActive(false);
+            HideDialogue();
             GetObject((int)GameObjects.SchoolHallway).gameObject.SetActive(true);
-            GetObject((int)GameObjects.Panel).gameObject.SetActive(false);
+            return;
+        }
+        if(count == 46 || count == 59)
+        {
+            HideDialogue();
+            GetObject((int)GameObjects.Library).gameObject.SetActive(true);
             return;
         }
         PlayerPrefs.SetInt("WatchedStory", count);
@@ -200,9 +209,7 @@ public class UI_Story : UI_Scene
         if(enteredOffice) 
         {
             OnClickNxtBtn();
-            GetObject((int)GameObjects.SchoolHallway).gameObject.SetActive(false);
-            GetObject((int)GameObjects.Panel).gameObject.SetActive(true);
-            GetButton((int)Buttons.nxtButton).gameObject.SetActive(true);
+            ShowDialogue();
         }
         else 
         {
@@ -237,11 +244,9 @@ public class UI_Story : UI_Scene
             enteredOffice = true;
             GetImage((int)Images.LeftImage).sprite = Resources.Load("Sprites/Story/Background/school_hallway_black_left", typeof(Sprite)) as Sprite;
             GetImage((int)Images.RightImage).sprite = Resources.Load("Sprites/Story/Background/school_hallway_black_right", typeof(Sprite)) as Sprite;
-            GetObject((int)GameObjects.SchoolHallway).SetActive(false);
-            GetObject((int)GameObjects.EntranceOffice).SetActive(enteredOffice);
             OnClickNxtBtn();
-            GetButton((int)Buttons.nxtButton).gameObject.SetActive(true);
-            GetObject((int)GameObjects.Panel).SetActive(true);
+            ShowDialogue();
+            GetObject((int)GameObjects.EntranceOffice).SetActive(enteredOffice);
             /*GetText((int)Texts.CharacterNameTMP).text = "주인공";
             Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "주인공");
             CoroutineHandler.StartCoroutine(ShowInfo("맞아. 여기였어!"));
@@ -254,26 +259,46 @@ public class UI_Story : UI_Scene
     }
 
     void OnClickedDoorBtn()
-    {
-        GetObject((int)GameObjects.EntranceOffice).SetActive(false);
-        GetObject((int)GameObjects.SchoolHallway).SetActive(false);
-        GetObject((int)GameObjects.Panel).SetActive(true);
-        GetButton((int)Buttons.nxtButton).gameObject.SetActive(true);
-        GetImage((int)Images.FadeImage).gameObject.SetActive(true);
-        GetObject((int)GameObjects.SidePanel).SetActive(true);
+    {       
+        ShowDialogue();
+        //GetImage((int)Images.FadeImage).gameObject.SetActive(true);
+        //GetObject((int)GameObjects.SidePanel).SetActive(true);
         OnClickNxtBtn();
+    }
+
+    void OnClickedLockedBookBtn()
+    {
+        ShowDialogue();
+        OnClickNxtBtn();
+        GetButton((int)Buttons.LockedBookBtn).gameObject.SetActive(false);
     }
 
     IEnumerator ShowInfo(string dialgoue)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(1.0f);
-        GetButton((int)Buttons.DoorBtn).gameObject.SetActive(false);
-        GetObject((int)GameObjects.Panel).SetActive(true);
+        //GetButton((int)Buttons.DoorBtn).gameObject.SetActive(false);
+        ShowDialogue();
         GetText((int)Texts.CharacterNameTMP).text = "";
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "");
         GetText((int)Texts.DialogueTMP).text = dialgoue;
         yield return waitForSeconds;
-        GetObject((int)GameObjects.Panel).SetActive(false);
-        GetButton((int)Buttons.DoorBtn).gameObject.SetActive(true);
+        //GetObject((int)GameObjects.Panel).SetActive(false);
+        //GetButton((int)Buttons.DoorBtn).gameObject.SetActive(true);
+        HideDialogue();
+    }
+
+    void HideDialogue()
+    {
+        GetButton((int)Buttons.nxtButton).gameObject.SetActive(false);
+        GetObject((int)GameObjects.Panel).gameObject.SetActive(false);
+    }
+
+    void ShowDialogue()
+    {
+        GetButton((int)Buttons.nxtButton).gameObject.SetActive(true);
+        GetObject((int)GameObjects.Panel).gameObject.SetActive(true);
+        GetObject((int)GameObjects.SchoolHallway).SetActive(false);
+        GetObject((int)GameObjects.EntranceOffice).SetActive(false);
+        GetObject((int)GameObjects.Library).gameObject.SetActive(false);
     }
 }
