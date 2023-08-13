@@ -42,7 +42,7 @@ public class UserManager
         public string obtainedGraces;
 
         public User(string UID, int coin, int score, Inventory inventory ,bool isCompletedStory, bool isCompletedTutorial,
-            bool isCompletedDiagnosis, string nickname, OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message)
+            bool isCompletedDiagnosis, /*string nickname,*/ OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message)
         {
             this.UID = UID;
             this.coin = coin;
@@ -51,7 +51,7 @@ public class UserManager
             this.isCompletedStory = isCompletedStory;
             this.isCompletedTutorial= isCompletedTutorial;
             this.isCompletedDiagnosis = isCompletedDiagnosis;
-            this.nickname = nickname;
+            //this.nickname = nickname;
             //this.oneOnOneModeGrace = oneOnOneModeGrace;
             //this.storyModeGrace= storyModeGrace;
             this.message = message;
@@ -64,9 +64,9 @@ public class UserManager
     public User user {get;set;}
 
     public void InitUser(string UID, int coin, int score, Inventory inventory,bool isCompletedStory,
-        bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname, OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message)
+        bool isCompletedTutorial, bool isCompletedDiagnosis, /*string nickname,*/ OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message)
     {
-        user = new User(UID, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, oneOnOneModeGrace, storyModeGrace, message);
+        user = new User(UID, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, /*nickname,*/ oneOnOneModeGrace, storyModeGrace, message);
     }
 
     //public void SetExistingUser()

@@ -139,7 +139,7 @@ public class UI_TutorialGame : UI_Scene
     }
     void ShowTutorialPopup()
     {
-        Managers.UI.ShowPopupUI<UI_TutorialGamePopup>();
+        Managers.UI.ShowPopupUI<UI_TutorialPopup>();
     }
 
     #region 수식 계산
