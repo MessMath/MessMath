@@ -34,6 +34,7 @@ public class UI_GetNicknamePopup : UI_Popup
         GetText((int)Texts.Next).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickedNextBtn(); });
         GetText((int)Texts.Next).gameObject.SetActive(false);
         GetImage((int)Images.Image).gameObject.SetActive(false);
+        Time.timeScale = 0;
         return true;
     }
 
@@ -54,6 +55,7 @@ public class UI_GetNicknamePopup : UI_Popup
     void OnClickedNextBtn()
     {
         Managers.DBManager.CreateNewUser(GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text);
+        Time.timeScale = 1;
         Managers.UI.ClosePopupUI(this);
     }
 
