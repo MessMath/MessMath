@@ -116,7 +116,7 @@ public class UI_PracticeGame : UI_Scene
         GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(true);
         if (Managers.Game.IsCorrect == true) // 정답
         {
-            GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Practice/Professor_2"); //AnwerAni
+            //GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Practice/Professor_2"); //AnwerAni
             GetImage((int)Images.AnswerAni).gameObject.GetOrAddComponent<Animator>().SetTrigger("RightAnswerAniTrigger");
         }
         else // 오답
@@ -125,7 +125,7 @@ public class UI_PracticeGame : UI_Scene
         }
 
         yield return new WaitForSeconds(delayTime);
-        GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Practice/Professor_1");
+        //GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Practice/Professor_1");
         GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(false);
 
         yield return null;

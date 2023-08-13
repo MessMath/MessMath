@@ -144,7 +144,9 @@ public class UI_GraceBoxPopup : UI_Popup
 
         GetImage((int)Images.SelectedGraceImage).sprite = Utils.FindChild(selectedObject, "Grace").GetOrAddComponent<Image>().sprite;
         GetText((int)Texts.SelectedGraceText).text = Utils.FindChild(selectedObject, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text;
-        GetText((int)Texts.SelectedGraceDescription).text = selectedObject.GetOrAddComponent<UI_GraceItem>()._description;
+        //GetText((int)Texts.SelectedGraceDescription).text = selectedObject.GetOrAddComponent<UI_GraceItem>()._description;
+        Managers.TextEffect.ApplyTextEffect(selectedObject.GetOrAddComponent<UI_GraceItem>()._description, GetText((int)Texts.SelectedGraceDescription), 60);
+
     }
 
     void OnClickSelectBtn()
