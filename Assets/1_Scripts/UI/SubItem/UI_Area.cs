@@ -58,4 +58,9 @@ public class UI_Area : UI_Base
         Fit(AreaRect);
     }
     void Fit(RectTransform Rect) => LayoutRebuilder.ForceRebuildLayoutImmediate(Rect);
+
+    public TextMeshProUGUI GetText()
+    {
+        return TextRect.GetComponent<TextMeshProUGUI>();
+    }
 }
