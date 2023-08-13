@@ -24,6 +24,9 @@ public class UI_GameOver : UI_Popup
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
 
+        // Sound
+        Managers.Sound.Play("DefeatEff");
+
         return true;
     }
 

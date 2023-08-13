@@ -51,7 +51,7 @@ public class UI_Diagnosis : UI_Scene
 
         StartCoroutine("NextTalk");
 
-        BindEvent(gameObject, MakeToLobbyBtn);
+        //BindEvent(gameObject, MakeToLobbyBtn);
         GetButton((int)Buttons.ToLobbyBtn).gameObject.BindEvent(() => 
         {
             // Sound
@@ -96,14 +96,15 @@ public class UI_Diagnosis : UI_Scene
         GetImage((int)Images.Crystal).gameObject.SetActive(false);
     }
 
-    void MakeToLobbyBtn()
+    public void MakeToLobbyBtn()
     {
         if (Managers.Game.CurrentStatus == Define.CurrentStatus.LEARNING)
         {
             GetImage((int)Images.Crystal).gameObject.SetActive(false);
             GetImage((int)Images.CrystalImage).gameObject.SetActive(false);
             GetButton((int)Buttons.ToLobbyBtn).gameObject.SetActive(true);
-        }
 
+            Managers.Sound.Play("합격통보음");
+        }
     }
 }

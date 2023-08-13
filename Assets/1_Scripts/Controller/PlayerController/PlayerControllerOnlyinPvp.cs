@@ -61,10 +61,18 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
         // 상대방과 나의 색 설정
         _image.color = !PV.IsMine ? oppsColor : myColor;
 
+        // 속도를 해상도에 맞춰 조절
         widthRatio = currentWidth / referenceWidth;
         heightRatio = currentHeight / referenceHeight;
 
         adjustedSpeed = _speed * Mathf.Min(widthRatio, heightRatio);
+
+        // 처음에 시작하면 위치 잡기
+        if (PhotonNetwork.IsMasterClient)
+            _rectTransform.anchoredPosition = GameObject.Find("SpawnPoint1").GetComponent<RectTransform>().anchoredPosition;
+        else
+            _rectTransform.anchoredPosition = GameObject.Find("SpawnPoint2").GetComponent<RectTransform>().anchoredPosition;
+
     }
 
     void Update()

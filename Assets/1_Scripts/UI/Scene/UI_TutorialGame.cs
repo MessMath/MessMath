@@ -8,6 +8,7 @@ using System.Data;
 using System;
 using TMPro;
 using System.IO;
+using Random = UnityEngine.Random;
 
 public class UI_TutorialGame : UI_Scene
 {
@@ -155,8 +156,7 @@ public class UI_TutorialGame : UI_Scene
         //Debug.Log("PreCalculate");
 
         object result = null;
-        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
-        //string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("÷", "/");
+        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("×", "*").Replace("÷", "/");
         string printResult;
 
         if(expressionToCalculate.Trim() == "")
@@ -342,24 +342,6 @@ public class UI_TutorialGame : UI_Scene
     private const int MAX_SYMBOL_ARROW = 2;
     private int numArrowCnt = 0;
     private int symbolArrowCnt = 0;
-    //public GameObject arrowPrefab;
-    //EdgeCollider2D edgeCollider;
-    //public TextMeshProUGUI SetText;
-
-    //IEnumerator SetGame()
-    //{
-    //    Time.timeScale = 0.0f;
-    //    Debug.Log("SetGame");
-    //    SetText.text = "3";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.text = "2";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.text = "1";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.enabled = false;
-    //    Time.timeScale = 1.0f;
-    //    Debug.Log("StartGame");
-    //}
 
     // 화살이 생성되는 시간 조절하는 함수 
     // 현재 화살 개수가 몇개 나왔는지 체크
@@ -411,7 +393,7 @@ public class UI_TutorialGame : UI_Scene
     // 화살이 들고있는 값을 설정하는 함수 
     int SetArrowType(Arrow arrow)
     {
-        arrow.type = UnityEngine.Random.Range(0, 2);
+        arrow.type = Random.Range(0, 2);
 
         if (arrow.type == 0)
         {
@@ -447,7 +429,7 @@ public class UI_TutorialGame : UI_Scene
     // 화살의 생성 위치 조절하는 함수 
     void SetArrowStartPosition(Arrow arrow)
     {
-        int randValue = UnityEngine.Random.Range(0, 3);
+        int randValue = Random.Range(0, 3);
         switch (randValue)
         {
             case 0:
@@ -464,35 +446,20 @@ public class UI_TutorialGame : UI_Scene
 
     Vector2 GetRandPosOfLeft()
     {
-        //Vector2 newPos = new Vector2
-        //    (UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[0].x, 
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].x), 
-        //    UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[0].y, 
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].y));
-        Vector2 newPos = new Vector2(-100, UnityEngine.Random.Range(700, 1500));
+        Vector2 newPos = new Vector2(-100, Random.Range(700, 1500));
         return newPos;
     }
 
     Vector2 GetRandPosOfUp()
     {
-        //Vector2 newPos = new Vector2
-        //    (UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].x,
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[2].x),
-        //    UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[1].y,
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[2].y));
-        Vector2 newPos = new Vector2(UnityEngine.Random.Range(-100, 3300), 1500);
+        Vector2 newPos = new Vector2(Random.Range(-100, 3300), 1500);
 
         return newPos;
     }
 
     Vector2 GetRandPosOfRight()
     {
-        //Vector2 newPos = new Vector2
-        //    (UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[2].x,
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[3].x),
-        //    UnityEngine.Random.Range(GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[2].y,
-        //    GetObject((int)GameObjects.ArrowController).GetOrAddComponent<EdgeCollider2D>().points[3].y));
-        Vector2 newPos = new Vector2(3300, UnityEngine.Random.Range(700, 1500));
+        Vector2 newPos = new Vector2(3300, Random.Range(700, 1500));
 
         return newPos;
     }
@@ -524,10 +491,18 @@ public class UI_TutorialGame : UI_Scene
         }
     }
 
+    float referenceWidth = 3200f; // 기준 해상도의 너비
+    float referenceHeight = 1440f; // 기준 해상도의 높이
+    float currentWidth = Screen.width; // 현재 화면의 너비
+    float currentHeight = Screen.height; // 현재 화면의 높이
+
     // 화살의 속도 조절하는 함수 
     void SetArrowSpeed(Arrow arrow)
     {
-        arrow.speed = UnityEngine.Random.Range(250.0f, 270.0f);
+        float widthRatio = currentWidth / referenceWidth;
+        float heightRatio = currentHeight / referenceHeight;
+
+        arrow.speed = Random.Range(200.0f, 250.0f) * Mathf.Min(widthRatio, heightRatio);
     }
 
     #endregion

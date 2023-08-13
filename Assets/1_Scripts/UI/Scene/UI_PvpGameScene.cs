@@ -8,13 +8,12 @@ using System.Data;
 using System;
 using TMPro;
 using System.IO;
-using Photon.Pun;
 using Unity.VisualScripting;
 using System.Linq;
 using System.Reflection;
 using Random = UnityEngine.Random;
+using Photon.Pun;
 using Photon.Realtime;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class UI_PvpGameScene : UI_Scene
 {
@@ -35,7 +34,6 @@ public class UI_PvpGameScene : UI_Scene
     {
         AllErase,
         EqualButton,
-        SettingBtn,
     }
 
     enum Images
@@ -92,7 +90,6 @@ public class UI_PvpGameScene : UI_Scene
         GetText((int)Texts.PrintNumber_Text).text = "";
         GetText((int)Texts.Calculate_BoardText).text = "";
         GetButton((int)Buttons.EqualButton).gameObject.BindEvent(Calculate);
-        GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
 
         canvas = gameObject.GetComponent<Canvas>();
         canvasGroup = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().GetComponent<CanvasGroup>();
@@ -100,9 +97,10 @@ public class UI_PvpGameScene : UI_Scene
         // 배경 숫자
         Questioning();
 
-        // Sound
+        #region 사운드 설정
         Managers.Sound.Clear();
-        Managers.Sound.Play("BattleBgm", Define.Sound.Bgm);
+        Managers.Sound.Play("PvpGameBgm", Define.Sound.Bgm);
+        #endregion
 
         // 지우개 버튼
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
@@ -182,7 +180,7 @@ public class UI_PvpGameScene : UI_Scene
         Debug.Log("PreCalculate");
 
         object result = null;
-        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
+        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("×", "*").Replace("÷", "/");
         string printResult;
 
         DataTable table = new DataTable();
@@ -216,7 +214,7 @@ public class UI_PvpGameScene : UI_Scene
         Managers.Sound.Play("ClickBtnEff");
 
         object result = null;
-        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("x", "*");
+        string expressionToCalculate = GetText((int)Texts.Calculate_BoardText).text.Replace("×", "*").Replace("÷", "/");
         string printResult;
 
         GetText((int)Texts.Calculate_BoardText).text = "";
@@ -270,7 +268,7 @@ public class UI_PvpGameScene : UI_Scene
     public void OnDrag()
     {
         Vector2 radius = GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().sizeDelta / 2;
-        Managers.Game._input = (UnityEngine.Input.touches[0].position - (Vector2)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().position) / (radius * canvas.scaleFactor);
+        Managers.Game._input = (UnityEngine.Input.mousePosition - (Vector3)GetObject((int)GameObjects.JoyStick).GetComponent<RectTransform>().position) / (radius * canvas.scaleFactor);
 
         HandleInput(Managers.Game._input.magnitude, Managers.Game._input.normalized);
         GetImage((int)Images.JoyStickHandle).gameObject.GetComponent<RectTransform>().anchoredPosition = Managers.Game._input * radius * hadndleRange / 3;
@@ -309,21 +307,6 @@ public class UI_PvpGameScene : UI_Scene
     private int numArrowCnt = 0;
     private int symbolArrowCnt = 0;
     //public TextMeshProUGUI SetText;
-
-    //IEnumerator SetGame()
-    //{
-    //    Time.timeScale = 0.0f;
-    //    Debug.Log("SetGame");
-    //    SetText.text = "3";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.text = "2";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.text = "1";
-    //    yield return new WaitForSecondsRealtime(1.0f);
-    //    SetText.enabled = false;
-    //    Time.timeScale = 1.0f;
-    //    Debug.Log("StartGame");
-    //}
 
     // 화살이 생성되는 시간 조절하는 함수 
     // 현재 화살 개수가 몇개 나왔는지 체크
@@ -466,10 +449,18 @@ public class UI_PvpGameScene : UI_Scene
         }
     }
 
+    float referenceWidth = 3200f; // 기준 해상도의 너비
+    float referenceHeight = 1440f; // 기준 해상도의 높이
+    float currentWidth = Screen.width; // 현재 화면의 너비
+    float currentHeight = Screen.height; // 현재 화면의 높이
+
     // 화살의 속도 조절하는 함수 
     void SetArrowSpeed(ArrowOnlyinPvp arrow)
     {
-        arrow.speed = UnityEngine.Random.Range(200.0f, 250.0f);
+        float widthRatio = currentWidth / referenceWidth;
+        float heightRatio = currentHeight / referenceHeight;
+
+        arrow.speed = Random.Range(200.0f, 250.0f) * Mathf.Min(widthRatio, heightRatio);
     }
 
     #endregion

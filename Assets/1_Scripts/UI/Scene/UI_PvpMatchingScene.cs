@@ -20,12 +20,20 @@ public class UI_PvpMatchingScene : UI_Scene
 
     enum Buttons
     {
-        
+        BackBtn,
     }
 
     enum Images
     {
-        
+        PlayerImageBackground,
+        AnemyImageBackground,
+        AnemyGraceBackground,
+        PlayerGraceBackground,
+        DecoImage,
+        MatchingTime,
+        PlayerImage,
+        AnemyImage,
+        FightImage,
     }
 
     enum GameObjects
@@ -40,7 +48,6 @@ public class UI_PvpMatchingScene : UI_Scene
 
     private void Start()
     {
-
         // 서버에 연결!
         Managers.Network.Connect();
     }
@@ -55,9 +62,60 @@ public class UI_PvpMatchingScene : UI_Scene
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
 
-        
+        GetButton((int)Buttons.BackBtn).gameObject.BindEvent(toMain);
 
+        GetImage((int)Images.DecoImage).gameObject.SetActive(false);
+
+        Managers.Sound.Clear();
+
+        StartCoroutine("MatchingAni");
         return true;
     }
 
+    public void toMain()
+    {
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
+
+        PhotonNetwork.Disconnect();
+        PhotonNetwork.AutomaticallySyncScene = false;
+
+        Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
+    }
+
+    IEnumerator MatchingAni()
+    {
+        Managers.Sound.Play("휙");
+        GetImage((int)Images.PlayerImageBackground).gameObject.GetOrAddComponent<Animator>().Play("MatchingPlayerAni");
+        yield return new WaitForSeconds(0.1f);
+        Managers.Sound.Play("휙");
+        GetImage((int)Images.AnemyImageBackground).gameObject.GetOrAddComponent<Animator>().Play("MatchingAnemyPlayerAni");
+        yield return new WaitForSeconds(0.1f);
+        Managers.Sound.Play("휙");
+        GetImage((int)Images.AnemyGraceBackground).gameObject.GetOrAddComponent<Animator>().Play("MatchingAnemyGraceAni");
+        yield return new WaitForSeconds(0.1f);
+        Managers.Sound.Play("휙");
+        GetImage((int)Images.PlayerGraceBackground).gameObject.GetOrAddComponent<Animator>().Play("MatchingPlayerGrace");
+        yield return new WaitForSeconds(0.1f);
+        Managers.Sound.Play("휙");
+        GetImage((int)Images.MatchingTime).gameObject.GetOrAddComponent<Animator>().Play("MatchingTime");
+        yield return new WaitForSeconds(0.5f);
+        Managers.Sound.Play("챙2");
+        GetImage((int)Images.DecoImage).gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+
+        Managers.Sound.Play("챙3");
+        GetImage((int)Images.PlayerImage).gameObject.GetOrAddComponent<Animator>().Play("MatchingPlayerImageAni");
+        GetImage((int)Images.AnemyImage).gameObject.GetOrAddComponent<Animator>().Play("MatchingAnemyImageAni");
+        yield return new WaitForSeconds(1.0f);
+
+        GetImage((int)Images.FightImage).gameObject.GetOrAddComponent<Animator>().Play("MatchingFight");
+        yield return new WaitForSeconds(0.15f);
+        Managers.Sound.Play("FightEff");
+        yield return new WaitForSeconds(0.5f);
+        Managers.Sound.Play("DuongEff");
+
+        Managers.Sound.Play("MatchingBgm", Define.Sound.Bgm);
+
+    }
 }

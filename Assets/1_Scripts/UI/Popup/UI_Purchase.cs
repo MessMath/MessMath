@@ -29,14 +29,14 @@ public class UI_Purchase : UI_Popup
         BindText(typeof(Texts));
         BindImage(typeof(Images));
 
-        GetButton((int)Buttons.CloseButton).gameObject.BindEvent(()=>ClosePopupUI());
+        GetButton((int)Buttons.CloseButton).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ClosePopupUI(); });
         return true;
     }
 
     void OnClickedPurchaseBtn(string name, int price)
     {
         // Sound
-        Managers.Sound.Play("ClickBtnEff");
+        Managers.Sound.Play("PurchaseEff3");
 
         UI_PurchaseStatus purchaseStatus = Managers.UI.ShowPopupUI<UI_PurchaseStatus>();
         if(Managers.Coin.CheckPurchase(price)) 

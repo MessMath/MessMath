@@ -89,6 +89,8 @@ public class WJ_Sample : MonoBehaviour
                 Debug.Log("진단평가 끝! 학습 단계로 넘어갑니다.");
                 wj_displayText.SetState("진단평가 완료", "", "", "");
                 Managers.Game.CurrentStatus = Define.CurrentStatus.LEARNING;
+                // 입학증서 보여주기
+                GameObject.Find("UI_Diagnosis").GetComponent<UI_Diagnosis>().MakeToLobbyBtn();
                 PlayerPrefs.SetInt("DoDiagnosis", 1);
                 getLearningButton.interactable = true;
                 break;
