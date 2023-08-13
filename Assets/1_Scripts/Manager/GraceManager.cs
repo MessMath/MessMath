@@ -288,15 +288,28 @@ public class GraceManager
         if (WitchOrMathMtc == null) WitchOrMathMtc = witch.transform.Find("MathMtcImage");
 
         Image witchImage = WitchOrMathMtc.GetComponent<Image>();
-        Color red = new Color(1, 0.7f, 0.7f, 1);
-        witchImage.CrossFadeColor(red, 3f, false, false);
-
+        CoroutineHandler.StartCoroutine(ChangeSprite(witchImage));
+        
         if (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
             Managers.Game.Damage *= 2;
         else if (Managers.Scene.CurrentSceneType == Define.Scene.Fight1vs1GameScene)
             Managers.Game.CurrentMode = Define.Mode.DoubleSolve;
 
         CoroutineHandler.StartCoroutine(EndEinstein());
+    }
+
+    /// <summary>
+    /// 이미지 되돌리기
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator ChangeSprite(Image image)
+    {
+        Color red = new Color(1, 0.7f, 0.7f, 1);
+        Color white = new Color(1, 1f, 1f, 1);
+
+        image.CrossFadeColor(red, 3f, false, false);
+        yield return new WaitForSecondsRealtime(5f);
+        image.CrossFadeColor(white, 3f, false, false);
     }
 
     /// <summary>
