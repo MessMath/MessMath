@@ -68,7 +68,7 @@ public class JsonMaker : MonoBehaviour
 
     void AddRange()
     {
-        range.Add("A2:G84");
+        range.Add("A2:G81");
         range.Add("A2:D7");
         range.Add("A2:D4");
         range.Add("A2:A7");
