@@ -91,7 +91,6 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
         GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(OnClickReplayBtn);
         GetButton((int)Buttons.LockedBookBtn).gameObject.BindEvent(OnClickedLockedBookBtn);
-        GetButton((int)Buttons.LockedBtn).gameObject.BindEvent(OnClickedLockedBtn);
 
         GetButton((int)Buttons.NeumannBtn).gameObject.BindEvent(OnClickedNeumannBtn);
         GetButton((int)Buttons.StainedGlassBtn).gameObject.BindEvent(OnClickedStainedGlassBtn);
@@ -168,7 +167,11 @@ public class UI_Story : UI_Scene
             GetObject((int)GameObjects.SchoolHallway).gameObject.SetActive(true);
             return;
         }
-        if(count == 46 || count == 59)
+        if (count == 59)
+        {
+            GetButton((int)Buttons.LockedBtn).gameObject.BindEvent(OnClickedLockedBtn);
+        }
+        if (count == 46 || count == 59)
         {
             HideDialogue();
             GetObject((int)GameObjects.Library).gameObject.SetActive(true);
@@ -313,11 +316,12 @@ public class UI_Story : UI_Scene
                 break;
             case 20:
                 GetObject((int)GameObjects.Library).SetActive(false);
-                Invoke("OnClickNxtBtn", 0.3f);
-                Invoke("OnClickNxtBtn", 0.5f);
-                Invoke("OnClickNxtBtn", 0.5f);
-                OnClickNxtBtn();
-                ShowDialogue();
+                GetImage((int)Images.CharacterImage).gameObject.SetActive(false);
+                GetImage((int)Images.PlayerImage).gameObject.SetActive(false);
+                CoroutineHandler.StartCoroutine(UnlockedAnimation(0.5f, "unlocked1"));
+                CoroutineHandler.StartCoroutine(UnlockedAnimation(1.0f, "unlocked2"));
+                CoroutineHandler.StartCoroutine(UnlockedAnimation(2.0f, "unlocked3"));
+                //OnClickNxtBtn();
                 break;
         }
         
@@ -326,15 +330,26 @@ public class UI_Story : UI_Scene
     IEnumerator ShowInfo(string dialgoue)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(1.0f);
-        //GetButton((int)Buttons.DoorBtn).gameObject.SetActive(false);
-        ShowDialogue();
+        GetObject((int)GameObjects.Panel).gameObject.SetActive(true);
         GetText((int)Texts.CharacterNameTMP).text = "";
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "");
         GetText((int)Texts.DialogueTMP).text = dialgoue;
         yield return waitForSeconds;
-        //GetObject((int)GameObjects.Panel).SetActive(false);
-        //GetButton((int)Buttons.DoorBtn).gameObject.SetActive(true);
         HideDialogue();
+    }
+
+    IEnumerator UnlockedAnimation(float time, string imgName)
+    {
+        WaitForSeconds waitForSeconds = new WaitForSeconds(time);
+        yield return waitForSeconds;
+        GetImage((int)Images.BackGroundImage).sprite = Resources.Load("Sprites/Story/Background/" + imgName, typeof(Sprite)) as Sprite;
+        if(imgName == "unlocked3")
+        {
+            ShowDialogue();
+            GetImage((int)Images.CharacterImage).gameObject.SetActive(true);
+            GetImage((int)Images.PlayerImage).gameObject.SetActive(true);
+            OnClickNxtBtn();
+        }
     }
 
     void HideDialogue()
