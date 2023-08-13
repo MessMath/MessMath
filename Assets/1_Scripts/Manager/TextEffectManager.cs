@@ -20,8 +20,8 @@ public class TextEffectManager
     float characterTime;
     float timer;    
 
-    string tempDialogue;
-    TextMeshProUGUI tempSave;
+    string tempDialogue, replayDialogue;
+    TextMeshProUGUI tempSave, replaySave;
     public bool isTypingEnd = true;
     bool t_ignore = false;
     string t_color, t_size, t_style;
@@ -109,7 +109,54 @@ public class TextEffectManager
         t_ignore=false;
         return "";
     }
-    
+    string ChangeReplayTxtEffect(char c)
+    {
+        string t_letter = c.ToString();
+        if (!t_ignore)
+        {
+            switch (t_size)
+            {
+                case "s":
+                    t_letter = SMALLSIZE + t_letter + SIZETAG;
+                    break;
+                case "m":
+                    t_letter = MEDIUMSIZE + t_letter + SIZETAG;
+                    break;
+                case "l":
+                    t_letter = LARGESIZE + t_letter + SIZETAG;
+                    break;
+            }
+            switch (t_style)
+            {
+                case "b":
+                    t_letter = "<b>" + t_letter + "</b>";
+                    break;
+                case "i":
+                    t_letter = "<i>" + t_letter + "</i>";
+                    break;
+                case "n":
+                    break;
+            }
+            switch (t_color)
+            {
+                case "w":
+                    t_letter = WHITE + t_letter + COLORTAG;
+                    break;
+                case "r":
+                    t_letter = RED + t_letter + COLORTAG;
+                    break;
+                case "g":
+                    t_letter = GREY + t_letter + COLORTAG;
+                    break;
+            }
+            return t_letter;
+        }
+        t_ignore = false;
+        return "";
+    }
+
+
+
     // 타이핑 효과
     public void Typing(string dialouge, TextMeshProUGUI textObj)
     {
@@ -123,6 +170,40 @@ public class TextEffectManager
         tempSave.text ="";
         tempDialogue = null;
         tempSave = null;
+    }
+
+    public void ReplayTyping(string dialouge, TextMeshProUGUI textObj)
+    {
+        dialouge = dialouge.Replace("\\n ", "\n");
+        dialouge = dialouge.Replace("ⓝ", "");
+        textObj.text = "";
+
+        char[] chars = dialouge.ToCharArray();
+        int currentChar = 0;
+        int charLength = chars.Length;
+        while (currentChar < charLength)
+        {
+            CheckTextEffect(chars[currentChar]);
+            textObj.text += ChangeReplayTxtEffect(chars[currentChar++]);
+        }
+        textObj.text = "<size=42>" + textObj.text + SIZETAG;
+    }
+
+    public void ApplyTextEffect(string content, TextMeshProUGUI textObj, int textSize)
+    {
+        content = content.Replace("\\n ", "\n");
+        content = content.Replace("ⓝ", "");
+        textObj.text = "";
+
+        char[] chars = content.ToCharArray();
+        int currentChar = 0;
+        int charLength = chars.Length;
+        while (currentChar < charLength)
+        {
+            CheckTextEffect(chars[currentChar]);
+            textObj.text += ChangeReplayTxtEffect(chars[currentChar++]);
+        }
+        textObj.text = "<size=" + textSize.ToString() + ">" + textObj.text + SIZETAG;
     }
 
     IEnumerator Typer(char[] chars, TextMeshProUGUI textObj)

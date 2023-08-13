@@ -50,6 +50,7 @@ public class UI_ReplayStory : UI_Popup
                 picture = "Sprites/Story/Characters/Expression";
                 if(area.Init()) 
                 area.SetArea(characterName, dialogue, picture, expression);
+                Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
                 break;
             }
             case "가우스":
@@ -59,6 +60,7 @@ public class UI_ReplayStory : UI_Popup
                 picture = "Sprites/Story/Characters/gaus";
                 if(area.Init()) 
                 area.SetArea(characterName, dialogue, picture, expression);
+                Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
                 break;
             }
             case "선생님":
@@ -68,6 +70,7 @@ public class UI_ReplayStory : UI_Popup
                 picture = "Sprites/Story/Characters/teacher";
                 if(area.Init()) 
                 area.SetArea(characterName, dialogue, picture, expression);
+                Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
                 break;
             }
             case "":
@@ -76,6 +79,7 @@ public class UI_ReplayStory : UI_Popup
                 UI_Area area = item.GetOrAddComponent<UI_Area>();
                 if(area.Init()) 
                 area.SetArea(characterName, dialogue, picture, expression);
+                Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
                 break;
             }
         }

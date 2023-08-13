@@ -106,6 +106,10 @@ public class SceneEffectManager
             case "FadeIn":
                 CoroutineHandler.StartCoroutine(FadeIn(img, nxtBtn));
                 break;
+            case "OpenDoor":
+                nxtBtn.gameObject.SetActive(false);
+                CoroutineHandler.StartCoroutine(OpenDoor(img, nxtBtn));
+                break;
             case "":
                 break;
         }
@@ -115,6 +119,7 @@ public class SceneEffectManager
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
         float fadeCnt = 0;
+        img.color = Color.black;
         while (fadeCnt < 1.0f)
         {
             fadeCnt += 0.015f;
@@ -133,6 +138,7 @@ public class SceneEffectManager
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
         float fadeCnt = 1.0f;
+        img.color = Color.black;
         while (fadeCnt > 0)
         {
             fadeCnt -= 0.015f;
@@ -142,6 +148,29 @@ public class SceneEffectManager
         }
         if(img.color == new Color(0,0,0,fadeCnt)) 
         {
+            nxtBtn.gameObject.SetActive(true);
+            nxtBtn.transform.parent.transform.GetComponentInParent<UI_Story>().OnClickNxtBtn();
+        }
+    }
+
+    IEnumerator OpenDoor(Image img, Button nxtBtn)
+    {
+        WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
+        img.color = Color.white;
+        img.sprite = Resources.Load("Sprites/Story/open_door", typeof(Sprite)) as Sprite;
+        float fadeCnt = 1.0f;
+        while (fadeCnt < 4.0f)
+        {
+            fadeCnt += 0.05f;
+            yield return waitForSeconds;
+            if (img != null) img.rectTransform.localScale = new Vector3(fadeCnt, 1, 1);
+            if (fadeCnt >= 3.9f) break;
+        }
+        if (img.rectTransform.localScale == new Vector3(fadeCnt, 1, 1))
+        {
+            img.rectTransform.localScale = new Vector3(1, 1, 1);
+            img.color = new Color(0, 0, 0, 0);
+            img.sprite = Resources.Load("Sprites/Story/Background/null", typeof(Sprite)) as Sprite;
             nxtBtn.gameObject.SetActive(true);
             nxtBtn.transform.parent.transform.GetComponentInParent<UI_Story>().OnClickNxtBtn();
         }
