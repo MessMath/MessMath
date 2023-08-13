@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,7 @@ public class UI_Info : UI_Popup
     enum Texts
     {
         UserNameText,
+        Save,
     }
 
     enum Buttons
@@ -29,13 +31,13 @@ public class UI_Info : UI_Popup
         BG,
         UserImageBG,
         UserImage,
-
     }
 
     public override bool Init()
     {
         if (base.Init() == false)
-            return false;
+            if (base.Init() == false)
+                return false;
 
         BindObject(typeof(GameObjects));
         BindText(typeof(Texts));
@@ -49,11 +51,36 @@ public class UI_Info : UI_Popup
         #endregion
         if (Managers.Game.Name != null)
             GetText((int)Texts.UserNameText).text = Managers.Game.Name;
-        GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(()=> Managers.UI.ClosePopupUI(this));
+        GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ClosePopupUI(this); });
+        GetText((int)Texts.Save).gameObject.BindEvent(() => OnClickedSaveBtn());
+        GetImage((int)Images.UserImage).gameObject.BindEvent(() => OnClickedProfile());
 
+        Managers.DBManager.reference.Child("Users").Child(Managers.UserMng.user.UID).ValueChanged += HandleValueChanged;
+
+        GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.UserMng.user.UID;
+        GetObject((int)GameObjects.UserMessage).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.UserMng.GetMessage();
         return true;
     }
 
+    private void Update()
+    {
+        if (PlayerPrefs.GetString("Profile") != "")
+        {
+            GetImage((int)Images.UserImage).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(PlayerPrefs.GetString("Profile"));
+        }
+    }
 
+    void OnClickedSaveBtn()
+    {
+        Managers.Sound.Play("ClickBtnEff");
+        Managers.DBManager.SetNickname(GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text);
+        Managers.DBManager.SetUserMessage(GetObject((int)GameObjects.UserMessage).gameObject.GetComponentInChildren<TMP_InputField>().text);
+    }
+
+    void OnClickedProfile()
+    {
+         Managers.Sound.Play("ClickBtnEff");
+        Managers.UI.ShowPopupUI<UI_SelectProfile>();
+    }
 
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,39 +11,52 @@ public class UI_GetNicknamePopup : UI_Popup
         UserName,
     }
 
+    enum Images
+    {
+        Image,
+    }
+
     enum Texts
     {
         UserNameText,
+        Next,
     }
 
-    enum Buttons
-    {
-        Save,
-        Next,
-        ExitBtn,
-    }
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
 
         BindObject(typeof(GameObjects));
+        BindImage(typeof(Images));
         BindText(typeof(Texts));
-        BindButton(typeof(Buttons));
 
-        GetButton((int)Buttons.Save).gameObject.BindEvent(() => OnClickedSaveBtn());
-        GetButton((int)Buttons.Next).gameObject.BindEvent(() => NextPopup());
-        GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => Managers.UI.ClosePopupUI(this));
+        GetText((int)Texts.Next).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickedNextBtn(); });
+        GetText((int)Texts.Next).gameObject.SetActive(false);
+        GetImage((int)Images.Image).gameObject.SetActive(false);
+        Time.timeScale = 0;
         return true;
     }
 
-    void OnClickedSaveBtn()
+    private void Update()
     {
-        Managers.DBManager.SetNickname(GetText((int)Texts.UserNameText).text);
+        if (GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text != "")
+        {
+            GetText((int)Texts.Next).gameObject.SetActive(true);
+            GetImage((int)Images.Image).gameObject.SetActive(true);
+        }
+        else
+        {
+            GetText((int)Texts.Next).gameObject.SetActive(false);
+            GetImage((int)Images.Image).gameObject.SetActive(false);
+        }
     }
-    
-    void NextPopup()
+
+    void OnClickedNextBtn()
     {
-        Managers.UI.ShowPopupUI<UI_TestInfo>();
+        Managers.DBManager.CreateNewUser(GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text);
+        Time.timeScale = 1;
+        Managers.UI.ClosePopupUI(this);
     }
+
 }

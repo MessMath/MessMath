@@ -94,9 +94,12 @@ public abstract class UI_Base : MonoBehaviour
         if (args.DatabaseError != null)
         {
             Debug.LogError("DatabaseError: " + args.DatabaseError.Message);
+            //return;
+        }
+        if(args == null)
+        {
             return;
         }
-
         if (args.Snapshot != null && args.Snapshot.Exists)
         {
             string newNickname = args.Snapshot.Child("nickname").Value.ToString();
@@ -106,15 +109,31 @@ public abstract class UI_Base : MonoBehaviour
             string newIsTutorial = args.Snapshot.Child("isCompletedTutorial").Value.ToString();
             string newMessage = args.Snapshot.Child("message").Value.ToString();
             string newScore = args.Snapshot.Child("score").Value.ToString();
-            string newStoryGrace1 = args.Snapshot.Child("StoryGrace").Child("1").Value.ToString();
-            string newStoryGrace2 = args.Snapshot.Child("StoryGrace").Child("2").Value.ToString();
-            string newStoryGrace3 = args.Snapshot.Child("StoryGrace").Child("3").Value.ToString();
-            string newOneOnOneGrace1 = args.Snapshot.Child("OneOnOneGrace").Child("1").Value.ToString();
-            string newOneOnOneGrace2 = args.Snapshot.Child("OneOnOneGrace").Child("2").Value.ToString();
-            string newOneOnOneGrace3 = args.Snapshot.Child("OneOnOneGrace").Child("3").Value.ToString();
-            string newObtainedClothes = args.Snapshot.Child("Inventory").Child("ObtainedClothes").Value.ToString();
-            string newObtainedCollections = args.Snapshot.Child("Inventory").Child("ObtainedCollections").Value.ToString();
-            string newObtainedGraces = args.Snapshot.Child("Inventory").Child("ObtainedGraces").Value.ToString();
+            string newStoryGrace1 = "";
+            string newStoryGrace2 = "";
+            string newStoryGrace3 = "";
+            string newOneOnOneGrace1 = "";
+            string newOneOnOneGrace2 = "";
+            string newOneOnOneGrace3 = "";
+            if (args.Snapshot.Child("StoryGrace").Exists)
+            {
+                newStoryGrace1 = args.Snapshot.Child("StoryGrace").Child("1").Value.ToString();
+                newStoryGrace2 = args.Snapshot.Child("StoryGrace").Child("2").Value.ToString();
+                newStoryGrace3 = args.Snapshot.Child("StoryGrace").Child("3").Value.ToString();
+            }
+            if (args.Snapshot.Child("StoryGrace").Exists)
+            {
+                newOneOnOneGrace1 = args.Snapshot.Child("OneOnOneGrace").Child("1").Value.ToString();
+                newOneOnOneGrace2 = args.Snapshot.Child("OneOnOneGrace").Child("2").Value.ToString();
+                newOneOnOneGrace3 = args.Snapshot.Child("OneOnOneGrace").Child("3").Value.ToString();
+            }
+            //string newObtainedClothes = args.Snapshot.Child("Inventory").Child("ObtainedClothes").Value.ToString();
+            //string newObtainedCollections = args.Snapshot.Child("Inventory").Child("ObtainedCollections").Value.ToString();
+            //string newObtainedGraces = args.Snapshot.Child("Inventory").Child("ObtainedGraces").Value.ToString();
+
+            string newObtainedClothes = args.Snapshot.Child("obtainedClothes").Value.ToString();
+            string newObtainedCollections = args.Snapshot.Child("obtainedCollections").Value.ToString();
+            string newObtainedGraces = args.Snapshot.Child("obtainedGraces").Value.ToString();
 
             Managers.UserMng.user.nickname = newNickname;
             Managers.UserMng.user.coin = int.Parse(newCoin);
@@ -129,9 +148,9 @@ public abstract class UI_Base : MonoBehaviour
             Managers.UserMng.user.oneOnOneModeGrace.grace1 = newOneOnOneGrace1;
             Managers.UserMng.user.oneOnOneModeGrace.grace2 = newOneOnOneGrace2;
             Managers.UserMng.user.oneOnOneModeGrace.grace3 = newOneOnOneGrace3;
-            Managers.UserMng.user.obtainedClothes = newObtainedClothes;
-            Managers.UserMng.user.obtainedCollections = newObtainedCollections;
-            Managers.UserMng.user.obtainedGraces = newObtainedGraces;
+            //Managers.UserMng.user.obtainedClothes = newObtainedClothes;
+            //Managers.UserMng.user.obtainedCollections = newObtainedCollections;
+            //Managers.UserMng.user.obtainedGraces = newObtainedGraces;
         }
         else
         {
