@@ -63,7 +63,7 @@ public class UI_SelectGracePopup : UI_Popup
             GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); _graceBoxPopup = Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); _graceBoxPopup._state = UI_GraceBoxPopup.State.OneToOne; Managers.Game.SelectGraceInx = 1; });
             GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); _graceBoxPopup = Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); _graceBoxPopup._state = UI_GraceBoxPopup.State.OneToOne; Managers.Game.SelectGraceInx = 2; });
             OneToOneModeRefreshUI();
-            GetButton((int)Buttons.StartGameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene); });
+            GetButton((int)Buttons.StartGameBtn).gameObject.BindEvent(() => { CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_OneToOne()); });
         }
         else if (_state == State.Story)
         {
@@ -71,11 +71,43 @@ public class UI_SelectGracePopup : UI_Popup
             GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); _graceBoxPopup = Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); _graceBoxPopup._state = UI_GraceBoxPopup.State.Story; Managers.Game.SelectGraceInx = 1; });
             GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); _graceBoxPopup = Managers.UI.ShowPopupUI<UI_GraceBoxPopup>(); _graceBoxPopup._state = UI_GraceBoxPopup.State.Story; Managers.Game.SelectGraceInx = 2; });
             StoryModeRefreshUI();
-            GetButton((int)Buttons.StartGameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.StoryGameScene); });
+            GetButton((int)Buttons.StartGameBtn).gameObject.BindEvent(() => { CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_StoryGame()); });
         }
 
         return true;
     }
+
+    #region ¾Àº¯È¯ ¾Ö´Ï
+    IEnumerator SceneChangeAnimation_In_OneToOne()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.Fight1vs1GameScene, () => { });
+
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+
+        Managers.Sound.Play("ClickBtnEff");
+        Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene);
+    }
+
+    IEnumerator SceneChangeAnimation_In_StoryGame()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.StoryGameScene, () => { });
+
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+
+        Managers.Sound.Play("ClickBtnEff");
+        Managers.Scene.ChangeScene(Define.Scene.StoryGameScene);
+    }
+    #endregion
 
     void SettingCancelBtn()
     {

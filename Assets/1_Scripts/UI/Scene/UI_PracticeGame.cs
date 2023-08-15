@@ -42,7 +42,24 @@ public class UI_PracticeGame : UI_Scene
     private void Start()
     {
         Init();
+
+        CoroutineHandler.StartCoroutine(SceneChangeAnimation_Out_PracticeGame());
     }
+
+    #region ¾Àº¯È¯ ¾Ö´Ï
+    
+    IEnumerator SceneChangeAnimation_Out_PracticeGame()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.PracticeGameScene, () => { });
+
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+    }
+    #endregion
 
     public override bool Init()
     {

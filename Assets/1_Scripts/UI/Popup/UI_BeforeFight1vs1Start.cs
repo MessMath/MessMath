@@ -21,7 +21,9 @@ public class UI_BeforeFight1vs1Start : UI_Popup
 
         GetButton((int)Buttons.reqQstsBtn).gameObject.BindEvent(() => reqQsts());
 
-        Time.timeScale = 0;
+        
+        CoroutineHandler.StartCoroutine(SceneChangeAnimation_Out());
+        //Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
 
         return true;
@@ -36,4 +38,17 @@ public class UI_BeforeFight1vs1Start : UI_Popup
         UI_Fight1Vs1Game.Invoke("RefreshUI", 0.2f);
         UI_Fight1Vs1Game.GameStarted = true;
     }
+
+    IEnumerator SceneChangeAnimation_Out()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.Fight1vs1GameScene, () => { });
+
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+    }
+
 }

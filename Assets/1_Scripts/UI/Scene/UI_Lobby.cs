@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UI_Lobby : UI_Scene
 {
@@ -40,6 +41,8 @@ public class UI_Lobby : UI_Scene
     {
         Init();
         //showTutorial();
+
+        CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
     }
 
     private void Update()
@@ -62,12 +65,12 @@ public class UI_Lobby : UI_Scene
         TextOn = true;
 
         GetImage((int)Images.UserImage).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Info>(); });
-        GetButton((int)Buttons.ExerciseBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.PracticeGameScene); });
+        GetButton((int)Buttons.ExerciseBtn).gameObject.BindEvent(() => { CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_PracticeGameScene()); });
         GetButton((int)Buttons.StoreBtn).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_Store>(); });
         GetButton((int)Buttons.InventoryBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_InventoryPopup>(); });
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
         GetButton((int)Buttons.Fight1vs1GameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_SelectMathMtcfor1vs1>(); });
-        GetButton((int)Buttons.PvpBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.PvpMatchingScene); });
+        GetButton((int)Buttons.PvpBtn).gameObject.BindEvent(() => { CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Pvp()); });
         GetButton((int)Buttons.PvpBroomstickBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ButtonTextOnOff(); });
 
         if (PlayerPrefs.HasKey("WatchedStory") && PlayerPrefs.GetInt("WatchedStory") == -2)
@@ -90,6 +93,51 @@ public class UI_Lobby : UI_Scene
 
         return true;
     }
+
+    #region ¾Àº¯È¯ ¾Ö´Ï
+    IEnumerator SceneChangeAnimation_In_PracticeGameScene()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.PracticeGameScene, () => { });
+
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+
+        Managers.Sound.Play("ClickBtnEff"); 
+        Managers.Scene.ChangeScene(Define.Scene.PracticeGameScene);
+    }
+
+    IEnumerator SceneChangeAnimation_In_Pvp()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.Fight1vs1GameScene, () => { });
+
+        yield return new WaitForSeconds(0.3f); 
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+
+        Managers.Sound.Play("ClickBtnEff");
+        Managers.Scene.ChangeScene(Define.Scene.PvpMatchingScene);
+    }
+
+    IEnumerator SceneChangeAnimation_In_Lobby()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.LobbyScene, () => { });
+
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+
+    }
+    #endregion
 
     void showTutorial()
     {

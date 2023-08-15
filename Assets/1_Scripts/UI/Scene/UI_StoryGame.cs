@@ -68,6 +68,10 @@ public class UI_StoryGame : UI_Scene
 
         //StartCoroutine("SetGame");
         //edgeCollider = GetComponent<EdgeCollider2D>();
+        // Ani
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.StoryGameScene, () => { });
 
         StartCoroutine("SetArrowGenerationTime", 0.5f);
     }
@@ -569,7 +573,7 @@ public class UI_StoryGame : UI_Scene
             // TODO 2페이즈 마녀 이미지 변환 및 애니메이션
             GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Phase2");
             GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase2");
-            StartCoroutine(SpecialEffects(5f));
+            StartCoroutine(SpecialEffectsForPhase2(5f));
         }
 
         if (phase == Phase.Phase3)
@@ -589,14 +593,14 @@ public class UI_StoryGame : UI_Scene
     #region 2페이즈 특수 효과
 
     float _phase2Skill1Delay = 10f;
-    IEnumerator SpecialEffects(float delay)
+    IEnumerator SpecialEffectsForPhase2(float delay)
     {
         yield return new WaitForSeconds(delay);
         float minDelay = delay * 0.5f;
 
         StartCoroutine(MiddleDirectionOfArrow());
 
-        StartCoroutine(SpecialEffects(Random.Range(minDelay, _phase2Skill1Delay)));
+        StartCoroutine(SpecialEffectsForPhase2(Random.Range(minDelay, _phase2Skill1Delay)));
     }
 
     IEnumerator MiddleDirectionOfArrow()
