@@ -68,11 +68,7 @@ public class UI_StoryGame : UI_Scene
 
         //StartCoroutine("SetGame");
         //edgeCollider = GetComponent<EdgeCollider2D>();
-        // Ani
-        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
-        anim.transform.SetParent(this.transform);
-        anim.SetInfo(Define.Scene.StoryGameScene, () => { });
-
+        
         StartCoroutine("SetArrowGenerationTime", 0.5f);
     }
 

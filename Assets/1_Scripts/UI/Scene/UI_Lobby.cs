@@ -98,13 +98,10 @@ public class UI_Lobby : UI_Scene
     IEnumerator SceneChangeAnimation_In_PracticeGameScene()
     {
         // Ani
-        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
-        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
-        anim.transform.SetParent(this.transform);
-        anim.SetInfo(Define.Scene.PracticeGameScene, () => { });
+        UI_ChangeScenePopup uI_ChangeScenePopup = Managers.UI.ShowPopupUI<UI_ChangeScenePopup>();
 
-        yield return new WaitForSeconds(0.3f);
-        Managers.UI.ClosePopupUI(uI_LockTouch);
+        yield return new WaitForSeconds(1.3f);
+        Managers.UI.ClosePopupUI(uI_ChangeScenePopup);
 
         Managers.Sound.Play("ClickBtnEff"); 
         Managers.Scene.ChangeScene(Define.Scene.PracticeGameScene);
@@ -113,13 +110,10 @@ public class UI_Lobby : UI_Scene
     IEnumerator SceneChangeAnimation_In_Pvp()
     {
         // Ani
-        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
-        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
-        anim.transform.SetParent(this.transform);
-        anim.SetInfo(Define.Scene.Fight1vs1GameScene, () => { });
+        UI_ChangeScenePopup uI_ChangeScenePopup = Managers.UI.ShowPopupUI<UI_ChangeScenePopup>();
 
-        yield return new WaitForSeconds(0.3f); 
-        Managers.UI.ClosePopupUI(uI_LockTouch);
+        yield return new WaitForSeconds(1.3f);
+        Managers.UI.ClosePopupUI(uI_ChangeScenePopup);
 
         Managers.Sound.Play("ClickBtnEff");
         Managers.Scene.ChangeScene(Define.Scene.PvpMatchingScene);
@@ -128,14 +122,10 @@ public class UI_Lobby : UI_Scene
     IEnumerator SceneChangeAnimation_In_Lobby()
     {
         // Ani
-        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
-        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
-        anim.transform.SetParent(this.transform);
-        anim.SetInfo(Define.Scene.LobbyScene, () => { });
+        UI_ChangeScenePopup uI_ChangeScenePopup = Managers.UI.ShowPopupUI<UI_ChangeScenePopup>();
 
-        yield return new WaitForSeconds(0.3f);
-        Managers.UI.ClosePopupUI(uI_LockTouch);
-
+        yield return new WaitForSeconds(1.3f);
+        Managers.UI.ClosePopupUI(uI_ChangeScenePopup);
     }
     #endregion
 
