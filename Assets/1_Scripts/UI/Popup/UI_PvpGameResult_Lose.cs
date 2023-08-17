@@ -4,17 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UI_PvpGameResult : UI_Popup
+public class UI_PvpGameResult_Lose : UI_Popup
 {
-    public bool _isWin = false;
+
     public enum Buttons
     {
-        ToMainBtn,
+        NewMatchingBtn,
+        BackToMainBtn,
     }
 
     public enum Texts
     {
-        ResultText,
+        
+    }
+    
+    public enum Images
+    {
+
     }
 
     public override bool Init()
@@ -24,30 +30,16 @@ public class UI_PvpGameResult : UI_Popup
 
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
+        BindImage(typeof(Images));
 
-        GetButton((int)Buttons.ToMainBtn).gameObject.BindEvent(toMain);
-        ResultText();
+
+        GetButton((int)Buttons.NewMatchingBtn).gameObject.BindEvent(toMain);
+        Managers.Sound.Play("DefeatEff");
 
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
 
         return true;
-    }
-
-    void ResultText()
-    {
-        if (_isWin)
-        {
-            GetText((int)Texts.ResultText).text = "Win";
-            // Sound
-            Managers.Sound.Play("ClearEff");
-        }
-        else if (!_isWin)
-        {
-            GetText((int)Texts.ResultText).text = "Defeat";
-            // Sound
-            Managers.Sound.Play("DefeatEff");
-        }
     }
 
     public void toMain()

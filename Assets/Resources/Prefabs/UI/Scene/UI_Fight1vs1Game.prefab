@@ -476,8 +476,8 @@ MonoBehaviour:
   Hp: 100
   witchImg: {fileID: 1052174692201689591}
   HpBar: {fileID: 1052174691141051269}
-  QusetionNumber: 0
-  QusetionNumberText: {fileID: 0}
+  QuestionNumber: 0
+  QuestionNumberText: {fileID: 0}
 --- !u!1 &1052174691141051270
 GameObject:
   m_ObjectHideFlags: 0
@@ -1062,6 +1062,7 @@ RectTransform:
   - {fileID: 6869486615294044708}
   - {fileID: 3584422507902019471}
   - {fileID: 6934633164134795804}
+  - {fileID: 8654830331023121108}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1985,14 +1986,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4698184539630676903}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6047958987275270907}
-  m_Father: {fileID: 2206382395972022772}
-  m_RootOrder: 4
+  m_Father: {fileID: 8734088136736097940}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2878,7 +2879,6 @@ RectTransform:
   - {fileID: 3757085269431646291}
   - {fileID: 6496913702118964821}
   - {fileID: 1052174690891345324}
-  - {fileID: 8654830331023121108}
   m_Father: {fileID: 8734088136736097940}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

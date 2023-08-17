@@ -134,30 +134,27 @@ public class UI_PvpGameScene : UI_Scene
 
     public void PvpResult()
     {
-        UI_PvpGameResult ui_PvpGameResult;
+        UI_Popup ui_PvpGameResult;
+
         // 승리화면
         if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
-            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult>();
-            ui_PvpGameResult._isWin= true;
+            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>();
         }
         if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
-            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult>();
-            ui_PvpGameResult._isWin = true;
+            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>();
         }
 
         // 패배화면
         if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
-            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult>();
-            ui_PvpGameResult._isWin = false;
+            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>();
 
         }
         if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
-            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult>();
-            ui_PvpGameResult._isWin = false;
+            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>();
         }
     }
 
