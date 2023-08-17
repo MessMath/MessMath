@@ -43,7 +43,7 @@ public class UI_PracticeGame : UI_Scene
     {
         Init();
 
-        //CoroutineHandler.StartCoroutine(SceneChangeAnimation_Out_PracticeGame());
+        CoroutineHandler.StartCoroutine(SceneChangeAnimation_Out_PracticeGame());
     }
 
     #region ¾Àº¯È¯ ¾Ö´Ï
@@ -51,10 +51,13 @@ public class UI_PracticeGame : UI_Scene
     IEnumerator SceneChangeAnimation_Out_PracticeGame()
     {
         // Ani
-        UI_ChangeScenePopup uI_ChangeScenePopup = Managers.UI.ShowPopupUI<UI_ChangeScenePopup>();
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.PracticeGameScene, () => { });
 
-        yield return new WaitForSeconds(1.3f);
-        Managers.UI.ClosePopupUI(uI_ChangeScenePopup);
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
     }
     #endregion
 

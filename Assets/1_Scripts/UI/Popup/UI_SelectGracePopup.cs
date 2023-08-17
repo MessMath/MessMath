@@ -81,10 +81,13 @@ public class UI_SelectGracePopup : UI_Popup
     IEnumerator SceneChangeAnimation_In_OneToOne()
     {
         // Ani
-        UI_ChangeScenePopup uI_ChangeScenePopup = Managers.UI.ShowPopupUI<UI_ChangeScenePopup>();
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.Fight1vs1GameScene, () => { });
 
-        yield return new WaitForSeconds(1.3f);
-        Managers.UI.ClosePopupUI(uI_ChangeScenePopup);
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
 
         Managers.Sound.Play("ClickBtnEff");
         Managers.Scene.ChangeScene(Define.Scene.Fight1vs1GameScene);
@@ -93,10 +96,13 @@ public class UI_SelectGracePopup : UI_Popup
     IEnumerator SceneChangeAnimation_In_StoryGame()
     {
         // Ani
-        UI_ChangeScenePopup uI_ChangeScenePopup = Managers.UI.ShowPopupUI<UI_ChangeScenePopup>();
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.StoryGameScene, () => { });
 
-        yield return new WaitForSeconds(1.3f);
-        Managers.UI.ClosePopupUI(uI_ChangeScenePopup);
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
 
         Managers.Sound.Play("ClickBtnEff");
         Managers.Scene.ChangeScene(Define.Scene.StoryGameScene);
