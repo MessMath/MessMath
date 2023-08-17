@@ -97,32 +97,28 @@ public class UI_Lobby : UI_Scene
     #region ¾Àº¯È¯ ¾Ö´Ï
     IEnumerator SceneChangeAnimation_In_PracticeGameScene()
     {
+        Managers.Sound.Play("ClickBtnEff");
+
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
-        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
-        anim.transform.SetParent(this.transform);
-        anim.SetInfo(Define.Scene.PracticeGameScene, () => { });
+        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_In>();
+        anim.transform.SetParent(uI_LockTouch.transform);
+        anim.SetInfo(Define.Scene.PracticeGameScene, () => { Managers.Scene.ChangeScene(Define.Scene.PracticeGameScene); });
 
-        yield return new WaitForSeconds(0.3f);
-        Managers.UI.ClosePopupUI(uI_LockTouch);
-
-        Managers.Sound.Play("ClickBtnEff"); 
-        Managers.Scene.ChangeScene(Define.Scene.PracticeGameScene);
+        yield return new WaitForSeconds(0.5f);
     }
 
     IEnumerator SceneChangeAnimation_In_Pvp()
     {
+        Managers.Sound.Play("ClickBtnEff");
+
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
-        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
-        anim.transform.SetParent(this.transform);
-        anim.SetInfo(Define.Scene.Fight1vs1GameScene, () => { });
+        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_In>();
+        anim.transform.SetParent(uI_LockTouch.transform);
+        anim.SetInfo(Define.Scene.PvpMatchingScene, () => { Managers.Scene.ChangeScene(Define.Scene.PvpMatchingScene); });
 
-        yield return new WaitForSeconds(0.3f); 
-        Managers.UI.ClosePopupUI(uI_LockTouch);
-
-        Managers.Sound.Play("ClickBtnEff");
-        Managers.Scene.ChangeScene(Define.Scene.PvpMatchingScene);
+        yield return new WaitForSeconds(0.5f);
     }
 
     IEnumerator SceneChangeAnimation_In_Lobby()
@@ -130,10 +126,10 @@ public class UI_Lobby : UI_Scene
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
         SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
-        anim.transform.SetParent(this.transform);
+        anim.transform.SetParent(uI_LockTouch.transform);
         anim.SetInfo(Define.Scene.LobbyScene, () => { });
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         Managers.UI.ClosePopupUI(uI_LockTouch);
 
     }

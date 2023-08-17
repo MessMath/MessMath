@@ -68,10 +68,8 @@ public class UI_StoryGame : UI_Scene
 
         //StartCoroutine("SetGame");
         //edgeCollider = GetComponent<EdgeCollider2D>();
-        // Ani
-        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
-        anim.transform.SetParent(this.transform);
-        anim.SetInfo(Define.Scene.StoryGameScene, () => { });
+
+        CoroutineHandler.StartCoroutine(SceneChangeAnimation_Out_PracticeGame());
 
         StartCoroutine("SetArrowGenerationTime", 0.5f);
     }
@@ -80,7 +78,19 @@ public class UI_StoryGame : UI_Scene
     {
 
     }
+    #region 씬 변환 애니메이션
+    IEnumerator SceneChangeAnimation_Out_PracticeGame()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(uI_LockTouch.transform);
+        anim.SetInfo(Define.Scene.PracticeGameScene, () => { });
 
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+    }
+    #endregion
     public override bool Init()
     {
         if (base.Init() == false)

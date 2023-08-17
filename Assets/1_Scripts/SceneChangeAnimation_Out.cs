@@ -16,7 +16,7 @@ public class SceneChangeAnimation_Out : UI_Popup
 
     public void SetInfo(Define.Scene prevScene, Action callback)
     {
-        transform.localScale = Vector3.one;
+        //transform.localScale = Vector3.one;
         _action = callback;
         _prevScene = prevScene;
         _anim.Play("SceneChange_Out");

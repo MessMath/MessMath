@@ -60,14 +60,11 @@ public class UI_Setting : UI_Popup
     {
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
-        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
+        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_In>();
         anim.transform.SetParent(this.transform);
-        anim.SetInfo(Define.Scene.LobbyScene, () => { });
+        anim.SetInfo(Define.Scene.LobbyScene, () => { Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
 
-        yield return new WaitForSeconds(0.3f);
-        Managers.UI.ClosePopupUI(uI_LockTouch);
-
-        Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
+        yield return new WaitForSeconds(0.5f);
     }
 
 }

@@ -16,7 +16,7 @@ public class SceneChangeAnimation_In : UI_Popup
 
     public void SetInfo(Define.Scene nextScene, Action callback)
     {
-        transform.localScale = Vector3.one;
+        //transform.localScale = Vector3.one;
         _action = callback;
         _nextScene = nextScene;
         StartCoroutine(OnAnimationComplete());

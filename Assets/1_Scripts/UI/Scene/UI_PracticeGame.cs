@@ -53,10 +53,10 @@ public class UI_PracticeGame : UI_Scene
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
         SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
-        anim.transform.SetParent(this.transform);
+        anim.transform.SetParent(uI_LockTouch.transform);
         anim.SetInfo(Define.Scene.PracticeGameScene, () => { });
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         Managers.UI.ClosePopupUI(uI_LockTouch);
     }
     #endregion
