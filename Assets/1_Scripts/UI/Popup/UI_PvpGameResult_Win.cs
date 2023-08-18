@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,14 +30,30 @@ public class UI_PvpGameResult_Win : UI_Popup
 
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
+        BindImage(typeof(Images));
 
-        GetButton((int)Buttons.NewMatchingBtn).gameObject.BindEvent(toMain);
+        GetButton((int)Buttons.NewMatchingBtn).gameObject.BindEvent(NewMatching);
+        GetButton((int)Buttons.BackToMainBtn).gameObject.BindEvent(toMain);
+
         Managers.Sound.Play("ClearEff");
 
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
 
+
         return true;
+    }
+
+    public void NewMatching()
+    {
+        PhotonNetwork.Disconnect();
+        PhotonNetwork.AutomaticallySyncScene = false;
+
+        // Sound
+        Managers.Sound.Play("ClickBtnEff"); 
+
+        Managers.Scene.ChangeScene(Define.Scene.PvpMatchingScene);
+        Time.timeScale = 1;
     }
 
     public void toMain()
