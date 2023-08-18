@@ -69,7 +69,7 @@ public class UI_StoryGame : UI_Scene
         //StartCoroutine("SetGame");
         //edgeCollider = GetComponent<EdgeCollider2D>();
 
-        CoroutineHandler.StartCoroutine(SceneChangeAnimation_Out_PracticeGame());
+        CoroutineHandler.StartCoroutine(SceneChangeAnimation_Out());
 
         StartCoroutine("SetArrowGenerationTime", 0.5f);
     }
@@ -79,13 +79,12 @@ public class UI_StoryGame : UI_Scene
 
     }
     #region 씬 변환 애니메이션
-    IEnumerator SceneChangeAnimation_Out_PracticeGame()
+    IEnumerator SceneChangeAnimation_Out()
     {
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
         SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
         anim.transform.SetParent(uI_LockTouch.transform);
-        anim.SetInfo(Define.Scene.PracticeGameScene, () => { });
 
         yield return new WaitForSeconds(0.3f);
         Managers.UI.ClosePopupUI(uI_LockTouch);
@@ -580,7 +579,9 @@ public class UI_StoryGame : UI_Scene
         // 2페이즈의 특수효과 시작, 간격은 일단 10초
         if (phase == Phase.Phase2)
         {
-            // TODO 2페이즈 마녀 이미지 변환 및 애니메이션
+            // 2페이즈 마녀 이미지 변환 및 애니메이션
+            StartCoroutine(WitchChangeAnimation_Normal());
+
             GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Phase2");
             GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase2");
             StartCoroutine(SpecialEffectsForPhase2(5f));
@@ -588,7 +589,9 @@ public class UI_StoryGame : UI_Scene
 
         if (phase == Phase.Phase3)
         {
-            // TODO 3페이즈 마녀 이미지 변환 및 애니메이션
+            // 3페이즈 마녀 이미지 변환 및 애니메이션
+            StartCoroutine(WitchChangeAnimation_Hard());
+
             GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Phase3");
             GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase3");
 
@@ -599,6 +602,48 @@ public class UI_StoryGame : UI_Scene
         }
 
     }
+
+    #region 마녀 페이즈 애니메이션
+    IEnumerator WitchChangeAnimation_Normal()
+    {
+        Managers.Sound.Clear();
+        StopCoroutine("SetArrowGenerationTime");
+
+        // Sound
+        Managers.Sound.Play("페이즈전환Eff");
+
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/WitchChangeAnimation_Normal").GetOrAddComponent<SceneChangeAnimation_In>();
+        anim.transform.SetParent(uI_LockTouch.transform);
+        anim.SetInfo(Define.Scene.StoryGameScene, () => {  });
+
+        yield return new WaitForSeconds(5.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+
+        Managers.Sound.Play("BattleBgm", Define.Sound.Bgm);
+    }
+
+    IEnumerator WitchChangeAnimation_Hard()
+    {
+        Managers.Sound.Clear();
+        StopCoroutine("SetArrowGenerationTime");
+
+        // Sound
+        Managers.Sound.Play("페이즈전환Eff");
+
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/WitchChangeAnimation_Hard").GetOrAddComponent<SceneChangeAnimation_In>();
+        anim.transform.SetParent(uI_LockTouch.transform);
+        anim.SetInfo(Define.Scene.StoryGameScene, () => {  });
+
+        yield return new WaitForSeconds(5.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+
+        Managers.Sound.Play("BattleBgm", Define.Sound.Bgm);
+    }
+    #endregion
 
     #region 2페이즈 특수 효과
 

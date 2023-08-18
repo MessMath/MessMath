@@ -102,7 +102,7 @@ public class UI_Lobby : UI_Scene
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
         SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_In>();
-        anim.transform.SetParent(uI_LockTouch.transform);
+        anim.transform.SetParent(this.transform);
         anim.SetInfo(Define.Scene.PracticeGameScene, () => { Managers.Scene.ChangeScene(Define.Scene.PracticeGameScene); });
 
         yield return new WaitForSeconds(0.5f);
@@ -115,7 +115,7 @@ public class UI_Lobby : UI_Scene
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
         SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_In>();
-        anim.transform.SetParent(uI_LockTouch.transform);
+        anim.transform.SetParent(this.transform);
         anim.SetInfo(Define.Scene.PvpMatchingScene, () => { Managers.Scene.ChangeScene(Define.Scene.PvpMatchingScene); });
 
         yield return new WaitForSeconds(0.5f);
