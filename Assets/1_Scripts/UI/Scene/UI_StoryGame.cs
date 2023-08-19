@@ -298,7 +298,7 @@ public class UI_StoryGame : UI_Scene
             else if (currentPhase == Phase.Phase2)
                 ChangePhase(Phase.Phase3);
             else
-                Managers.UI.ShowPopupUI<UI_GameWin>();
+                StartCoroutine(FinishMode());
         }
 
     }
@@ -549,6 +549,8 @@ public class UI_StoryGame : UI_Scene
 
     #endregion
 
+    #region 페이즈 관리
+
     /// <summary>
     /// 페이즈 변경
     /// </summary>
@@ -689,6 +691,40 @@ public class UI_StoryGame : UI_Scene
             arrow.gameObject.GetComponentInChildren<Image>().transform.rotation = rotation;
             arrow.GetComponentInChildren<TextMeshProUGUI>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));
 
+        }
+    }
+    #endregion
+
+    #endregion
+
+    #region 에필로그
+
+    // 페이즈3에서 마지막에 마녀를 무찌를 때 호출되는 함수.
+    IEnumerator FinishMode()
+    {
+        Time.timeScale = 0.3f;
+        StartCoroutine(SetPitchLow());
+        yield return new WaitForSecondsRealtime(3f);
+
+        Time.timeScale = 1f;
+        // TODO
+        // 1. 팝업 없애고
+        // 2. 화면 페이드 아웃 넣고
+        // 3. 이후 에필로그 보여주는 Scene으로...
+        Managers.UI.ShowPopupUI<UI_GameWin>();
+    }
+
+    IEnumerator SetPitchLow()
+    {
+        AudioSource[] AS = GameObject.Find("@Sound").transform.GetComponentsInChildren<AudioSource>();
+        foreach (AudioSource a in AS)
+        {
+            a.pitch *= 0.9f;
+        }
+        yield return new WaitForSecondsRealtime(2.8f);
+        foreach (AudioSource a in AS)
+        {
+            a.pitch = 1f;
         }
     }
     #endregion
