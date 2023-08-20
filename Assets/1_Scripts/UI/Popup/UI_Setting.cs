@@ -52,7 +52,7 @@ public class UI_Setting : UI_Popup
 
     void SetLanguageBtn()
     {
-        if(LocalizationManager.Get().GetSelectedLaguage() == Language.KOREAN)
+        if(LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
         {
             OnClickedKorBtn();
         }

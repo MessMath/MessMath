@@ -81,7 +81,7 @@ namespace MessMathI18n
             selectedLanguage = language;
         }
 
-        public Language GetSelectedLaguage()
+        public Language GetSelectedLanguage()
         {
             return selectedLanguage;
         }

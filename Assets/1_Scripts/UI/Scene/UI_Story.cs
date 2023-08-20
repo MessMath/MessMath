@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using StoryData;
+using MessMathI18n;
 
 public class UI_Story : UI_Scene
 {
@@ -80,9 +81,18 @@ public class UI_Story : UI_Scene
         BindImage(typeof(Images));
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
-    
+
         jsonReader = new JsonReader();
-        storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 0 + "_EnterGameStory.json").talkDataList;
+
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
+        {
+            storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 0 + "_EnterGameStory_KOR.json").talkDataList;
+        }
+        else
+        {
+            storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 4 + "_EnterGameStory_EN.json").talkDataList;
+        }
+
         maxCount = storyTalkData.Count;
 
         replayPopup = Managers.UI.ShowPopupUI<UI_ReplayStory>().gameObject;
