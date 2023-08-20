@@ -30,6 +30,7 @@ public class Define
         PvpGameScene,
         PvpMatchingScene,
         SignInScene,
+        EpilogueScene,
     }
 
     public enum Sound
