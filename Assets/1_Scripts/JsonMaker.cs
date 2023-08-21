@@ -16,6 +16,8 @@ public class JsonMaker : MonoBehaviour
         "https://docs.google.com/spreadsheets/d/1SLsoFg1UYiPSzXfYs8j7lo-gDRo71pSopK1saJHtATU", // 튜토리얼
         "https://docs.google.com/spreadsheets/d/1JVqCDQPs_rfZPhg3x05gzdvr5cDKgFYfUd5MAnB-rmM", // 스토리_영어
         "https://docs.google.com/spreadsheets/d/1WkDvfIOCIUD3NP21QboDDwPcCfuifDmoiFSYpCHkld4", // 가호정보_영어
+        "https://docs.google.com/spreadsheets/d/1s6NE0G3nOnoRmRJcLa2osfqmwvTfZXjlI9-IPmmG7LM", // 수집폼 정보_영어
+        "https://docs.google.com/spreadsheets/d/1OdKxEzgRwspt6SoLH0_Wnd8-33TqOsmLeKO7f5Hj5cg"  // 튜토리얼 정보_영어
     };
     string sheetNum = "0";
     List<string> range = new List<string>(); 
@@ -76,16 +78,20 @@ public class JsonMaker : MonoBehaviour
         range.Add("A2:A7");
         range.Add("A2:G82");
         range.Add("A2:D7");
+        range.Add("A2:D4");
+        range.Add("A2:A7");
     }
 
     void AddFileName()
     {
         fileName.Add("EnterGameStory_KOR");
         fileName.Add("StoreGrace_KOR");
-        fileName.Add("StoreCollection");
-        fileName.Add("Tutorial");
+        fileName.Add("StoreCollection_KOR");
+        fileName.Add("Tutorial_KOR");
         fileName.Add("EnterGameStory_EN");
         fileName.Add("StoreGrace_EN");
+        fileName.Add("StoreCollection_EN");
+        fileName.Add("Tutorial_EN");
     }
 
     // ANCHOR 구글 docs에서 데이터 읽기

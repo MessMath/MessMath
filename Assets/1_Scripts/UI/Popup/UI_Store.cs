@@ -75,16 +75,17 @@ public class UI_Store : UI_Popup
 
         content = GetObject((int)GameObjects.StoreContent);
         jsonReader = new JsonReader();
+
         if(LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
         {
             graceData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 1 + "_StoreGrace_KOR.json").storeDataList;
+            collectionData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 2 + "_StoreCollection_KOR.json").storeDataList;
         }
         else
         {
             graceData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 5 + "_StoreGrace_EN.json").storeDataList;
+            collectionData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 2 + "_StoreCollection_EN.json").storeDataList;
         }
-        
-        collectionData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 2 + "_StoreCollection.json").storeDataList;
 
         OnClickedGraceBtn();
 
