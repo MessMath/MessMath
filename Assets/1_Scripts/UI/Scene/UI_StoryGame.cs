@@ -639,7 +639,7 @@ public class UI_StoryGame : UI_Scene
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
         SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/WitchChangeAnimation_Normal").GetOrAddComponent<SceneChangeAnimation_In>();
-        anim.transform.Find("NormalWitchText").transform.DOShakePosition(10, 20);
+        anim.transform.Find("NormalWitchText").transform.DOShakePosition(10, 30);
         anim.transform.SetParent(uI_LockTouch.transform);
         anim.SetInfo(Define.Scene.StoryGameScene, () => { });
 
@@ -737,6 +737,8 @@ public class UI_StoryGame : UI_Scene
     {
         GameObject[] arrows = GameObject.FindGameObjectsWithTag("Arrow");
 
+        Managers.Sound.Play("3페이즈스킬");
+
         foreach (GameObject arrow in arrows)
         {
             Vector2 curVec = new Vector2(arrow.GetComponent<Arrow>().direction.x, arrow.GetComponent<Arrow>().direction.y);
@@ -745,7 +747,7 @@ public class UI_StoryGame : UI_Scene
             arrow.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             arrow.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Sprites/Effects/EnergyBall");
             arrow.GetComponentInChildren<Image>().SetNativeSize();
-            arrow.GetComponentInChildren<TextMeshProUGUI>().color = Color.green;
+            arrow.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
             arrow.GetComponent<Rigidbody2D>().AddForce(RandomVector2.normalized * speed, ForceMode2D.Impulse);
             
             float angle = Mathf.Atan2(curVec.y, curVec.x) * Mathf.Rad2Deg;

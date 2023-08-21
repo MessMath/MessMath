@@ -24,7 +24,7 @@ public class SceneChangeAnimation_In : UI_Popup
 
     IEnumerator OnAnimationComplete()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         _action.Invoke();
     }
 }
