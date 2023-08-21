@@ -45,11 +45,21 @@ public class UI_GameOver : UI_Popup
 
     public void toMain()
     {
-        // Sound
+        CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
+        Time.timeScale = 1;
+    }
+
+    IEnumerator SceneChangeAnimation_In_Lobby()
+    {
         Managers.Sound.Play("ClickBtnEff");
 
-        Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
-        Time.timeScale = 1;
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_In>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.LobbyScene, () => { Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
+
+        yield return new WaitForSeconds(0.5f);
     }
 
 }
