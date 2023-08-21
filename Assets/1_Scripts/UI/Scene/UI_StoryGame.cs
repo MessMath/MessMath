@@ -634,7 +634,7 @@ public class UI_StoryGame : UI_Scene
 
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
-        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/WitchChangeAnimation_Hard").GetOrAddComponent<SceneChangeAnimation_In>();
+        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/WitchChangeAnimation_Normal").GetOrAddComponent<SceneChangeAnimation_In>();
         anim.transform.SetParent(uI_LockTouch.transform);
         anim.SetInfo(Define.Scene.StoryGameScene, () => {  });
 
