@@ -303,7 +303,8 @@ public class UI_PvpGameScene : UI_Scene
     private const int MAX_SYMBOL_ARROW = 2;
     private int numArrowCnt = 0;
     private int symbolArrowCnt = 0;
-    //public TextMeshProUGUI SetText;
+
+    private bool firstCycle = true;
 
     // 화살이 생성되는 시간 조절하는 함수 
     // 현재 화살 개수가 몇개 나왔는지 체크
@@ -404,28 +405,19 @@ public class UI_PvpGameScene : UI_Scene
         return new Vector2(Random.Range(p1.x, p2.x), Random.Range(p1.y, p2.y));
     }
 
+    private PlayerControllerOnlyinPvp[] PlayerList;
+
     // 화살의 방향 조절하는 함수 
     // 현재 플레이어의 위치로 설정
     void SetArrowDirection(ArrowOnlyinPvp arrow)
     {
-        arrow.direction = FindObjectOfType<PlayerControllerOnlyinPvp>().transform.position - (Vector3)arrow.startPosition;
+        if(firstCycle)
+            PlayerList = GameObject.FindObjectsOfType<PlayerControllerOnlyinPvp>();
 
-        int randValue = Random.Range(0, 2);
-        switch (randValue)
-        {
-            case 0:
-                if (GameObject.FindGameObjectsWithTag("Player")[0] != null)
-                    LookAt(GameObject.FindGameObjectsWithTag("Player")[0], arrow);
-                else
-                    LookAt(GameObject.FindGameObjectsWithTag("Player")[1], arrow);
-                break;
-            case 1:
-                if (GameObject.FindGameObjectsWithTag("Player")[0] != null)
-                    LookAt(GameObject.FindGameObjectsWithTag("Player")[0], arrow);
-                else
-                    LookAt(GameObject.FindGameObjectsWithTag("Player")[0], arrow);
-                break;
-        }
+        int randValue = Random.Range(0, PlayerList.Length);
+
+        arrow.direction = PlayerList[randValue].transform.position - (Vector3)arrow.startPosition;
+        LookAt(PlayerList[randValue].gameObject, arrow);
 
         arrow.GetComponentInChildren<TextMeshProUGUI>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));
     }
