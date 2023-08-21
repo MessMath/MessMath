@@ -80,6 +80,7 @@ public class UI_GraceBoxPopup : UI_Popup
     {
         _graces.Clear();
         GetText((int)Texts.TitleText).text = Managers.GetText(Define.OneToOneModeSelectGracePopupText);
+        GetText((int)Texts.TitleText).fontSize = 65;
 
         // Delete Prefab Item
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;

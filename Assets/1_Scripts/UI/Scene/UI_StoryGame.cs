@@ -589,6 +589,7 @@ public class UI_StoryGame : UI_Scene
             // 2페이즈 마녀 이미지 변환 및 애니메이션
             StartCoroutine(WitchChangeAnimation_Normal());
 
+            GetImage((int)Images.WitchHPBar).color = new Color(119 / 255f, 255 / 255f, 245 / 255f, 1f);
             GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before");
             GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase2");
             StartCoroutine(SpecialEffectsForPhase2(10f));
@@ -599,6 +600,7 @@ public class UI_StoryGame : UI_Scene
             // 3페이즈 마녀 이미지 변환 및 애니메이션
             StartCoroutine(WitchChangeAnimation_Hard());
 
+            GetImage((int)Images.WitchHPBar).color = new Color(100 / 255f, 0f, 200 / 255f, 1f);
             GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before");
             GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase3");
 
@@ -620,7 +622,7 @@ public class UI_StoryGame : UI_Scene
         SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/WitchChangeAnimation_Normal").GetOrAddComponent<SceneChangeAnimation_In>();
         anim.transform.Find("NormalWitchText").transform.DOShakePosition(10, 20);
         anim.transform.SetParent(uI_LockTouch.transform);
-        anim.SetInfo(Define.Scene.StoryGameScene, () => {  });
+        anim.SetInfo(Define.Scene.StoryGameScene, () => { });
 
         yield return new WaitForSeconds(8.3f);
         Managers.UI.ClosePopupUI(uI_LockTouch);
@@ -750,10 +752,10 @@ public class UI_StoryGame : UI_Scene
             arrow.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
             arrow.GetComponentInChildren<TextMeshProUGUI>().fontSize = 400;
             arrow.GetComponent<Rigidbody2D>().AddForce(RandomVector2.normalized * speed, ForceMode2D.Impulse);
-            
+
             float angle = Mathf.Atan2(curVec.y, curVec.x) * Mathf.Rad2Deg;
             float angle2 = Mathf.Atan2(RandomVector2.y, RandomVector2.x) * Mathf.Rad2Deg;
-            
+
             Quaternion angleAxis = Quaternion.AngleAxis(angle2 + angle, Vector3.forward);
             //angleAxis = Quaternion.AngleAxis(angle + angle2 + 180, Vector3.forward);
             Quaternion rotation = Quaternion.Slerp(arrow.gameObject.GetComponentInChildren<Image>().transform.rotation, angleAxis, 1);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UI_PracticeGame : UI_Scene
 {
@@ -127,22 +128,24 @@ public class UI_PracticeGame : UI_Scene
     IEnumerator SetTeacher()
     {
         float delayTime = 1.0f;
-
+        int randValue = Random.Range(0, 2);
         GetTeacherTalkText();
 
         GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(true);
         if (Managers.Game.IsCorrect == true) // 정답
         {
-            //GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Practice/Professor_2"); //AnwerAni
+            if (randValue == 0) GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher_Right1"); 
+            else if (randValue == 1) GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher_Right2"); 
             GetImage((int)Images.AnswerAni).gameObject.GetOrAddComponent<Animator>().SetTrigger("RightAnswerAniTrigger");
         }
         else // 오답
         {
+            GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher_Wrong"); 
             GetImage((int)Images.AnswerAni).gameObject.GetOrAddComponent<Animator>().SetTrigger("WrongAnswerAniTrigger");
         }
 
         yield return new WaitForSeconds(delayTime);
-        //GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Practice/Professor_1");
+        GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher");
         GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(false);
 
         yield return null;
