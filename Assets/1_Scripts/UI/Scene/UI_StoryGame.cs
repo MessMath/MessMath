@@ -563,8 +563,8 @@ public class UI_StoryGame : UI_Scene
     // Phase에 따라 변하는 여러변수들을 배열형태로 선언.
     // (int)currentPhase로 인덱싱을 해보자.
 
-    private int[] numberMin = { 1, 1, 10 };             // 등장 숫자 최소값
-    private int[] numberMax = { 10, 100, 100 };         // 등장 숫자 최대값
+    private int[] numberMin = { 1, 1, 1 };             // 등장 숫자 최소값
+    private int[] numberMax = { 10, 15, 20 };         // 등장 숫자 최대값
     private float[] delayTime = { 1f, 0.8f, 0.6f };      // 화살 발사 딜레이
     private float[] speedMin = { 200f, 280f, 360f };     // 화살 속도 최소값
     private float[] speedMax = { 250f, 330f, 410f };     // 화살 속도 최대값
@@ -589,7 +589,7 @@ public class UI_StoryGame : UI_Scene
             // 2페이즈 마녀 이미지 변환 및 애니메이션
             StartCoroutine(WitchChangeAnimation_Normal());
 
-            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Phase2");
+            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before");
             GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase2");
             StartCoroutine(SpecialEffectsForPhase2(10f));
         }
@@ -599,7 +599,7 @@ public class UI_StoryGame : UI_Scene
             // 3페이즈 마녀 이미지 변환 및 애니메이션
             StartCoroutine(WitchChangeAnimation_Hard());
 
-            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Phase3");
+            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before");
             GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase3");
 
         }
@@ -748,6 +748,7 @@ public class UI_StoryGame : UI_Scene
             arrow.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Sprites/Effects/EnergyBall");
             arrow.GetComponentInChildren<Image>().SetNativeSize();
             arrow.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+            arrow.GetComponentInChildren<TextMeshProUGUI>().fontSize = 400;
             arrow.GetComponent<Rigidbody2D>().AddForce(RandomVector2.normalized * speed, ForceMode2D.Impulse);
             
             float angle = Mathf.Atan2(curVec.y, curVec.x) * Mathf.Rad2Deg;
