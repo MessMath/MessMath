@@ -11,6 +11,7 @@ using System.IO;
 using Random = UnityEngine.Random;
 using Unity.VisualScripting;
 using DG.Tweening;
+using UnityEngine.TextCore.LowLevel;
 
 public class UI_StoryGame : UI_Scene
 {
@@ -47,6 +48,7 @@ public class UI_StoryGame : UI_Scene
         heart0,
         heart1,
         heart2,
+        FadeOut,
     }
 
     enum GameObjects
@@ -159,6 +161,8 @@ public class UI_StoryGame : UI_Scene
         UnityEngine.Input.multiTouchEnabled = true;
 
         GetText((int)Texts.PhaseText).text = currentPhase.ToString();
+
+        GetImage((int)Images.FadeOut).gameObject.SetActive(false);
 
         return true;
     }
@@ -312,7 +316,7 @@ public class UI_StoryGame : UI_Scene
             else if (currentPhase == Phase.Phase2)
                 ChangePhase(Phase.Phase3);
             else
-                Managers.UI.ShowPopupUI<UI_GameWin>();
+                StartCoroutine(Epilogue());
         }
 
     }
@@ -370,25 +374,6 @@ public class UI_StoryGame : UI_Scene
     #region 화살 관리
 
     string[] Operator = { "+", "-", "×", "÷" };
-
-    // 페이즈 관리를 위한 열거형과 해당 타입 변수.
-    public enum Phase
-    {
-        Phase1,
-        Phase2,
-        Phase3,
-    }
-    public Phase currentPhase = Phase.Phase1;
-
-    // TODO
-    // Phase에 따라 변하는 여러변수들을 배열형태로 선언.
-    // (int)currentPhase로 인덱싱을 해보자.
-
-    private int[] numberMin = { 1, 1, 10 };             // 등장 숫자 최소값
-    private int[] numberMax = { 10, 100, 100 };         // 등장 숫자 최대값
-    private float[] delayTime = { 1f, 0.8f, 0.6f };      // 화살 발사 딜레이
-    private float[] speedMin = { 200f, 280f, 360f };     // 화살 속도 최소값
-    private float[] speedMax = { 250f, 330f, 410f };     // 화살 속도 최대값
 
     private int MAX_NUM_ARROW = 3;
     private int MAX_SYMBOL_ARROW = 2;
@@ -562,6 +547,27 @@ public class UI_StoryGame : UI_Scene
     }
 
     #endregion
+
+    #region 페이즈 관리
+
+    // 페이즈 관리를 위한 열거형과 해당 타입 변수.
+    public enum Phase
+    {
+        Phase1,
+        Phase2,
+        Phase3,
+    }
+    public Phase currentPhase = Phase.Phase1;
+
+    // TODO
+    // Phase에 따라 변하는 여러변수들을 배열형태로 선언.
+    // (int)currentPhase로 인덱싱을 해보자.
+
+    private int[] numberMin = { 1, 1, 10 };             // 등장 숫자 최소값
+    private int[] numberMax = { 10, 100, 100 };         // 등장 숫자 최대값
+    private float[] delayTime = { 1f, 0.8f, 0.6f };      // 화살 발사 딜레이
+    private float[] speedMin = { 200f, 280f, 360f };     // 화살 속도 최소값
+    private float[] speedMax = { 250f, 330f, 410f };     // 화살 속도 최대값
 
     /// <summary>
     /// 페이즈 변경
@@ -756,5 +762,68 @@ public class UI_StoryGame : UI_Scene
 
         }
     }
+    #endregion
+
+    #endregion
+
+    #region 에필로그
+
+    // 페이즈3에서 마지막에 마녀를 무찌를 때 호출되는 함수.
+    IEnumerator Epilogue()
+    {
+        Time.timeScale = 0.3f;
+
+        yield return SetPitchLow();
+
+        Time.timeScale = 1f;
+
+        // TODO
+        // 1. 팝업 없애고
+        // 2. 화면 페이드 아웃 넣고
+        // 3. 이후 에필로그 보여주는 Scene으로...
+
+        StartCoroutine(FadeOut());
+    }
+
+    IEnumerator SetPitchLow()
+    {
+        AudioSource[] AS = GameObject.Find("@Sound").transform.GetComponentsInChildren<AudioSource>();
+        foreach (AudioSource a in AS)
+        {
+            a.pitch *= 0.9f;
+        }
+        yield return new WaitForSecondsRealtime(2.8f);
+        foreach (AudioSource a in AS)
+        {
+            a.pitch = 1f;
+        }
+    }
+
+    IEnumerator FadeOut()
+    {
+        Image FadeOut = transform.Find("FadeOut").GetComponent<Image>();
+        Color fadecolor = FadeOut.color;
+        FadeOut.gameObject.SetActive(true);
+
+        float time = 0f;
+        float FadingTime = 1f;
+
+        float start = 0f;
+        float end = 1f;
+
+        while (FadeOut.color.a < 1f)
+        {
+            time += Time.deltaTime / FadingTime;
+
+            fadecolor.a = Mathf.Lerp(start, end, time);
+
+            FadeOut.color = fadecolor;
+
+            yield return null;
+        }
+
+        Managers.Scene.ChangeScene(Define.Scene.EpilogueScene);
+    }
+
     #endregion
 }
