@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using StoreDatas;
+using MessMathI18n;
 
 public class UI_Store : UI_Popup
 {
@@ -19,12 +20,16 @@ public class UI_Store : UI_Popup
         ShopKeeperImage,
         GraceLightBar,
         CollectionLightBar,
-        ImportantLightBar,
+        ClothesLightBar,
     }
 
     enum Texts
     {
         CoinTMP,
+        TitleTMP,
+        GraceBtnTMP,
+        CollectionBtnTMP,
+        ClothesBtnTMP,
     }
 
     enum Buttons
@@ -32,7 +37,7 @@ public class UI_Store : UI_Popup
         ExitButton,
         GraceButton,
         CollectionButton,
-        ImportantThingButton,
+        ClothesButton,
     }
 
     enum GameObjects
@@ -61,12 +66,26 @@ public class UI_Store : UI_Popup
         GetButton((int)Buttons.ExitButton).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ClosePopupUI(); });
         GetButton((int)Buttons.GraceButton).gameObject.BindEvent(OnClickedGraceBtn);
         GetButton((int)Buttons.CollectionButton).gameObject.BindEvent(OnClickedCollectionBtn);
-        GetButton((int)Buttons.ImportantThingButton).gameObject.BindEvent(OnClickedImportantThingBtn);
+        GetButton((int)Buttons.ClothesButton).gameObject.BindEvent(OnClickedClothesBtn);
+
+        GetText((int)Texts.TitleTMP).text = I18n.Get(I18nDefine.STORE_MATHEMATICS_BOOK);
+        GetText((int)Texts.GraceBtnTMP).text = I18n.Get(I18nDefine.STORE_GRACE);
+        GetText((int)Texts.CollectionBtnTMP).text = I18n.Get(I18nDefine.STORE_COLLECTIONS);
+        GetText((int)Texts.ClothesBtnTMP).text = I18n.Get(I18nDefine.STORE_CLOTHES);
 
         content = GetObject((int)GameObjects.StoreContent);
         jsonReader = new JsonReader();
-        graceData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 1 + "_StoreGauss.json").storeDataList;
-        collectionData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 2 + "_StoreCollection.json").storeDataList;
+
+        if(LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
+        {
+            graceData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 1 + "_StoreGrace_KOR.json").storeDataList;
+            collectionData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 2 + "_StoreCollection_KOR.json").storeDataList;
+        }
+        else
+        {
+            graceData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 5 + "_StoreGrace_EN.json").storeDataList;
+            collectionData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 2 + "_StoreCollection_EN.json").storeDataList;
+        }
 
         OnClickedGraceBtn();
 
@@ -85,7 +104,7 @@ public class UI_Store : UI_Popup
 
         GetImage((int)Images.GraceLightBar).gameObject.SetActive(true);
         GetImage((int)Images.CollectionLightBar).gameObject.SetActive(false);
-        GetImage((int)Images.ImportantLightBar).gameObject.SetActive(false);
+        GetImage((int)Images.ClothesLightBar).gameObject.SetActive(false);
 
         for (int i = 0; i < graceData.Count; i++)
         {
@@ -108,7 +127,7 @@ public class UI_Store : UI_Popup
 
         GetImage((int)Images.GraceLightBar).gameObject.SetActive(false);
         GetImage((int)Images.CollectionLightBar).gameObject.SetActive(true);
-        GetImage((int)Images.ImportantLightBar).gameObject.SetActive(false);
+        GetImage((int)Images.ClothesLightBar).gameObject.SetActive(false);
 
         for (int i = 0; i < collectionData.Count; i++)
         {
@@ -119,7 +138,7 @@ public class UI_Store : UI_Popup
         }
     }
 
-    void OnClickedImportantThingBtn()
+    void OnClickedClothesBtn()
     {
         Managers.Sound.Play("ClickBtnEff");
 
@@ -130,7 +149,7 @@ public class UI_Store : UI_Popup
 
         GetImage((int)Images.GraceLightBar).gameObject.SetActive(false);
         GetImage((int)Images.CollectionLightBar).gameObject.SetActive(false);
-        GetImage((int)Images.ImportantLightBar).gameObject.SetActive(true);
+        GetImage((int)Images.ClothesLightBar).gameObject.SetActive(true);
 
         for (int i = 0; i < collectionData.Count; i++)
         {
