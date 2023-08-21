@@ -75,6 +75,7 @@ public class GraceManager
     public void GraceOfGauss()
     {
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Gauss", player.transform.parent);
+        effect.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
         GameObject.Destroy(effect, 2f);
 
         if (gaussOn) return;
@@ -144,6 +145,7 @@ public class GraceManager
     public void GraceOfPythagoras()
     {
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Pythagoras", player.transform.parent);
+        effect.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
         GameObject.Destroy(effect, 2f);
 
         if (pythagorasOn) return;
@@ -199,7 +201,9 @@ public class GraceManager
     public void GraceOfNewton()
     {
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Newton", player.transform.parent);
+        effect.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
         GameObject VFX = Managers.Resource.Instantiate("Grace/VFXs/VFX_Newton/GraceVFX_Newton", player.transform.parent);
+        VFX.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
         GameObject.Destroy(effect, 2f);
         GameObject.Destroy(VFX, 2f);
 
@@ -276,7 +280,9 @@ public class GraceManager
     public void GraceOfEinstein()
     {
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Einstein", player.transform.parent);
+        effect.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
         GameObject VFX = Managers.Resource.Instantiate("Grace/VFXs/VFX_Einstein/GraceVFX_Einstein", player.transform.parent);
+        VFX.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
         GameObject.Destroy(effect, 2f);
         GameObject.Destroy(VFX, 2f);
 
@@ -329,7 +335,9 @@ public class GraceManager
     public void GraceOfNeumann()
     {
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Neumann", player.transform.parent);
+        effect.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
         GameObject VFX = Managers.Resource.Instantiate("Grace/VFXs/VFX_Neumann/GraceVFX_Neumann", player.transform.parent);
+        VFX.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
         GameObject.Destroy(effect,2f);
         GameObject.Destroy(VFX, 2f);
 
@@ -352,7 +360,9 @@ public class GraceManager
         float duration = 10f;
 
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Descartes", player.transform.parent);
+        effect.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
         GameObject VFX = Managers.Resource.Instantiate("Grace/VFXs/VFX_Descartes/GraceVFX_Descartes", player.transform.parent);
+        VFX.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
         GameObject.Destroy(effect, 2f);
         GameObject.Destroy(VFX, duration);
 

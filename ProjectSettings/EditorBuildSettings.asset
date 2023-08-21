@@ -41,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/0_Scenes/PvpMatchingScene.unity
     guid: 5b3b4975fa7922d4ea0902cbc74d36d2
+  - enabled: 1
+    path: Assets/0_Scenes/EpilogueScene.unity
+    guid: dd875590bd1869b4da40935e9dc8e107
   m_configObjects: {}
