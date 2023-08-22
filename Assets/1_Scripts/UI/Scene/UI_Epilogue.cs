@@ -15,12 +15,18 @@ public class UI_Epilogue : UI_Scene
         Credits,
     }
 
+    enum Buttons
+    {
+        BackToLobbyBtn,
+    }
+
     public override bool Init()
     {
         if (base.Init() == false)
             return false;
 
         BindImage(typeof(Images));
+        BindButton(typeof(Buttons));
 
         ImagesPreSetting();
 
@@ -28,6 +34,8 @@ public class UI_Epilogue : UI_Scene
         GetImage((int)Images.Image2).gameObject.BindEvent(() => GetImage((int)Images.Image3).gameObject.SetActive(true));
         GetImage((int)Images.Image3).gameObject.BindEvent(ShowCredits);
         GetImage((int)Images.Credits).gameObject.SetActive(false);
+
+        GetButton((int)Buttons.BackToLobbyBtn).gameObject.BindEvent(()=>{ Managers.Sound.Play("ClickBtnEff");  Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
 
         StartCoroutine(FadeIn());
 
