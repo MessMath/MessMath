@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -313,7 +313,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6058200894380542020}
-  - component: {fileID: 8946521309563485107}
+  - component: {fileID: 7601360244166640700}
   m_Layer: 0
   m_Name: LoseAni
   m_TagString: Untagged
@@ -338,7 +338,7 @@ Transform:
   m_Father: {fileID: 7221117907172758920}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &8946521309563485107
+--- !u!95 &7601360244166640700
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 708570841177254508}
   - component: {fileID: 6229638838909162007}
   - component: {fileID: 4293459104055042522}
-  - component: {fileID: 795271394166622625}
+  - component: {fileID: 5062876698412306876}
   m_Layer: 5
   m_Name: UI_PvpGameResult_Lose
   m_TagString: Untagged
@@ -624,7 +624,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!95 &795271394166622625
+--- !u!95 &5062876698412306876
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
