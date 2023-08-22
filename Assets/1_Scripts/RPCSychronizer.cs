@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class RPCSychronizer : MonoBehaviourPun
 {
     UI_PvpGameScene ui_PvpGameScene;
 
-    void Start()
+    void Awake()
     {
         ui_PvpGameScene = GameObject.Find("UI_PvpGameScene").GetComponent<UI_PvpGameScene>();
     }
@@ -28,5 +29,12 @@ public class RPCSychronizer : MonoBehaviourPun
             ui_PvpGameScene.ScoreSet();
             ui_PvpGameScene.Questioning();
         }
+    }
+
+    [PunRPC]
+    public void QuestioningNumSync(int Qnum)
+    {
+        GameObject.Find("QuestionNumber_Text").GetComponent<TextMeshProUGUI>().text = Qnum.ToString();
+        ui_PvpGameScene.QusetionNumber = Qnum;
     }
 }
