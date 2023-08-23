@@ -1,18 +1,17 @@
-﻿using System.Collections;
+﻿using DiagnosisDatas;
+using MessMathI18n;
+using StoreDatas;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Diagnosis : UI_Scene
 {
-    // TODO 
-    // ������ �˾� 
-    // ù ��ŸƮ
+    JsonReader jsonReader;
+    List<DiagnosisData> diagnosisData = new List<DiagnosisData>();
 
-    // ���� ���� ����
-    // ���̵� ���� ex) ���ڸ� �ȴ�. ������ �� �� �ȴ�. ���
-    // 8������ ���� �� ����.
-    // ���� �� �Ϸ� ��, �ݱ� ��ư ����? -> �κ�� ����.
     enum Buttons
     {
         ToLobbyBtn,
@@ -21,6 +20,7 @@ public class UI_Diagnosis : UI_Scene
     enum Texts
     {
         TeacherTalkText,
+        Text_ChooseDifficulty,
     }
 
     enum Images
@@ -37,6 +37,10 @@ public class UI_Diagnosis : UI_Scene
         ChooseDifficulty,
         Problem,
         Debug,
+        Difficulty1,
+        Difficulty2,
+        Difficulty3,
+        Difficulty4,
     }
 
     public override bool Init()
@@ -49,7 +53,16 @@ public class UI_Diagnosis : UI_Scene
         BindImage(typeof(Images));
         BindObject(typeof(GameObjects));
 
-        StartCoroutine("NextTalk");
+        jsonReader = new JsonReader();
+
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
+        {
+            diagnosisData = jsonReader.ReadDiagnosisJson(Application.persistentDataPath + "/" + 4 + "_Diagnosis_KOR.json").diagnosisDataList;
+        }
+        else
+        {
+            diagnosisData = jsonReader.ReadDiagnosisJson(Application.persistentDataPath + "/" + 9 + "_Diagnosis_EN.json").diagnosisDataList;
+        }
 
         //BindEvent(gameObject, MakeToLobbyBtn);
         GetButton((int)Buttons.ToLobbyBtn).gameObject.BindEvent(() => 
@@ -66,6 +79,13 @@ public class UI_Diagnosis : UI_Scene
         GetObject((int)GameObjects.Sample).gameObject.SetActive(false);
         GetObject((int)GameObjects.API).gameObject.SetActive(false);
         GetButton((int)Buttons.ToLobbyBtn).gameObject.SetActive(false);
+        GetObject((int)GameObjects.Difficulty1).GetComponent<Text>().text = I18n.Get(I18nDefine.DIAGNOSIS_DIFFICULTY_1);
+        GetObject((int)GameObjects.Difficulty2).GetComponent<Text>().text = I18n.Get(I18nDefine.DIAGNOSIS_DIFFICULTY_2);
+        GetObject((int)GameObjects.Difficulty3).GetComponent<Text>().text = I18n.Get(I18nDefine.DIAGNOSIS_DIFFICULTY_3);
+        GetObject((int)GameObjects.Difficulty4).GetComponent<Text>().text = I18n.Get(I18nDefine.DIAGNOSIS_DIFFICULTY_4);
+        GetText((int)Texts.Text_ChooseDifficulty).text = I18n.Get(I18nDefine.DIAGNOSIS_CHOOSE_DIFFICULTY);
+
+        StartCoroutine("NextTalk");
 
         // Sound
         Managers.Sound.Clear();
@@ -82,7 +102,8 @@ public class UI_Diagnosis : UI_Scene
         int textCount = 5;
         for (int i = 0; i < textCount; i++)
         {
-            GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.DiagnosisTeacherText + i);
+            //GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.DiagnosisTeacherText + i);
+            GetText((int)Texts.TeacherTalkText).text = diagnosisData[i].dialogue;
             yield return new WaitForSeconds(waitTime);
             // TODO Sound �߰�
         }

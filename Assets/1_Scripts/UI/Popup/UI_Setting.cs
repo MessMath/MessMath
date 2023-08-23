@@ -78,6 +78,10 @@ public class UI_Setting : UI_Popup
         GetButton((int)Buttons.KorianBtn).gameObject.GetComponent<Image>().color = Color.white;
         GetButton((int)Buttons.EnglishBtn).gameObject.GetComponent<Image>().color = Color.grey;
         LocalizationManager.Get().SetLanguage(Language.KOREAN);
+        if (Managers.Scene.CurrentSceneType == Define.Scene.LobbyScene)
+        {
+            GameObject.Find("UI_Lobby").GetOrAddComponent<UI_Lobby>().ReFreshUIText();
+        }
     }
 
     void OnClickedEnBtn()
@@ -85,5 +89,9 @@ public class UI_Setting : UI_Popup
         GetButton((int)Buttons.KorianBtn).gameObject.GetComponent<Image>().color = Color.grey;
         GetButton((int)Buttons.EnglishBtn).gameObject.GetComponent<Image>().color = Color.white;
         LocalizationManager.Get().SetLanguage(Language.ENGLISH);
+        if (Managers.Scene.CurrentSceneType == Define.Scene.LobbyScene)
+        {
+            GameObject.Find("UI_Lobby").GetOrAddComponent<UI_Lobby>().ReFreshUIText();
+        }
     }
 }

@@ -2,5 +2,22 @@
     "STORE_MATHEMATICS_BOOK": "Bookshop of mathematics",
     "STORE_GRACE": "Graces",
     "STORE_COLLECTIONS": "Collections",
-    "STORE_CLOTHES": "Clothes"
+    "STORE_CLOTHES": "Clothes",
+    "LOBBY_SETTING": "Setting",
+    "LOBBY_HELP_ON": "Help\nON",
+    "LOBBY_HELP_OFF": "Help\nOFF",
+    "LOBBY_STORE": "Store",
+    "LOBBY_INVENTORY": "Inventory",
+    "LOBBY_STORY_GAME": "Witch Hunt",
+    "LOBBY_ONE_TO_ONE_GAME": "Math\nLecture",
+    "LOBBY_PVP_GAME": "PVP",
+    "LOBBY_PRACTICE_GAME": "Test Study",
+    "LOBBY_STUDENT_ID_CARD": "ID Card",
+    "DIAGNOSIS_CHOOSE_DIFFICULTY": "I would like to know your math skills.\nPlease press the letter according to your skill.",
+    "DIAGNOSIS_DIFFICULTY_1": "I can count.",
+    "DIAGNOSIS_DIFFICULTY_2": "I can do addition\nand subtraction.",
+    "DIAGNOSIS_DIFFICULTY_3": "I can do multiplication\nand division.",
+    "DIAGNOSIS_DIFFICULTY_4": "I know fractions\nand decimals.",
+    "PRACTICE_START": "Start",
+    "PRACTICE_NEXT": "Next Class"
 }

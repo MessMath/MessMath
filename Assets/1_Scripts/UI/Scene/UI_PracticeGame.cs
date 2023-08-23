@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using MessMathI18n;
 
 public class UI_PracticeGame : UI_Scene
 {
@@ -38,6 +39,7 @@ public class UI_PracticeGame : UI_Scene
         ChooseDifficulty,
         Problem,
         API,
+        StartText,
     }
 
     private void Start()
@@ -48,7 +50,7 @@ public class UI_PracticeGame : UI_Scene
     }
 
     #region 씬변환 애니
-    
+
     IEnumerator SceneChangeAnimation_Out_PracticeGame()
     {
         // Ani
@@ -83,6 +85,7 @@ public class UI_PracticeGame : UI_Scene
         GetButton((int)Buttons.AnswerBtn_2).gameObject.BindEvent(OnClickAnswerBtn);
         GetButton((int)Buttons.AnswerBtn_3).gameObject.BindEvent(OnClickAnswerBtn);
         GetButton((int)Buttons.AnswerBtn_4).gameObject.BindEvent(OnClickAnswerBtn);
+        GetObject((int)GameObjects.StartText).gameObject.GetComponent<Text>().text = I18n.Get(I18nDefine.PRACTICE_START);
 
         GetObject((int)GameObjects.ChooseDifficulty).gameObject.SetActive(false);
         GetObject((int)GameObjects.Problem).gameObject.SetActive(false);
@@ -134,13 +137,13 @@ public class UI_PracticeGame : UI_Scene
         GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(true);
         if (Managers.Game.IsCorrect == true) // 정답
         {
-            if (randValue == 0) GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher_Right1"); 
-            else if (randValue == 1) GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher_Right2"); 
+            if (randValue == 0) GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher_Right1");
+            else if (randValue == 1) GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher_Right2");
             GetImage((int)Images.AnswerAni).gameObject.GetOrAddComponent<Animator>().SetTrigger("RightAnswerAniTrigger");
         }
         else // 오답
         {
-            GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher_Wrong"); 
+            GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher_Wrong");
             GetImage((int)Images.AnswerAni).gameObject.GetOrAddComponent<Animator>().SetTrigger("WrongAnswerAniTrigger");
         }
 
@@ -153,6 +156,8 @@ public class UI_PracticeGame : UI_Scene
 
     void GetTeacherTalkText()
     {
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH) return;
+
         int randValue = Random.Range(0, 100);
 
         if (Managers.Game.IsCorrect == true)
@@ -160,7 +165,7 @@ public class UI_PracticeGame : UI_Scene
             if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.RightAnswerTeacherTalkText + 0); }
             else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.RightAnswerTeacherTalkText + 1); }
             else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.RightAnswerTeacherTalkText + 2); }
-            
+
         }
         else
         {

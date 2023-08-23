@@ -1,3 +1,4 @@
+using MessMathI18n;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -58,12 +59,15 @@ public class UI_Lobby : UI_Scene
         if (base.Init() == false)
             return false;
 
+        TextOn = true;
+
+        #region 바인드
         BindImage(typeof(Images));
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
+        #endregion
 
-        TextOn = true;
-
+        #region 연동
         GetImage((int)Images.UserImage).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Info>(); });
         GetButton((int)Buttons.ExerciseBtn).gameObject.BindEvent(() => { CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_PracticeGameScene()); });
         GetButton((int)Buttons.StoreBtn).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_Store>(); });
@@ -72,6 +76,8 @@ public class UI_Lobby : UI_Scene
         GetButton((int)Buttons.Fight1vs1GameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_SelectMathMtcfor1vs1>(); });
         GetButton((int)Buttons.PvpBtn).gameObject.BindEvent(() => { CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Pvp()); });
         GetButton((int)Buttons.PvpBroomstickBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ButtonTextOnOff(); });
+
+        ReFreshUIText();
 
         if (PlayerPrefs.HasKey("WatchedStory") && PlayerPrefs.GetInt("WatchedStory") == -2)
         {
@@ -86,7 +92,7 @@ public class UI_Lobby : UI_Scene
         {
             //GetButton((int)Buttons.QuestBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
         }
-
+        #endregion
         // Sound
         Managers.Sound.Clear();
         Managers.Sound.Play("LobbyBgm", Define.Sound.Bgm);
@@ -135,6 +141,19 @@ public class UI_Lobby : UI_Scene
     }
     #endregion
 
+    public void ReFreshUIText()
+    {
+        GetText((int)Texts.SettingBtnText).text = I18n.Get(I18nDefine.LOBBY_SETTING);
+        GetText((int)Texts.StoryModeBtnText).text = I18n.Get(I18nDefine.LOBBY_STORY_GAME);
+        GetText((int)Texts.Fight1vs1GameBtnText).text = I18n.Get(I18nDefine.LOBBY_ONE_TO_ONE_GAME);
+        GetText((int)Texts.StoreBtnText).text = I18n.Get(I18nDefine.LOBBY_STORE);
+        GetText((int)Texts.PvpBtnText).text = I18n.Get(I18nDefine.LOBBY_PVP_GAME);
+        GetText((int)Texts.InventoryBtnText).text = I18n.Get(I18nDefine.LOBBY_INVENTORY);
+        GetText((int)Texts.ExerciseBtnText).text = I18n.Get(I18nDefine.LOBBY_PRACTICE_GAME);
+        GetText((int)Texts.UserBtnText).text = I18n.Get(I18nDefine.LOBBY_STUDENT_ID_CARD);
+        GetText((int)Texts.PvpBroomstickBtnText).text = I18n.Get(I18nDefine.LOBBY_HELP_ON);
+    }
+
     void showTutorial()
     {
         if (PlayerPrefs.GetInt("DoTutorial") != 2)
@@ -154,7 +173,7 @@ public class UI_Lobby : UI_Scene
             GetText((int)Texts.InventoryBtnText).gameObject.SetActive(false);
             GetText((int)Texts.ExerciseBtnText).gameObject.SetActive(false);
             GetText((int)Texts.UserBtnText).gameObject.SetActive(false);
-            GetText((int)Texts.PvpBroomstickBtnText).text = "도움말\nOFF";
+            GetText((int)Texts.PvpBroomstickBtnText).text = I18n.Get(I18nDefine.LOBBY_HELP_OFF);
             TextOn = false;
         }
         // Text Off 상태일떄
@@ -167,8 +186,8 @@ public class UI_Lobby : UI_Scene
             GetText((int)Texts.PvpBtnText).gameObject.SetActive(true);
             GetText((int)Texts.InventoryBtnText).gameObject.SetActive(true);
             GetText((int)Texts.ExerciseBtnText).gameObject.SetActive(true);
-            GetText((int)Texts.UserBtnText).gameObject.SetActive(false);
-            GetText((int)Texts.PvpBroomstickBtnText).text = "도움말\nON";
+            GetText((int)Texts.UserBtnText).gameObject.SetActive(true);
+            GetText((int)Texts.PvpBroomstickBtnText).text = I18n.Get(I18nDefine.LOBBY_HELP_ON);
             TextOn = true;
         }
     }

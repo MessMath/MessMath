@@ -1,3 +1,4 @@
+using MessMathI18n;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,6 +42,8 @@ public class UI_MakeTxtFile : UI_Scene
 
     void SelectTip()
     {
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH) return;
+
         int tipTextCount = Random.Range(0, 21);
         GetText((int)Texts.TipText).text = Managers.GetText(Define.TipText + tipTextCount);
     }
