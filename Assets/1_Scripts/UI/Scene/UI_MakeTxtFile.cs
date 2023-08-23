@@ -1,10 +1,15 @@
+using TipDatas;
 using MessMathI18n;
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UI_MakeTxtFile : UI_Scene
 {
+    JsonReader jsonReader;
+    List<TipData> tipData = new List<TipData>();
+
     enum Texts
     {
         LogTMP,
@@ -30,21 +35,32 @@ public class UI_MakeTxtFile : UI_Scene
         if (base.Init() == false)
             return false;
 
-        
+
         BindText(typeof(Texts));
         BindObject(typeof(GameObjects));
 
         SelectTip();
         GetText((int)Texts.LogTMP).text = "업데이트 정보를 불러오는 중입니다...";
 
+        jsonReader = new JsonReader();
+
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
+        {
+            tipData = jsonReader.ReadTipJson(Application.persistentDataPath + "/" + 5 + "_Tip_KOR.json").tipDataList;
+        }
+        else
+        {
+            tipData = jsonReader.ReadTipJson(Application.persistentDataPath + "/" + 11 + "_Tip_EN.json").tipDataList;
+        }
+
         return true;
     }
-
     void SelectTip()
     {
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH) return;
 
         int tipTextCount = Random.Range(0, 21);
         GetText((int)Texts.TipText).text = Managers.GetText(Define.TipText + tipTextCount);
+        //GetText((int)Texts.TipText).text = tipData[tipTextCount].tipText;
     }
 }

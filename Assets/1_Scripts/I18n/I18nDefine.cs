@@ -1,9 +1,11 @@
 public static class I18nDefine
 {
+    // Store
     public const string STORE_MATHEMATICS_BOOK = "STORE_MATHEMATICS_BOOK";
     public const string STORE_GRACE = "STORE_GRACE";
     public const string STORE_COLLECTIONS = "STORE_COLLECTIONS";
     public const string STORE_CLOTHES = "STORE_CLOTHES";
+    // Lobby
     public const string LOBBY_SETTING = "LOBBY_SETTING";
     public const string LOBBY_HELP_ON = "LOBBY_HELP_ON";
     public const string LOBBY_HELP_OFF = "LOBBY_HELP_OFF";
@@ -14,14 +16,22 @@ public static class I18nDefine
     public const string LOBBY_PVP_GAME = "LOBBY_PVP_GAME";
     public const string LOBBY_PRACTICE_GAME = "LOBBY_PRACTICE_GAME";
     public const string LOBBY_STUDENT_ID_CARD = "LOBBY_STUDENT_ID_CARD";
+    // DIAGNOSIS
     public const string DIAGNOSIS_CHOOSE_DIFFICULTY = "DIAGNOSIS_CHOOSE_DIFFICULTY";
     public const string DIAGNOSIS_DIFFICULTY_1 = "DIAGNOSIS_DIFFICULTY_1";
     public const string DIAGNOSIS_DIFFICULTY_2 = "DIAGNOSIS_DIFFICULTY_2";
     public const string DIAGNOSIS_DIFFICULTY_3 = "DIAGNOSIS_DIFFICULTY_3";
     public const string DIAGNOSIS_DIFFICULTY_4 = "DIAGNOSIS_DIFFICULTY_4";
+    // PRACTICE
     public const string PRACTICE_START = "PRACTICE_START";
     public const string PRACTICE_NEXT = "PRACTICE_NEXT";
-
+    public const string PRACTICE_TEACHER_RIGHT_ANSWER_REACTION_1 = "PRACTICE_TEACHER_RIGHT_ANSWER_REACTION_1";
+    public const string PRACTICE_TEACHER_RIGHT_ANSWER_REACTION_2 = "PRACTICE_TEACHER_RIGHT_ANSWER_REACTION_2";
+    public const string PRACTICE_TEACHER_RIGHT_ANSWER_REACTION_3 = "PRACTICE_TEACHER_RIGHT_ANSWER_REACTION_3";
+    public const string PRACTICE_TEACHER_WRONG_ANSWER_REACTION_1 = "PRACTICE_TEACHER_WRONG_ANSWER_REACTION_1";
+    public const string PRACTICE_TEACHER_WRONG_ANSWER_REACTION_2 = "PRACTICE_TEACHER_WRONG_ANSWER_REACTION_2";
+    public const string PRACTICE_TEACHER_WRONG_ANSWER_REACTION_3 = "PRACTICE_TEACHER_WRONG_ANSWER_REACTION_3";
+    // Choose Boss
     public const string CHOOSE_BOSS_TEXT = "CHOOSE_BOSS_TEXT";
     public const string MathMtcName1 = "MathMtcName1";
     public const string QuestionNum1 = "QuestionNum1";

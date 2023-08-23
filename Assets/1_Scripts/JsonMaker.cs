@@ -7,6 +7,7 @@ using StoryData;
 using StoreDatas;
 using TutorialDatas;
 using DiagnosisDatas;
+using TipDatas;
 
 public class JsonMaker : MonoBehaviour
 {
@@ -16,11 +17,13 @@ public class JsonMaker : MonoBehaviour
         "https://docs.google.com/spreadsheets/d/18Ba5zNPk4IxahKMCI3498xQSPbOmDU-gYdiXF2n8wWM", // 수집품 정보
         "https://docs.google.com/spreadsheets/d/1SLsoFg1UYiPSzXfYs8j7lo-gDRo71pSopK1saJHtATU", // 튜토리얼
         "https://docs.google.com/spreadsheets/d/1A32zfYnZVIVMRCm4aKVXpt1vl1v_DVCe9Eut_2zIyy8", // 진단평가
+        "https://docs.google.com/spreadsheets/d/15QgoPu2K5ECsn4-LbznSyEWNYrc_WQ5DcexaIrKT6Wk", // 알쓸신잡
         "https://docs.google.com/spreadsheets/d/1JVqCDQPs_rfZPhg3x05gzdvr5cDKgFYfUd5MAnB-rmM", // 스토리_영어
         "https://docs.google.com/spreadsheets/d/1WkDvfIOCIUD3NP21QboDDwPcCfuifDmoiFSYpCHkld4", // 가호정보_영어
         "https://docs.google.com/spreadsheets/d/1s6NE0G3nOnoRmRJcLa2osfqmwvTfZXjlI9-IPmmG7LM", // 수집폼 정보_영어
         "https://docs.google.com/spreadsheets/d/1OdKxEzgRwspt6SoLH0_Wnd8-33TqOsmLeKO7f5Hj5cg",  // 튜토리얼 정보_영어
         "https://docs.google.com/spreadsheets/d/1GAwrbav-8b991er9UQd9DwAal0O9nYNnfiW4aN9qofU", // 진단평가_영어
+        "https://docs.google.com/spreadsheets/d/1wo1Kj-wJdHZaGb_AZd4PIT3d8hIVX85Mo_fhKexgTXM", // 알쓸신잡_영어
     };
     string sheetNum = "0";
     List<string> range = new List<string>(); 
@@ -29,8 +32,9 @@ public class JsonMaker : MonoBehaviour
     StoreInfo storeInfo = new StoreInfo();
     TutorialInfo tutorialInfo = new TutorialInfo();
     DiagnosisInfo diagnosisInfo = new DiagnosisInfo();
+    TipInfo tipInfo = new TipInfo();
     bool madeFile = false;
-    bool[] isDone = {false, false, false, false, false, false, false, false, false, false };
+    bool[] isDone = {false, false, false, false, false, false, false, false, false, false, false, false };
     
     void Awake() 
     {
@@ -45,13 +49,13 @@ public class JsonMaker : MonoBehaviour
 
     void Update()
     {
-        if(PlayerPrefs.GetInt("DoDiagnosis") == 1 && isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7])
+        if(PlayerPrefs.GetInt("DoDiagnosis") == 1 && isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11])
         {
             Managers.Game.CurrentStatus = Define.CurrentStatus.LEARNING;
             Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
         }
         // 진단평가가 되어 있지 않다면 진단평가부터
-        else if(isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7])
+        else if(isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11])
         {
             Managers.Scene.ChangeScene(Define.Scene.DiagnosisScene);
         }
@@ -81,11 +85,13 @@ public class JsonMaker : MonoBehaviour
         range.Add("A2:D4");
         range.Add("A2:A7");
         range.Add("A2:A6");
+        range.Add("A1:A21");
         range.Add("A2:G82");
         range.Add("A2:D7");
         range.Add("A2:D4");
         range.Add("A2:A7");
         range.Add("A2:A6");
+        range.Add("A1:A21");
     }
 
     void AddFileName()
@@ -95,11 +101,13 @@ public class JsonMaker : MonoBehaviour
         fileName.Add("StoreCollection_KOR");
         fileName.Add("Tutorial_KOR");
         fileName.Add("Diagnosis_KOR");
+        fileName.Add("Tip_KOR");
         fileName.Add("EnterGameStory_EN");
         fileName.Add("StoreGrace_EN");
         fileName.Add("StoreCollection_EN");
         fileName.Add("Tutorial_EN");
         fileName.Add("Diagnosis_EN");
+        fileName.Add("Tip_EN");
     }
 
     // ANCHOR 구글 docs에서 데이터 읽기
@@ -137,24 +145,32 @@ public class JsonMaker : MonoBehaviour
                 MakeDiagnosisJsonFile(idx);
                 break;
             case 5:
-                ParsingDialogueData(data);
-                MakeDialgoueJsonFile(idx);
+                ParsingTipData(data);
+                MakeTipJsonFile(idx);
                 break;
             case 6:
-                ParsingStoreData(data);
-                MakeStoreJsonFile(idx);
+                ParsingDialogueData(data);
+                MakeDialgoueJsonFile(idx);
                 break;
             case 7:
                 ParsingStoreData(data);
                 MakeStoreJsonFile(idx);
                 break;
             case 8:
+                ParsingStoreData(data);
+                MakeStoreJsonFile(idx);
+                break;
+            case 9:
                 ParsingTutorialData(data);
                 MakeTutorailJsonFile(idx);
                 break;
-            case 9:
+            case 10:
                 ParsingDiagnosisData(data);
                 MakeDiagnosisJsonFile(idx);
+                break;
+            case 11:
+                ParsingTipData(data);
+                MakeTipJsonFile(idx);
                 break;
         }
     }
@@ -219,6 +235,19 @@ public class JsonMaker : MonoBehaviour
             DiagnosisData diagnosisData = new DiagnosisData();
             diagnosisData.dialogue = lines[i];
             diagnosisInfo.diagnosisDataList.Add(diagnosisData);
+        }
+    }
+
+    void ParsingTipData(string data)
+    {
+        string[] lines = data.Split('\n');
+        tipInfo.tipDataList = new List<TipData>();
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            TipData tipData = new TipData();
+            tipData.tipText = lines[i];
+            tipInfo.tipDataList.Add(tipData);
         }
     }
 
@@ -320,6 +349,32 @@ public class JsonMaker : MonoBehaviour
             File.Delete(filePath);
             MakeDiagnosisJsonFile(i);
             Debug.Log("Done Making Diagnosis.json File");
+            isDone[i] = true;
+        }
+    }
+
+    void MakeTipJsonFile(int i)
+    {
+        string filePath = Application.persistentDataPath + "/" + i + "_" + fileName[i] + ".json";
+        StreamWriter sw;
+        FileStream fs;
+
+        string json = JsonUtility.ToJson(tipInfo);
+
+        if (!File.Exists(filePath))
+        {
+            fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            sw = new StreamWriter(fs);
+            sw.WriteLine(json);
+            sw.Flush();
+            sw.Close();
+            fs.Close();
+        }
+        else if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+            MakeTipJsonFile(i);
+            Debug.Log("Done Making tip.json File");
             isDone[i] = true;
         }
     }

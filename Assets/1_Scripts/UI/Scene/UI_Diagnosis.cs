@@ -61,7 +61,7 @@ public class UI_Diagnosis : UI_Scene
         }
         else
         {
-            diagnosisData = jsonReader.ReadDiagnosisJson(Application.persistentDataPath + "/" + 9 + "_Diagnosis_EN.json").diagnosisDataList;
+            diagnosisData = jsonReader.ReadDiagnosisJson(Application.persistentDataPath + "/" + 10 + "_Diagnosis_EN.json").diagnosisDataList;
         }
 
         //BindEvent(gameObject, MakeToLobbyBtn);
