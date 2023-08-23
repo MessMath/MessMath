@@ -40,15 +40,14 @@ public class UI_PvpGameResult_Win : UI_Popup
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
 
+        PhotonNetwork.Disconnect();
+        PhotonNetwork.AutomaticallySyncScene = false;
 
         return true;
     }
 
     public void NewMatching()
     {
-        PhotonNetwork.Disconnect();
-        PhotonNetwork.AutomaticallySyncScene = false;
-
         // Sound
         Managers.Sound.Play("ClickBtnEff"); 
 
@@ -58,13 +57,25 @@ public class UI_PvpGameResult_Win : UI_Popup
 
     public void toMain()
     {
-        PhotonNetwork.Disconnect();
-        PhotonNetwork.AutomaticallySyncScene = false;
-
         // Sound
         Managers.Sound.Play("ClickBtnEff");
 
-        Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
+        CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
         Time.timeScale = 1;
+    }
+
+    IEnumerator SceneChangeAnimation_In_Lobby()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.LobbyScene, () => { });
+
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+
+        Managers.Sound.Play("ClickBtnEff");
+        Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
     }
 }

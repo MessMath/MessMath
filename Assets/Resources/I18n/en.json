@@ -19,5 +19,12 @@
     "DIAGNOSIS_DIFFICULTY_3": "I can do multiplication\nand division.",
     "DIAGNOSIS_DIFFICULTY_4": "I know fractions\nand decimals.",
     "PRACTICE_START": "Start",
-    "PRACTICE_NEXT": "Next Class"
+    "PRACTICE_NEXT": "Next Class",
+    "CHOOSE_BOSS_TEXT": "Choose a mathematician as your opponent",
+    "MathMtcName1": "Gauss",
+    "QuestionNum1": "8 Question",
+    "MathMtcName2": "Pythagoras",
+    "QuestionNum2": "16 Question",
+    "MathMtcName3": "Newton",
+    "QuestionNum3": "24 Question"
 }

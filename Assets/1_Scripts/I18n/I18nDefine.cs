@@ -21,4 +21,12 @@ public static class I18nDefine
     public const string DIAGNOSIS_DIFFICULTY_4 = "DIAGNOSIS_DIFFICULTY_4";
     public const string PRACTICE_START = "PRACTICE_START";
     public const string PRACTICE_NEXT = "PRACTICE_NEXT";
+
+    public const string CHOOSE_BOSS_TEXT = "CHOOSE_BOSS_TEXT";
+    public const string MathMtcName1 = "MathMtcName1";
+    public const string QuestionNum1 = "QuestionNum1";
+    public const string MathMtcName2 = "MathMtcName2";
+    public const string QuestionNum2 = "QuestionNum2";
+    public const string MathMtcName3 = "MathMtcName3";
+    public const string QuestionNum3 = "QuestionNum3";
 }

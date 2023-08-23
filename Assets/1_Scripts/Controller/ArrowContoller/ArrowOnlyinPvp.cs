@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using Unity.VisualScripting;
 
 [Serializable]
 public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
@@ -74,14 +75,14 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         if (PV.IsMine) return;
 
         if (initialPositionTimer < initialPositionDelay)
-    {
+        {
             RT.position = curPos;
             initialPositionTimer += Time.deltaTime;
         }
-    else
+        else
         {
             if (Time.time - lastUpdateTime > updateInterval)
-        {
+            {
                 predictedPosition = curPos + (curPos - RT.position);
                 lastUpdateTime = Time.time;
             }
@@ -118,6 +119,8 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        if (gameObject.IsDestroyed()) return;
+
         if (stream.IsWriting)
         {
             stream.SendNext(transPosIntoRatio());
@@ -135,6 +138,7 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
         }
         else
         {
+
             transRatioIntoPos((Vector3)stream.ReceiveNext());
 
             if (!isSet)      // 초기 값 설정

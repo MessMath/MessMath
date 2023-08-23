@@ -39,14 +39,14 @@ public class UI_PvpGameResult_Lose : UI_Popup
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
 
+        PhotonNetwork.Disconnect();
+        PhotonNetwork.AutomaticallySyncScene = false;
+
         return true;
     }
 
     public void NewMatching()
     {
-        PhotonNetwork.Disconnect();
-        PhotonNetwork.AutomaticallySyncScene = false;
-
         // Sound
         Managers.Sound.Play("ClickBtnEff");
 
@@ -56,8 +56,8 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
     public void toMain()
     {
-        PhotonNetwork.Disconnect();
-        PhotonNetwork.AutomaticallySyncScene = false;
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
 
         CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
         Time.timeScale = 1;
