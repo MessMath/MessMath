@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using MessMathI18n;
 
 public class UI_Setting : UI_Popup
 {
@@ -11,21 +12,12 @@ public class UI_Setting : UI_Popup
         Panel,
     }
 
-    enum Texts
-    {
-    
-    }
-
     enum Buttons
     {
         ContinueBtn,
-        SwitchLanguageBtn,
+        KorianBtn,
+        EnglishBtn,
         ExitBtn,
-    }
-
-    enum GameObjects
-    {
-    
     }
 
     public override bool Init()
@@ -48,12 +40,50 @@ public class UI_Setting : UI_Popup
                 Application.Quit();
                 ClosePopupUI();
             }
-            else Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
+            else CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
         });
-
+        GetButton((int)Buttons.KorianBtn).gameObject.BindEvent(OnClickedKorBtn);
+        GetButton((int)Buttons.EnglishBtn).gameObject.BindEvent(OnClickedEnBtn);
+        SetLanguageBtn();
 
         Time.timeScale = 0.0f;
         return true;
     }
 
+    IEnumerator SceneChangeAnimation_In_Lobby()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_In>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.LobbyScene, () => { Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
+
+        yield return new WaitForSeconds(0.5f);
+    }
+
+    void SetLanguageBtn()
+    {
+        if(LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
+        {
+            OnClickedKorBtn();
+        }
+        else
+        {
+            OnClickedEnBtn();
+        }
+    }
+
+    void OnClickedKorBtn()
+    {
+        GetButton((int)Buttons.KorianBtn).gameObject.GetComponent<Image>().color = Color.white;
+        GetButton((int)Buttons.EnglishBtn).gameObject.GetComponent<Image>().color = Color.grey;
+        LocalizationManager.Get().SetLanguage(Language.KOREAN);
+    }
+
+    void OnClickedEnBtn()
+    {
+        GetButton((int)Buttons.KorianBtn).gameObject.GetComponent<Image>().color = Color.grey;
+        GetButton((int)Buttons.EnglishBtn).gameObject.GetComponent<Image>().color = Color.white;
+        LocalizationManager.Get().SetLanguage(Language.ENGLISH);
+    }
 }

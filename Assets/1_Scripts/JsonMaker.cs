@@ -10,10 +10,14 @@ using TutorialDatas;
 public class JsonMaker : MonoBehaviour
 {
     string[] DBAddress = {
-        "https://docs.google.com/spreadsheets/d/13RmRePVU38TYU10FdhqtJ5DJWCDioeqfkFKqfte7Wv0",
-        "https://docs.google.com/spreadsheets/d/1iYRgERiJ5bsqjfg_ikzWQbgQYA7OcRiUnZsZ64qDb2M",
-        "https://docs.google.com/spreadsheets/d/18Ba5zNPk4IxahKMCI3498xQSPbOmDU-gYdiXF2n8wWM",
-        "https://docs.google.com/spreadsheets/d/1SLsoFg1UYiPSzXfYs8j7lo-gDRo71pSopK1saJHtATU",
+        "https://docs.google.com/spreadsheets/d/13RmRePVU38TYU10FdhqtJ5DJWCDioeqfkFKqfte7Wv0", // 스토리
+        "https://docs.google.com/spreadsheets/d/1iYRgERiJ5bsqjfg_ikzWQbgQYA7OcRiUnZsZ64qDb2M", // 가호정보
+        "https://docs.google.com/spreadsheets/d/18Ba5zNPk4IxahKMCI3498xQSPbOmDU-gYdiXF2n8wWM", // 수집품 정보
+        "https://docs.google.com/spreadsheets/d/1SLsoFg1UYiPSzXfYs8j7lo-gDRo71pSopK1saJHtATU", // 튜토리얼
+        "https://docs.google.com/spreadsheets/d/1JVqCDQPs_rfZPhg3x05gzdvr5cDKgFYfUd5MAnB-rmM", // 스토리_영어
+        "https://docs.google.com/spreadsheets/d/1WkDvfIOCIUD3NP21QboDDwPcCfuifDmoiFSYpCHkld4", // 가호정보_영어
+        "https://docs.google.com/spreadsheets/d/1s6NE0G3nOnoRmRJcLa2osfqmwvTfZXjlI9-IPmmG7LM", // 수집폼 정보_영어
+        "https://docs.google.com/spreadsheets/d/1OdKxEzgRwspt6SoLH0_Wnd8-33TqOsmLeKO7f5Hj5cg"  // 튜토리얼 정보_영어
     };
     string sheetNum = "0";
     List<string> range = new List<string>(); 
@@ -22,7 +26,7 @@ public class JsonMaker : MonoBehaviour
     StoreInfo storeInfo = new StoreInfo();
     TutorialInfo tutorialInfo = new TutorialInfo();
     bool madeFile = false;
-    bool[] isDone = {false, false, false, false};
+    bool[] isDone = {false, false, false, false, false, false};
 
     void Awake() 
     {
@@ -37,13 +41,13 @@ public class JsonMaker : MonoBehaviour
 
     void Update()
     {
-        if(PlayerPrefs.GetInt("DoDiagnosis") == 1 && isDone[0] && isDone[1] && isDone[2] && isDone[3])
+        if(PlayerPrefs.GetInt("DoDiagnosis") == 1 && isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5])
         {
             Managers.Game.CurrentStatus = Define.CurrentStatus.LEARNING;
             Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
         }
         // 진단평가가 되어 있지 않다면 진단평가부터
-        else if(isDone[0] && isDone[1] && isDone[2] && isDone[3])
+        else if(isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5])
         {
             Managers.Scene.ChangeScene(Define.Scene.DiagnosisScene);
         }
@@ -72,14 +76,22 @@ public class JsonMaker : MonoBehaviour
         range.Add("A2:D7");
         range.Add("A2:D4");
         range.Add("A2:A7");
+        range.Add("A2:G82");
+        range.Add("A2:D7");
+        range.Add("A2:D4");
+        range.Add("A2:A7");
     }
 
     void AddFileName()
     {
-        fileName.Add("EnterGameStory");
-        fileName.Add("StoreGauss");
-        fileName.Add("StoreCollection");
-        fileName.Add("Tutorial");
+        fileName.Add("EnterGameStory_KOR");
+        fileName.Add("StoreGrace_KOR");
+        fileName.Add("StoreCollection_KOR");
+        fileName.Add("Tutorial_KOR");
+        fileName.Add("EnterGameStory_EN");
+        fileName.Add("StoreGrace_EN");
+        fileName.Add("StoreCollection_EN");
+        fileName.Add("Tutorial_EN");
     }
 
     // ANCHOR 구글 docs에서 데이터 읽기
@@ -111,6 +123,14 @@ public class JsonMaker : MonoBehaviour
             case 3:
                 ParsingTutorialData(data);
                 MakeTutorailJsonFile(idx);
+                break;
+            case 4:
+                ParsingDialogueData(data);
+                MakeDialgoueJsonFile(idx);
+                break;
+            case 5:
+                ParsingStoreData(data);
+                MakeStoreJsonFile(idx);
                 break;
         }
     }

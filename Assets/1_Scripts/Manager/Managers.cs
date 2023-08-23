@@ -1,3 +1,4 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using System;
 using System.Collections;
@@ -71,7 +72,7 @@ public class Managers : MonoBehaviour
     {
         if (s_instance == null)
         {
-            PlayerPrefs.DeleteAll();
+            //PlayerPrefs.DeleteAll();
             //PlayerPrefs.SetInt("WatchedStory", -2);
             //PlayerPrefs.SetInt("Coin", 10000);
             GameObject go = GameObject.Find("@Managers");
@@ -105,5 +106,11 @@ public class Managers : MonoBehaviour
 
             Application.targetFrameRate = 60;
         }
+    }
+
+    public static void Clear()
+    {
+        Sound.Clear();
+        UI.Clear();
     }
 }

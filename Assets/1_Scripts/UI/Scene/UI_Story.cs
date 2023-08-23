@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using StoryData;
+using MessMathI18n;
 
 public class UI_Story : UI_Scene
 {
@@ -80,16 +81,19 @@ public class UI_Story : UI_Scene
         BindImage(typeof(Images));
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
-    
-        jsonReader = new JsonReader();
-        storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 0 + "_EnterGameStory.json").talkDataList;
-        maxCount = storyTalkData.Count;
 
-        for(int i = 0; i < maxCount; i++)
+        jsonReader = new JsonReader();
+
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
         {
-            Debug.Log("expression: " + storyTalkData[i].expression);
+            storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 0 + "_EnterGameStory_KOR.json").talkDataList;
+        }
+        else
+        {
+            storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 4 + "_EnterGameStory_EN.json").talkDataList;
         }
 
+        maxCount = storyTalkData.Count;
 
         replayPopup = Managers.UI.ShowPopupUI<UI_ReplayStory>().gameObject;
         replayPopup.SetActive(false);
@@ -109,6 +113,11 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.GaussBtn).gameObject.BindEvent(OnClickedGaussBtn);
         GetButton((int)Buttons.EntranceBtn).gameObject.BindEvent(OnClickedEntranceBtn);
         GetButton((int)Buttons.DoorBtn).gameObject.BindEvent(OnClickedDoorBtn);
+
+        for(int i = 0; i < System.Enum.GetValues(typeof(Buttons)).Length; i++)
+        {
+            GetButton(i).gameObject.BindEvent(CloseSide);
+        }
        
         GetImage((int)Images.OpenedSide).gameObject.BindEvent(OnClickedSide);
         GetImage((int)Images.OpenedSide).gameObject.SetActive(!openSide);
@@ -142,19 +151,12 @@ public class UI_Story : UI_Scene
     {
         OnClickNxtBtn();
         GetButton((int)Buttons.TmpNxtButton).gameObject.SetActive(false);
-        /*GetButton((int)Buttons.TmpNxtButton).gameObject.SetActive(false);
-        GetText((int)Texts.CharacterNameTMP).text = "주인공";
-        Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "주인공");
-        CoroutineHandler.StartCoroutine(ShowInfo("수학 성적이 떨어졌다고 교장실로 오라니... 그나저나 교장실이 이 근처였는데 어디였지...?"));
-        
-        GetText((int)Texts.CharacterNameTMP).text = "";
-        Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "");
-        CoroutineHandler.StartCoroutine(ShowInfo("화면을 드래그 해 교장실 입구를 찾아보자."));*/
     }
 
     public void OnClickNxtBtn()
     {
-        if(!Managers.TextEffect.isTypingEnd)
+        CloseSide();
+        if (!Managers.TextEffect.isTypingEnd)
         {
             Managers.TextEffect.SetFastSpeed();
             return;
@@ -225,6 +227,13 @@ public class UI_Story : UI_Scene
         replayPopup.SetActive(true);
     }
 
+    void CloseSide()
+    {
+        GetImage((int)Images.OpenedSide).gameObject.SetActive(false);
+        GetImage((int)Images.ClosedSide).gameObject.SetActive(true);
+        openSide = false;
+    }
+
     void OnClickedSide()
     {
         GetImage((int)Images.OpenedSide).gameObject.SetActive(openSide);
@@ -280,10 +289,6 @@ public class UI_Story : UI_Scene
             OnClickNxtBtn();
             ShowDialogue();
             GetObject((int)GameObjects.EntranceOffice).SetActive(enteredOffice);
-            /*GetText((int)Texts.CharacterNameTMP).text = "주인공";
-            Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), "주인공");
-            CoroutineHandler.StartCoroutine(ShowInfo("맞아. 여기였어!"));
-            */
         }
         else
         {
@@ -294,8 +299,6 @@ public class UI_Story : UI_Scene
     void OnClickedDoorBtn()
     {       
         ShowDialogue();
-        //GetImage((int)Images.FadeImage).gameObject.SetActive(true);
-        //GetObject((int)GameObjects.SidePanel).SetActive(true);
         OnClickNxtBtn();
     }
 
@@ -338,7 +341,6 @@ public class UI_Story : UI_Scene
                 CoroutineHandler.StartCoroutine(UnlockedAnimation(0.5f, "unlocked1"));
                 CoroutineHandler.StartCoroutine(UnlockedAnimation(1.0f, "unlocked2"));
                 CoroutineHandler.StartCoroutine(UnlockedAnimation(2.0f, "unlocked3"));
-                //OnClickNxtBtn();
                 break;
         }
         
