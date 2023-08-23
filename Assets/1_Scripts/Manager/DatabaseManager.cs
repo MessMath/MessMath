@@ -18,13 +18,12 @@ public class DatabaseManager : MonoBehaviour
     public void CreateNewUser(string nickname)
     {
         Debug.Log("CreateNewUser");
-        //WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, false, nickname);
-        WriteNewUser(nickname, 0, 0, false, false, false);
+        WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, false, nickname);
     }
 
-    private void WriteNewUser(string userId, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis/*, string nickname*/)
+    private void WriteNewUser(string userId, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname)
     {
-        Managers.UserMng.InitUser(userId, coin, score, null, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis/*, nickname*/, null, null, "안녕하세요!");
+        Managers.UserMng.InitUser(userId, coin, score, null, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, null, null, "안녕하세요!");
 
         string json = JsonUtility.ToJson(Managers.UserMng.user);
         Debug.Log("WriteNewUser");

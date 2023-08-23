@@ -56,6 +56,7 @@ public class UI_GetNicknamePopup : UI_Popup
     {
         Managers.DBManager.CreateNewUser(GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text);
         Time.timeScale = 1;
+        Managers.UI.ShowPopupUI<UI_Info>();
         Managers.UI.ClosePopupUI(this);
     }
 

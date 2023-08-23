@@ -528,17 +528,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6139911662124141759, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
   m_PrefabInstance: {fileID: 6139911662680847482}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &594458822 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6139911662124141756, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
-  m_PrefabInstance: {fileID: 6139911662680847482}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 594458821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7c701359c73f3141b5c44703fc51e39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &608382165
 GameObject:
   m_ObjectHideFlags: 0
@@ -1568,7 +1557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PrintNumber: {fileID: 721955621}
   WitchController: {fileID: 1103606268}
-  playerController: {fileID: 594458822}
+  playerController: {fileID: 0}
 --- !u!1 &1886092880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1817,6 +1806,10 @@ PrefabInstance:
     - target: {fileID: 2464696467635911462, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4193122459079438717, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
+      propertyPath: sceneViewId
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6139911661080984006, guid: 684451c204e6b1a4e86d77cc5c111e1c, type: 3}
       propertyPath: m_RootOrder

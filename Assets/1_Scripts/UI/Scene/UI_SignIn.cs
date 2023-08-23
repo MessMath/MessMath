@@ -50,7 +50,6 @@ public class UI_SignIn : UI_Scene
     void OnClickedSignIn()
     {
         Managers.GoogleSignIn.SignInWithGoogle();
-        Managers.DBManager.CreateNewUser("test");
 
         //Managers.DBManager.CreateNewUser("test");
         /*GetText((int)Texts.LogTMP).text += "\nSignInWithGoogle\n" + Managers.GoogleSignIn.GetUID();
