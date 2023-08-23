@@ -354,7 +354,7 @@ GameObject:
   - component: {fileID: 7300828268213999974}
   - component: {fileID: 7749359813315395224}
   m_Layer: 5
-  m_Name: MathMtcName
+  m_Name: MathMtcName3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -438,9 +438,9 @@ MonoBehaviour:
   m_fontSize: 149.3
   m_fontSizeBase: 149.3
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 149.3
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -713,7 +713,7 @@ GameObject:
   - component: {fileID: 2018032967252577154}
   - component: {fileID: 5741329571113192603}
   m_Layer: 5
-  m_Name: QuestionNum
+  m_Name: QuestionNum3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -797,9 +797,9 @@ MonoBehaviour:
   m_fontSize: 149.3
   m_fontSizeBase: 149.3
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 149.3
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -810,7 +810,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -1274,7 +1274,7 @@ GameObject:
   - component: {fileID: 3245738271435685993}
   - component: {fileID: 6386534173496611397}
   m_Layer: 5
-  m_Name: QuestionNum
+  m_Name: QuestionNum1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1358,9 +1358,9 @@ MonoBehaviour:
   m_fontSize: 149.3
   m_fontSizeBase: 149.3
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 149.3
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -1371,7 +1371,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -1558,7 +1558,7 @@ GameObject:
   - component: {fileID: 2896982294275869512}
   - component: {fileID: 5658539771041890773}
   m_Layer: 5
-  m_Name: QuestionNum
+  m_Name: QuestionNum2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1642,9 +1642,9 @@ MonoBehaviour:
   m_fontSize: 149.3
   m_fontSizeBase: 149.3
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 149.3
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -1655,7 +1655,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -1769,7 +1769,7 @@ GameObject:
   - component: {fileID: 102428580828693121}
   - component: {fileID: 6936445073224719972}
   m_Layer: 5
-  m_Name: MathMtcName
+  m_Name: MathMtcName1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1853,9 +1853,9 @@ MonoBehaviour:
   m_fontSize: 149.3
   m_fontSizeBase: 149.3
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 149.3
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -2041,7 +2041,7 @@ GameObject:
   - component: {fileID: 8888920534360998465}
   - component: {fileID: 3099632332705206762}
   m_Layer: 5
-  m_Name: MathMtcName
+  m_Name: MathMtcName2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2125,9 +2125,9 @@ MonoBehaviour:
   m_fontSize: 149.3
   m_fontSizeBase: 149.3
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 149.3
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512

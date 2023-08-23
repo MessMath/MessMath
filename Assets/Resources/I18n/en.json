@@ -1,6 +1,13 @@
 {
-    "STORE_MATHEMATICS_BOOK": "Bookshop of mathematics",
-    "STORE_GRACE": "Graces",
-    "STORE_COLLECTIONS": "Collections",
-    "STORE_CLOTHES": "Clothes"
+  "STORE_MATHEMATICS_BOOK": "Bookshop of mathematics",
+  "STORE_GRACE": "Graces",
+  "STORE_COLLECTIONS": "Collections",
+  "STORE_CLOTHES": "Clothes",
+  "CHOOSE_BOSS_TEXT": "Choose a mathematician as your opponent",
+  "MathMtcName1": "Gauss",
+  "QuestionNum1": "8 Question",
+  "MathMtcName2": "Pythagoras",
+  "QuestionNum2": "16 Question",
+  "MathMtcName3": "Newton",
+  "QuestionNum3": "24 Question"
 }

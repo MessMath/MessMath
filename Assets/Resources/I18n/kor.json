@@ -1,7 +1,13 @@
 {
-    "STORE_MATHEMATICS_BOOK": "수학의 서 상점",
-    "STORE_GRACE": "가호",
-    "STORE_COLLECTIONS": "수집품",
-    "STORE_CLOTHES": "의상"
-
+  "STORE_MATHEMATICS_BOOK": "수학의 서 상점",
+  "STORE_GRACE": "가호",
+  "STORE_COLLECTIONS": "수집품",
+  "STORE_CLOTHES": "의상",
+  "CHOOSE_BOSS_TEXT": "대결 상대를 고르세요",
+  "MathMtcName1": "가우스",
+  "QuestionNum1": "8문항",
+  "MathMtcName2": "피타고라스",
+  "QuestionNum2": "16문항",
+  "MathMtcName3": "뉴턴",
+  "QuestionNum3" : "24문항"
 }
