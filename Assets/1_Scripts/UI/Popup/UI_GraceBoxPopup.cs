@@ -1,3 +1,4 @@
+using MessMathI18n;
 using Newtonsoft.Json;
 using StoreDatas;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class UI_GraceBoxPopup : UI_Popup
@@ -25,6 +27,7 @@ public class UI_GraceBoxPopup : UI_Popup
         SelectedGraceText,
         SelectedGraceDescription,
         TitleText,
+        SelectText,
     }
 
     enum Buttons
@@ -58,8 +61,17 @@ public class UI_GraceBoxPopup : UI_Popup
         BindImage(typeof(Images));
 
         _jsonReader = new JsonReader();
-        _graceDatas = _jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 1 + "_StoreGauss.json").storeDataList;
 
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
+        {
+            _graceDatas = _jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 1 + "_StoreGrace_KOR.json").storeDataList;
+        }
+        else
+        {
+            _graceDatas = _jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 7 + "_StoreGrace_EN.json").storeDataList;
+        }
+
+        GetText((int)Texts.SelectText).text = I18n.Get(I18nDefine.GRACE_BOX_SELECT);
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(OnClosePopup);
         GetButton((int)Buttons.SelectBtn).gameObject.BindEvent(OnClickSelectBtn);
 
@@ -79,7 +91,7 @@ public class UI_GraceBoxPopup : UI_Popup
     void OneToOneModeRefreshUI()
     {
         _graces.Clear();
-        GetText((int)Texts.TitleText).text = Managers.GetText(Define.OneToOneModeSelectGracePopupText);
+        GetText((int)Texts.TitleText).text = I18n.Get(I18nDefine.GRACE_BOX_ONE_TO_ONE_MODE_TILE);
         GetText((int)Texts.TitleText).fontSize = 65;
 
         // Delete Prefab Item
@@ -106,7 +118,7 @@ public class UI_GraceBoxPopup : UI_Popup
     void StoryModeRefreshUI()
     {
         _graces.Clear();
-        GetText((int)Texts.TitleText).text = Managers.GetText(Define.StoryModeSelectGracePopupText);
+        GetText((int)Texts.TitleText).text = I18n.Get(I18nDefine.GRACE_BOX_STORY_MODE_TILE);
 
         // Delete Prefab Item
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;

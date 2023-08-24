@@ -12,18 +12,18 @@ using TipDatas;
 public class JsonMaker : MonoBehaviour
 {
     string[] DBAddress = {
-        "https://docs.google.com/spreadsheets/d/13RmRePVU38TYU10FdhqtJ5DJWCDioeqfkFKqfte7Wv0", // 스토리
-        "https://docs.google.com/spreadsheets/d/1iYRgERiJ5bsqjfg_ikzWQbgQYA7OcRiUnZsZ64qDb2M", // 가호정보
-        "https://docs.google.com/spreadsheets/d/18Ba5zNPk4IxahKMCI3498xQSPbOmDU-gYdiXF2n8wWM", // 수집품 정보
-        "https://docs.google.com/spreadsheets/d/1SLsoFg1UYiPSzXfYs8j7lo-gDRo71pSopK1saJHtATU", // 튜토리얼
-        "https://docs.google.com/spreadsheets/d/1A32zfYnZVIVMRCm4aKVXpt1vl1v_DVCe9Eut_2zIyy8", // 진단평가
-        "https://docs.google.com/spreadsheets/d/15QgoPu2K5ECsn4-LbznSyEWNYrc_WQ5DcexaIrKT6Wk", // 알쓸신잡
-        "https://docs.google.com/spreadsheets/d/1JVqCDQPs_rfZPhg3x05gzdvr5cDKgFYfUd5MAnB-rmM", // 스토리_영어
-        "https://docs.google.com/spreadsheets/d/1WkDvfIOCIUD3NP21QboDDwPcCfuifDmoiFSYpCHkld4", // 가호정보_영어
-        "https://docs.google.com/spreadsheets/d/1s6NE0G3nOnoRmRJcLa2osfqmwvTfZXjlI9-IPmmG7LM", // 수집폼 정보_영어
-        "https://docs.google.com/spreadsheets/d/1OdKxEzgRwspt6SoLH0_Wnd8-33TqOsmLeKO7f5Hj5cg",  // 튜토리얼 정보_영어
-        "https://docs.google.com/spreadsheets/d/1GAwrbav-8b991er9UQd9DwAal0O9nYNnfiW4aN9qofU", // 진단평가_영어
-        "https://docs.google.com/spreadsheets/d/1wo1Kj-wJdHZaGb_AZd4PIT3d8hIVX85Mo_fhKexgTXM", // 알쓸신잡_영어
+        "https://docs.google.com/spreadsheets/d/13RmRePVU38TYU10FdhqtJ5DJWCDioeqfkFKqfte7Wv0", // 스토리 0
+        "https://docs.google.com/spreadsheets/d/1iYRgERiJ5bsqjfg_ikzWQbgQYA7OcRiUnZsZ64qDb2M", // 가호정보 1
+        "https://docs.google.com/spreadsheets/d/18Ba5zNPk4IxahKMCI3498xQSPbOmDU-gYdiXF2n8wWM", // 수집품 정보 2
+        "https://docs.google.com/spreadsheets/d/1SLsoFg1UYiPSzXfYs8j7lo-gDRo71pSopK1saJHtATU", // 튜토리얼 3
+        "https://docs.google.com/spreadsheets/d/1A32zfYnZVIVMRCm4aKVXpt1vl1v_DVCe9Eut_2zIyy8", // 진단평가 4
+        "https://docs.google.com/spreadsheets/d/15QgoPu2K5ECsn4-LbznSyEWNYrc_WQ5DcexaIrKT6Wk", // 알쓸신잡 5
+        "https://docs.google.com/spreadsheets/d/1JVqCDQPs_rfZPhg3x05gzdvr5cDKgFYfUd5MAnB-rmM", // 스토리_영어 6
+        "https://docs.google.com/spreadsheets/d/1WkDvfIOCIUD3NP21QboDDwPcCfuifDmoiFSYpCHkld4", // 가호정보_영어 7
+        "https://docs.google.com/spreadsheets/d/1s6NE0G3nOnoRmRJcLa2osfqmwvTfZXjlI9-IPmmG7LM", // 수집폼 정보_영어 8
+        "https://docs.google.com/spreadsheets/d/1OdKxEzgRwspt6SoLH0_Wnd8-33TqOsmLeKO7f5Hj5cg",  // 튜토리얼 정보_영어 9
+        "https://docs.google.com/spreadsheets/d/1GAwrbav-8b991er9UQd9DwAal0O9nYNnfiW4aN9qofU", // 진단평가_영어 9
+        "https://docs.google.com/spreadsheets/d/1wo1Kj-wJdHZaGb_AZd4PIT3d8hIVX85Mo_fhKexgTXM", // 알쓸신잡_영어 10
     };
     string sheetNum = "0";
     List<string> range = new List<string>(); 

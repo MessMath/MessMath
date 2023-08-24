@@ -37,5 +37,11 @@
   "MathMtcName2": "Pythagoras",
   "QuestionNum2": "16 Question",
   "MathMtcName3": "Newton",
-  "QuestionNum3": "24 Question"
+  "QuestionNum3": "24 Question",
+  // Grace Box
+  "GRACE_BOX_TILE": "Select Grace",
+  "GRACE_BOX_STORY_MODE_TILE": "Story mode",
+  "GRACE_BOX_ONE_TO_ONE_MODE_TILE": "Mathematician 1vs1 mode",
+  "GRACE_BOX_SELECT": "Select",
+  "GAME_START": "Game Start"
 }

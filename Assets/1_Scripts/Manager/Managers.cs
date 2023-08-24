@@ -1,4 +1,5 @@
 using ExitGames.Client.Photon;
+using MessMathI18n;
 using Photon.Pun;
 using System;
 using System.Collections;
@@ -49,7 +50,7 @@ public class Managers : MonoBehaviour
     public static SceneEffectManager SceneEffect { get { Init(); return s_sceneEffectManager; } }
     public static UIManager UI { get { Init(); return s_uiManager; } }
     public static CoinManager Coin { get { Init(); return s_coinManager; } }
-    public static DatabaseManager DBManager {get { Init(); return s_dbManager; } }
+    public static DatabaseManager DBManager { get { Init(); return s_dbManager; } }
     public static GoogleSignInManager GoogleSignIn { get { Init(); return s_gogleSigninManager; } }
 
     public static string GetText(int id)
@@ -59,8 +60,10 @@ public class Managers : MonoBehaviour
             Debug.Log("Not Data");
             return "";
         }
-
-        return value.kor.Replace("{userName}", Managers.Game.Name);
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH)
+            return value.eng.Replace("{userName}", Managers.Game.Name);
+        else
+            return value.kor.Replace("{userName}", Managers.Game.Name);
     }
 
     private void Start()

@@ -18,8 +18,7 @@ public class UI_Main : UI_Scene
 
     enum Buttons
     {
-        KoreanBtn,
-        EnglishBtn
+
     }
 
     enum Images
@@ -48,8 +47,6 @@ public class UI_Main : UI_Scene
         BindImage(typeof(Images));
 
         GetImage((int)Images.BG).gameObject.BindEvent(OnClickBG);
-        GetButton((int)Buttons.KoreanBtn).gameObject.BindEvent(OnClickedKorBtn);
-        GetButton((int)Buttons.EnglishBtn).gameObject.BindEvent(OnClickedEnBtn);
 
         // Sound
         Managers.Sound.Clear();
@@ -67,19 +64,4 @@ public class UI_Main : UI_Scene
         Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
     }
 
-    void OnClickedKorBtn()
-    {
-        //GetButton((int)Buttons.KoreanBtn).gameObject.GetComponent<Image>().color = Color.white;
-        //GetButton((int)Buttons.EnglishBtn).gameObject.GetComponent<Image>().color = Color.grey;
-        LocalizationManager.Get().SetLanguage(Language.KOREAN);
-        Debug.Log("한글 버전 선택");
-    }
-
-    void OnClickedEnBtn()
-    {
-        //GetButton((int)Buttons.KoreanBtn).gameObject.GetComponent<Image>().color = Color.grey;
-        //GetButton((int)Buttons.EnglishBtn).gameObject.GetComponent<Image>().color = Color.white;
-        LocalizationManager.Get().SetLanguage(Language.ENGLISH);
-        Debug.Log("영어 버전 선택");
-    }
 }

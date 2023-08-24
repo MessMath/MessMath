@@ -37,5 +37,11 @@
   "MathMtcName2": "피타고라스",
   "QuestionNum2": "16문항",
   "MathMtcName3": "뉴턴",
-  "QuestionNum3": "24문항"
+  "QuestionNum3": "24문항",
+  // Grace Box
+  "GRACE_BOX_TILE": "가호 선택 창",
+  "GRACE_BOX_STORY_MODE_TILE": "스토리 모드",
+  "GRACE_BOX_ONE_TO_ONE_MODE_TILE": "수학자 1vs1 모드",
+  "GRACE_BOX_SELECT": "선택",
+  "GAME_START": "게임 시작"
 }

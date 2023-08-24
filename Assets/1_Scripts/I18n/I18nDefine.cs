@@ -39,4 +39,10 @@ public static class I18nDefine
     public const string QuestionNum2 = "QuestionNum2";
     public const string MathMtcName3 = "MathMtcName3";
     public const string QuestionNum3 = "QuestionNum3";
+    // Grace Box
+    public const string GRACE_BOX_TILE = "GRACE_BOX_TILE";
+    public const string GRACE_BOX_STORY_MODE_TILE = "GRACE_BOX_STORY_MODE_TILE";
+    public const string GRACE_BOX_ONE_TO_ONE_MODE_TILE = "GRACE_BOX_ONE_TO_ONE_MODE_TILE";
+    public const string GRACE_BOX_SELECT = "GRACE_BOX_SELECT";
+    public const string GAME_START = "GAME_START";
 }

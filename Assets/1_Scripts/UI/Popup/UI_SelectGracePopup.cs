@@ -1,3 +1,4 @@
+using MessMathI18n;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class UI_SelectGracePopup : UI_Popup
     enum Texts
     {
         TitleText,
+        StartGameBtnText
     }
 
     enum Images
@@ -51,6 +53,7 @@ public class UI_SelectGracePopup : UI_Popup
             GetButton((int)Buttons.StartGameBtn).gameObject.SetActive(false);
 
         GetText((int)Texts.TitleText).text = "";
+        GetText((int)Texts.StartGameBtnText).text = I18n.Get(I18nDefine.GAME_START);
         GetImage((int)Images.BG).gameObject.BindEvent(OnClosePopup);
         GetButton((int)Buttons.Cancel0Btn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickCancelBtn(0); });
         GetButton((int)Buttons.Cancel1Btn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickCancelBtn(1); });
