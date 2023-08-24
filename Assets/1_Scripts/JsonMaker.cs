@@ -22,8 +22,8 @@ public class JsonMaker : MonoBehaviour
         "https://docs.google.com/spreadsheets/d/1WkDvfIOCIUD3NP21QboDDwPcCfuifDmoiFSYpCHkld4", // 가호정보_영어 7
         "https://docs.google.com/spreadsheets/d/1s6NE0G3nOnoRmRJcLa2osfqmwvTfZXjlI9-IPmmG7LM", // 수집폼 정보_영어 8
         "https://docs.google.com/spreadsheets/d/1OdKxEzgRwspt6SoLH0_Wnd8-33TqOsmLeKO7f5Hj5cg",  // 튜토리얼 정보_영어 9
-        "https://docs.google.com/spreadsheets/d/1GAwrbav-8b991er9UQd9DwAal0O9nYNnfiW4aN9qofU", // 진단평가_영어 9
-        "https://docs.google.com/spreadsheets/d/1wo1Kj-wJdHZaGb_AZd4PIT3d8hIVX85Mo_fhKexgTXM", // 알쓸신잡_영어 10
+        "https://docs.google.com/spreadsheets/d/1GAwrbav-8b991er9UQd9DwAal0O9nYNnfiW4aN9qofU", // 진단평가_영어 10
+        "https://docs.google.com/spreadsheets/d/1wo1Kj-wJdHZaGb_AZd4PIT3d8hIVX85Mo_fhKexgTXM", // 알쓸신잡_영어 11
     };
     string sheetNum = "0";
     List<string> range = new List<string>(); 
