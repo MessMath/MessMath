@@ -657,7 +657,7 @@ GameObject:
   - component: {fileID: 4893496544132914734}
   - component: {fileID: 4188753934847032587}
   m_Layer: 5
-  m_Name: BackToMainBtn
+  m_Name: BackToLobbyBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1194,7 +1194,7 @@ GameObject:
   - component: {fileID: 1329955668249257143}
   - component: {fileID: 4412740953969359604}
   m_Layer: 5
-  m_Name: NewMatchingBtn
+  m_Name: ReMatchBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

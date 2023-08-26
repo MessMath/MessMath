@@ -8,8 +8,8 @@ public class UI_PvpGameResult_Lose : UI_Popup
 {
     public enum Buttons
     {
-        NewMatchingBtn,
-        BackToMainBtn,
+        ReMatchBtn,
+        BackToLobbyBtn,
     }
 
     public enum Texts
@@ -31,8 +31,8 @@ public class UI_PvpGameResult_Lose : UI_Popup
         BindText(typeof(Texts));
         BindImage(typeof(Images));
 
-        GetButton((int)Buttons.NewMatchingBtn).gameObject.BindEvent(NewMatching);
-        GetButton((int)Buttons.BackToMainBtn).gameObject.BindEvent(toMain);
+        GetButton((int)Buttons.ReMatchBtn).gameObject.BindEvent(ReMatch);
+        GetButton((int)Buttons.BackToLobbyBtn).gameObject.BindEvent(ToLobby);
 
         Managers.Sound.Play("DefeatEff");
 
@@ -45,7 +45,7 @@ public class UI_PvpGameResult_Lose : UI_Popup
         return true;
     }
 
-    public void NewMatching()
+    public void ReMatch()
     {
         // Sound
         Managers.Sound.Play("ClickBtnEff");
@@ -54,7 +54,7 @@ public class UI_PvpGameResult_Lose : UI_Popup
         Time.timeScale = 1;
     }
 
-    public void toMain()
+    public void ToLobby()
     {
         // Sound
         Managers.Sound.Play("ClickBtnEff");

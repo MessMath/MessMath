@@ -7,8 +7,8 @@ public class UI_GameWin : UI_Popup
 { 
     public enum Buttons
     {
-        RestartBtn,
-        ToMainBtn,
+        RechallengeBtn,
+        BackToLobbyBtn,
     }
 
     public override bool Init()
@@ -18,8 +18,8 @@ public class UI_GameWin : UI_Popup
 
         BindButton(typeof(Buttons));
 
-        GetButton((int)Buttons.RestartBtn).gameObject.BindEvent(() => restart());
-        GetButton((int)Buttons.ToMainBtn).gameObject.BindEvent(() => toMain());
+        GetButton((int)Buttons.RechallengeBtn).gameObject.BindEvent(Rechallenge);
+        GetButton((int)Buttons.BackToLobbyBtn).gameObject.BindEvent(BackToLobby);
 
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
@@ -30,7 +30,7 @@ public class UI_GameWin : UI_Popup
         return true;
     }
 
-    public void restart()
+    public void Rechallenge()
     {
         // Sound
         Managers.Sound.Play("ClickBtnEff");
@@ -40,7 +40,7 @@ public class UI_GameWin : UI_Popup
         Time.timeScale = 1;
     }
 
-    public void toMain()
+    public void BackToLobby()
     {
         CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
 

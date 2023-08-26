@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 1695575342847076646}
   - component: {fileID: 8071358882726810103}
   m_Layer: 5
-  m_Name: NewMatchingBtn
+  m_Name: RechallengeBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a5277dfbddd9c3d4480cd9efe1bc9904, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 49acac5e4fe7c3843948943aa2fd864a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -264,6 +264,7 @@ GameObject:
   - component: {fileID: 708570841177254508}
   - component: {fileID: 6229638838909162007}
   - component: {fileID: 4293459104055042522}
+  - component: {fileID: 986043176062019046}
   - component: {fileID: 4192235170054453818}
   m_Layer: 5
   m_Name: UI_GameOver
@@ -366,6 +367,26 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!95 &986043176062019046
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235363975108094402}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3abda9f4320a5a643a2fd7ef47e61396, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &4192235170054453818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1338,7 +1359,7 @@ GameObject:
   - component: {fileID: 5328834906336200945}
   - component: {fileID: 1714788880514024281}
   m_Layer: 5
-  m_Name: BackToMainBtn
+  m_Name: BackToLobbyBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
