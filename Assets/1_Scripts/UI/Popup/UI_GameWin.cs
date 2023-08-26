@@ -42,6 +42,9 @@ public class UI_GameWin : UI_Popup
 
     public void BackToLobby()
     {
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
+
         CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
 
         Time.timeScale = 1;

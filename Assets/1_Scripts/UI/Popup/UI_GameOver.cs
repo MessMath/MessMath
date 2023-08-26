@@ -32,7 +32,6 @@ public class UI_GameOver : UI_Popup
 
     public void Rechallenge()
     {
-        
         // Sound
         Managers.Sound.Play("ClickBtnEff");
         
@@ -43,6 +42,9 @@ public class UI_GameOver : UI_Popup
 
     public void BackToLobby()
     {
+        // Sound
+        Managers.Sound.Play("ClickBtnEff");
+
         CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
         Time.timeScale = 1;
     }
