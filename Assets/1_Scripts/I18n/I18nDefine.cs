@@ -45,4 +45,7 @@ public static class I18nDefine
     public const string GRACE_BOX_ONE_TO_ONE_MODE_TILE = "GRACE_BOX_ONE_TO_ONE_MODE_TILE";
     public const string GRACE_BOX_SELECT = "GRACE_BOX_SELECT";
     public const string GAME_START = "GAME_START";
+    // BeforeFight1vs1Start
+    public const string GetDiagnosisQuestions = "GETDIAGNOSISQUESTIONS";
+    public const string ReqQsts = "ReqQsts";
 }

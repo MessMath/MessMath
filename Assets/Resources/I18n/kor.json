@@ -43,5 +43,8 @@
   "GRACE_BOX_STORY_MODE_TILE": "스토리 모드",
   "GRACE_BOX_ONE_TO_ONE_MODE_TILE": "수학자 1vs1 모드",
   "GRACE_BOX_SELECT": "선택",
-  "GAME_START": "게임 시작"
+  "GAME_START": "게임 시작",
+  // BeforeFight1vs1Start
+  "GETDIAGNOSISQUESTIONS": "진단평가 문제 받아오기",
+  "ReqQsts" : "문제 요청하기"
 }
