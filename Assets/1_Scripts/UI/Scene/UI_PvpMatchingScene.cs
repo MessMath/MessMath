@@ -68,6 +68,7 @@ public class UI_PvpMatchingScene : UI_Scene
 
         Managers.Sound.Clear();
 
+        StartCoroutine(SceneChangeAnimation_Out());
         StartCoroutine("MatchingAni");
         return true;
     }
@@ -80,7 +81,7 @@ public class UI_PvpMatchingScene : UI_Scene
         PhotonNetwork.Disconnect();
         PhotonNetwork.AutomaticallySyncScene = false;
 
-        Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
+        StartCoroutine(SceneChangeAnimation(Define.Scene.LobbyScene));
     }
 
     IEnumerator MatchingAni()
@@ -117,5 +118,32 @@ public class UI_PvpMatchingScene : UI_Scene
 
         Managers.Sound.Play("MatchingBgm", Define.Sound.Bgm);
 
+    }
+
+    IEnumerator SceneChangeAnimation(Define.Scene Scene)
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Scene, () => { });
+
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+
+        Managers.Sound.Play("ClickBtnEff");
+        Managers.Scene.ChangeScene(Scene);
+    }
+
+    IEnumerator SceneChangeAnimation_Out()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.Fight1vs1GameScene, () => { });
+
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
     }
 }
