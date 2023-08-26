@@ -21,8 +21,6 @@ public class UI_StoryGame : UI_Scene
         PrintNumber_Text,
         QuestionNumber_Text,
         PreCalculation_Text,
-        // 테스트용
-        PhaseText,
     }
 
     enum Buttons
@@ -77,10 +75,6 @@ public class UI_StoryGame : UI_Scene
         StartCoroutine("SetArrowGenerationTime", 0.5f);
     }
 
-    private void Start()
-    {
-
-    }
     #region 씬 변환 애니메이션
     IEnumerator SceneChangeAnimation_Out()
     {
@@ -93,6 +87,7 @@ public class UI_StoryGame : UI_Scene
         Managers.UI.ClosePopupUI(uI_LockTouch);
     }
     #endregion
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -159,8 +154,6 @@ public class UI_StoryGame : UI_Scene
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
 
         UnityEngine.Input.multiTouchEnabled = true;
-
-        GetText((int)Texts.PhaseText).text = currentPhase.ToString();
 
         GetImage((int)Images.FadeOut).gameObject.SetActive(false);
 
@@ -579,9 +572,6 @@ public class UI_StoryGame : UI_Scene
         witchController.Hp = 100;
         witchController.HpBar.fillAmount = 1f;      // 마녀 풀피 회복
         currentPhase = phase;
-
-        // 디버그용
-        GetText((int)Texts.PhaseText).text = currentPhase.ToString();
 
         // 2페이즈의 특수효과 시작, 간격은 일단 10초
         if (phase == Phase.Phase2)
