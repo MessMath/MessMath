@@ -27,7 +27,7 @@ public class UI_Fight1vs1Game : UI_Scene
         SelectedGrace,
         SelectedGrace1,
         SelectedGrace2,
-        SettingBtn,
+        ToMainBtn,
     }
 
     enum Images
@@ -97,7 +97,11 @@ public class UI_Fight1vs1Game : UI_Scene
 
         SettingGraceBtn();
 
-        GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
+        GetButton((int)Buttons.ToMainBtn).gameObject.BindEvent(() => {
+            Managers.Sound.Play("ClickBtnEff");
+            Time.timeScale = 1.0f;
+            CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
+        });
 
         for (int i = 0; i < 3; i++)
         {
@@ -175,6 +179,19 @@ public class UI_Fight1vs1Game : UI_Scene
         }
 
     }
+
+    #region
+    IEnumerator SceneChangeAnimation_In_Lobby()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_In>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.LobbyScene, () => { Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
+
+        yield return new WaitForSeconds(0.5f);
+    }
+    #endregion
 
     void SettingGraceBtn()
     {

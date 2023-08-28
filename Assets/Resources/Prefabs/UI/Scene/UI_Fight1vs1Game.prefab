@@ -969,7 +969,7 @@ GameObject:
   - component: {fileID: 6875585804175112727}
   - component: {fileID: 4912774462728148462}
   m_Layer: 5
-  m_Name: SettingBtn
+  m_Name: ToMainBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -992,8 +992,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1203, y: 618}
-  m_SizeDelta: {x: 279.08, y: 151.27}
+  m_AnchoredPosition: {x: -1215.0006, y: 636}
+  m_SizeDelta: {x: 215.34, y: 176.18}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &7446233785760469145
 CanvasRenderer:
@@ -1023,7 +1023,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 363d3738745e2f649b95cd4db7594811, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1980b8190495e204997793d5fbcfefff, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

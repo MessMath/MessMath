@@ -1,3 +1,4 @@
+using MessMathI18n;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,16 @@ public class UI_GameWin : UI_Popup
 { 
     public enum Buttons
     {
-        RestartBtn,
-        ToMainBtn,
+        RePlayBtn,
+        BackToLobbyBtn,
+    }
+
+    public enum Images
+    {
+        RePlayBtn,
+        BackToLobbyBtn,
+        Win,
+        Win1,
     }
 
     public override bool Init()
@@ -17,9 +26,18 @@ public class UI_GameWin : UI_Popup
             return false;
 
         BindButton(typeof(Buttons));
+        BindImage(typeof(Images));
 
-        GetButton((int)Buttons.RestartBtn).gameObject.BindEvent(() => restart());
-        GetButton((int)Buttons.ToMainBtn).gameObject.BindEvent(() => toMain());
+        GetButton((int)Buttons.RePlayBtn).gameObject.BindEvent(RePlay);
+        GetButton((int)Buttons.BackToLobbyBtn).gameObject.BindEvent(BackToLobby);
+
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH)
+        {
+            GetImage((int)Images.RePlayBtn).sprite = Managers.Resource.Load<Sprite>("Sprites/Story/ResultPopup/RePlay_ENG");
+            GetImage((int)Images.BackToLobbyBtn).sprite = Managers.Resource.Load<Sprite>("Sprites/Pvp/ResultPopup/BackToLobby_ENG");
+            GetImage((int)Images.Win).sprite = Managers.Resource.Load<Sprite>("Sprites/Pvp/ResultPopup/Victory_ENG");
+            GetImage((int)Images.Win1).sprite = Managers.Resource.Load<Sprite>("Sprites/Pvp/ResultPopup/Victory2_ENG");
+        }
 
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
@@ -30,34 +48,37 @@ public class UI_GameWin : UI_Popup
         return true;
     }
 
-    public void restart()
+    public void RePlay()
     {
         // Sound
         Managers.Sound.Play("ClickBtnEff");
-        
-        SceneManager.LoadScene(Managers.Scene.GetSceneName(Managers.Scene.CurrentSceneType));
 
+        CoroutineHandler.StartCoroutine(SceneChangeAnimation(Managers.Scene.CurrentSceneType));
         Time.timeScale = 1;
     }
 
-    public void toMain()
+    public void BackToLobby()
     {
-        CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
-
-        Time.timeScale = 1;
-    }
-
-    IEnumerator SceneChangeAnimation_In_Lobby()
-    {
+        // Sound
         Managers.Sound.Play("ClickBtnEff");
 
+        CoroutineHandler.StartCoroutine(SceneChangeAnimation(Define.Scene.LobbyScene));
+        Time.timeScale = 1;
+    }
+
+    IEnumerator SceneChangeAnimation(Define.Scene Scene)
+    {
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
-        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_In>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_Out>();
         anim.transform.SetParent(this.transform);
-        anim.SetInfo(Define.Scene.LobbyScene, () => { Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
+        anim.SetInfo(Scene, () => { });
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+
+        Managers.Sound.Play("ClickBtnEff");
+        Managers.Scene.ChangeScene(Scene);
     }
 
 }

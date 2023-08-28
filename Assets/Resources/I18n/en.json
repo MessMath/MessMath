@@ -43,5 +43,20 @@
   "GRACE_BOX_STORY_MODE_TILE": "Story mode",
   "GRACE_BOX_ONE_TO_ONE_MODE_TILE": "Mathematician 1vs1 mode",
   "GRACE_BOX_SELECT": "Select",
-  "GAME_START": "Game Start"
+  "GAME_START": "Game Start",
+  // BeforeFight1vs1Start
+  "GETDIAGNOSISQUESTIONS": "Get Diagnosis Questions",
+  "ReqQsts": "Request Questions",
+  // Epilogue
+  "Development": "Development",
+  "Art": "Art",
+  "Design": "Design",
+  "오합지졸_대장_서현재": "오합지졸 대장 Hyeonjae Seo",
+  "오합지졸_서장_윤지연": "오합지졸 서장 Yoon Jiyeon",
+  "오합지졸_심장_정수진": "오합지졸 심장 SuJin Jeong",
+  "오합지졸_꼬장_배정훈": "오합지졸 꼬장 JungHoon Bae",
+  "오합지졸_새장_서민영": "오합지졸 새장 Minyoung Seo",
+  "아무튼_크레딧": "Anyway this is Credit",
+  "Team_오합지졸_Presents": "Team 오합지졸 Presents",
+  "BackToLobby": "Back To Lobby"
 }

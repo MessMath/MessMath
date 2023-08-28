@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 235761906}
   - component: {fileID: 235761905}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: reqQsts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uBB38\uC81C \uC694\uCCAD\uD558\uAE30"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4f100050ee4d9f54895ef0b4c3e1c28f, type: 2}
-  m_sharedMaterial: {fileID: -2141505129754533190, guid: 4f100050ee4d9f54895ef0b4c3e1c28f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: dc93b829d3a2d7547a4be059ec3c4c17, type: 2}
+  m_sharedMaterial: {fileID: 762573850900156764, guid: dc93b829d3a2d7547a4be059ec3c4c17, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 7144588248374101939}
   - component: {fileID: 7351894702977098700}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: GetDiagnosisQuestions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -325,8 +325,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC9C4\uB2E8\uD3C9\uAC00 \uBB38\uC81C \uBC1B\uC544\uC624\uAE30"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4f100050ee4d9f54895ef0b4c3e1c28f, type: 2}
-  m_sharedMaterial: {fileID: -2141505129754533190, guid: 4f100050ee4d9f54895ef0b4c3e1c28f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: dc93b829d3a2d7547a4be059ec3c4c17, type: 2}
+  m_sharedMaterial: {fileID: 762573850900156764, guid: dc93b829d3a2d7547a4be059ec3c4c17, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -366,7 +366,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
