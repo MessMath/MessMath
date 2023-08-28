@@ -40,7 +40,7 @@ public class UI_MakeTxtFile : UI_Scene
         BindObject(typeof(GameObjects));
 
         SelectTip();
-        GetText((int)Texts.LogTMP).text = "업데이트 정보를 불러오는 중입니다...";
+        GetText((int)Texts.LogTMP).text = "Loading...";
 
         jsonReader = new JsonReader();
 
