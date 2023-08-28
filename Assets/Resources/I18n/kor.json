@@ -46,5 +46,7 @@
   "GAME_START": "게임 시작",
   // BeforeFight1vs1Start
   "GETDIAGNOSISQUESTIONS": "진단평가 문제 받아오기",
-  "ReqQsts" : "문제 요청하기"
+  "ReqQsts": "문제 요청하기"
+  // Epilogue
+  "Development"
 }
