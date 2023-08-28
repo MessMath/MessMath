@@ -20,6 +20,7 @@ public class UI_StoreItem : UI_Base
     enum Images
     {
         ItemImage,
+        ModeImage,
     }
     enum Texts
     {
@@ -31,7 +32,7 @@ public class UI_StoreItem : UI_Base
     {
         if (base.Init() == false)
             return false;
-        
+
         BindObject(typeof(GameObjects));
         BindButton(typeof(Buttons));
         BindImage(typeof(Images));
@@ -45,9 +46,9 @@ public class UI_StoreItem : UI_Base
 
     void OnClickBtn()
     {
-        if(PlayerPrefs.HasKey(_storeData.img)) return; 
+        if (PlayerPrefs.HasKey(_storeData.img)) return;
         UI_Purchase purchasePopup = Managers.UI.ShowPopupUI<UI_Purchase>();
-        if(purchasePopup.Init())purchasePopup.SetPopup(_storeData.name, _storeData.explanation, _storeData.price,_storeData.img);
+        if (purchasePopup.Init()) purchasePopup.SetPopup(_storeData.name, _storeData.explanation, _storeData.price, _storeData.img);
         //GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(()=>CancelPurChase(_storeData.img));
     }
 
@@ -63,10 +64,12 @@ public class UI_StoreItem : UI_Base
         img = Resources.Load("Sprites/Grace/" + _storeData.img, typeof(Sprite)) as Sprite;
         GetText((int)Texts.NameTMP).text = _storeData.name;
         GetImage((int)Images.ItemImage).sprite = img;
-        if(PlayerPrefs.HasKey(_storeData.img)) 
+        SetModeImage(storeData);
+        if (PlayerPrefs.HasKey(_storeData.img))
         {
             GetObject((int)GameObjects.Have).SetActive(true);
             GetText((int)Texts.PriceTMP).gameObject.SetActive(false);
+            GetImage((int)Images.ItemImage).color = new Color(100 / 255f, 100 / 255f, 100 / 255f, 255 / 255);
         }
         else
         {
@@ -74,5 +77,14 @@ public class UI_StoreItem : UI_Base
             GetText((int)Texts.PriceTMP).text = _storeData.price.ToString();
             GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(OnClickBtn);
         }
+    }
+
+    public void SetModeImage(StoreData storeData)
+    {
+        _storeData = storeData;
+        if (_storeData.mode == "Both" || _storeData.mode == "Both\r") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_Both");
+        if (_storeData.mode == "Story" || _storeData.mode == "Story\r") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_Story"); ;
+        if (_storeData.mode == "OneToOne" || _storeData.mode == "OneToOne\r") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_OneToOne");
+
     }
 }

@@ -11,14 +11,7 @@ namespace StoreDatas
         public string explanation;
         public string img;
         public int price;
-        public Mode mode;
-    }
-
-    public enum Mode
-    {
-        OneToOne,
-        Story,
-        Both,
+        public string mode;
     }
 
     [System.Serializable]
