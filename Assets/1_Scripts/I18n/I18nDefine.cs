@@ -48,4 +48,16 @@ public static class I18nDefine
     // BeforeFight1vs1Start
     public const string GetDiagnosisQuestions = "GETDIAGNOSISQUESTIONS";
     public const string ReqQsts = "ReqQsts";
+    // Epilogue
+    public const string Development = "Development";
+    public const string Art = "Art";
+    public const string Design = "Design";
+    public const string 오합지졸_대장_서현재 = "오합지졸_대장_서현재";
+    public const string 오합지졸_서장_윤지연 = "오합지졸_서장_윤지연";
+    public const string 오합지졸_심장_정수진 = "오합지졸_심장_정수진";
+    public const string 오합지졸_꼬장_배정훈 = "오합지졸_꼬장_배정훈";
+    public const string 오합지졸_새장_서민영 = "오합지졸_새장_서민영";
+    public const string 아무튼_크레딧 = "아무튼_크레딧";
+    public const string Team_오합지졸_Presents = "Team_오합지졸_Presents";
+    public const string BackToLobby = "BackToLobby";
 }

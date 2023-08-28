@@ -46,7 +46,17 @@
   "GAME_START": "게임 시작",
   // BeforeFight1vs1Start
   "GETDIAGNOSISQUESTIONS": "진단평가 문제 받아오기",
-  "ReqQsts": "문제 요청하기"
+  "ReqQsts": "문제 요청하기",
   // Epilogue
-  "Development"
+  "Development": "개발",
+  "Art": "아트",
+  "Design": "기획",
+  "오합지졸_대장_서현재": "오합지졸 대장 서현재",
+  "오합지졸_서장_윤지연": "오합지졸 서장 윤지연",
+  "오합지졸_심장_정수진": "오합지졸 심장 정수진",
+  "오합지졸_꼬장_배정훈": "오합지졸 꼬장 배정훈",
+  "오합지졸_새장_서민영": "오합지졸 새장 서민영",
+  "아무튼_크레딧": "아무튼 크레딧",
+  "Team_오합지졸_Presents": "Team 오합지졸 Presents",
+  "BackToLobby": "로비로 돌아가기"
 }
