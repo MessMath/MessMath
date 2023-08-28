@@ -82,9 +82,9 @@ public class UI_StoreItem : UI_Base
     public void SetModeImage(StoreData storeData)
     {
         _storeData = storeData;
-        if (_storeData.mode == "Both" || _storeData.mode == "Both\r") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_Both");
-        if (_storeData.mode == "Story" || _storeData.mode == "Story\r") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_Story"); ;
-        if (_storeData.mode == "OneToOne" || _storeData.mode == "OneToOne\r") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_OneToOne");
+        if (_storeData.mode == "Both") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_Both");
+        if (_storeData.mode == "Story") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_Story"); ;
+        if (_storeData.mode == "OneToOne") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_OneToOne");
 
     }
 }

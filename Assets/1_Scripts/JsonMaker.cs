@@ -81,14 +81,14 @@ public class JsonMaker : MonoBehaviour
     void AddRange()
     {
         range.Add("A2:G82");
-        range.Add("A2:E7");
-        range.Add("A2:E4");
+        range.Add("A2:G7");
+        range.Add("A2:G4");
         range.Add("A2:A7");
         range.Add("A2:A6");
         range.Add("A1:A21");
         range.Add("A2:G82");
-        range.Add("A2:E7");
-        range.Add("A2:E4");
+        range.Add("A2:G7");
+        range.Add("A2:G4");
         range.Add("A2:A7");
         range.Add("A2:A6");
         range.Add("A1:A21");
@@ -209,6 +209,8 @@ public class JsonMaker : MonoBehaviour
             storeData.img = tap[2];
             storeData.price = int.Parse(tap[3]);
             storeData.mode = tap[4];
+            storeData.bgImage = tap[5];
+            storeData.img2 = tap[6];
             storeInfo.storeDataList.Add(storeData);
         }
     }

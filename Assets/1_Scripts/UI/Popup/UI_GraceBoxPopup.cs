@@ -38,7 +38,8 @@ public class UI_GraceBoxPopup : UI_Popup
 
     enum Images
     {
-        SelectedGraceImage
+        SelectedGraceBGImage,
+        SelectedGraceImage,
     }
 
     public enum State
@@ -74,6 +75,8 @@ public class UI_GraceBoxPopup : UI_Popup
         GetText((int)Texts.SelectText).text = I18n.Get(I18nDefine.GRACE_BOX_SELECT);
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(OnClosePopup);
         GetButton((int)Buttons.SelectBtn).gameObject.BindEvent(OnClickSelectBtn);
+        GetImage((int)Images.SelectedGraceBGImage).gameObject.SetActive(false);
+        GetImage((int)Images.SelectedGraceImage).gameObject.SetActive(false);
 
         Debug.Log($"UI_GraceBoxPopup's state is {_state}");
         if (_state == State.OneToOne)
@@ -108,6 +111,9 @@ public class UI_GraceBoxPopup : UI_Popup
                 Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
                 Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
                 graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
+                graceItem.GetComponent<UI_GraceItem>().BgImage = _graceDatas[i].bgImage;
+                string[] fullImageName = _graceDatas[i].img2.Split('\r');
+                graceItem.GetComponent<UI_GraceItem>().FullImage = fullImageName[0];
                 graceItem.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
                 graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
                 graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = graceItem; OnClickGraceBtn(); });
@@ -134,6 +140,9 @@ public class UI_GraceBoxPopup : UI_Popup
                 Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
                 Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
                 graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
+                graceItem.GetComponent<UI_GraceItem>().BgImage = _graceDatas[i].bgImage;
+                string[] fullImageName = _graceDatas[i].img2.Split('\r');
+                graceItem.GetComponent<UI_GraceItem>().FullImage = fullImageName[0];
                 graceItem.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
                 graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
                 graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = graceItem; OnClickGraceBtn(); });
@@ -155,7 +164,11 @@ public class UI_GraceBoxPopup : UI_Popup
     {
         Managers.Sound.Play("ClickBtnEff");
 
-        GetImage((int)Images.SelectedGraceImage).sprite = Utils.FindChild(selectedObject, "Grace").GetOrAddComponent<Image>().sprite;
+        GetImage((int)Images.SelectedGraceBGImage).gameObject.SetActive(true);
+        GetImage((int)Images.SelectedGraceImage).gameObject.SetActive(true);
+
+        GetImage((int)Images.SelectedGraceBGImage).sprite = Resources.Load<Sprite>("Sprites/MathMtcInFight1vs1/" + selectedObject.GetComponent<UI_GraceItem>().BgImage);
+        GetImage((int)Images.SelectedGraceImage).sprite = Resources.Load<Sprite>("Sprites/MathMtcInFight1vs1/" + selectedObject.GetComponent<UI_GraceItem>().FullImage);
         GetText((int)Texts.SelectedGraceText).text = Utils.FindChild(selectedObject, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text;
         //GetText((int)Texts.SelectedGraceDescription).text = selectedObject.GetOrAddComponent<UI_GraceItem>()._description;
         Managers.TextEffect.ApplyTextEffect(selectedObject.GetOrAddComponent<UI_GraceItem>()._description, GetText((int)Texts.SelectedGraceDescription), 60);
