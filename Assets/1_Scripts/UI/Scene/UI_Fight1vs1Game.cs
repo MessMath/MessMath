@@ -99,8 +99,7 @@ public class UI_Fight1vs1Game : UI_Scene
 
         GetButton((int)Buttons.ToMainBtn).gameObject.BindEvent(() => {
             Managers.Sound.Play("ClickBtnEff");
-            Time.timeScale = 1.0f;
-            CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
+            Managers.UI.ShowPopupUI<UI_CheckToLobby>();
         });
 
         for (int i = 0; i < 3; i++)

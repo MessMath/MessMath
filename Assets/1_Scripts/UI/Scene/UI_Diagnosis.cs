@@ -90,7 +90,7 @@ public class UI_Diagnosis : UI_Scene
         // Sound
         Managers.Sound.Clear();
         Managers.Sound.Play("DiagnosisBgm", Define.Sound.Bgm);
-        Managers.UI.ShowPopupUI<UI_SelectLanguage>();
+        Managers.UI.ShowPopupUI<UI_GetNicknamePopup>();
         return true;
     }
 

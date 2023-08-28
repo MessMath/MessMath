@@ -31,7 +31,7 @@ public class UI_StoryGame : UI_Scene
         SelectedGrace2,
         AllErase,
         EqualButton,
-        SettingBtn,
+        ExitBtn,
     }
 
     enum Images
@@ -107,7 +107,7 @@ public class UI_StoryGame : UI_Scene
         GetText((int)Texts.PrintNumber_Text).text = "";
         GetText((int)Texts.Calculate_BoardText).text = "";
         GetButton((int)Buttons.EqualButton).gameObject.BindEvent(Calculate);
-        GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
+        GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_CheckToLobby>(); });
 
         for (int i = 0; i < 3; i++)
         {

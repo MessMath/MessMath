@@ -104,8 +104,7 @@ public class UI_PracticeGame : UI_Scene
     void OnClickSettingBtn()
     {
         // TODO UI_Setting
-        Managers.UI.ShowPopupUI<UI_Setting>();
-
+        Managers.UI.ShowPopupUI<UI_CheckToLobby>();
     }
 
     void OnClickAnswerBtn()

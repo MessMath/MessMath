@@ -15,6 +15,7 @@
   "LOBBY_PVP_GAME": "PVP",
   "LOBBY_PRACTICE_GAME": "시험 공부",
   "LOBBY_STUDENT_ID_CARD": "학생증",
+  "LOBBY_TO_LOBBY_CHECK": "정말로 로비에 돌아가실건가요?",
   // DIAGNOSIS
   "DIAGNOSIS_CHOOSE_DIFFICULTY": "당신의 수학 실력을 알고싶습니다.\n당신의 실력에 맞춰 글자를 눌러주세요.",
   "DIAGNOSIS_DIFFICULTY_1": "수를 셀 수 있어요.",

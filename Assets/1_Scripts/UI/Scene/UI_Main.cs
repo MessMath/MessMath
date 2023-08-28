@@ -60,8 +60,11 @@ public class UI_Main : UI_Scene
         // Sound
         Managers.Sound.Play("ClickBtnEff");
 
-        //Managers.UI.ShowPopupUI<UI_Diagnosis>();
-        Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH || LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
+            Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
+        else 
+            Managers.UI.ShowPopupUI<UI_SelectLanguage>();
+
     }
 
 }

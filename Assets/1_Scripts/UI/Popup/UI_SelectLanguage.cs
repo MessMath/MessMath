@@ -55,7 +55,8 @@ public class UI_SelectLanguage : UI_Popup
     {
         Time.timeScale = 1;
         Managers.UI.ClosePopupUI(this);
-        Managers.UI.ShowPopupUI<UI_GetNicknamePopup>();
+        Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
+        
     }
 
     void OnClickedKorBtn()
