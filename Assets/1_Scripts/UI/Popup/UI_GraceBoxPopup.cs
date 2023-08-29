@@ -1,3 +1,4 @@
+using DG.Tweening;
 using MessMathI18n;
 using Newtonsoft.Json;
 using StoreDatas;
@@ -205,7 +206,7 @@ public class UI_GraceBoxPopup : UI_Popup
     {
         string selectedObjectName = selectedObject.GetComponent<UI_GraceItem>()._name;
 
-        if ( _state == State.OneToOne)
+        if (_state == State.OneToOne)
         {
             for (int i = 0; i < 3; i++)
             {
