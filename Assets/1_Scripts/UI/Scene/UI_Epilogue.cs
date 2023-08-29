@@ -13,6 +13,7 @@ public class UI_Epilogue : UI_Scene
         Image1,
         Image2,
         Image3,
+        Image4,
         FadeIn, 
         Credits,
     }
@@ -52,9 +53,8 @@ public class UI_Epilogue : UI_Scene
 
         GetImage((int)Images.Image1).gameObject.BindEvent(() => GetImage((int)Images.Image2).gameObject.SetActive(true));
         GetImage((int)Images.Image2).gameObject.BindEvent(() => GetImage((int)Images.Image3).gameObject.SetActive(true));
-        GetImage((int)Images.Image3).gameObject.BindEvent(ShowCredits);
-
-        ImagesPreSetting();
+        GetImage((int)Images.Image3).gameObject.BindEvent(() => GetImage((int)Images.Image4).gameObject.SetActive(true));
+        GetImage((int)Images.Image4).gameObject.BindEvent(ShowCredits);
 
         GetImage((int)Images.Credits).transform.Find("Development").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.Development);
         GetImage((int)Images.Credits).transform.Find("Context1").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.오합지졸_대장_서현재);
@@ -73,9 +73,11 @@ public class UI_Epilogue : UI_Scene
         GetImage((int)Images.Credits).transform.Find("Team_Presents").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.Team_오합지졸_Presents);
         GetButton((int)Buttons.BackToLobbyBtn).transform.Find("BackToLobby").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.BackToLobby);
 
-        GetImage((int)Images.Credits).gameObject.SetActive(false);
+        ImagesPreSetting();
 
-        GetButton((int)Buttons.BackToLobbyBtn).gameObject.BindEvent(()=>{ Managers.Sound.Play("ClickBtnEff");  Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
+        GetButton((int)Buttons.BackToLobbyBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
+
+        GetImage((int)Images.Credits).gameObject.SetActive(false);
 
         StartCoroutine(FadeIn());
 
@@ -87,6 +89,7 @@ public class UI_Epilogue : UI_Scene
         GetImage((int)Images.Image1).gameObject.SetActive(true);
         GetImage((int)Images.Image2).gameObject.SetActive(false);
         GetImage((int)Images.Image3).gameObject.SetActive(false);
+        GetImage((int)Images.Image4).gameObject.SetActive(false);
     }
 
     IEnumerator FadeIn()
