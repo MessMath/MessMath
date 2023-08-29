@@ -47,6 +47,19 @@ public class UI_StoryGame : UI_Scene
         heart1,
         heart2,
         FadeOut,
+        Aura,
+        EasyWand,
+        Wand,
+        NormalWandAttImage,
+        NormalEye,
+        NormalAttEff1,
+        NormalAttEff2,
+        NormalAttEff3,
+        W_Twinkle_1,
+        W_Twinkle_2,
+        W_H_Attack_Before,
+        W_h_attack_1,
+        W_h_attack_2,
     }
 
     enum GameObjects
@@ -73,6 +86,7 @@ public class UI_StoryGame : UI_Scene
         CoroutineHandler.StartCoroutine(SceneChangeAnimation_Out());
 
         StartCoroutine("SetArrowGenerationTime", 0.5f);
+        StartCoroutine("EasyModeAttack");
     }
 
     #region 씬 변환 애니메이션
@@ -154,6 +168,23 @@ public class UI_StoryGame : UI_Scene
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
 
         UnityEngine.Input.multiTouchEnabled = true;
+
+        #region 애니 준비
+        GetImage((int)Images.Wand).gameObject.SetActive(false);
+        GetImage((int)Images.NormalWandAttImage).gameObject.SetActive(false);
+        GetImage((int)Images.NormalEye).gameObject.SetActive(false);
+        GetImage((int)Images.NormalAttEff1).gameObject.SetActive(false);
+        GetImage((int)Images.NormalAttEff2).gameObject.SetActive(false);
+        GetImage((int)Images.NormalAttEff3).gameObject.SetActive(false);
+
+
+        // 3페이즈 관련 끄기
+        GetImage((int)Images.W_Twinkle_1).gameObject.SetActive(false);
+        GetImage((int)Images.W_Twinkle_2).gameObject.SetActive(false);
+        GetImage((int)Images.W_H_Attack_Before).gameObject.SetActive(false);
+        GetImage((int)Images.W_h_attack_1).gameObject.SetActive(false);
+        GetImage((int)Images.W_h_attack_2).gameObject.SetActive(false);
+        #endregion
 
         GetImage((int)Images.FadeOut).gameObject.SetActive(false);
 
@@ -576,22 +607,43 @@ public class UI_StoryGame : UI_Scene
         // 2페이즈의 특수효과 시작, 간격은 일단 10초
         if (phase == Phase.Phase2)
         {
+            StopCoroutine("EasyModeAttack"); // 이지 어택 애니 종료
+
             // 2페이즈 마녀 이미지 변환 및 애니메이션
             StartCoroutine(WitchChangeAnimation_Normal());
 
+            GetImage((int)Images.EasyWand).gameObject.SetActive(false);
             GetImage((int)Images.WitchHPBar).color = new Color(119 / 255f, 255 / 255f, 245 / 255f, 1f);
-            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before");
+            GetImage((int)Images.Wand).gameObject.SetActive(true);
+            GetImage((int)Images.NormalEye).gameObject.SetActive(true);
+            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal");
+            GetImage((int)Images.Aura).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_aura");
+            GetImage((int)Images.Wand).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_wand");
             GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase2");
             StartCoroutine(SpecialEffectsForPhase2(10f));
         }
 
         if (phase == Phase.Phase3)
         {
+            StopCoroutine("NormalModeAttack"); // 노말 어택 애니 종료
+            StopAllCoroutines();
+
+            // 2페이즈 관련 끄기
+            GetImage((int)Images.NormalEye).gameObject.SetActive(false);
+            GetImage((int)Images.NormalWandAttImage).gameObject.SetActive(false);
+            GetImage((int)Images.NormalAttEff1).gameObject.SetActive(false);
+            GetImage((int)Images.NormalAttEff2).gameObject.SetActive(false);
+            GetImage((int)Images.NormalAttEff3).gameObject.SetActive(false);
+
+
             // 3페이즈 마녀 이미지 변환 및 애니메이션
             StartCoroutine(WitchChangeAnimation_Hard());
 
             GetImage((int)Images.WitchHPBar).color = new Color(100 / 255f, 0f, 200 / 255f, 1f);
-            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before");
+            GetImage((int)Images.W_Twinkle_1).gameObject.SetActive(true);
+            GetImage((int)Images.W_Twinkle_2).gameObject.SetActive(true);
+            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Witch_Hard/W_hard");
+            GetImage((int)Images.Aura).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Witch_Hard/W_aura");
             GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase3");
 
         }
@@ -630,12 +682,12 @@ public class UI_StoryGame : UI_Scene
 
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
-        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/WitchChangeAnimation_Normal").GetOrAddComponent<SceneChangeAnimation_In>();
-        anim.transform.Find("NormalWitchText").transform.DOShakePosition(10, 30);
+        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/WitchChangeAnimation_Hard").GetOrAddComponent<SceneChangeAnimation_In>();
+        anim.transform.Find("HardWitchText").transform.DOShakePosition(10, 30);
         anim.transform.SetParent(uI_LockTouch.transform);
         anim.SetInfo(Define.Scene.StoryGameScene, () => { });
 
-        yield return new WaitForSeconds(10.3f);
+        yield return new WaitForSeconds(6.3f);
         Managers.UI.ClosePopupUI(uI_LockTouch);
 
         Managers.Sound.Play("BattleBgm", Define.Sound.Bgm);
@@ -655,6 +707,8 @@ public class UI_StoryGame : UI_Scene
         float minDelay = delay * 0.5f;
 
         StartCoroutine(MiddleDirectionOfArrow());
+
+        StartCoroutine(NormalModeAttack()); // 노말 모드 어택 애니
 
         StartCoroutine(SpecialEffectsForPhase2(Random.Range(minDelay, _phase2Skill1Delay)));
     }
@@ -720,6 +774,8 @@ public class UI_StoryGame : UI_Scene
         yield return new WaitForSeconds(delay);
         float minDelay = delay * 0.5f;
 
+        StartCoroutine(HardModeAttack()); // 하드 모드 어택 애니
+
         ChangeDirectionOfArrows();
 
         StartCoroutine(SpecialEffectsForPhase3(Random.Range(minDelay, _phase3Skill1Delay)));
@@ -756,6 +812,90 @@ public class UI_StoryGame : UI_Scene
             arrow.GetComponentInChildren<TextMeshProUGUI>().gameObject.transform.localRotation = Quaternion.Euler(0, 0, arrow.transform.rotation.eulerAngles.z * (-1.0f));
 
         }
+    }
+    #endregion
+
+    #endregion
+
+    #region 마녀 공격 애니
+
+    #region EasyModeAttack
+    // TODO EASY
+    IEnumerator EasyModeAttack()
+    {
+        GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_easy_attack");
+
+        yield return new WaitForSeconds(1.0f); 
+
+        GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_easy");
+
+        yield return new WaitForSeconds(UnityEngine.Random.Range(1.0f, 5.0f));
+        StartCoroutine("EasyModeAttack");
+    }
+    #endregion
+
+    #region NormalModeAttack
+    // TODO Noraml
+    IEnumerator NormalModeAttack()
+    {
+        // TODO 사운드 추가
+
+        //StartCoroutine(NormalModeAttackWand());
+        GetImage((int)Images.Wand).gameObject.GetComponent<Animator>().Play("NormalWandAttAni");
+        GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before");
+        GetImage((int)Images.NormalEye).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before_eye");
+        yield return new WaitForSeconds(0.3f);
+        GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack");
+        GetImage((int)Images.NormalEye).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_eye");
+        GetImage((int)Images.NormalWandAttImage).gameObject.SetActive(true);
+        GetImage((int)Images.NormalAttEff1).gameObject.SetActive(true);
+        GetImage((int)Images.NormalAttEff2).gameObject.SetActive(true);
+        GetImage((int)Images.NormalAttEff3).gameObject.SetActive(true);
+        yield return new WaitForSeconds(2.3f);
+
+        GetImage((int)Images.NormalWandAttImage).gameObject.SetActive(false);
+        GetImage((int)Images.NormalAttEff1).gameObject.SetActive(false);
+        GetImage((int)Images.NormalAttEff2).gameObject.SetActive(false);
+        GetImage((int)Images.NormalAttEff3).gameObject.SetActive(false);
+
+        GetImage((int)Images.Wand).gameObject.GetComponent<Animator>().Play("NormalWandAttBackAni");
+        GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before");
+        GetImage((int)Images.NormalEye).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before_eye");
+        yield return new WaitForSeconds(0.3f);
+        GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal");
+        GetImage((int)Images.NormalEye).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_eye");
+        yield return new WaitForSeconds(0.3f);
+
+        yield return new WaitForSeconds(UnityEngine.Random.Range(1.0f, 5.0f));
+    }
+
+    IEnumerator NormalModeAttackWand()
+    {
+        GetImage((int)Images.Wand).transform.DOLocalMove(new Vector3(-500, -200), 0.3f, true).SetRelative().SetEase(Ease.Linear).Rewind();
+        yield return new WaitForSeconds(0.4f);
+        //GetImage((int)Images.Wand).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_Eff_0_wand");
+        yield return new WaitForSeconds(1.0f);
+        //GetImage((int)Images.Wand).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_wand");
+        //GetImage((int)Images.Wand).transform.DOLocalMove(new Vector3(500, 200), 0.3f, true).SetRelative().SetEase(Ease.Linear);
+
+    }
+
+    #endregion
+
+    #region HardModeAttack
+    // TODO HARD
+    IEnumerator HardModeAttack()
+    {
+        GetImage((int)Images.W_H_Attack_Before).gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        GetImage((int)Images.W_h_attack_1).gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        GetImage((int)Images.W_h_attack_2).gameObject.SetActive(true);
+        yield return new WaitForSeconds(3.5f);
+
+        GetImage((int)Images.W_H_Attack_Before).gameObject.SetActive(false);
+        GetImage((int)Images.W_h_attack_1).gameObject.SetActive(false);
+        GetImage((int)Images.W_h_attack_2).gameObject.SetActive(false);
     }
     #endregion
 
