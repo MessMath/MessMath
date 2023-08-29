@@ -1,4 +1,4 @@
-using MessMathI18n;
+ï»¿using MessMathI18n;
 using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,7 +35,6 @@ public class UI_Epilogue : UI_Scene
         Context10,
         AnywayCredit,
         Team_Presents,
-        BackToLobby,
     }
 
     enum Buttons
@@ -51,31 +50,33 @@ public class UI_Epilogue : UI_Scene
         BindImage(typeof(Images));
         BindButton(typeof(Buttons));
 
-        GetImage((int)Images.Image1).gameObject.BindEvent(() => GetImage((int)Images.Image2).gameObject.SetActive(true));
+        GetImage((int)Images.Image1).gameObject.BindEvent(() => {GetImage((int)Images.Image2).gameObject.SetActive(true); Managers.Sound.Play("í•©ê²©í†µë³´ìŒ"); });
         GetImage((int)Images.Image2).gameObject.BindEvent(() => GetImage((int)Images.Image3).gameObject.SetActive(true));
         GetImage((int)Images.Image3).gameObject.BindEvent(() => GetImage((int)Images.Image4).gameObject.SetActive(true));
         GetImage((int)Images.Image4).gameObject.BindEvent(ShowCredits);
 
         GetImage((int)Images.Credits).transform.Find("Development").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.Development);
-        GetImage((int)Images.Credits).transform.Find("Context1").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.¿ÀÇÕÁöÁ¹_´ëÀå_¼­ÇöÀç);
-        GetImage((int)Images.Credits).transform.Find("Context2").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.¿ÀÇÕÁöÁ¹_¼­Àå_À±Áö¿¬);
-        GetImage((int)Images.Credits).transform.Find("Context3").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.¿ÀÇÕÁöÁ¹_½ÉÀå_Á¤¼öÁø);
-        GetImage((int)Images.Credits).transform.Find("Context4").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.¿ÀÇÕÁöÁ¹_²¿Àå_¹èÁ¤ÈÆ);
+        GetImage((int)Images.Credits).transform.Find("Context1").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.ì˜¤í•©ì§€ì¡¸_ëŒ€ì¥_ì„œí˜„ì¬);
+        GetImage((int)Images.Credits).transform.Find("Context2").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.ì˜¤í•©ì§€ì¡¸_ì„œì¥_ìœ¤ì§€ì—°);
+        GetImage((int)Images.Credits).transform.Find("Context3").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.ì˜¤í•©ì§€ì¡¸_ì‹¬ì¥_ì •ìˆ˜ì§„);
+        GetImage((int)Images.Credits).transform.Find("Context4").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.ì˜¤í•©ì§€ì¡¸_ê¼¬ì¥_ë°°ì •í›ˆ);
         GetImage((int)Images.Credits).transform.Find("Art").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.Art);
-        GetImage((int)Images.Credits).transform.Find("Context5").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.¿ÀÇÕÁöÁ¹_»õÀå_¼­¹Î¿µ);
+        GetImage((int)Images.Credits).transform.Find("Context5").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.ì˜¤í•©ì§€ì¡¸_ìƒˆì¥_ì„œë¯¼ì˜);
         GetImage((int)Images.Credits).transform.Find("Design").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.Design);
-        GetImage((int)Images.Credits).transform.Find("Context6").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.¿ÀÇÕÁöÁ¹_´ëÀå_¼­ÇöÀç);
-        GetImage((int)Images.Credits).transform.Find("Context7").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.¿ÀÇÕÁöÁ¹_¼­Àå_À±Áö¿¬);
-        GetImage((int)Images.Credits).transform.Find("Context8").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.¿ÀÇÕÁöÁ¹_½ÉÀå_Á¤¼öÁø);
-        GetImage((int)Images.Credits).transform.Find("Context9").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.¿ÀÇÕÁöÁ¹_²¿Àå_¹èÁ¤ÈÆ);
-        GetImage((int)Images.Credits).transform.Find("Context10").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.¿ÀÇÕÁöÁ¹_»õÀå_¼­¹Î¿µ);
-        GetImage((int)Images.Credits).transform.Find("AnywayCredit").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.¾Æ¹«Æ°_Å©·¹µ÷);
-        GetImage((int)Images.Credits).transform.Find("Team_Presents").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.Team_¿ÀÇÕÁöÁ¹_Presents);
-        GetButton((int)Buttons.BackToLobbyBtn).transform.Find("BackToLobby").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.BackToLobby);
-
-        ImagesPreSetting();
+        GetImage((int)Images.Credits).transform.Find("Context6").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.ì˜¤í•©ì§€ì¡¸_ëŒ€ì¥_ì„œí˜„ì¬);
+        GetImage((int)Images.Credits).transform.Find("Context7").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.ì˜¤í•©ì§€ì¡¸_ì„œì¥_ìœ¤ì§€ì—°);
+        GetImage((int)Images.Credits).transform.Find("Context8").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.ì˜¤í•©ì§€ì¡¸_ì‹¬ì¥_ì •ìˆ˜ì§„);
+        GetImage((int)Images.Credits).transform.Find("Context9").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.ì˜¤í•©ì§€ì¡¸_ê¼¬ì¥_ë°°ì •í›ˆ);
+        GetImage((int)Images.Credits).transform.Find("Context10").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.ì˜¤í•©ì§€ì¡¸_ìƒˆì¥_ì„œë¯¼ì˜);
+        GetImage((int)Images.Credits).transform.Find("AnywayCredit").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.ì•„ë¬´íŠ¼_í¬ë ˆë”§);
+        GetImage((int)Images.Credits).transform.Find("Team_Presents").GetComponent<TextMeshProUGUI>().text = I18n.Get(I18nDefine.Team_ì˜¤í•©ì§€ì¡¸_Presents);
 
         GetButton((int)Buttons.BackToLobbyBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
+        
+        if(LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH)
+            GetButton((int)Buttons.BackToLobbyBtn).GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Sprites/Pvp/ResultPopup/BackToLobby_ENG");
+
+        ImagesPreSetting();
 
         GetImage((int)Images.Credits).gameObject.SetActive(false);
 
