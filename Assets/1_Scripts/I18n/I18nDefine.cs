@@ -65,4 +65,9 @@ public static class I18nDefine
     // Get Nickname
     public const string GET_NICKNAME = "GET_NICKNAME";
     public const string GET_NICKNAME_NEXT = "GET_NICKNAME_NEXT";
+    // Info
+    public const string INFO_NICKNAME = "INFO_NICKNAME";
+    public const string INFO_MESSAGE = "INFO_MESSAGE";
+    public const string INFO_SAVE = "INFO_SAVE";
+    public const string INFO_TEXT = "INFO_TEXT";
 }

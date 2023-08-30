@@ -60,6 +60,11 @@
   "Team_오합지졸_Presents": "Team 오합지졸 Presents",
   "BackToLobby": "Back To Lobby",
   // Get Nickname
-  "GET_NICKNAME": "Enter your nickname",
-  "GET_NICKNAME_NEXT" : "Next"
+  "GET_NICKNAME": "Enter your nickname.",
+  "GET_NICKNAME_NEXT": "Next",
+  // Info
+  "INFO_NICKNAME": "Enter your nickname.",
+  "INFO_MESSAGE": "Enter your message.",
+  "INFO_SAVE": "save",
+  "INFO_TEXT": "MessMath Magic Academy"
 }

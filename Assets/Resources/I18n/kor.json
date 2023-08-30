@@ -61,5 +61,10 @@
   "BackToLobby": "로비로 돌아가기",
   // Get Nickname
   "GET_NICKNAME": "닉네임을 입력하세요.",
-  "GET_NICKNAME_NEXT" : "다음"
+  "GET_NICKNAME_NEXT": "다음",
+  // Info
+  "INFO_NICKNAME": "닉네임을 입력하세요.",
+  "INFO_MESSAGE": "상태메시지를 입력하세요.",
+  "INFO_SAVE": "저장",
+  "INFO_TEXT": "매쓰매쓰 마법학교"
 }
