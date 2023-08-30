@@ -140,7 +140,6 @@ public class DebuffManager
                apple.transform.position.y > Camera.main.pixelHeight + appleRect.sizeDelta.y * 0.5f)
             {
                 Debug.Log("end NewtonApple!");
-                player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                 GameObject.Destroy(apple);
                 break;
             }
@@ -151,6 +150,9 @@ public class DebuffManager
 
             yield return null;
         }
+
+        if(player != null)
+            player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         newtonOn = false;
     }
 

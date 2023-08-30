@@ -75,11 +75,11 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (PV.IsMine)
         {
-            Vector2 nextVec = _inputVec * adjustedSpeed * Time.fixedDeltaTime;
+            Vector2 nextVec = _inputVec * adjustedSpeed * Time.deltaTime;
             _rigid.MovePosition(_rigid.position + nextVec);
 
             if (Managers.Game.Horizontal != 0 || Managers.Game.Vertical != 0)
@@ -93,8 +93,26 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
                 predictedPosition = curPos + (curPos - _rectTransform.position);
                 lastUpdateTime = Time.time;
             }
-            _rectTransform.position = Vector3.Lerp(_rectTransform.position, predictedPosition, Time.deltaTime / updateInterval);
+            _rectTransform.position = Vector3.Lerp(_rectTransform.position, predictedPosition, Time.smoothDeltaTime / updateInterval);
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+            _rigid.velocity = Vector2.zero;
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+            _rigid.velocity = Vector2.zero;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+            _rigid.velocity = Vector2.zero;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -113,8 +131,11 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
 
     private void MoveControl()
     {
-        gameObject.GetComponent<RectTransform>().position += Vector3.up * adjustedSpeed * Time.deltaTime * Managers.Game.Vertical;
-        gameObject.GetComponent<RectTransform>().position += Vector3.right * adjustedSpeed * Time.deltaTime * Managers.Game.Horizontal;
+        //gameObject.GetComponent<RectTransform>().position += Vector3.up * adjustedSpeed * Time.smoothDeltaTime * Managers.Game.Vertical;
+        //gameObject.GetComponent<RectTransform>().position += Vector3.right * adjustedSpeed * Time.smoothDeltaTime * Managers.Game.Horizontal;
+
+        Vector2 force = new Vector2(Managers.Game.Horizontal, Managers.Game.Vertical) * adjustedSpeed * 75f;
+        _rigid.AddForce(force);
     }
 
     public void GameOverPopup()
