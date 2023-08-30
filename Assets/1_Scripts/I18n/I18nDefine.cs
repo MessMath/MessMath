@@ -8,6 +8,10 @@ public static class I18nDefine
     public const string STORE_COLLECTIONS = "STORE_COLLECTIONS";
     public const string STORE_CLOTHES = "STORE_CLOTHES";
     public const string STORE_PURCHASED = "STORE_PURCHASED";
+    // Purchase
+    public const string PURCHASE_CLOSE = "PURCHASE_CLOSE";
+    public const string PURCHASE_SUCCESS = "PURCHASE_SUCCESS";
+    public const string PURCHASE_FAILED = "PURCHASE_FAILED";
     // Lobby
     public const string LOBBY_SETTING = "LOBBY_SETTING";
     public const string LOBBY_HELP_ON = "LOBBY_HELP_ON";
