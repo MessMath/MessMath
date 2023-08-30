@@ -7,6 +7,7 @@ public static class I18nDefine
     public const string STORE_GRACE = "STORE_GRACE";
     public const string STORE_COLLECTIONS = "STORE_COLLECTIONS";
     public const string STORE_CLOTHES = "STORE_CLOTHES";
+    public const string STORE_PURCHASED = "STORE_PURCHASED";
     // Lobby
     public const string LOBBY_SETTING = "LOBBY_SETTING";
     public const string LOBBY_HELP_ON = "LOBBY_HELP_ON";

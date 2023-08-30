@@ -97,8 +97,6 @@ public class UI_Store : UI_Popup
     {
         Managers.Sound.Play("ClickBtnEff");
 
-        //GetButton((int)Buttons.GraceButton).gameObject.GetComponent<Image>().color = clickedColor;
-        //GetButton((int)Buttons.CollectionButton).gameObject.GetComponent<Image>().color = unclickedColor;
         foreach (Transform child in content.transform)
             Managers.Resource.Destroy(child.gameObject);
 
@@ -120,8 +118,6 @@ public class UI_Store : UI_Popup
     {
         Managers.Sound.Play("ClickBtnEff");
 
-        //GetButton((int)Buttons.GraceButton).gameObject.GetComponent<Image>().color = unclickedColor;
-        //GetButton((int)Buttons.CollectionButton).gameObject.GetComponent<Image>().color = clickedColor;
         foreach (Transform child in content.transform)
             Managers.Resource.Destroy(child.gameObject);
 
@@ -142,8 +138,6 @@ public class UI_Store : UI_Popup
     {
         Managers.Sound.Play("ClickBtnEff");
 
-        //GetButton((int)Buttons.GraceButton).gameObject.GetComponent<Image>().color = unclickedColor;
-        //GetButton((int)Buttons.CollectionButton).gameObject.GetComponent<Image>().color = clickedColor;
         foreach (Transform child in content.transform)
             Managers.Resource.Destroy(child.gameObject);
 
