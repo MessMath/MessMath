@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public static class I18nDefine
 {
     // Store
@@ -60,4 +62,7 @@ public static class I18nDefine
     public const string 아무튼_크레딧 = "아무튼_크레딧";
     public const string Team_오합지졸_Presents = "Team_오합지졸_Presents";
     public const string BackToLobby = "BackToLobby";
+    // Get Nickname
+    public const string GET_NICKNAME = "GET_NICKNAME";
+    public const string GET_NICKNAME_NEXT = "GET_NICKNAME_NEXT";
 }
