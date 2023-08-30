@@ -137,8 +137,8 @@ public class UI_StoryGame : UI_Scene
         Managers.Sound.Clear();
         Managers.Sound.Play("BattleBgm", Define.Sound.Bgm);
 
-        // default damage is 15
-        Managers.Game.Damage = 15;
+        // default damage is 5
+        Managers.Game.Damage = 5;
 
         #region 가호 버튼 설정
 
