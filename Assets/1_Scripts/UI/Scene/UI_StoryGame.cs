@@ -484,11 +484,15 @@ public class UI_StoryGame : UI_Scene
     void SetArrowNum(Arrow arrow)
     {
         arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Random.Range(numberMin[(int)currentPhase], numberMax[(int)currentPhase]).ToString();
+        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
     }
 
     void SetArrowOperator(Arrow arrow)
     {
-        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[Random.Range(0, 4)];
+        string oper = Operator[Random.Range(0, 4)];
+        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = oper;
+        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().outlineWidth = 0.2f;
+        arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().fontSize = 350;
     }
 
     // 화살의 생성 위치 조절하는 함수 
@@ -797,8 +801,13 @@ public class UI_StoryGame : UI_Scene
             arrow.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             arrow.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Sprites/Effects/EnergyBall");
             arrow.GetComponentInChildren<Image>().SetNativeSize();
-            arrow.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
-            arrow.GetComponentInChildren<TextMeshProUGUI>().fontSize = 400;
+            if (arrow.GetComponent<Arrow>().type == 1)
+                arrow.GetComponentInChildren<TextMeshProUGUI>().fontSize = 400;
+            else if (arrow.GetComponent<Arrow>().type == 0)
+            {
+                arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+                arrow.GetComponentInChildren<TextMeshProUGUI>().fontSize = 300;
+            }
             arrow.GetComponent<Rigidbody2D>().AddForce(RandomVector2.normalized * speed, ForceMode2D.Impulse);
 
             float angle = Mathf.Atan2(curVec.y, curVec.x) * Mathf.Rad2Deg;
@@ -891,10 +900,12 @@ public class UI_StoryGame : UI_Scene
     // TODO HARD
     IEnumerator HardModeAttack()
     {
+        GetImage((int)Images.W_H_Attack_Before).gameObject.SetActive(false);
         GetImage((int)Images.W_h_attack_1).gameObject.SetActive(true);
         GetImage((int)Images.W_h_attack_2).gameObject.SetActive(true);
         yield return new WaitForSeconds(3.0f);
 
+        GetImage((int)Images.W_H_Attack_Before).gameObject.SetActive(true);
         GetImage((int)Images.W_h_attack_1).gameObject.SetActive(false);
         GetImage((int)Images.W_h_attack_2).gameObject.SetActive(false);
     }

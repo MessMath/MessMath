@@ -11,12 +11,16 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 
-public class UI_GraceBoxPopup : UI_Popup
+public class UI_ClothesBoxPopup : UI_Popup
 {
     JsonReader _jsonReader;
     List<StoreData> _graceDatas = new List<StoreData>();
     List<UI_GraceItem> _graces = new List<UI_GraceItem>();
     GameObject selectedObject;
+
+    // 의상 수집품을 하나의 프리펩으로 사용할것인가?
+    // 프리펩이 다르다면 코드역시 달라질 것인가?
+    // 레이아웃은 어떻게 되며 구현해야하는 부분은 무엇인가?
 
     enum GameObjects
     {
@@ -169,7 +173,6 @@ public class UI_GraceBoxPopup : UI_Popup
         GetImage((int)Images.SelectedGraceImage).gameObject.SetActive(true);
 
         GetImage((int)Images.SelectedGraceBGImage).sprite = Resources.Load<Sprite>("Sprites/MathMtcInFight1vs1/" + selectedObject.GetComponent<UI_GraceItem>().BgImage);
-
         #region 폰노이만 크기 예외
         // 아니 폰노이만 크기가 이상해서 이거만 예외처리 해야 돼 => 말 안됨.
         // 이렇게 하드코딩하는거 잘못된거 아는데 어떻게 할 지 모르겠으니까 하드코딩해야징
@@ -186,7 +189,6 @@ public class UI_GraceBoxPopup : UI_Popup
             GetImage((int)Images.SelectedGraceImage).rectTransform.sizeDelta = new Vector2(956.02f, 818.46f);
         }
         #endregion
-
         GetImage((int)Images.SelectedGraceImage).sprite = Resources.Load<Sprite>("Sprites/MathMtcInFight1vs1/" + selectedObject.GetComponent<UI_GraceItem>().FullImage);
         GetText((int)Texts.SelectedGraceText).text = Utils.FindChild(selectedObject, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text;
         //GetText((int)Texts.SelectedGraceDescription).text = selectedObject.GetOrAddComponent<UI_GraceItem>()._description;
