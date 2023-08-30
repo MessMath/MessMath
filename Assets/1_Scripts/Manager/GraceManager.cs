@@ -60,37 +60,37 @@ public class GraceManager
             case "GraceOfGauss":
                 if (gaussOn) return;
                 gaussOn = true;
-                CoroutineHandler.StartCoroutine(CoolTime(gaussCool, go.GetComponent<Image>(), go.GetComponent<Button>()));
+                CoroutineHandler.StartCoroutine(CoolTime(gaussCool, go.GetComponent<Image>(), go.GetComponent<Button>(), gaussOn));
                 GraceOfGauss();
                 break;
             case "GraceOfPythagoras":
                 if (pythagorasOn) return;
                 pythagorasOn = true;
-                CoroutineHandler.StartCoroutine(CoolTime(pythagorasCool, go.GetComponent<Image>(), go.GetComponent<Button>()));
+                CoroutineHandler.StartCoroutine(CoolTime(pythagorasCool, go.GetComponent<Image>(), go.GetComponent<Button>(), pythagorasOn));
                 GraceOfPythagoras();
                 break;
             case "GraceOfNewton":
                 if (newtonOn) return;
                 newtonOn = true;
-                CoroutineHandler.StartCoroutine(CoolTime(newtonCool, go.GetComponent<Image>(), go.GetComponent<Button>()));
+                CoroutineHandler.StartCoroutine(CoolTime(newtonCool, go.GetComponent<Image>(), go.GetComponent<Button>(), newtonOn));
                 GraceOfNewton();
                 break;
             case "GraceOfEinstein":
                 if (einsteinOn) return;
                 einsteinOn = true;
-                CoroutineHandler.StartCoroutine(CoolTime(einsteinCool, go.GetComponent<Image>(), go.GetComponent<Button>()));
+                CoroutineHandler.StartCoroutine(CoolTime(einsteinCool, go.GetComponent<Image>(), go.GetComponent<Button>(), einsteinOn));
                 GraceOfEinstein();
                 break;
             case "GraceOfNeumann":
                 if (neumannOn) return;
                 neumannOn = true;
-                CoroutineHandler.StartCoroutine(CoolTime(neumannCool, go.GetComponent<Image>(), go.GetComponent<Button>()));
+                CoroutineHandler.StartCoroutine(CoolTime(neumannCool, go.GetComponent<Image>(), go.GetComponent<Button>(), neumannOn));
                 GraceOfNeumann();
                 break;
             case "GraceOfDescartes":
                 if (descartesOn) return;
                 descartesOn = true;
-                CoroutineHandler.StartCoroutine(CoolTime(descartesCool, go.GetComponent<Image>(), go.GetComponent<Button>()));
+                CoroutineHandler.StartCoroutine(CoolTime(descartesCool, go.GetComponent<Image>(), go.GetComponent<Button>(), descartesOn));
                 GraceOfDescartes();
                 break;
         }
@@ -182,7 +182,6 @@ public class GraceManager
         PtriangleBack.GetComponent<Image>().CrossFadeAlpha(0f, Time, false);
         Ptriangle.GetComponent<Image>().CrossFadeAlpha(0f, Time, false);
 
-
         CoroutineHandler.StartCoroutine(EndPythagoras(Ptriangle, PtriangleBack, Time));
 
         // 수학자 1vs1 대련 Scene인 경우 
@@ -211,7 +210,6 @@ public class GraceManager
 
         UnityEngine.Object.Destroy(Ptrangle);
         UnityEngine.Object.Destroy(PtrangleBack);
-        pythagorasOn = false;
         playerCollisionOff = false;
         Debug.Log("End Pythagoras!");
     }
@@ -261,7 +259,6 @@ public class GraceManager
         }
 
         yield return new WaitForSecondsRealtime(0.8f);
-        newtonOn = false;
         playerCollisionOff = false;
         if (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
         {
@@ -341,7 +338,6 @@ public class GraceManager
     IEnumerator EndEinstein()
     {
         yield return new WaitForSecondsRealtime(2f);
-        einsteinOn = false;
     }
 
     /// <summary>
@@ -397,11 +393,9 @@ public class GraceManager
         player._speed *= 2;
         yield return new WaitForSeconds(duration);
         player._speed /= 2;
-
-        descartesOn = false;
     }
 
-    IEnumerator CoolTime(float coolTime, Image image, Button button)
+    IEnumerator CoolTime(float coolTime, Image image, Button button, bool GraceOnOff)
     {
         button.interactable = false;
 
@@ -409,6 +403,7 @@ public class GraceManager
 
         button.interactable = true;
         image.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        GraceOnOff = false;
     }
 
     IEnumerator CoolTimeVis(float coolTime, Image image, TextMeshProUGUI text)

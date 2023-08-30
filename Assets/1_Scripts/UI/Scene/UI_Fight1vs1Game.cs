@@ -153,7 +153,7 @@ public class UI_Fight1vs1Game : UI_Scene
         #endregion
 
         #region 모드 설정
-        Managers.Game.CurrentMode = Define.Mode.DoubleSolve;
+        Managers.Game.CurrentMode = Define.Mode.None;
         #endregion
 
         #region 사운드 설정
