@@ -19,6 +19,7 @@ public class UI_Fight1vs1Game : UI_Scene
 {
     enum Texts
     {
+        DamageText,
     }
 
     enum Buttons
@@ -90,6 +91,7 @@ public class UI_Fight1vs1Game : UI_Scene
         BindButton(typeof(Buttons));
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
+        BindText(typeof(Texts));
 
         GetObject((int)GameObjects.JoyStickPanel).BindEvent(OnPointerDown, Define.UIEvent.PointerDown);
         GetObject((int)GameObjects.JoyStickPanel).BindEvent(OnPointerUp, Define.UIEvent.PointerUp);
@@ -300,7 +302,7 @@ public class UI_Fight1vs1Game : UI_Scene
 
     public void damageToPlayer(int damage)
     {
-
+        //GetText((int)Texts.DamageText).text = damage.ToString();
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>()._hp -= damage;
         Debug.Log("player damage 1");
 
@@ -320,6 +322,7 @@ public class UI_Fight1vs1Game : UI_Scene
 
     public void damageToWitch(float damage)
     {
+        
         witchController.SetWitchHP(damage);
 
         if (witchController.Hp <= 0)
