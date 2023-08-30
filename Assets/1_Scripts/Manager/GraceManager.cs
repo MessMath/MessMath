@@ -348,7 +348,8 @@ public class GraceManager
     /// <returns></returns>
     IEnumerator EndEinstein()
     {
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(5f);
+        Managers.Game.Damage /= 2;
     }
 
     /// <summary>
@@ -417,8 +418,10 @@ public class GraceManager
 
         yield return CoroutineHandler.StartCoroutine(CoolTimeVis(coolTime, image, image.GetComponentInChildren<TextMeshProUGUI>()));
 
-        button.interactable = true;
-        image.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        if (button != null)
+            button.interactable = true;
+        if(image != null)
+            image.GetComponentInChildren<TextMeshProUGUI>().text = "";
     }
 
     IEnumerator CoolTimeVis(float coolTime, Image image, TextMeshProUGUI text)

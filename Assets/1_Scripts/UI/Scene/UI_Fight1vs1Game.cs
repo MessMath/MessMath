@@ -321,7 +321,6 @@ public class UI_Fight1vs1Game : UI_Scene
 
     public void damageToWitch(float damage)
     {
-        
         witchController.SetWitchHP(damage);
 
         if (witchController.Hp <= 0)
