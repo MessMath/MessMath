@@ -9,9 +9,7 @@ using System;
 using TMPro;
 using System.IO;
 using Random = UnityEngine.Random;
-using Unity.VisualScripting;
 using DG.Tweening;
-using UnityEngine.TextCore.LowLevel;
 
 public class UI_StoryGame : UI_Scene
 {
@@ -129,23 +127,21 @@ public class UI_StoryGame : UI_Scene
 
         #region 가호 버튼 설정
 
-        //GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfNeumann"));
-
         if (PlayerPrefs.GetString("SelectedGrace0InStory") != "")
         {
-            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InStory")));
+            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InStory"), GetButton((int)Buttons.SelectedGrace).gameObject));
             GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InStory"));
         }
 
         if (PlayerPrefs.GetString("SelectedGrace1InStory") != "")
         {
-            GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InStory")));
+            GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InStory"), GetButton((int)Buttons.SelectedGrace1).gameObject));
             GetButton((int)Buttons.SelectedGrace1).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1InStory"));
         }
 
         if (PlayerPrefs.GetString("SelectedGrace2InStory") != "")
         {
-            GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InStory")));
+            GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InStory"), GetButton((int)Buttons.SelectedGrace2).gameObject));
             GetButton((int)Buttons.SelectedGrace2).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2InStory"));
         }
         #endregion
