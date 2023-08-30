@@ -106,7 +106,7 @@ public class UI_GraceBoxPopup : UI_Popup
         // TODO Add Item as User Data
         for (int i = 0; i < _graceDatas.Count; i++)
         {
-            if (PlayerPrefs.HasKey(_graceDatas[i].img) && PlayerPrefs.GetString(_graceDatas[i].img) != "")
+            if ((PlayerPrefs.HasKey(_graceDatas[i].img) && PlayerPrefs.GetString(_graceDatas[i].img) != "") && (_graceDatas[i].mode == "OneToOne" || _graceDatas[i].mode == "Both"))
             {
                 GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
                 Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
@@ -135,7 +135,7 @@ public class UI_GraceBoxPopup : UI_Popup
         // TODO Add Item as User Data
         for (int i = 0; i < _graceDatas.Count; i++)
         {
-            if (PlayerPrefs.HasKey(_graceDatas[i].img) && PlayerPrefs.GetString(_graceDatas[i].img) != "")
+            if ((PlayerPrefs.HasKey(_graceDatas[i].img) && PlayerPrefs.GetString(_graceDatas[i].img) != "") && (_graceDatas[i].mode == "Story" || _graceDatas[i].mode == "Both"))
             {
                 GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
                 Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;

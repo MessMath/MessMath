@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using StoreDatas;
 
 public class UI_Purchase : UI_Popup
 {
@@ -61,5 +62,17 @@ public class UI_Purchase : UI_Popup
         GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(()=>ClosePopupUI());
         GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(()=>OnClickedPurchaseBtn(img, price));
         GetButton((int)Buttons.PurchaseButton).gameObject.GetComponentInChildren<TextMeshProUGUI>().text = price.ToString();
+    }
+
+    public void SetPopup(StoreData storeData)
+    {
+        GetText((int)Texts.NameTMP).text = storeData.name;
+        Managers.TextEffect.ApplyTextEffect(storeData.explanation, GetText((int)Texts.ExplanationTMP), 36);
+        GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Grace/" + storeData.img, typeof(Sprite)) as Sprite;
+        if (storeData.mode == "collection") GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Collections/" + storeData.img, typeof(Sprite)) as Sprite;
+        if (storeData.mode == "clothes") GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Clothes/" + storeData.img, typeof(Sprite)) as Sprite;
+        GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(() => ClosePopupUI());
+        GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(() => OnClickedPurchaseBtn(storeData.img, storeData.price));
+        GetButton((int)Buttons.PurchaseButton).gameObject.GetComponentInChildren<TextMeshProUGUI>().text = storeData.price.ToString();
     }
 }
