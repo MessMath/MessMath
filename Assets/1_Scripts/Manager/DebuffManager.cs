@@ -150,7 +150,9 @@ public class DebuffManager
 
             yield return null;
         }
-        player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
+        if(player != null)
+            player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         newtonOn = false;
     }
 
