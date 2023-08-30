@@ -30,6 +30,7 @@ public class UI_Story : UI_Scene
         BackGroundImage,
         PlayerImage,
         CharacterImage,
+        GaussImage,
         FadeImage,
         OpenedSide,
         ClosedSide,
@@ -65,6 +66,7 @@ public class UI_Story : UI_Scene
     {
         CharacterNameTMP,
         DialogueTMP,
+        TouchScreenTMP,
     }
 
     private void Start()
@@ -82,6 +84,8 @@ public class UI_Story : UI_Scene
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
 
+        GetText((int)Texts.TouchScreenTMP).text = I18n.Get(I18nDefine.TOUCH_SCREEN);
+
         jsonReader = new JsonReader();
 
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
@@ -90,7 +94,7 @@ public class UI_Story : UI_Scene
         }
         else
         {
-            storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 4 + "_EnterGameStory_EN.json").talkDataList;
+            storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 6 + "_EnterGameStory_EN.json").talkDataList;
         }
 
         maxCount = storyTalkData.Count;
@@ -134,6 +138,7 @@ public class UI_Story : UI_Scene
         GetImage((int)Images.ThirdBrokeImg).gameObject.SetActive(false);
         GetImage((int)Images.SpeechBubbleImg).gameObject.SetActive(false);
         GetImage((int)Images.SmallSpeechBubbleImg).gameObject.SetActive(false);
+        GetImage((int)Images.GaussImage).gameObject.SetActive(false);
 
         // Sound
         Managers.Sound.Clear();
@@ -198,8 +203,17 @@ public class UI_Story : UI_Scene
         Managers.SceneEffect.SceneEffect(GetImage((int)Images.FadeImage),GetButton((int)Buttons.nxtButton), storyTalkData[count].sceneEffect);
         Managers.SceneEffect.ChangeBackground(GetImage((int)Images.BackGroundImage), storyTalkData[count].backgroundImg);
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), storyTalkData[count].characterName);
-        Managers.SceneEffect.ChangeCharacter(GetImage((int)Images.PlayerImage), GetImage((int)Images.CharacterImage), storyTalkData[count].characterName, storyTalkData[count].expression);
-        
+        if (storyTalkData[count].characterName == "가우스" || storyTalkData[count].characterName == "Gauss")
+        {
+            GetImage((int)Images.GaussImage).gameObject.SetActive(true);
+            GetImage((int)Images.CharacterImage).gameObject.SetActive(false);
+        }
+        else
+        {
+            GetImage((int)Images.GaussImage).gameObject.SetActive(false);
+            GetImage((int)Images.CharacterImage).gameObject.SetActive(true);
+            Managers.SceneEffect.ChangeCharacter(GetImage((int)Images.PlayerImage), GetImage((int)Images.CharacterImage), storyTalkData[count].characterName, storyTalkData[count].expression);
+        }
 
         if(storyTalkData[count].txtEffect == "MAX") {
             GetText((int)Texts.DialogueTMP).fontSize = 100;

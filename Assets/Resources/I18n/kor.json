@@ -75,5 +75,7 @@
   "INFO_MESSAGE": "상태메시지를 입력하세요.",
   "INFO_SAVE": "저장",
   "INFO_TEXT": "매쓰매쓰 마법학교",
-  "INFO_PROFILE": "프로필 사진"
+  "INFO_PROFILE": "프로필 사진",
+  // Story
+  "TOUCH_SCREEN": "화면을 터치해주세요."
 }
