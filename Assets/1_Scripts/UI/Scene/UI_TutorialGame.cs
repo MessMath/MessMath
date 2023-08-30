@@ -276,6 +276,7 @@ public class UI_TutorialGame : UI_Scene
 
     void damageToWitch(int damage)
     {
+        DamageText(damage);
         GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().SetWitchHP(damage);
         //GetObject((int)GameObjects.Witch).GetOrAddComponent<WitchController>().Questioning();
         if(witchController.Hp <= 0)
@@ -507,4 +508,12 @@ public class UI_TutorialGame : UI_Scene
 
     #endregion
 
+    #region 데미지 텍스트
+    void DamageText(int damage)
+    {
+        GameObject text = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SubItem/DamageText"));
+        text.transform.SetAsLastSibling();
+        text.GetComponent<UI_DamageText>().damage = damage;
+    }
+    #endregion
 }
