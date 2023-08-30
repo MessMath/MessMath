@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MessMathI18n;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,13 @@ public class UI_SelectMathMtcfor1vs1 : UI_Popup
 {
     enum Texts
     {
-
+        ChooseBossText,
+        MathMtcName1,
+        QuestionNum1,
+        MathMtcName2,
+        QuestionNum2,
+        MathMtcName3,
+        QuestionNum3,
     }
 
     enum Buttons
@@ -44,6 +51,16 @@ public class UI_SelectMathMtcfor1vs1 : UI_Popup
         BindImage(typeof(Images));
 
         GetImage((int)Images.Panel).gameObject.BindEvent(OnClickBG);
+
+        GetText((int)Texts.ChooseBossText).text = I18n.Get(I18nDefine.CHOOSE_BOSS_TEXT);
+
+        GetText((int)Texts.MathMtcName1).text = I18n.Get(I18nDefine.MathMtcName1);
+        GetText((int)Texts.QuestionNum1).text = I18n.Get(I18nDefine.QuestionNum1);
+        GetText((int)Texts.MathMtcName2).text = I18n.Get(I18nDefine.MathMtcName2);
+        GetText((int)Texts.QuestionNum2).text = I18n.Get(I18nDefine.QuestionNum2);
+        GetText((int)Texts.MathMtcName3).text = I18n.Get(I18nDefine.MathMtcName3);
+        GetText((int)Texts.QuestionNum3).text = I18n.Get(I18nDefine.QuestionNum3);
+
         // TODO
         // 여기서 정한 수학자가 인게임에서 적으로 등장해야 한다.
         // 버튼을 누르면 다음 팝업(가호 선택 팝업)이 뜨도록.

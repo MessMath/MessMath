@@ -1,3 +1,4 @@
+using MessMathI18n;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,12 @@ public class UI_BeforeFight1vs1Start : UI_Popup
         reqQstsBtn,
     }
 
+    public enum Texts
+    {
+        GetDiagnosisQuestions,
+        reqQsts,
+    }
+
     public UI_Fight1vs1Game UI_Fight1Vs1Game;
 
     public override bool Init()
@@ -17,11 +24,15 @@ public class UI_BeforeFight1vs1Start : UI_Popup
         if (base.Init() == false)
             return false;
 
+        BindText(typeof(Texts));
         BindButton(typeof(Buttons));
+
 
         GetButton((int)Buttons.reqQstsBtn).gameObject.BindEvent(() => reqQsts());
 
-        
+        GetText((int)Texts.GetDiagnosisQuestions).text = I18n.Get(I18nDefine.GetDiagnosisQuestions);
+        GetText((int)Texts.reqQsts).text = I18n.Get(I18nDefine.ReqQsts);
+
         CoroutineHandler.StartCoroutine(SceneChangeAnimation_Out());
         //Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;

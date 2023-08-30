@@ -83,8 +83,8 @@ public class UI_Store : UI_Popup
         }
         else
         {
-            graceData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 5 + "_StoreGrace_EN.json").storeDataList;
-            collectionData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 2 + "_StoreCollection_EN.json").storeDataList;
+            graceData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 7 + "_StoreGrace_EN.json").storeDataList;
+            collectionData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 8 + "_StoreCollection_EN.json").storeDataList;
         }
 
         OnClickedGraceBtn();

@@ -1,7 +1,72 @@
 {
-    "STORE_MATHEMATICS_BOOK": "수학의 서 상점",
-    "STORE_GRACE": "가호",
-    "STORE_COLLECTIONS": "수집품",
-    "STORE_CLOTHES": "의상"
-
+  // Store
+  "STORE_MATHEMATICS_BOOK": "수학의 서 상점",
+  "STORE_GRACE": "가호",
+  "STORE_COLLECTIONS": "수집품",
+  "STORE_CLOTHES": "의상",
+  // Lobby
+  "LOBBY_SETTING": "설정",
+  "LOBBY_HELP_ON": "도움말\nON",
+  "LOBBY_HELP_OFF": "도움말\nOFF",
+  "LOBBY_STORE": "상점",
+  "LOBBY_INVENTORY": "인벤토리",
+  "LOBBY_STORY_GAME": "마녀 봉인",
+  "LOBBY_ONE_TO_ONE_GAME": "수학자\n강의",
+  "LOBBY_PVP_GAME": "PVP",
+  "LOBBY_PRACTICE_GAME": "시험 공부",
+  "LOBBY_STUDENT_ID_CARD": "학생증",
+  "LOBBY_TO_LOBBY_CHECK": "정말로 로비에 돌아가실건가요?",
+  // DIAGNOSIS
+  "DIAGNOSIS_CHOOSE_DIFFICULTY": "당신의 수학 실력을 알고싶습니다.\n당신의 실력에 맞춰 글자를 눌러주세요.",
+  "DIAGNOSIS_DIFFICULTY_1": "수를 셀 수 있어요.",
+  "DIAGNOSIS_DIFFICULTY_2": "덧셈과 뺄셈을\n할 수 있어요.",
+  "DIAGNOSIS_DIFFICULTY_3": "곱셈과 나눗셈을\n할 수 있어요.",
+  "DIAGNOSIS_DIFFICULTY_4": "분수와 소수를\n알고 있어요.",
+  // PRACTICE
+  "PRACTICE_START": "수업 시작",
+  "PRACTICE_NEXT": "다음 수업",
+  "PRACTICE_TEACHER_RIGHT_ANSWER_REACTION_1": "잘했습니다.",
+  "PRACTICE_TEACHER_RIGHT_ANSWER_REACTION_2": "좋습니다.",
+  "PRACTICE_TEACHER_RIGHT_ANSWER_REACTION_3": "훌륭해요.",
+  "PRACTICE_TEACHER_WRONG_ANSWER_REACTION_1": "다시 생각해볼까요?",
+  "PRACTICE_TEACHER_WRONG_ANSWER_REACTION_2": "이런...",
+  "PRACTICE_TEACHER_WRONG_ANSWER_REACTION_3": "저런...",
+  // Choose Boss
+  "CHOOSE_BOSS_TEXT": "대결 상대를 고르세요",
+  "MathMtcName1": "가우스",
+  "QuestionNum1": "8문항",
+  "MathMtcName2": "피타고라스",
+  "QuestionNum2": "16문항",
+  "MathMtcName3": "뉴턴",
+  "QuestionNum3": "24문항",
+  // Grace Box
+  "GRACE_BOX_TILE": "가호 선택 창",
+  "GRACE_BOX_STORY_MODE_TILE": "스토리 모드",
+  "GRACE_BOX_ONE_TO_ONE_MODE_TILE": "수학자 1vs1 모드",
+  "GRACE_BOX_SELECT": "선택",
+  "GAME_START": "게임 시작",
+  // BeforeFight1vs1Start
+  "GETDIAGNOSISQUESTIONS": "진단평가 문제 받아오기",
+  "ReqQsts": "문제 요청하기",
+  // Epilogue
+  "Development": "개발",
+  "Art": "아트",
+  "Design": "기획",
+  "오합지졸_대장_서현재": "오합지졸 대장 서현재",
+  "오합지졸_서장_윤지연": "오합지졸 서장 윤지연",
+  "오합지졸_심장_정수진": "오합지졸 심장 정수진",
+  "오합지졸_꼬장_배정훈": "오합지졸 꼬장 배정훈",
+  "오합지졸_새장_서민영": "오합지졸 새장 서민영",
+  "아무튼_크레딧": "아무튼 크레딧",
+  "Team_오합지졸_Presents": "Team 오합지졸 Presents",
+  "BackToLobby": "로비로 돌아가기",
+  // Get Nickname
+  "GET_NICKNAME": "닉네임을 입력하세요.",
+  "GET_NICKNAME_NEXT": "다음",
+  // Info
+  "INFO_NICKNAME": "닉네임을 입력하세요.",
+  "INFO_MESSAGE": "상태메시지를 입력하세요.",
+  "INFO_SAVE": "저장",
+  "INFO_TEXT": "매쓰매쓰 마법학교",
+  "INFO_PROFILE": "프로필 사진"
 }

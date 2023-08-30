@@ -5,6 +5,8 @@ using System.IO;
 using StoryData;
 using StoreDatas;
 using TutorialDatas;
+using DiagnosisDatas;
+using TipDatas;
 
 public class JsonReader
 {  
@@ -19,6 +21,18 @@ public class JsonReader
     {
         string json = File.ReadAllText(path);
         return JsonUtility.FromJson<TutorialInfo>(json);
+    }
+
+    public DiagnosisInfo ReadDiagnosisJson(string path)
+    {
+        string json = File.ReadAllText(path);
+        return JsonUtility.FromJson<DiagnosisInfo>(json);
+    }
+
+    public TipInfo ReadTipJson(string path)
+    {
+        string json = File.ReadAllText(path);
+        return JsonUtility.FromJson<TipInfo>(json);
     }
 
     public StoreInfo ReadStoreJson(string path)

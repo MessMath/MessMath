@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using MessMathI18n;
 
 public class UI_Info : UI_Popup
 {
@@ -19,6 +20,7 @@ public class UI_Info : UI_Popup
     {
         UserNameText,
         Save,
+        InfoText,
     }
 
     enum Buttons
@@ -53,9 +55,17 @@ public class UI_Info : UI_Popup
             GetText((int)Texts.UserNameText).text = Managers.Game.Name;
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ClosePopupUI(this); });
         GetText((int)Texts.Save).gameObject.BindEvent(() => OnClickedSaveBtn());
+        GetText((int)Texts.Save).text = I18n.Get(I18nDefine.INFO_SAVE);
+        GetText((int)Texts.InfoText).text = I18n.Get(I18nDefine.INFO_TEXT);
         GetImage((int)Images.UserImage).gameObject.BindEvent(() => OnClickedProfile());
 
         Managers.DBManager.reference.Child("Users").Child(Managers.UserMng.user.UID).ValueChanged += HandleValueChanged;
+
+        // placeholder
+        TextMeshProUGUI placeholder = (TextMeshProUGUI)GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().placeholder;
+        placeholder.text = I18n.Get(I18nDefine.INFO_NICKNAME);
+        placeholder = (TextMeshProUGUI)GetObject((int)GameObjects.UserMessage).gameObject.GetComponentInChildren<TMP_InputField>().placeholder;
+        placeholder.text = I18n.Get(I18nDefine.INFO_MESSAGE);
 
         GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.UserMng.user.UID;
         GetObject((int)GameObjects.UserMessage).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.UserMng.GetMessage();

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MessMathI18n;
 
 public class UI_SelectProfile : UI_Popup
 {
@@ -22,6 +23,11 @@ public class UI_SelectProfile : UI_Popup
         EmptyGrace4,
     }
 
+    enum Texts
+    {
+        TitleText,
+    }
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -29,6 +35,7 @@ public class UI_SelectProfile : UI_Popup
 
         BindImage(typeof(Images));
         BindButton(typeof(Buttons));
+        BindText(typeof(Texts));
 
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => OnClosePopup());
         GetImage((int)Images.GraceOfGauss).gameObject.BindEvent(() => OnClickedProfile("GraceOfGauss"));
@@ -40,6 +47,7 @@ public class UI_SelectProfile : UI_Popup
         GetImage((int)Images.EmptyGrace2).gameObject.BindEvent(() => Managers.Sound.Play("ClickBtnEff"));
         GetImage((int)Images.EmptyGrace3).gameObject.BindEvent(() => Managers.Sound.Play("ClickBtnEff"));
         GetImage((int)Images.EmptyGrace4).gameObject.BindEvent(() => Managers.Sound.Play("ClickBtnEff"));
+        GetText((int)Texts.TitleText).text = I18n.Get(I18nDefine.INFO_PROFILE);
 
         return true;
     }

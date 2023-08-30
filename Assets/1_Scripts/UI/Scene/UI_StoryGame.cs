@@ -9,9 +9,7 @@ using System;
 using TMPro;
 using System.IO;
 using Random = UnityEngine.Random;
-using Unity.VisualScripting;
 using DG.Tweening;
-using UnityEngine.TextCore.LowLevel;
 
 public class UI_StoryGame : UI_Scene
 {
@@ -21,8 +19,6 @@ public class UI_StoryGame : UI_Scene
         PrintNumber_Text,
         QuestionNumber_Text,
         PreCalculation_Text,
-        // 테스트용
-        PhaseText,
     }
 
     enum Buttons
@@ -33,7 +29,7 @@ public class UI_StoryGame : UI_Scene
         SelectedGrace2,
         AllErase,
         EqualButton,
-        SettingBtn,
+        ExitBtn,
     }
 
     enum Images
@@ -49,6 +45,20 @@ public class UI_StoryGame : UI_Scene
         heart1,
         heart2,
         FadeOut,
+        Aura,
+        EasyWand,
+        Wand,
+        NormalWandAttImage,
+        NormalEye,
+        NormalEyeLight,
+        NormalAttEff1,
+        NormalAttEff2,
+        NormalAttEff3,
+        W_Twinkle_1,
+        W_Twinkle_2,
+        W_H_Attack_Before,
+        W_h_attack_1,
+        W_h_attack_2,
     }
 
     enum GameObjects
@@ -75,12 +85,9 @@ public class UI_StoryGame : UI_Scene
         CoroutineHandler.StartCoroutine(SceneChangeAnimation_Out());
 
         StartCoroutine("SetArrowGenerationTime", 0.5f);
+        StartCoroutine("EasyModeAttack");
     }
 
-    private void Start()
-    {
-
-    }
     #region 씬 변환 애니메이션
     IEnumerator SceneChangeAnimation_Out()
     {
@@ -93,6 +100,7 @@ public class UI_StoryGame : UI_Scene
         Managers.UI.ClosePopupUI(uI_LockTouch);
     }
     #endregion
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -112,7 +120,7 @@ public class UI_StoryGame : UI_Scene
         GetText((int)Texts.PrintNumber_Text).text = "";
         GetText((int)Texts.Calculate_BoardText).text = "";
         GetButton((int)Buttons.EqualButton).gameObject.BindEvent(Calculate);
-        GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
+        GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_CheckToLobby>(); });
 
         for (int i = 0; i < 3; i++)
         {
@@ -134,23 +142,21 @@ public class UI_StoryGame : UI_Scene
 
         #region 가호 버튼 설정
 
-        //GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfNeumann"));
-
         if (PlayerPrefs.GetString("SelectedGrace0InStory") != "")
         {
-            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InStory")));
+            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InStory"), GetButton((int)Buttons.SelectedGrace).gameObject));
             GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InStory"));
         }
 
         if (PlayerPrefs.GetString("SelectedGrace1InStory") != "")
         {
-            GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InStory")));
+            GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InStory"), GetButton((int)Buttons.SelectedGrace1).gameObject));
             GetButton((int)Buttons.SelectedGrace1).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1InStory"));
         }
 
         if (PlayerPrefs.GetString("SelectedGrace2InStory") != "")
         {
-            GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InStory")));
+            GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InStory"), GetButton((int)Buttons.SelectedGrace2).gameObject));
             GetButton((int)Buttons.SelectedGrace2).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2InStory"));
         }
         #endregion
@@ -160,7 +166,24 @@ public class UI_StoryGame : UI_Scene
 
         UnityEngine.Input.multiTouchEnabled = true;
 
-        GetText((int)Texts.PhaseText).text = currentPhase.ToString();
+        #region 애니 준비
+        // 2페이즈 관련 끄기
+        GetImage((int)Images.Wand).gameObject.SetActive(false);
+        GetImage((int)Images.NormalWandAttImage).gameObject.SetActive(false);
+        GetImage((int)Images.NormalEye).gameObject.SetActive(false);
+        GetImage((int)Images.NormalEyeLight).gameObject.SetActive(false);
+        GetImage((int)Images.NormalAttEff1).gameObject.SetActive(false);
+        GetImage((int)Images.NormalAttEff2).gameObject.SetActive(false);
+        GetImage((int)Images.NormalAttEff3).gameObject.SetActive(false);
+
+
+        // 3페이즈 관련 끄기
+        GetImage((int)Images.W_Twinkle_1).gameObject.SetActive(false);
+        GetImage((int)Images.W_Twinkle_2).gameObject.SetActive(false);
+        GetImage((int)Images.W_H_Attack_Before).gameObject.SetActive(false);
+        GetImage((int)Images.W_h_attack_1).gameObject.SetActive(false);
+        GetImage((int)Images.W_h_attack_2).gameObject.SetActive(false);
+        #endregion
 
         GetImage((int)Images.FadeOut).gameObject.SetActive(false);
 
@@ -563,8 +586,8 @@ public class UI_StoryGame : UI_Scene
     // Phase에 따라 변하는 여러변수들을 배열형태로 선언.
     // (int)currentPhase로 인덱싱을 해보자.
 
-    private int[] numberMin = { 1, 1, 10 };             // 등장 숫자 최소값
-    private int[] numberMax = { 10, 100, 100 };         // 등장 숫자 최대값
+    private int[] numberMin = { 1, 1, 1 };             // 등장 숫자 최소값
+    private int[] numberMax = { 10, 15, 20 };         // 등장 숫자 최대값
     private float[] delayTime = { 1f, 0.8f, 0.6f };      // 화살 발사 딜레이
     private float[] speedMin = { 200f, 280f, 360f };     // 화살 속도 최소값
     private float[] speedMax = { 250f, 330f, 410f };     // 화살 속도 최대값
@@ -580,26 +603,51 @@ public class UI_StoryGame : UI_Scene
         witchController.HpBar.fillAmount = 1f;      // 마녀 풀피 회복
         currentPhase = phase;
 
-        // 디버그용
-        GetText((int)Texts.PhaseText).text = currentPhase.ToString();
-
         // 2페이즈의 특수효과 시작, 간격은 일단 10초
         if (phase == Phase.Phase2)
         {
+            StopCoroutine("EasyModeAttack"); // 이지 어택 애니 종료
+
             // 2페이즈 마녀 이미지 변환 및 애니메이션
             StartCoroutine(WitchChangeAnimation_Normal());
 
-            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Phase2");
+            GetImage((int)Images.EasyWand).gameObject.SetActive(false);
+            GetImage((int)Images.WitchHPBar).color = new Color(119 / 255f, 255 / 255f, 245 / 255f, 1f);
+            GetImage((int)Images.Wand).gameObject.SetActive(true);
+            GetImage((int)Images.NormalEye).gameObject.SetActive(true);
+            GetImage((int)Images.NormalEyeLight).gameObject.SetActive(true);
+            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal");
+            GetImage((int)Images.Aura).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_aura");
+            GetImage((int)Images.Wand).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_wand");
             GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase2");
             StartCoroutine(SpecialEffectsForPhase2(10f));
         }
 
         if (phase == Phase.Phase3)
         {
+            StopCoroutine("NormalModeAttack"); // 노말 어택 애니 종료
+            StopAllCoroutines();
+
+            // 2페이즈 관련 끄기
+            GetImage((int)Images.NormalEye).gameObject.SetActive(false);
+            GetImage((int)Images.NormalEyeLight).gameObject.SetActive(false);
+            GetImage((int)Images.NormalWandAttImage).gameObject.SetActive(false);
+            GetImage((int)Images.NormalAttEff1).gameObject.SetActive(false);
+            GetImage((int)Images.NormalAttEff2).gameObject.SetActive(false);
+            GetImage((int)Images.NormalAttEff3).gameObject.SetActive(false);
+
+
             // 3페이즈 마녀 이미지 변환 및 애니메이션
             StartCoroutine(WitchChangeAnimation_Hard());
 
-            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Phase3");
+            GetImage((int)Images.WitchHPBar).color = new Color(100 / 255f, 0f, 200 / 255f, 1f);
+            GetImage((int)Images.EasyWand).gameObject.SetActive(false);
+            GetImage((int)Images.Wand).gameObject.SetActive(false);
+            GetImage((int)Images.W_H_Attack_Before).gameObject.SetActive(true);
+            GetImage((int)Images.W_Twinkle_1).gameObject.SetActive(true);
+            GetImage((int)Images.W_Twinkle_2).gameObject.SetActive(true);
+            GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Witch_Hard/W_hard");
+            GetImage((int)Images.Aura).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Witch_Hard/W_aura");
             GetImage((int)Images.BGIMG).sprite = Managers.Resource.Load<Sprite>("Sprites/background/BattlePhase3");
 
         }
@@ -620,7 +668,7 @@ public class UI_StoryGame : UI_Scene
         SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/WitchChangeAnimation_Normal").GetOrAddComponent<SceneChangeAnimation_In>();
         anim.transform.Find("NormalWitchText").transform.DOShakePosition(10, 20);
         anim.transform.SetParent(uI_LockTouch.transform);
-        anim.SetInfo(Define.Scene.StoryGameScene, () => {  });
+        anim.SetInfo(Define.Scene.StoryGameScene, () => { });
 
         yield return new WaitForSeconds(8.3f);
         Managers.UI.ClosePopupUI(uI_LockTouch);
@@ -638,12 +686,12 @@ public class UI_StoryGame : UI_Scene
 
         // Ani
         UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
-        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/WitchChangeAnimation_Normal").GetOrAddComponent<SceneChangeAnimation_In>();
-        anim.transform.Find("NormalWitchText").transform.DOShakePosition(10, 30);
+        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/WitchChangeAnimation_Hard").GetOrAddComponent<SceneChangeAnimation_In>();
+        anim.transform.Find("HardWitchText").transform.DOShakePosition(10, 30);
         anim.transform.SetParent(uI_LockTouch.transform);
         anim.SetInfo(Define.Scene.StoryGameScene, () => { });
 
-        yield return new WaitForSeconds(10.3f);
+        yield return new WaitForSeconds(6.3f);
         Managers.UI.ClosePopupUI(uI_LockTouch);
 
         Managers.Sound.Play("BattleBgm", Define.Sound.Bgm);
@@ -660,11 +708,12 @@ public class UI_StoryGame : UI_Scene
     IEnumerator SpecialEffectsForPhase2(float delay)
     {
         yield return new WaitForSeconds(delay);
-        float minDelay = delay * 0.5f;
 
         StartCoroutine(MiddleDirectionOfArrow());
 
-        StartCoroutine(SpecialEffectsForPhase2(Random.Range(minDelay, _phase2Skill1Delay)));
+        StartCoroutine(NormalModeAttack()); // 노말 모드 어택 애니
+
+        StartCoroutine(SpecialEffectsForPhase2(Random.Range(_phase2Skill1Delay / 2f, _phase2Skill1Delay)));
     }
 
     IEnumerator MiddleDirectionOfArrow()
@@ -726,11 +775,12 @@ public class UI_StoryGame : UI_Scene
     IEnumerator SpecialEffectsForPhase3(float delay)
     {
         yield return new WaitForSeconds(delay);
-        float minDelay = delay * 0.5f;
+
+        StartCoroutine(HardModeAttack()); // 하드 모드 어택 애니
 
         ChangeDirectionOfArrows();
 
-        StartCoroutine(SpecialEffectsForPhase3(Random.Range(minDelay, _phase3Skill1Delay)));
+        StartCoroutine(SpecialEffectsForPhase3(Random.Range(_phase3Skill1Delay / 2f, _phase3Skill1Delay)));
     }
 
     public void ChangeDirectionOfArrows()
@@ -748,11 +798,12 @@ public class UI_StoryGame : UI_Scene
             arrow.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Sprites/Effects/EnergyBall");
             arrow.GetComponentInChildren<Image>().SetNativeSize();
             arrow.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+            arrow.GetComponentInChildren<TextMeshProUGUI>().fontSize = 400;
             arrow.GetComponent<Rigidbody2D>().AddForce(RandomVector2.normalized * speed, ForceMode2D.Impulse);
-            
+
             float angle = Mathf.Atan2(curVec.y, curVec.x) * Mathf.Rad2Deg;
             float angle2 = Mathf.Atan2(RandomVector2.y, RandomVector2.x) * Mathf.Rad2Deg;
-            
+
             Quaternion angleAxis = Quaternion.AngleAxis(angle2 + angle, Vector3.forward);
             //angleAxis = Quaternion.AngleAxis(angle + angle2 + 180, Vector3.forward);
             Quaternion rotation = Quaternion.Slerp(arrow.gameObject.GetComponentInChildren<Image>().transform.rotation, angleAxis, 1);
@@ -764,6 +815,90 @@ public class UI_StoryGame : UI_Scene
 
         }
     }
+    #endregion
+
+    #endregion
+
+    #region 마녀 공격 애니
+
+    #region EasyModeAttack
+    // TODO EASY
+    IEnumerator EasyModeAttack()
+    {
+        GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_easy_attack");
+
+        yield return new WaitForSeconds(1.0f); 
+
+        GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_easy");
+
+        yield return new WaitForSeconds(UnityEngine.Random.Range(1.0f, 5.0f));
+        StartCoroutine("EasyModeAttack");
+    }
+    #endregion
+
+    #region NormalModeAttack
+
+    // TODO Noraml
+    IEnumerator NormalModeAttack()
+    {
+        // TODO 사운드 추가
+
+        //StartCoroutine(NormalModeAttackWand());
+        GetImage((int)Images.Wand).gameObject.GetComponent<Animator>().Play("NormalWandAttAni");
+        GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before");
+        GetImage((int)Images.NormalEye).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before_eye");
+        GetImage((int)Images.NormalEyeLight).gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.3f);
+        GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack");
+        GetImage((int)Images.NormalEye).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_eye");
+        GetImage((int)Images.NormalWandAttImage).gameObject.SetActive(true);
+        GetImage((int)Images.NormalAttEff1).gameObject.SetActive(true);
+        GetImage((int)Images.NormalAttEff2).gameObject.SetActive(true);
+        GetImage((int)Images.NormalAttEff3).gameObject.SetActive(true);
+        yield return new WaitForSeconds(2.3f);
+
+        GetImage((int)Images.NormalWandAttImage).gameObject.SetActive(false);
+        GetImage((int)Images.NormalAttEff1).gameObject.SetActive(false);
+        GetImage((int)Images.NormalAttEff2).gameObject.SetActive(false);
+        GetImage((int)Images.NormalAttEff3).gameObject.SetActive(false);
+
+        GetImage((int)Images.Wand).gameObject.GetComponent<Animator>().Play("NormalWandAttBackAni");
+        GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before");
+        GetImage((int)Images.NormalEye).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before_eye");
+        yield return new WaitForSeconds(0.3f);
+        GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal");
+        GetImage((int)Images.NormalEye).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_eye");
+        GetImage((int)Images.NormalEyeLight).gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+
+    }
+
+    IEnumerator NormalModeAttackWand()
+    {
+        GetImage((int)Images.Wand).transform.DOLocalMove(new Vector3(-500, -200), 0.3f, true).SetRelative().SetEase(Ease.Linear).Rewind();
+        yield return new WaitForSeconds(0.4f);
+        //GetImage((int)Images.Wand).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_Eff_0_wand");
+        yield return new WaitForSeconds(1.0f);
+        //GetImage((int)Images.Wand).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_wand");
+        //GetImage((int)Images.Wand).transform.DOLocalMove(new Vector3(500, 200), 0.3f, true).SetRelative().SetEase(Ease.Linear);
+
+    }
+
+    #endregion
+
+    #region HardModeAttack
+
+    // TODO HARD
+    IEnumerator HardModeAttack()
+    {
+        GetImage((int)Images.W_h_attack_1).gameObject.SetActive(true);
+        GetImage((int)Images.W_h_attack_2).gameObject.SetActive(true);
+        yield return new WaitForSeconds(3.0f);
+
+        GetImage((int)Images.W_h_attack_1).gameObject.SetActive(false);
+        GetImage((int)Images.W_h_attack_2).gameObject.SetActive(false);
+    }
+
     #endregion
 
     #endregion

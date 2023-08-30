@@ -1,3 +1,5 @@
+using DG.Tweening;
+using MessMathI18n;
 using Newtonsoft.Json;
 using StoreDatas;
 using System;
@@ -6,6 +8,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class UI_GraceBoxPopup : UI_Popup
@@ -25,6 +28,7 @@ public class UI_GraceBoxPopup : UI_Popup
         SelectedGraceText,
         SelectedGraceDescription,
         TitleText,
+        SelectText,
     }
 
     enum Buttons
@@ -35,7 +39,8 @@ public class UI_GraceBoxPopup : UI_Popup
 
     enum Images
     {
-        SelectedGraceImage
+        SelectedGraceBGImage,
+        SelectedGraceImage,
     }
 
     public enum State
@@ -58,10 +63,21 @@ public class UI_GraceBoxPopup : UI_Popup
         BindImage(typeof(Images));
 
         _jsonReader = new JsonReader();
-        _graceDatas = _jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 1 + "_StoreGauss.json").storeDataList;
 
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
+        {
+            _graceDatas = _jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 1 + "_StoreGrace_KOR.json").storeDataList;
+        }
+        else
+        {
+            _graceDatas = _jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 7 + "_StoreGrace_EN.json").storeDataList;
+        }
+
+        GetText((int)Texts.SelectText).text = I18n.Get(I18nDefine.GRACE_BOX_SELECT);
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(OnClosePopup);
         GetButton((int)Buttons.SelectBtn).gameObject.BindEvent(OnClickSelectBtn);
+        GetImage((int)Images.SelectedGraceBGImage).gameObject.SetActive(false);
+        GetImage((int)Images.SelectedGraceImage).gameObject.SetActive(false);
 
         Debug.Log($"UI_GraceBoxPopup's state is {_state}");
         if (_state == State.OneToOne)
@@ -79,7 +95,8 @@ public class UI_GraceBoxPopup : UI_Popup
     void OneToOneModeRefreshUI()
     {
         _graces.Clear();
-        GetText((int)Texts.TitleText).text = Managers.GetText(Define.OneToOneModeSelectGracePopupText);
+        GetText((int)Texts.TitleText).text = I18n.Get(I18nDefine.GRACE_BOX_ONE_TO_ONE_MODE_TILE);
+        GetText((int)Texts.TitleText).fontSize = 65;
 
         // Delete Prefab Item
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
@@ -95,6 +112,9 @@ public class UI_GraceBoxPopup : UI_Popup
                 Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
                 Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
                 graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
+                graceItem.GetComponent<UI_GraceItem>().BgImage = _graceDatas[i].bgImage;
+                string[] fullImageName = _graceDatas[i].img2.Split('\r');
+                graceItem.GetComponent<UI_GraceItem>().FullImage = fullImageName[0];
                 graceItem.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
                 graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
                 graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = graceItem; OnClickGraceBtn(); });
@@ -105,7 +125,7 @@ public class UI_GraceBoxPopup : UI_Popup
     void StoryModeRefreshUI()
     {
         _graces.Clear();
-        GetText((int)Texts.TitleText).text = Managers.GetText(Define.StoryModeSelectGracePopupText);
+        GetText((int)Texts.TitleText).text = I18n.Get(I18nDefine.GRACE_BOX_STORY_MODE_TILE);
 
         // Delete Prefab Item
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
@@ -121,6 +141,9 @@ public class UI_GraceBoxPopup : UI_Popup
                 Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
                 Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
                 graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
+                graceItem.GetComponent<UI_GraceItem>().BgImage = _graceDatas[i].bgImage;
+                string[] fullImageName = _graceDatas[i].img2.Split('\r');
+                graceItem.GetComponent<UI_GraceItem>().FullImage = fullImageName[0];
                 graceItem.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
                 graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
                 graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = graceItem; OnClickGraceBtn(); });
@@ -142,7 +165,27 @@ public class UI_GraceBoxPopup : UI_Popup
     {
         Managers.Sound.Play("ClickBtnEff");
 
-        GetImage((int)Images.SelectedGraceImage).sprite = Utils.FindChild(selectedObject, "Grace").GetOrAddComponent<Image>().sprite;
+        GetImage((int)Images.SelectedGraceBGImage).gameObject.SetActive(true);
+        GetImage((int)Images.SelectedGraceImage).gameObject.SetActive(true);
+
+        GetImage((int)Images.SelectedGraceBGImage).sprite = Resources.Load<Sprite>("Sprites/MathMtcInFight1vs1/" + selectedObject.GetComponent<UI_GraceItem>().BgImage);
+        #region 폰노이만 크기 예외
+        // 아니 폰노이만 크기가 이상해서 이거만 예외처리 해야 돼 => 말 안됨.
+        // 이렇게 하드코딩하는거 잘못된거 아는데 어떻게 할 지 모르겠으니까 하드코딩해야징
+        if (selectedObject.GetComponent<UI_GraceItem>().FullImage == "NeumannImage")
+        {
+            GetImage((int)Images.SelectedGraceImage).transform.localPosition = new Vector3(-1708.3f, 426.69f, 0);
+            Debug.Log(GetImage((int)Images.SelectedGraceImage).transform.localPosition);
+            GetImage((int)Images.SelectedGraceImage).rectTransform.sizeDelta = new Vector2(509.8f, 944.08f);
+        }
+        else if (selectedObject.GetComponent<UI_GraceItem>().FullImage != "NeumannImage")
+        {
+            GetImage((int)Images.SelectedGraceImage).transform.localPosition = new Vector3(-1964.95f, 426.69f, 0);
+            Debug.Log(GetImage((int)Images.SelectedGraceImage).transform.localPosition);
+            GetImage((int)Images.SelectedGraceImage).rectTransform.sizeDelta = new Vector2(956.02f, 818.46f);
+        }
+        #endregion
+        GetImage((int)Images.SelectedGraceImage).sprite = Resources.Load<Sprite>("Sprites/MathMtcInFight1vs1/" + selectedObject.GetComponent<UI_GraceItem>().FullImage);
         GetText((int)Texts.SelectedGraceText).text = Utils.FindChild(selectedObject, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text;
         //GetText((int)Texts.SelectedGraceDescription).text = selectedObject.GetOrAddComponent<UI_GraceItem>()._description;
         Managers.TextEffect.ApplyTextEffect(selectedObject.GetOrAddComponent<UI_GraceItem>()._description, GetText((int)Texts.SelectedGraceDescription), 60);
@@ -179,7 +222,7 @@ public class UI_GraceBoxPopup : UI_Popup
     {
         string selectedObjectName = selectedObject.GetComponent<UI_GraceItem>()._name;
 
-        if ( _state == State.OneToOne)
+        if (_state == State.OneToOne)
         {
             for (int i = 0; i < 3; i++)
             {

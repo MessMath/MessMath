@@ -1,9 +1,11 @@
+using MessMathI18n;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
 using UnityEngine.XR;
 using static Define;
 
@@ -58,7 +60,13 @@ public class UI_Main : UI_Scene
         // Sound
         Managers.Sound.Play("ClickBtnEff");
 
-        //Managers.UI.ShowPopupUI<UI_Diagnosis>();
-        Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
+        Managers.UI.ShowPopupUI<UI_SelectLanguage>();
+
+        //if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH || LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
+        //    Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
+        //else
+        //    Managers.UI.ShowPopupUI<UI_SelectLanguage>();
+
     }
+
 }

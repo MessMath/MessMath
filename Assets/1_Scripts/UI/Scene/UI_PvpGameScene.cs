@@ -160,10 +160,27 @@ public class UI_PvpGameScene : UI_Scene
 
     #region 수식 계산
 
+    PhotonView RPCSychronizer = null;
+
     public void Questioning()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
         QusetionNumber = Random.Range(10, 100);
-        GetText((int)Texts.QuestionNumber_Text).text = $"{QusetionNumber}";
+        StartCoroutine(TryQnumSync());
+    }
+
+    private IEnumerator TryQnumSync()
+    {
+        while (RPCSychronizer == null)
+        {
+            GameObject foundObject = GameObject.FindGameObjectWithTag("RPCSychronizer");
+            if (foundObject != null)
+            {
+                RPCSychronizer = foundObject.GetComponent<PhotonView>();
+            }
+            yield return null;
+        }
+        RPCSychronizer.RPC("QuestioningNumSync", RpcTarget.AllViaServer, QusetionNumber);
     }
 
     void AllErase()

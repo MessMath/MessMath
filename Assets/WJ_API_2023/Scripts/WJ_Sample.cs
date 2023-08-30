@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using WjChallenge;
 using TexDrawLib;
+using MessMathI18n;
 
 // public enum CurrentStatus { WAITING, DIAGNOSIS, LEARNING }
 public class WJ_Sample : MonoBehaviour
@@ -216,8 +217,7 @@ public class WJ_Sample : MonoBehaviour
                     wj_displayText.SetState("문제풀이 완료", "", "", "");
                     // 다음 수업
                     getLearningButton.gameObject.SetActive(true);
-                    //getLearningButton.gameObject.GetComponentInChildren<Text>().text = "다음 수업";
-                    getLearningButton.gameObject.GetComponentInChildren<Text>().text = Managers.GetText(Define.NextClassText);
+                    getLearningButton.gameObject.GetComponentInChildren<Text>().text = I18n.Get(I18nDefine.PRACTICE_NEXT);
 
                     // TODO
                     // 한 수업 당 문제를 6개 이상 맞춘다면 코인 보너스

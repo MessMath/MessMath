@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using MessMathI18n;
 
 public class UI_PracticeGame : UI_Scene
 {
@@ -37,6 +39,7 @@ public class UI_PracticeGame : UI_Scene
         ChooseDifficulty,
         Problem,
         API,
+        StartText,
     }
 
     private void Start()
@@ -47,7 +50,7 @@ public class UI_PracticeGame : UI_Scene
     }
 
     #region 씬변환 애니
-    
+
     IEnumerator SceneChangeAnimation_Out_PracticeGame()
     {
         // Ani
@@ -82,6 +85,7 @@ public class UI_PracticeGame : UI_Scene
         GetButton((int)Buttons.AnswerBtn_2).gameObject.BindEvent(OnClickAnswerBtn);
         GetButton((int)Buttons.AnswerBtn_3).gameObject.BindEvent(OnClickAnswerBtn);
         GetButton((int)Buttons.AnswerBtn_4).gameObject.BindEvent(OnClickAnswerBtn);
+        GetObject((int)GameObjects.StartText).gameObject.GetComponent<Text>().text = I18n.Get(I18nDefine.PRACTICE_START);
 
         GetObject((int)GameObjects.ChooseDifficulty).gameObject.SetActive(false);
         GetObject((int)GameObjects.Problem).gameObject.SetActive(false);
@@ -100,8 +104,7 @@ public class UI_PracticeGame : UI_Scene
     void OnClickSettingBtn()
     {
         // TODO UI_Setting
-        Managers.UI.ShowPopupUI<UI_Setting>();
-
+        Managers.UI.ShowPopupUI<UI_CheckToLobby>();
     }
 
     void OnClickAnswerBtn()
@@ -127,22 +130,24 @@ public class UI_PracticeGame : UI_Scene
     IEnumerator SetTeacher()
     {
         float delayTime = 1.0f;
-
+        int randValue = Random.Range(0, 2);
         GetTeacherTalkText();
 
         GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(true);
         if (Managers.Game.IsCorrect == true) // 정답
         {
-            //GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Practice/Professor_2"); //AnwerAni
+            if (randValue == 0) GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher_Right1");
+            else if (randValue == 1) GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher_Right2");
             GetImage((int)Images.AnswerAni).gameObject.GetOrAddComponent<Animator>().SetTrigger("RightAnswerAniTrigger");
         }
         else // 오답
         {
+            GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher_Wrong");
             GetImage((int)Images.AnswerAni).gameObject.GetOrAddComponent<Animator>().SetTrigger("WrongAnswerAniTrigger");
         }
 
         yield return new WaitForSeconds(delayTime);
-        //GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Practice/Professor_1");
+        GetImage((int)Images.TeacherImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/teacher/Teacher");
         GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(false);
 
         yield return null;
@@ -154,16 +159,16 @@ public class UI_PracticeGame : UI_Scene
 
         if (Managers.Game.IsCorrect == true)
         {
-            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.RightAnswerTeacherTalkText + 0); }
-            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.RightAnswerTeacherTalkText + 1); }
-            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.RightAnswerTeacherTalkText + 2); }
-            
+            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = I18n.Get(I18nDefine.PRACTICE_TEACHER_RIGHT_ANSWER_REACTION_1); }
+            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = I18n.Get(I18nDefine.PRACTICE_TEACHER_RIGHT_ANSWER_REACTION_2); }
+            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = I18n.Get(I18nDefine.PRACTICE_TEACHER_RIGHT_ANSWER_REACTION_3); }
+
         }
         else
         {
-            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.WrongAnswerTeacherTalkText + 0); }
-            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.WrongAnswerTeacherTalkText + 1); }
-            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = Managers.GetText(Define.WrongAnswerTeacherTalkText + 2); }
+            if (randValue < 30) { GetText((int)Texts.TeacherTalkText).text = I18n.Get(I18nDefine.PRACTICE_TEACHER_WRONG_ANSWER_REACTION_1); }
+            else if (randValue < 60) { GetText((int)Texts.TeacherTalkText).text = I18n.Get(I18nDefine.PRACTICE_TEACHER_WRONG_ANSWER_REACTION_2); }
+            else if (randValue < 100) { GetText((int)Texts.TeacherTalkText).text = I18n.Get(I18nDefine.PRACTICE_TEACHER_WRONG_ANSWER_REACTION_3); }
         }
 
     }

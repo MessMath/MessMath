@@ -19,6 +19,7 @@ public class UI_Fight1vs1Game : UI_Scene
 {
     enum Texts
     {
+        DamageText,
     }
 
     enum Buttons
@@ -27,7 +28,7 @@ public class UI_Fight1vs1Game : UI_Scene
         SelectedGrace,
         SelectedGrace1,
         SelectedGrace2,
-        SettingBtn,
+        ToMainBtn,
     }
 
     enum Images
@@ -90,6 +91,7 @@ public class UI_Fight1vs1Game : UI_Scene
         BindButton(typeof(Buttons));
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
+        BindText(typeof(Texts));
 
         GetObject((int)GameObjects.JoyStickPanel).BindEvent(OnPointerDown, Define.UIEvent.PointerDown);
         GetObject((int)GameObjects.JoyStickPanel).BindEvent(OnPointerUp, Define.UIEvent.PointerUp);
@@ -97,7 +99,10 @@ public class UI_Fight1vs1Game : UI_Scene
 
         SettingGraceBtn();
 
-        GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Setting>(); });
+        GetButton((int)Buttons.ToMainBtn).gameObject.BindEvent(() => {
+            Managers.Sound.Play("ClickBtnEff");
+            Managers.UI.ShowPopupUI<UI_CheckToLobby>();
+        });
 
         for (int i = 0; i < 3; i++)
         {
@@ -118,19 +123,19 @@ public class UI_Fight1vs1Game : UI_Scene
 
         if (PlayerPrefs.GetString("SelectedGrace0InOneToOne") != "")
         {
-            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InOneToOne")));
+            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InOneToOne"), GetButton((int)Buttons.SelectedGrace).gameObject));
             GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InOneToOne"));
         }
 
         if (PlayerPrefs.GetString("SelectedGrace1InOneToOne") != "")
         {
-            GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InOneToOne")));
+            GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InOneToOne"), GetButton((int)Buttons.SelectedGrace1).gameObject));
             GetButton((int)Buttons.SelectedGrace1).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1InOneToOne"));
         }
 
         if (PlayerPrefs.GetString("SelectedGrace2InOneToOne") != "")
         {
-            GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InOneToOne")));
+            GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InOneToOne"), GetButton((int)Buttons.SelectedGrace2).gameObject));
             GetButton((int)Buttons.SelectedGrace2).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2InOneToOne"));
         }
 
@@ -175,6 +180,19 @@ public class UI_Fight1vs1Game : UI_Scene
         }
 
     }
+
+    #region
+    IEnumerator SceneChangeAnimation_In_Lobby()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_In anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_In").GetOrAddComponent<SceneChangeAnimation_In>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.LobbyScene, () => { Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
+
+        yield return new WaitForSeconds(0.5f);
+    }
+    #endregion
 
     void SettingGraceBtn()
     {
@@ -283,7 +301,7 @@ public class UI_Fight1vs1Game : UI_Scene
 
     public void damageToPlayer(int damage)
     {
-
+        //GetText((int)Texts.DamageText).text = damage.ToString();
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>()._hp -= damage;
         Debug.Log("player damage 1");
 
@@ -303,11 +321,11 @@ public class UI_Fight1vs1Game : UI_Scene
 
     public void damageToWitch(float damage)
     {
+        
         witchController.SetWitchHP(damage);
 
         if (witchController.Hp <= 0)
         {
-            Managers.UI.ShowPopupUI<UI_GameWin>();
             PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") + SolvedQstNum * 10);
             return;
         }
