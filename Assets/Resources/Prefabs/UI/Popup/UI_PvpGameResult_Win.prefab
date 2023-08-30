@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 5471074178287347725}
   - component: {fileID: 2163809479121439931}
   m_Layer: 5
-  m_Name: "TODO \uC774 \uC704\uCE58\uC5D0 \uD50C\uB808\uC774\uC5B4\uC758 \uC77C\uB7EC\uC2A4\uD2B8==================="
+  m_Name: Players_Illust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,7 +107,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7221117907172758920}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -392,8 +392,7 @@ GameObject:
   - component: {fileID: 5558405038826030597}
   - component: {fileID: 9176262887470660443}
   m_Layer: 5
-  m_Name: "TODO \uC774 \uC704\uCE58\uC5D0 \uD50C\uB808\uC774\uC5B4\uC758 \uACB0\uACFC
-    \uD1B5\uACC4==================="
+  m_Name: "\uD50C\uB808\uC774\uC5B4\uC758 \uACB0\uACFC \uD1B5\uACC4"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -490,9 +489,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2415665354205741550}
+  - {fileID: 1059807005765931046}
   - {fileID: 4636122426987263781}
   - {fileID: 2244918798885318324}
-  - {fileID: 1059807005765931046}
   - {fileID: 2012608308838579608}
   - {fileID: 1009903530752994623}
   - {fileID: 6451481243466827696}
@@ -605,8 +604,7 @@ GameObject:
   - component: {fileID: 6768974588240521332}
   - component: {fileID: 7084764807309173950}
   m_Layer: 5
-  m_Name: "TODO \uC774 \uC704\uCE58\uC5D0 \uC0C1\uB300\uBC29 \uD50C\uB808\uC774\uC5B4\uC758
-    \uC77C\uB7EC\uC2A4\uD2B8=============="
+  m_Name: Opps_Illust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -625,7 +623,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7221117907172758920}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -682,8 +680,7 @@ GameObject:
   - component: {fileID: 6409814930497916566}
   - component: {fileID: 7753364406902345941}
   m_Layer: 5
-  m_Name: "TODO \uC774 \uC704\uCE58\uC5D0 \uC0C1\uB300\uBC29 \uD50C\uB808\uC774\uC5B4\uC758
-    \uACB0\uACFC \uD1B5\uACC4=============="
+  m_Name: "\uC0C1\uB300\uBC29 \uD50C\uB808\uC774\uC5B4\uC758 \uACB0\uACFC \uD1B5\uACC4"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -854,7 +851,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7221117907172758920}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

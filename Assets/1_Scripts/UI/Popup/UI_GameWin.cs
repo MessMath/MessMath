@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UI_GameWin : UI_Popup
 { 
@@ -18,6 +19,8 @@ public class UI_GameWin : UI_Popup
         BackToLobbyBtn,
         Win,
         Win1,
+        Players_Illust,
+        Opps_Illust,
     }
 
     public override bool Init()
@@ -38,6 +41,20 @@ public class UI_GameWin : UI_Popup
             GetImage((int)Images.Win).sprite = Managers.Resource.Load<Sprite>("Sprites/Pvp/ResultPopup/Victory_ENG");
             GetImage((int)Images.Win1).sprite = Managers.Resource.Load<Sprite>("Sprites/Pvp/ResultPopup/Victory2_ENG");
         }
+
+        if (Managers.Scene.CurrentSceneType == Define.Scene.Fight1vs1GameScene)
+        {
+            GetImage((int)Images.Opps_Illust).sprite = GameObject.Find("MathMtcImage").GetComponent<Image>().sprite;
+            GetImage((int)Images.Opps_Illust).GetComponent<RectTransform>().sizeDelta = GameObject.Find("MathMtcImage").GetComponent<RectTransform>().sizeDelta * 1.5f;
+        }
+        if (Managers.Scene.CurrentSceneType == Define.Scene.StoryGameScene)
+        {
+            GetImage((int)Images.Opps_Illust).sprite = GameObject.Find("WitchImage").GetComponent<Image>().sprite;
+            GetImage((int)Images.Opps_Illust).GetComponent<RectTransform>().sizeDelta = GameObject.Find("WitchImage").GetComponent<RectTransform>().sizeDelta * 1.5f;
+        }
+        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Lobby/lobby_Character");
+        GetImage((int)Images.Players_Illust).GetComponent<RectTransform>().sizeDelta = new Vector2(681, 1322);
+        GetImage((int)Images.Players_Illust).GetComponent<RectTransform>().localScale = new Vector3(-1, 1, 1);
 
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
