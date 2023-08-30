@@ -55,13 +55,13 @@ public static class I18nDefine
     public const string Development = "Development";
     public const string Art = "Art";
     public const string Design = "Design";
-    public const string ?˜¤?•©ì§?ì¡?_????¥_?„œ?˜„?¬ = "?˜¤?•©ì§?ì¡?_????¥_?„œ?˜„?¬";
-    public const string ?˜¤?•©ì§?ì¡?_?„œ?¥_?œ¤ì§??—° = "?˜¤?•©ì§?ì¡?_?„œ?¥_?œ¤ì§??—°";
-    public const string ?˜¤?•©ì§?ì¡?_?‹¬?¥_? •?ˆ˜ì§? = "?˜¤?•©ì§?ì¡?_?‹¬?¥_? •?ˆ˜ì§?";
-    public const string ?˜¤?•©ì§?ì¡?_ê¼¬ì¥_ë°°ì •?›ˆ = "?˜¤?•©ì§?ì¡?_ê¼¬ì¥_ë°°ì •?›ˆ";
-    public const string ?˜¤?•©ì§?ì¡?_?ƒˆ?¥_?„œë¯¼ì˜ = "?˜¤?•©ì§?ì¡?_?ƒˆ?¥_?„œë¯¼ì˜";
-    public const string ?•„ë¬´íŠ¼_?¬? ˆ?”§ = "?•„ë¬´íŠ¼_?¬? ˆ?”§";
-    public const string Team_?˜¤?•©ì§?ì¡?_Presents = "Team_?˜¤?•©ì§?ì¡?_Presents";
+    public const string ¿ÀÇÕÁöÁ¹_´ëÀå_¼­ÇöÀç = "¿ÀÇÕÁöÁ¹_´ëÀå_¼­ÇöÀç";
+    public const string ¿ÀÇÕÁöÁ¹_¼­Àå_À±Áö¿¬ = "¿ÀÇÕÁöÁ¹_¼­Àå_À±Áö¿¬";
+    public const string ¿ÀÇÕÁöÁ¹_½ÉÀå_Á¤¼öÁø = "¿ÀÇÕÁöÁ¹_½ÉÀå_Á¤¼öÁø";
+    public const string ¿ÀÇÕÁöÁ¹_²¿Àå_¹èÁ¤ÈÆ = "¿ÀÇÕÁöÁ¹_²¿Àå_¹èÁ¤ÈÆ";
+    public const string ¿ÀÇÕÁöÁ¹_»õÀå_¼­¹Î¿µ = "¿ÀÇÕÁöÁ¹_»õÀå_¼­¹Î¿µ";
+    public const string ¾Æ¹«Æ°_Å©·¹µ÷ = "¾Æ¹«Æ°_Å©·¹µ÷";
+    public const string Team_¿ÀÇÕÁöÁ¹_Presents = "Team_¿ÀÇÕÁöÁ¹_Presents";
     public const string BackToLobby = "BackToLobby";
     // Get Nickname
     public const string GET_NICKNAME = "GET_NICKNAME";
