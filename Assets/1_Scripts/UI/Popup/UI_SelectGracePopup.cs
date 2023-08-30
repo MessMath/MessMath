@@ -169,6 +169,8 @@ public class UI_SelectGracePopup : UI_Popup
         {
             if (PlayerPrefs.GetString($"SelectedGrace{i}InOneToOne") != "")
                 GetButton(i).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString($"SelectedGrace{i}InOneToOne"));
+            else
+                GetButton(i).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/EmptyGrace");
         }
     }
 
@@ -179,6 +181,8 @@ public class UI_SelectGracePopup : UI_Popup
         {
             if (PlayerPrefs.GetString($"SelectedGrace{i}InStory") != "")
                 GetButton(i).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString($"SelectedGrace{i}InStory"));
+            else
+                GetButton(i).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/EmptyGrace");
         }
     }
 

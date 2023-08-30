@@ -52,6 +52,7 @@ public class UI_StoryGame : UI_Scene
         Wand,
         NormalWandAttImage,
         NormalEye,
+        NormalEyeLight,
         NormalAttEff1,
         NormalAttEff2,
         NormalAttEff3,
@@ -170,9 +171,11 @@ public class UI_StoryGame : UI_Scene
         UnityEngine.Input.multiTouchEnabled = true;
 
         #region 애니 준비
+        // 2페이즈 관련 끄기
         GetImage((int)Images.Wand).gameObject.SetActive(false);
         GetImage((int)Images.NormalWandAttImage).gameObject.SetActive(false);
         GetImage((int)Images.NormalEye).gameObject.SetActive(false);
+        GetImage((int)Images.NormalEyeLight).gameObject.SetActive(false);
         GetImage((int)Images.NormalAttEff1).gameObject.SetActive(false);
         GetImage((int)Images.NormalAttEff2).gameObject.SetActive(false);
         GetImage((int)Images.NormalAttEff3).gameObject.SetActive(false);
@@ -616,6 +619,7 @@ public class UI_StoryGame : UI_Scene
             GetImage((int)Images.WitchHPBar).color = new Color(119 / 255f, 255 / 255f, 245 / 255f, 1f);
             GetImage((int)Images.Wand).gameObject.SetActive(true);
             GetImage((int)Images.NormalEye).gameObject.SetActive(true);
+            GetImage((int)Images.NormalEyeLight).gameObject.SetActive(true);
             GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal");
             GetImage((int)Images.Aura).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_aura");
             GetImage((int)Images.Wand).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_wand");
@@ -630,6 +634,7 @@ public class UI_StoryGame : UI_Scene
 
             // 2페이즈 관련 끄기
             GetImage((int)Images.NormalEye).gameObject.SetActive(false);
+            GetImage((int)Images.NormalEyeLight).gameObject.SetActive(false);
             GetImage((int)Images.NormalWandAttImage).gameObject.SetActive(false);
             GetImage((int)Images.NormalAttEff1).gameObject.SetActive(false);
             GetImage((int)Images.NormalAttEff2).gameObject.SetActive(false);
@@ -642,6 +647,7 @@ public class UI_StoryGame : UI_Scene
             GetImage((int)Images.WitchHPBar).color = new Color(100 / 255f, 0f, 200 / 255f, 1f);
             GetImage((int)Images.EasyWand).gameObject.SetActive(false);
             GetImage((int)Images.Wand).gameObject.SetActive(false);
+            GetImage((int)Images.W_H_Attack_Before).gameObject.SetActive(true);
             GetImage((int)Images.W_Twinkle_1).gameObject.SetActive(true);
             GetImage((int)Images.W_Twinkle_2).gameObject.SetActive(true);
             GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Witch_Hard/W_hard");
@@ -706,13 +712,12 @@ public class UI_StoryGame : UI_Scene
     IEnumerator SpecialEffectsForPhase2(float delay)
     {
         yield return new WaitForSeconds(delay);
-        float minDelay = delay * 0.5f;
 
         StartCoroutine(MiddleDirectionOfArrow());
 
         StartCoroutine(NormalModeAttack()); // 노말 모드 어택 애니
 
-        StartCoroutine(SpecialEffectsForPhase2(Random.Range(minDelay, _phase2Skill1Delay)));
+        StartCoroutine(SpecialEffectsForPhase2(Random.Range(_phase2Skill1Delay / 2f, _phase2Skill1Delay)));
     }
 
     IEnumerator MiddleDirectionOfArrow()
@@ -774,13 +779,12 @@ public class UI_StoryGame : UI_Scene
     IEnumerator SpecialEffectsForPhase3(float delay)
     {
         yield return new WaitForSeconds(delay);
-        float minDelay = delay * 0.5f;
 
         StartCoroutine(HardModeAttack()); // 하드 모드 어택 애니
 
         ChangeDirectionOfArrows();
 
-        StartCoroutine(SpecialEffectsForPhase3(Random.Range(minDelay, _phase3Skill1Delay)));
+        StartCoroutine(SpecialEffectsForPhase3(Random.Range(_phase3Skill1Delay / 2f, _phase3Skill1Delay)));
     }
 
     public void ChangeDirectionOfArrows()
@@ -847,6 +851,7 @@ public class UI_StoryGame : UI_Scene
         GetImage((int)Images.Wand).gameObject.GetComponent<Animator>().Play("NormalWandAttAni");
         GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before");
         GetImage((int)Images.NormalEye).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_before_eye");
+        GetImage((int)Images.NormalEyeLight).gameObject.SetActive(false);
         yield return new WaitForSeconds(0.3f);
         GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack");
         GetImage((int)Images.NormalEye).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_attack_eye");
@@ -867,9 +872,9 @@ public class UI_StoryGame : UI_Scene
         yield return new WaitForSeconds(0.3f);
         GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal");
         GetImage((int)Images.NormalEye).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_nomal_eye");
+        GetImage((int)Images.NormalEyeLight).gameObject.SetActive(true);
         yield return new WaitForSeconds(0.3f);
 
-        yield return new WaitForSeconds(UnityEngine.Random.Range(1.0f, 5.0f));
     }
 
     IEnumerator NormalModeAttackWand()
@@ -890,18 +895,12 @@ public class UI_StoryGame : UI_Scene
     // TODO HARD
     IEnumerator HardModeAttack()
     {
-        GetImage((int)Images.W_H_Attack_Before).gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.0f);
-        GetImage((int)Images.W_H_Attack_Before).gameObject.SetActive(false);
-
         GetImage((int)Images.W_h_attack_1).gameObject.SetActive(true);
         GetImage((int)Images.W_h_attack_2).gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(3.0f);
 
         GetImage((int)Images.W_h_attack_1).gameObject.SetActive(false);
         GetImage((int)Images.W_h_attack_2).gameObject.SetActive(false);
-
-        yield return new WaitForSeconds(0.5f);
     }
 
     #endregion

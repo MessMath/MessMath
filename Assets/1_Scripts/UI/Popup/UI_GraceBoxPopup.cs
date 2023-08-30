@@ -169,6 +169,22 @@ public class UI_GraceBoxPopup : UI_Popup
         GetImage((int)Images.SelectedGraceImage).gameObject.SetActive(true);
 
         GetImage((int)Images.SelectedGraceBGImage).sprite = Resources.Load<Sprite>("Sprites/MathMtcInFight1vs1/" + selectedObject.GetComponent<UI_GraceItem>().BgImage);
+        #region 폰노이만 크기 예외
+        // 아니 폰노이만 크기가 이상해서 이거만 예외처리 해야 돼 => 말 안됨.
+        // 이렇게 하드코딩하는거 잘못된거 아는데 어떻게 할 지 모르겠으니까 하드코딩해야징
+        if (selectedObject.GetComponent<UI_GraceItem>().FullImage == "NeumannImage")
+        {
+            GetImage((int)Images.SelectedGraceImage).transform.localPosition = new Vector3(-1708.3f, 426.69f, 0);
+            Debug.Log(GetImage((int)Images.SelectedGraceImage).transform.localPosition);
+            GetImage((int)Images.SelectedGraceImage).rectTransform.sizeDelta = new Vector2(509.8f, 944.08f);
+        }
+        else if (selectedObject.GetComponent<UI_GraceItem>().FullImage != "NeumannImage")
+        {
+            GetImage((int)Images.SelectedGraceImage).transform.localPosition = new Vector3(-1964.95f, 426.69f, 0);
+            Debug.Log(GetImage((int)Images.SelectedGraceImage).transform.localPosition);
+            GetImage((int)Images.SelectedGraceImage).rectTransform.sizeDelta = new Vector2(956.02f, 818.46f);
+        }
+        #endregion
         GetImage((int)Images.SelectedGraceImage).sprite = Resources.Load<Sprite>("Sprites/MathMtcInFight1vs1/" + selectedObject.GetComponent<UI_GraceItem>().FullImage);
         GetText((int)Texts.SelectedGraceText).text = Utils.FindChild(selectedObject, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text;
         //GetText((int)Texts.SelectedGraceDescription).text = selectedObject.GetOrAddComponent<UI_GraceItem>()._description;
