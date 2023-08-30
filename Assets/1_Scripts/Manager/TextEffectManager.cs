@@ -161,6 +161,7 @@ public class TextEffectManager
     public void Typing(string dialouge, TextMeshProUGUI textObj)
     {
         //dialouge = dialouge.Replace("\\r","\n");
+        dialouge = dialouge.Replace("OOO", Managers.UserMng.GetNickname());
         dialouge = dialouge.Replace("\\n", "\n");
         tempDialogue = dialouge;
         tempSave = textObj;
@@ -176,6 +177,7 @@ public class TextEffectManager
     public void ReplayTyping(string dialouge, TextMeshProUGUI textObj)
     {
         //dialouge = dialouge.Replace("\\r", "");
+        dialouge = dialouge.Replace("OOO", Managers.UserMng.GetNickname());
         dialouge = dialouge.Replace("\\n", "\n");
         dialouge = dialouge.Replace("ⓝ", "");
         textObj.text = "";
@@ -193,6 +195,7 @@ public class TextEffectManager
 
     public void ApplyTextEffect(string content, TextMeshProUGUI textObj, int textSize)
     {
+        content = content.Replace("OOO", Managers.UserMng.GetNickname());
         content = content.Replace("\\n ", "\n");
         content = content.Replace("ⓝ", "");
         textObj.text = "";

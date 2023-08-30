@@ -50,7 +50,7 @@ public class UI_ReplayStory : UI_Popup
                 UI_Area area = item.GetOrAddComponent<UI_Area>();
                 picture = "Sprites/Story/Characters/Expression";
                 if(area.Init()) 
-                area.SetArea(characterName, dialogue, picture, expression);
+                area.SetArea(Managers.UserMng.GetNickname(), dialogue, picture, expression);
                 Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
                 break;
             }

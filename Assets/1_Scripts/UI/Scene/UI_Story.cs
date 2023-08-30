@@ -225,7 +225,14 @@ public class UI_Story : UI_Scene
             GetText((int)Texts.DialogueTMP).fontSize = 80;
         }
 
-        GetText((int)Texts.CharacterNameTMP).text = storyTalkData[count].characterName;
+        if(storyTalkData[count].characterName == "주인공" || storyTalkData[count].characterName == "Main character")
+        {
+            GetText((int)Texts.CharacterNameTMP).text = Managers.UserMng.GetNickname();
+        }
+        else
+        {
+            GetText((int)Texts.CharacterNameTMP).text = storyTalkData[count].characterName;
+        }
 
         Managers.TextEffect.SetNormalSpeed();
         Managers.TextEffect.Typing(storyTalkData[count].dialogue, GetText((int)Texts.DialogueTMP));
