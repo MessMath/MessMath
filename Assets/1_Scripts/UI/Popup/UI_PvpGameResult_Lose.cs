@@ -25,6 +25,8 @@ public class UI_PvpGameResult_Lose : UI_Popup
         BackToLobbyBtn,
         Lose,
         Lose1,
+        Players_Illust,
+        Opps_Illust,
     }
 
     public override bool Init()

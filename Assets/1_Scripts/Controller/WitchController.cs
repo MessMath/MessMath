@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,19 +28,22 @@ public class WitchController : MonoBehaviour
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.15f);
         int countTime = 0;
-        while(countTime < 10)
+
+        Color prevColor = witchImg.color;
+
+        while (countTime < 10)
         {
             if (countTime % 2 == 0)
-                witchImg.color = new Color32(255, 255, 255, 90);
+                witchImg.color = new Color32(prevColor.ConvertTo<Color32>().r, prevColor.ConvertTo<Color32>().g, prevColor.ConvertTo<Color32>().b, 90);
             else
-                witchImg.color = new Color32(255, 255, 255, 180);
+                witchImg.color = new Color32(prevColor.ConvertTo<Color32>().r, prevColor.ConvertTo<Color32>().g, prevColor.ConvertTo<Color32>().b, 180);
 
             yield return waitForSeconds;
 
             countTime++;
         }
 
-        witchImg.color = Color.white;
+        witchImg.color = prevColor;
         yield return null;
     }
 

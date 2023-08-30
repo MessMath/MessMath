@@ -75,8 +75,8 @@ public class Managers : MonoBehaviour
     {
         if (s_instance == null)
         {
-            PlayerPrefs.DeleteAll();
-            //PlayerPrefs.SetInt("WatchedStory", -2);
+            //PlayerPrefs.DeleteAll();
+            PlayerPrefs.SetInt("WatchedStory", -2);
             PlayerPrefs.SetInt("Coin", 10000);
             GameObject go = GameObject.Find("@Managers");
             if (go == null)

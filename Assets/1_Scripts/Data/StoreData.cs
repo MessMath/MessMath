@@ -11,6 +11,9 @@ namespace StoreDatas
         public string explanation;
         public string img;
         public int price;
+        public string mode;
+        public string bgImage;
+        public string img2;
     }
 
     [System.Serializable]

@@ -15,6 +15,7 @@
   "LOBBY_PVP_GAME": "PVP",
   "LOBBY_PRACTICE_GAME": "Test Study",
   "LOBBY_STUDENT_ID_CARD": "ID Card",
+  "LOBBY_TO_LOBBY_CHECK": "Are you sure you want to go back to the lobby?",
   // DIAGNOSIS
   "DIAGNOSIS_CHOOSE_DIFFICULTY": "I would like to know your math skills.\nPlease press the letter according to your skill.",
   "DIAGNOSIS_DIFFICULTY_1": "I can count.",

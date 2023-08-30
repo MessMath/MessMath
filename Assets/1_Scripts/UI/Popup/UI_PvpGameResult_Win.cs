@@ -1,10 +1,9 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using MessMathI18n;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class UI_PvpGameResult_Win : UI_Popup
 {
@@ -16,7 +15,11 @@ public class UI_PvpGameResult_Win : UI_Popup
 
     public enum Texts
     {
-        
+        // TODO
+        // 결과 통계 텍스트 만들어서,
+        // 바인드하고,
+        // 실제 경기에 대한 기록을
+        // 시각화 해야 한다.
     }
     
     public enum Images
@@ -25,6 +28,8 @@ public class UI_PvpGameResult_Win : UI_Popup
         BackToLobbyBtn,
         Win,
         Win1,
+        Players_Illust,
+        Opps_Illust,
     }
 
     public override bool Init()

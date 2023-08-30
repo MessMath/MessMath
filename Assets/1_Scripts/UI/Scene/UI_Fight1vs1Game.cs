@@ -101,8 +101,7 @@ public class UI_Fight1vs1Game : UI_Scene
 
         GetButton((int)Buttons.ToMainBtn).gameObject.BindEvent(() => {
             Managers.Sound.Play("ClickBtnEff");
-            Time.timeScale = 1.0f;
-            CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
+            Managers.UI.ShowPopupUI<UI_CheckToLobby>();
         });
 
         for (int i = 0; i < 3; i++)
@@ -124,19 +123,19 @@ public class UI_Fight1vs1Game : UI_Scene
 
         if (PlayerPrefs.GetString("SelectedGrace0InOneToOne") != "")
         {
-            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InOneToOne")));
+            GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace0InOneToOne"), GetButton((int)Buttons.SelectedGrace).gameObject));
             GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace0InOneToOne"));
         }
 
         if (PlayerPrefs.GetString("SelectedGrace1InOneToOne") != "")
         {
-            GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InOneToOne")));
+            GetButton((int)Buttons.SelectedGrace1).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace1InOneToOne"), GetButton((int)Buttons.SelectedGrace1).gameObject));
             GetButton((int)Buttons.SelectedGrace1).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace1InOneToOne"));
         }
 
         if (PlayerPrefs.GetString("SelectedGrace2InOneToOne") != "")
         {
-            GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InOneToOne")));
+            GetButton((int)Buttons.SelectedGrace2).gameObject.BindEvent(() => Managers.Grace.CallGrace(PlayerPrefs.GetString("SelectedGrace2InOneToOne"), GetButton((int)Buttons.SelectedGrace2).gameObject));
             GetButton((int)Buttons.SelectedGrace2).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + PlayerPrefs.GetString("SelectedGrace2InOneToOne"));
         }
 
@@ -326,7 +325,6 @@ public class UI_Fight1vs1Game : UI_Scene
 
         if (witchController.Hp <= 0)
         {
-            Managers.UI.ShowPopupUI<UI_GameWin>();
             PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") + SolvedQstNum * 10);
             return;
         }

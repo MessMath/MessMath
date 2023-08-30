@@ -58,13 +58,15 @@ public class UI_Diagnosis : UI_Scene
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
         {
             diagnosisData = jsonReader.ReadDiagnosisJson(Application.persistentDataPath + "/" + 4 + "_Diagnosis_KOR.json").diagnosisDataList;
+            GetButton((int)Buttons.ToLobbyBtn).gameObject.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Sprites/Diagnosis/AdmissionCertificate");
         }
         else
         {
             diagnosisData = jsonReader.ReadDiagnosisJson(Application.persistentDataPath + "/" + 10 + "_Diagnosis_EN.json").diagnosisDataList;
+            GetButton((int)Buttons.ToLobbyBtn).gameObject.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Sprites/Diagnosis/AdmissionCertificate_ENG");
         }
 
-        //BindEvent(gameObject, MakeToLobbyBtn);
+
         GetButton((int)Buttons.ToLobbyBtn).gameObject.BindEvent(() => 
         {
             // Sound
@@ -90,7 +92,7 @@ public class UI_Diagnosis : UI_Scene
         // Sound
         Managers.Sound.Clear();
         Managers.Sound.Play("DiagnosisBgm", Define.Sound.Bgm);
-        Managers.UI.ShowPopupUI<UI_SelectLanguage>();
+        Managers.UI.ShowPopupUI<UI_GetNicknamePopup>();
         return true;
     }
 

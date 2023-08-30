@@ -18,6 +18,7 @@ public static class I18nDefine
     public const string LOBBY_PVP_GAME = "LOBBY_PVP_GAME";
     public const string LOBBY_PRACTICE_GAME = "LOBBY_PRACTICE_GAME";
     public const string LOBBY_STUDENT_ID_CARD = "LOBBY_STUDENT_ID_CARD";
+    public const string LOBBY_TO_LOBBY_CHECK = "LOBBY_TO_LOBBY_CHECK";
     // DIAGNOSIS
     public const string DIAGNOSIS_CHOOSE_DIFFICULTY = "DIAGNOSIS_CHOOSE_DIFFICULTY";
     public const string DIAGNOSIS_DIFFICULTY_1 = "DIAGNOSIS_DIFFICULTY_1";

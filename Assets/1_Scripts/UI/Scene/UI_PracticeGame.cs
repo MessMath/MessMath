@@ -104,8 +104,7 @@ public class UI_PracticeGame : UI_Scene
     void OnClickSettingBtn()
     {
         // TODO UI_Setting
-        Managers.UI.ShowPopupUI<UI_Setting>();
-
+        Managers.UI.ShowPopupUI<UI_CheckToLobby>();
     }
 
     void OnClickAnswerBtn()
@@ -156,8 +155,6 @@ public class UI_PracticeGame : UI_Scene
 
     void GetTeacherTalkText()
     {
-        if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH) return;
-
         int randValue = Random.Range(0, 100);
 
         if (Managers.Game.IsCorrect == true)
