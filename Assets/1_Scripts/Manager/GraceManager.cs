@@ -20,6 +20,7 @@ public class GraceManager
 
     // 각 가호들의 실행 중 유무 bool
     public bool gaussOn = false;
+    public bool gaussAttacked = true;
     public bool pythagorasOn = false;
     public bool newtonOn = false;
     public bool einsteinOn = false;
@@ -58,40 +59,37 @@ public class GraceManager
         switch (graceName)
         {
             case "GraceOfGauss":
-                if (gaussOn) return;
-                gaussOn = true;
-                CoroutineHandler.StartCoroutine(CoolTime(gaussCool, go.GetComponent<Image>(), go.GetComponent<Button>(), gaussOn));
-                GraceOfGauss();
+                if (!gaussOn && gaussAttacked)
+                {
+                    gaussOn = true;
+                    gaussAttacked = false;
+                    CoroutineHandler.StartCoroutine(GraceOfGauss(go));
+                }
                 break;
             case "GraceOfPythagoras":
                 if (pythagorasOn) return;
                 pythagorasOn = true;
-                CoroutineHandler.StartCoroutine(CoolTime(pythagorasCool, go.GetComponent<Image>(), go.GetComponent<Button>(), pythagorasOn));
-                GraceOfPythagoras();
+                CoroutineHandler.StartCoroutine(GraceOfPythagoras(go));
                 break;
             case "GraceOfNewton":
                 if (newtonOn) return;
                 newtonOn = true;
-                CoroutineHandler.StartCoroutine(CoolTime(newtonCool, go.GetComponent<Image>(), go.GetComponent<Button>(), newtonOn));
-                GraceOfNewton();
+                CoroutineHandler.StartCoroutine(GraceOfNewton(go));
                 break;
             case "GraceOfEinstein":
                 if (einsteinOn) return;
                 einsteinOn = true;
-                CoroutineHandler.StartCoroutine(CoolTime(einsteinCool, go.GetComponent<Image>(), go.GetComponent<Button>(), einsteinOn));
-                GraceOfEinstein();
+                CoroutineHandler.StartCoroutine(GraceOfEinstein(go));
                 break;
             case "GraceOfNeumann":
                 if (neumannOn) return;
                 neumannOn = true;
-                CoroutineHandler.StartCoroutine(CoolTime(neumannCool, go.GetComponent<Image>(), go.GetComponent<Button>(), neumannOn));
-                GraceOfNeumann();
+                CoroutineHandler.StartCoroutine(GraceOfNeumann(go));
                 break;
             case "GraceOfDescartes":
                 if (descartesOn) return;
                 descartesOn = true;
-                CoroutineHandler.StartCoroutine(CoolTime(descartesCool, go.GetComponent<Image>(), go.GetComponent<Button>(), descartesOn));
-                GraceOfDescartes();
+                CoroutineHandler.StartCoroutine(GraceOfDescartes(go));
                 break;
         }
     }
@@ -99,7 +97,7 @@ public class GraceManager
     /// <summary>
     /// 가우스의 가호 : 세레스 공전, 이 다음 공격 데미지를 두배로.
     /// </summary>
-    public void GraceOfGauss()
+    IEnumerator GraceOfGauss(GameObject go)
     {
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Gauss", player.transform.parent);
         effect.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
@@ -118,9 +116,13 @@ public class GraceManager
         Ceres.transform.position = new Vector3(playerPos.x - radius, playerPos.y, 0);
         CeresBack.transform.SetSiblingIndex(1);
         Ceres.transform.SetSiblingIndex(2);
-        
+
         // 세레스 돌리기
         CoroutineHandler.StartCoroutine(RotateCeres(Ceres, CeresBack.transform, radius, angle, speed, prevWitchHp));
+
+        // 쿨타임
+        yield return CoroutineHandler.StartCoroutine(CoolTime(gaussCool, go.GetComponent<Image>(), go.GetComponent<Button>()));
+        gaussOn = false;
     }
 
     /// <summary>
@@ -153,7 +155,7 @@ public class GraceManager
                 Managers.Game.Damage = Managers.Game.Damage / 2;
                 UnityEngine.Object.Destroy(center.gameObject);
                 UnityEngine.Object.Destroy(Ceres.gameObject);
-                gaussOn = false;
+                gaussAttacked = true;
                 yield break;
             }
 
@@ -167,7 +169,7 @@ public class GraceManager
     /// 수학자 1vs1 모드에서는 5초간 화살 피격 무시
     /// 피격 무시 처리는 PlayerControllerCCF에서
     /// </summary>
-    public void GraceOfPythagoras()
+    IEnumerator GraceOfPythagoras(GameObject go)
     {
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Pythagoras", player.transform.parent);
         effect.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
@@ -195,6 +197,9 @@ public class GraceManager
             // pythagorasOn == true이면 
             // Managers.Grace.Pythagoras = false; 만 하고 return;
         }
+
+        yield return CoroutineHandler.StartCoroutine(CoolTime(pythagorasCool, go.GetComponent<Image>(), go.GetComponent<Button>()));
+        pythagorasOn = false;
     }
 
     /// <summary>
@@ -218,7 +223,7 @@ public class GraceManager
     /// 뉴턴의 가호 : 3초동안 모든 것을 끌어당기는 만유인력의 힘이 생기며, 
     /// 모인 숫자와 기호들을 활용해 자동으로 3번 정답을 계산해줌 (그냥 정답 처리를 해준다).
     /// </summary>
-    public void GraceOfNewton()
+    IEnumerator GraceOfNewton(GameObject go)
     {
         playerCollisionOff = true;
 
@@ -235,6 +240,9 @@ public class GraceManager
         List<GameObject> arrows = GameObject.FindGameObjectsWithTag(tag).ConvertTo<List<GameObject>>();
 
         CoroutineHandler.StartCoroutine(NewtonForce(arrows,3));
+
+        yield return CoroutineHandler.StartCoroutine(CoolTime(newtonCool, go.GetComponent<Image>(), go.GetComponent<Button>()));
+        newtonOn = false;
     }
 
     /// <summary>
@@ -293,7 +301,7 @@ public class GraceManager
     /// <summary>
     /// 아인슈타인의 가호 : 3초간 메롱하는 아인슈타인 등장, 공격력 두배 (지속시간 무제한)
     /// </summary>
-    public void GraceOfEinstein()
+    IEnumerator GraceOfEinstein(GameObject go)
     {
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Einstein", player.transform.parent);
         effect.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
@@ -315,6 +323,9 @@ public class GraceManager
             Managers.Game.CurrentMode = Define.Mode.DoubleSolve;
 
         CoroutineHandler.StartCoroutine(EndEinstein());
+
+        yield return CoroutineHandler.StartCoroutine(CoolTime(einsteinCool, go.GetComponent<Image>(), go.GetComponent<Button>()));
+        einsteinOn = false;
     }
 
     /// <summary>
@@ -344,7 +355,7 @@ public class GraceManager
     /// 폰 노이만의 가호 : 모든 화살의 숫자를 0 혹은 1로 바꾼다.
     /// [스토리모드에서만 가능]
     /// </summary>
-    public void GraceOfNeumann()
+    IEnumerator GraceOfNeumann(GameObject go)
     {
         GameObject effect = Managers.Resource.Instantiate("Grace/BattleSkillEffect/GraceEffect_Neumann", player.transform.parent);
         effect.transform.SetSiblingIndex(player.transform.parent.childCount - 3);
@@ -363,11 +374,14 @@ public class GraceManager
 
         foreach (GameObject arrow in arrows)
             arrow.GetComponentInChildren<TextMeshProUGUI>().text = arr[random.Next(arr.Length)];
+
+        yield return CoroutineHandler.StartCoroutine(CoolTime(neumannCool, go.GetComponent<Image>(), go.GetComponent<Button>()));
+        neumannOn = false;
     }
 
     /// 데카르트의 가호 : 10초동안 플레이어 이동속도 두배, 
     /// </summary>
-    public void GraceOfDescartes()
+    IEnumerator GraceOfDescartes(GameObject go)
     {
         float duration = 10f;
 
@@ -379,8 +393,10 @@ public class GraceManager
         GameObject.Destroy(VFX, duration);
 
         // Scene이 달라도 같은 역할
-
         CoroutineHandler.StartCoroutine(Descartes(duration));
+
+        yield return CoroutineHandler.StartCoroutine(CoolTime(descartesCool, go.GetComponent<Image>(), go.GetComponent<Button>()));
+        descartesOn = false;
     }
 
     /// <summary>
@@ -390,12 +406,12 @@ public class GraceManager
     IEnumerator Descartes(float duration)
     {
         Debug.Log("GraceOfDescartes On");
-        player._speed *= 2;
+        player.adjustedSpeed *= 2;
         yield return new WaitForSeconds(duration);
-        player._speed /= 2;
+        player.adjustedSpeed /= 2;
     }
 
-    IEnumerator CoolTime(float coolTime, Image image, Button button, bool GraceOnOff)
+    IEnumerator CoolTime(float coolTime, Image image, Button button)
     {
         button.interactable = false;
 
@@ -403,7 +419,6 @@ public class GraceManager
 
         button.interactable = true;
         image.GetComponentInChildren<TextMeshProUGUI>().text = "";
-        GraceOnOff = false;
     }
 
     IEnumerator CoolTimeVis(float coolTime, Image image, TextMeshProUGUI text)
@@ -416,6 +431,7 @@ public class GraceManager
 
         while (image.fillAmount < 1)
         {
+            if (image == null) yield break;
             image.fillAmount +=  1 * Time.smoothDeltaTime / coolTime;
 
             leftTime = coolTime - (Time.time - startTime);
