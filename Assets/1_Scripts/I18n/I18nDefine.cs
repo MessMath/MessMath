@@ -1,4 +1,6 @@
-ï»¿public static class I18nDefine
+using UnityEngine;
+
+public static class I18nDefine
 {
     // Store
     public const string STORE_MATHEMATICS_BOOK = "STORE_MATHEMATICS_BOOK";
@@ -53,12 +55,21 @@
     public const string Development = "Development";
     public const string Art = "Art";
     public const string Design = "Design";
-    public const string ì˜¤í•©ì§€ì¡¸_ëŒ€ì¥_ì„œí˜„ì¬ = "ì˜¤í•©ì§€ì¡¸_ëŒ€ì¥_ì„œí˜„ì¬";
-    public const string ì˜¤í•©ì§€ì¡¸_ì„œì¥_ìœ¤ì§€ì—° = "ì˜¤í•©ì§€ì¡¸_ì„œì¥_ìœ¤ì§€ì—°";
-    public const string ì˜¤í•©ì§€ì¡¸_ì‹¬ì¥_ì •ìˆ˜ì§„ = "ì˜¤í•©ì§€ì¡¸_ì‹¬ì¥_ì •ìˆ˜ì§„";
-    public const string ì˜¤í•©ì§€ì¡¸_ê¼¬ì¥_ë°°ì •í›ˆ = "ì˜¤í•©ì§€ì¡¸_ê¼¬ì¥_ë°°ì •í›ˆ";
-    public const string ì˜¤í•©ì§€ì¡¸_ìƒˆì¥_ì„œë¯¼ì˜ = "ì˜¤í•©ì§€ì¡¸_ìƒˆì¥_ì„œë¯¼ì˜";
-    public const string ì•„ë¬´íŠ¼_í¬ë ˆë”§ = "ì•„ë¬´íŠ¼_í¬ë ˆë”§";
-    public const string Team_ì˜¤í•©ì§€ì¡¸_Presents = "Team_ì˜¤í•©ì§€ì¡¸_Presents";
+    public const string ?˜¤?•©ì§?ì¡?_????¥_?„œ?˜„?¬ = "?˜¤?•©ì§?ì¡?_????¥_?„œ?˜„?¬";
+    public const string ?˜¤?•©ì§?ì¡?_?„œ?¥_?œ¤ì§??—° = "?˜¤?•©ì§?ì¡?_?„œ?¥_?œ¤ì§??—°";
+    public const string ?˜¤?•©ì§?ì¡?_?‹¬?¥_? •?ˆ˜ì§? = "?˜¤?•©ì§?ì¡?_?‹¬?¥_? •?ˆ˜ì§?";
+    public const string ?˜¤?•©ì§?ì¡?_ê¼¬ì¥_ë°°ì •?›ˆ = "?˜¤?•©ì§?ì¡?_ê¼¬ì¥_ë°°ì •?›ˆ";
+    public const string ?˜¤?•©ì§?ì¡?_?ƒˆ?¥_?„œë¯¼ì˜ = "?˜¤?•©ì§?ì¡?_?ƒˆ?¥_?„œë¯¼ì˜";
+    public const string ?•„ë¬´íŠ¼_?¬? ˆ?”§ = "?•„ë¬´íŠ¼_?¬? ˆ?”§";
+    public const string Team_?˜¤?•©ì§?ì¡?_Presents = "Team_?˜¤?•©ì§?ì¡?_Presents";
     public const string BackToLobby = "BackToLobby";
+    // Get Nickname
+    public const string GET_NICKNAME = "GET_NICKNAME";
+    public const string GET_NICKNAME_NEXT = "GET_NICKNAME_NEXT";
+    // Info
+    public const string INFO_NICKNAME = "INFO_NICKNAME";
+    public const string INFO_MESSAGE = "INFO_MESSAGE";
+    public const string INFO_SAVE = "INFO_SAVE";
+    public const string INFO_TEXT = "INFO_TEXT";
+    public const string INFO_PROFILE = "INFO_PROFILE";
 }

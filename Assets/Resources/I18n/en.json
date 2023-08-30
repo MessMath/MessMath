@@ -59,5 +59,14 @@
   "오합지졸_새장_서민영": "오합지졸 새장 Minyoung Seo",
   "아무튼_크레딧": "Anyway this is Credit",
   "Team_오합지졸_Presents": "Team 오합지졸 Presents",
-  "BackToLobby": "Back To Lobby"
+  "BackToLobby": "Back To Lobby",
+  // Get Nickname
+  "GET_NICKNAME": "Enter your nickname.",
+  "GET_NICKNAME_NEXT": "Next",
+  // Info
+  "INFO_NICKNAME": "Enter your nickname.",
+  "INFO_MESSAGE": "Enter your message.",
+  "INFO_SAVE": "save",
+  "INFO_TEXT": "MessMath Magic Academy",
+  "INFO_PROFILE": "PROFILE"
 }

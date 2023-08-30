@@ -65,7 +65,7 @@ public class UI_TutorialPopup : UI_Popup
         }
         else
         {
-            tutorialData = jsonReader.ReadTutorialJson(Application.persistentDataPath + "/" + 7 + "_Tutorial_EN.json").tutorialDataList;
+            tutorialData = jsonReader.ReadTutorialJson(Application.persistentDataPath + "/" + 9 + "_Tutorial_EN.json").tutorialDataList;
         }
 
         maxCount = tutorialData.Count;
