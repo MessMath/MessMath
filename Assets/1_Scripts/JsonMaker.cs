@@ -24,6 +24,8 @@ public class JsonMaker : MonoBehaviour
         "https://docs.google.com/spreadsheets/d/1OdKxEzgRwspt6SoLH0_Wnd8-33TqOsmLeKO7f5Hj5cg",  // 튜토리얼 정보_영어 9
         "https://docs.google.com/spreadsheets/d/1GAwrbav-8b991er9UQd9DwAal0O9nYNnfiW4aN9qofU", // 진단평가_영어 10
         "https://docs.google.com/spreadsheets/d/1wo1Kj-wJdHZaGb_AZd4PIT3d8hIVX85Mo_fhKexgTXM", // 알쓸신잡_영어 11
+        "https://docs.google.com/spreadsheets/d/12y7mWorBoIKE_zHAAINlxRFv8044bv57xv6QdW1CkKs", // 로비 튜토리얼 12
+        "https://docs.google.com/spreadsheets/d/1WkWlJXH4WbmTLB0zg89g3DDRXuaup2GqDDD5L-hs5d0", // 로비 튜토리얼_영어 13
     };
     string sheetNum = "0";
     List<string> range = new List<string>(); 
@@ -34,7 +36,7 @@ public class JsonMaker : MonoBehaviour
     DiagnosisInfo diagnosisInfo = new DiagnosisInfo();
     TipInfo tipInfo = new TipInfo();
     bool madeFile = false;
-    bool[] isDone = {false, false, false, false, false, false, false, false, false, false, false, false };
+    bool[] isDone = {false, false, false, false, false, false, false, false, false, false, false, false, false, false };
     
     void Awake() 
     {
@@ -49,13 +51,13 @@ public class JsonMaker : MonoBehaviour
 
     void Update()
     {
-        if(PlayerPrefs.GetInt("DoDiagnosis") == 1 && isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11])
+        if(PlayerPrefs.GetInt("DoDiagnosis") == 1 && isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11] && isDone[12] && isDone[13])
         {
             Managers.Game.CurrentStatus = Define.CurrentStatus.LEARNING;
             Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
         }
         // 진단평가가 되어 있지 않다면 진단평가부터
-        else if(isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11])
+        else if(isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11] && isDone[12] && isDone[13])
         {
             Managers.Scene.ChangeScene(Define.Scene.DiagnosisScene);
         }
@@ -92,6 +94,8 @@ public class JsonMaker : MonoBehaviour
         range.Add("A2:A7");
         range.Add("A2:A6");
         range.Add("A1:A21");
+        range.Add("A2:G23");
+        range.Add("A2:G23");
     }
 
     void AddFileName()
@@ -108,6 +112,8 @@ public class JsonMaker : MonoBehaviour
         fileName.Add("Tutorial_EN");
         fileName.Add("Diagnosis_EN");
         fileName.Add("Tip_EN");
+        fileName.Add("LobbyTutorial_KOR");
+        fileName.Add("LobbyTutorial_EN");
     }
 
     // ANCHOR 구글 docs에서 데이터 읽기
@@ -171,6 +177,14 @@ public class JsonMaker : MonoBehaviour
             case 11:
                 ParsingTipData(data);
                 MakeTipJsonFile(idx);
+                break;
+            case 12:
+                ParsingDialogueData(data);
+                MakeDialgoueJsonFile(idx);
+                break;
+            case 13:
+                ParsingDialogueData(data);
+                MakeDialgoueJsonFile(idx);
                 break;
         }
     }

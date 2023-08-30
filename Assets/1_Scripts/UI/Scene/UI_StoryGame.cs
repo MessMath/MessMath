@@ -326,6 +326,8 @@ public class UI_StoryGame : UI_Scene
 
     public void damageToWitch(int damage)
     {
+        DamageText(damage);
+
         // Sound
         Managers.Sound.Play("AttackEff");
 
@@ -962,5 +964,14 @@ public class UI_StoryGame : UI_Scene
         Managers.Scene.ChangeScene(Define.Scene.EpilogueScene);
     }
 
+    #endregion
+
+    #region 데미지 텍스트
+    void DamageText(int damage)
+    {
+        GameObject text = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SubItem/DamageText"));
+        text.transform.SetAsLastSibling();
+        text.GetComponent<UI_DamageText>().damage = damage;
+    }
     #endregion
 }

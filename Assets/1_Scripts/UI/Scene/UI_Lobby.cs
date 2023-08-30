@@ -97,6 +97,8 @@ public class UI_Lobby : UI_Scene
         Managers.Sound.Clear();
         Managers.Sound.Play("LobbyBgm", Define.Sound.Bgm);
 
+        Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
+
         return true;
     }
 

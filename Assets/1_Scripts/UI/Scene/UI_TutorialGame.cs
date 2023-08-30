@@ -25,7 +25,7 @@ public class UI_TutorialGame : UI_Scene
     {
         AllErase,
         EqualButton,
-        // ê°€í˜¸ ë²„íŠ¼ë“¤
+        // ê°??˜¸ ë²„íŠ¼?“¤
         SelectedGrace,
         SelectedGrace1,
         SelectedGrace2,
@@ -107,7 +107,7 @@ public class UI_TutorialGame : UI_Scene
         // default damage is 15
         Managers.Game.Damage = 45;
 
-        #region ê°€í˜¸ ë²„íŠ¼ ì„¤ì •
+        #region ê°??˜¸ ë²„íŠ¼ ?„¤? •
 
         GetButton((int)Buttons.SelectedGrace).gameObject.BindEvent(() => Managers.Grace.CallGrace("GraceOfGauss", GetButton((int)Buttons.SelectedGrace).gameObject));
         GetButton((int)Buttons.SelectedGrace).GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + "GraceOfGauss");
@@ -115,7 +115,7 @@ public class UI_TutorialGame : UI_Scene
         #endregion        
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
 
-        // ì§€ìš°ê°œ ë²„íŠ¼
+        // ì§??š°ê°? ë²„íŠ¼
         GetText((int)Texts.QuestionNumber_Text).text = "8";
 
         PlayerPrefs.SetInt("DoTutorial", 2);
@@ -127,7 +127,7 @@ public class UI_TutorialGame : UI_Scene
         Managers.UI.ShowPopupUI<UI_TutorialPopup>();
     }
 
-    #region ìˆ˜ì‹ ê³„ì‚°
+    #region ?ˆ˜?‹ ê³„ì‚°
 
     void AllErase()
     {
@@ -243,7 +243,7 @@ public class UI_TutorialGame : UI_Scene
 
     #endregion
 
-    #region ë°ë¯¸ì§€ ì£¼ê¸°
+    #region ?°ë¯¸ì?? ì£¼ê¸°
 
     void damageToPlayer(int damage)
     {
@@ -263,6 +263,7 @@ public class UI_TutorialGame : UI_Scene
 
     void damageToWitch(int damage)
     {
+        DamageText(damage);
         // Sound
         Managers.Sound.Play("AttackEff");
 
@@ -276,7 +277,7 @@ public class UI_TutorialGame : UI_Scene
 
     #endregion
 
-    #region ì¡°ì´ìŠ¤í‹±
+    #region ì¡°ì´?Š¤?‹±
 
     private float deadZone = 0;
     private float hadndleRange = 0.8f;
@@ -324,7 +325,7 @@ public class UI_TutorialGame : UI_Scene
 
     #endregion
 
-    #region í™”ì‚´ê´€ë¦¬
+    #region ?™”?‚´ê´?ë¦?
 
     string[] Operator = { "+", "-" };
 
@@ -333,8 +334,8 @@ public class UI_TutorialGame : UI_Scene
     private int numArrowCnt = 0;
     private int symbolArrowCnt = 0;
 
-    // í™”ì‚´ì´ ìƒì„±ë˜ëŠ” ì‹œê°„ ì¡°ì ˆí•˜ëŠ” í•¨ìˆ˜ 
-    // í˜„ì¬ í™”ì‚´ ê°œìˆ˜ê°€ ëª‡ê°œ ë‚˜ì™”ëŠ”ì§€ ì²´í¬
+    // ?™”?‚´?´ ?ƒ?„±?˜?Š” ?‹œê°? ì¡°ì ˆ?•˜?Š” ?•¨?ˆ˜ 
+    // ?˜„?¬ ?™”?‚´ ê°œìˆ˜ê°? ëª‡ê°œ ?‚˜?™”?Š”ì§? ì²´í¬
     IEnumerator SetArrowGenerationTime(float delayTime)
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(delayTime);
@@ -345,7 +346,7 @@ public class UI_TutorialGame : UI_Scene
         StartCoroutine("SetArrowGenerationTime", 1f);
     }
 
-    // í˜„ì¬ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¥¼ í–¥í•´ ì˜¤ë¸Œì íŠ¸ ë‚ ë¦¬ê¸° 
+    // ?˜„?¬ ?”Œ? ˆ?´?–´?˜ ?œ„ì¹˜ë?? ?–¥?•´ ?˜¤ë¸Œì ?Š¸ ?‚ ë¦¬ê¸° 
     void ShootArrow()
     {
         GameObject arrowObj = MakeArrow();
@@ -356,7 +357,7 @@ public class UI_TutorialGame : UI_Scene
         Debug.Log($"Arrow type: {arrow.type} num or operator: {arrow.tmp} speed: {arrow.speed} \n startPosition:{arrow.startPosition.x} , {arrow.startPosition.y} \n direction: {arrow.direction}");
     }
 
-    // í™”ì‚´ ë™ì  ìƒì„±í•˜ëŠ” í•¨ìˆ˜
+    // ?™”?‚´ ?™?  ?ƒ?„±?•˜?Š” ?•¨?ˆ˜
     GameObject MakeArrow()
     {
         //GameObject arrowObject = Instantiate(Managers.Resource.Load<GameObject>($"Prefabs/Arrow"), GetObject((int)GameObjects.ArrowController).transform);
@@ -368,7 +369,7 @@ public class UI_TutorialGame : UI_Scene
         arrowObject.GetOrAddComponent<RectTransform>().position = arrow.startPosition;
         return arrowObject;
     }
-    // í™”ì‚´ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
+    // ?™”?‚´ ?„¤? •?•˜?Š” ?•¨?ˆ˜
     void SetArrow(Arrow arrow)
     {
         if (SetArrowType(arrow) == 0)
@@ -380,7 +381,7 @@ public class UI_TutorialGame : UI_Scene
         SetArrowSpeed(arrow);
     }
 
-    // í™”ì‚´ì´ ë“¤ê³ ìˆëŠ” ê°’ì„ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜ 
+    // ?™”?‚´?´ ?“¤ê³ ìˆ?Š” ê°’ì„ ?„¤? •?•˜?Š” ?•¨?ˆ˜ 
     int SetArrowType(Arrow arrow)
     {
         arrow.type = Random.Range(0, 2);
@@ -416,7 +417,7 @@ public class UI_TutorialGame : UI_Scene
         arrow.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Operator[UnityEngine.Random.Range(0, 2)];   // 50%ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ Symbolï¿½ï¿½ ï¿½ï¿½Ä¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ñ´ï¿½.
     }
 
-    // í™”ì‚´ì˜ ìƒì„± ìœ„ì¹˜ ì¡°ì ˆí•˜ëŠ” í•¨ìˆ˜ 
+    // ?™”?‚´?˜ ?ƒ?„± ?œ„ì¹? ì¡°ì ˆ?•˜?Š” ?•¨?ˆ˜ 
     void SetArrowStartPosition(Arrow arrow)
     {
         int randValue = Random.Range(0, 3);
@@ -454,8 +455,8 @@ public class UI_TutorialGame : UI_Scene
         return newPos;
     }
 
-    // í™”ì‚´ì˜ ë°©í–¥ ì¡°ì ˆí•˜ëŠ” í•¨ìˆ˜ 
-    // í˜„ì¬ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¡œ ì„¤ì •
+    // ?™”?‚´?˜ ë°©í–¥ ì¡°ì ˆ?•˜?Š” ?•¨?ˆ˜ 
+    // ?˜„?¬ ?”Œ? ˆ?´?–´?˜ ?œ„ì¹˜ë¡œ ?„¤? •
     void SetArrowDirection(Arrow arrow)
     {
         //arrow.direction = GetObject((int)GameObjects.Player).transform.position - (Vector3)arrow.startPosition;
@@ -481,12 +482,12 @@ public class UI_TutorialGame : UI_Scene
         }
     }
 
-    float referenceWidth = 3200f; // ê¸°ì¤€ í•´ìƒë„ì˜ ë„ˆë¹„
-    float referenceHeight = 1440f; // ê¸°ì¤€ í•´ìƒë„ì˜ ë†’ì´
-    float currentWidth = Screen.width; // í˜„ì¬ í™”ë©´ì˜ ë„ˆë¹„
-    float currentHeight = Screen.height; // í˜„ì¬ í™”ë©´ì˜ ë†’ì´
+    float referenceWidth = 3200f; // ê¸°ì?? ?•´?ƒ?„?˜ ?„ˆë¹?
+    float referenceHeight = 1440f; // ê¸°ì?? ?•´?ƒ?„?˜ ?†’?´
+    float currentWidth = Screen.width; // ?˜„?¬ ?™”ë©´ì˜ ?„ˆë¹?
+    float currentHeight = Screen.height; // ?˜„?¬ ?™”ë©´ì˜ ?†’?´
 
-    // í™”ì‚´ì˜ ì†ë„ ì¡°ì ˆí•˜ëŠ” í•¨ìˆ˜ 
+    // ?™”?‚´?˜ ?†?„ ì¡°ì ˆ?•˜?Š” ?•¨?ˆ˜ 
     void SetArrowSpeed(Arrow arrow)
     {
         float widthRatio = currentWidth / referenceWidth;
@@ -497,4 +498,12 @@ public class UI_TutorialGame : UI_Scene
 
     #endregion
 
+    #region ?°ë¯¸ì?? ?…?Š¤?Š¸
+    void DamageText(int damage)
+    {
+        GameObject text = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SubItem/DamageText"));
+        text.transform.SetAsLastSibling();
+        text.GetComponent<UI_DamageText>().damage = damage;
+    }
+    #endregion
 }

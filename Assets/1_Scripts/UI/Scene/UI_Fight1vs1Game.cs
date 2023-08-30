@@ -301,7 +301,6 @@ public class UI_Fight1vs1Game : UI_Scene
 
     public void damageToPlayer(int damage)
     {
-        //GetText((int)Texts.DamageText).text = damage.ToString();
         GetObject((int)GameObjects.Player).GetOrAddComponent<PlayerController>()._hp -= damage;
         Debug.Log("player damage 1");
 
@@ -321,7 +320,7 @@ public class UI_Fight1vs1Game : UI_Scene
 
     public void damageToWitch(float damage)
     {
-        
+        DamageText(damage);
         witchController.SetWitchHP(damage);
 
         if (witchController.Hp <= 0)
@@ -528,4 +527,12 @@ public class UI_Fight1vs1Game : UI_Scene
 
     #endregion
 
+    #region 데미지 텍스트
+    void DamageText(float damage)
+    {
+        GameObject text = Instantiate(Resources.Load<GameObject>("Prefabs/UI/SubItem/DamageText"));
+        text.transform.SetAsLastSibling();
+        text.GetComponent<UI_DamageText>().damage = (int)damage;
+    }
+    #endregion
 }
