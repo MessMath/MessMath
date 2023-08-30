@@ -640,6 +640,8 @@ public class UI_StoryGame : UI_Scene
             StartCoroutine(WitchChangeAnimation_Hard());
 
             GetImage((int)Images.WitchHPBar).color = new Color(100 / 255f, 0f, 200 / 255f, 1f);
+            GetImage((int)Images.EasyWand).gameObject.SetActive(false);
+            GetImage((int)Images.Wand).gameObject.SetActive(false);
             GetImage((int)Images.W_Twinkle_1).gameObject.SetActive(true);
             GetImage((int)Images.W_Twinkle_2).gameObject.SetActive(true);
             GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/Witch_Hard/W_hard");
@@ -835,6 +837,7 @@ public class UI_StoryGame : UI_Scene
     #endregion
 
     #region NormalModeAttack
+
     // TODO Noraml
     IEnumerator NormalModeAttack()
     {
@@ -883,20 +886,24 @@ public class UI_StoryGame : UI_Scene
     #endregion
 
     #region HardModeAttack
+
     // TODO HARD
     IEnumerator HardModeAttack()
     {
         GetImage((int)Images.W_H_Attack_Before).gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
-        GetImage((int)Images.W_h_attack_1).gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
-        GetImage((int)Images.W_h_attack_2).gameObject.SetActive(true);
-        yield return new WaitForSeconds(3.5f);
-
+        yield return new WaitForSeconds(1.0f);
         GetImage((int)Images.W_H_Attack_Before).gameObject.SetActive(false);
+
+        GetImage((int)Images.W_h_attack_1).gameObject.SetActive(true);
+        GetImage((int)Images.W_h_attack_2).gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.0f);
+
         GetImage((int)Images.W_h_attack_1).gameObject.SetActive(false);
         GetImage((int)Images.W_h_attack_2).gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(0.5f);
     }
+
     #endregion
 
     #endregion
