@@ -43,6 +43,7 @@ public class UI_ReplayStory : UI_Popup
         string picture = "";
         switch(characterName)
         {
+            case "Main character":
             case "주인공":
             {
                 GameObject item = Managers.UI.MakeSubItem<UI_Area>(GetObject((int)GameObjects.Content).transform, "PlayerArea").gameObject; 
@@ -53,6 +54,7 @@ public class UI_ReplayStory : UI_Popup
                 Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
                 break;
             }
+            case "Gauss":
             case "가우스":
             {
                 GameObject item = Managers.UI.MakeSubItem<UI_Area>(GetObject((int)GameObjects.Content).transform, "OpponentArea").gameObject; 
@@ -63,6 +65,7 @@ public class UI_ReplayStory : UI_Popup
                 Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
                 break;
             }
+            case "Principal":
             case "선생님":
             {
                 GameObject item = Managers.UI.MakeSubItem<UI_Area>(GetObject((int)GameObjects.Content).transform, "OpponentArea").gameObject; 

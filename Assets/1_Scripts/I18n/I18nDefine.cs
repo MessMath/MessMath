@@ -80,5 +80,14 @@ public static class I18nDefine
     public const string INFO_TEXT = "INFO_TEXT";
     public const string INFO_PROFILE = "INFO_PROFILE";
     // Story
-    public const string TOUCH_SCREEN = "TOUCH_SCREEN";
+    public const string STORY_TOUCH_SCREEN = "STORY_TOUCH_SCREEN";
+    public const string STORY_HERE = "STORY_HERE";
+    public const string STORY_WHO = "STORY_WHO";
+    public const string STORY_VON_NORMAN = "STORY_VON_NORMAN";
+    public const string STORY_STAINED_GLASS = "STORY_STAINED_GLASS";
+    public const string STORY_EINSTEIN = "STORY_EINSTEIN";
+    public const string STORY_NEWTON = "STORY_NEWTON";
+    public const string STORY_PYTHAGORAS = "STORY_PYTHAGORAS";
+    public const string STORY_GAUSS = "STORY_GAUSS";
+    public const string STORY_DISCONNECT = "STORY_DISCONNECT";
 }

@@ -1396,7 +1396,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5383066546504498254}
   m_HandleRect: {fileID: 5595691385436808967}
   m_Direction: 0
-  m_Value: 1.0000001
+  m_Value: 0
   m_Size: 0.50000006
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2494,7 +2494,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -3200, y: 0}
+  m_AnchoredPosition: {x: -0.00018310547, y: 0}
   m_SizeDelta: {x: 6400, y: 1440}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &4622040866213573229
@@ -3231,7 +3231,7 @@ GameObject:
   - component: {fileID: 2712242134736021415}
   - component: {fileID: 2526598266322424345}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: SpeechTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3254,7 +3254,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 61, y: -74}
+  m_AnchoredPosition: {x: -94, y: -74}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2712242134736021415
@@ -3285,7 +3285,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "    \uB204\uAD6C\uB0D0!!"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d572eb43314906246873a97c9d32a800, type: 2}
   m_sharedMaterial: {fileID: -5254172628653807594, guid: d572eb43314906246873a97c9d32a800, type: 2}
@@ -3319,7 +3319,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -4763,7 +4763,7 @@ GameObject:
   - component: {fileID: 5012928244719456287}
   - component: {fileID: 8059718836887095003}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: SmallTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

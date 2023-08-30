@@ -67,6 +67,8 @@ public class UI_Story : UI_Scene
         CharacterNameTMP,
         DialogueTMP,
         TouchScreenTMP,
+        SmallTMP,
+        SpeechTMP,
     }
 
     private void Start()
@@ -84,7 +86,7 @@ public class UI_Story : UI_Scene
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
 
-        GetText((int)Texts.TouchScreenTMP).text = I18n.Get(I18nDefine.TOUCH_SCREEN);
+        GetText((int)Texts.TouchScreenTMP).text = I18n.Get(I18nDefine.STORY_TOUCH_SCREEN);
 
         jsonReader = new JsonReader();
 
@@ -175,7 +177,7 @@ public class UI_Story : UI_Scene
                 Managers.Scene.ChangeScene(Define.Scene.TutorialGameScene);
             return;
         }
-        if(count == 7 || count == 11 || count == 32)
+        if(count == 7 || count == 11 || count == 33)
         {
             HideDialogue();
             GetObject((int)GameObjects.SchoolHallway).gameObject.SetActive(true);
@@ -186,6 +188,7 @@ public class UI_Story : UI_Scene
             HideDialogue();
             GetObject((int)GameObjects.Library).gameObject.SetActive(true);
             GetImage((int)Images.SmallSpeechBubbleImg).gameObject.SetActive(true);
+            GetText((int)Texts.SmallTMP).text = I18n.Get(I18nDefine.STORY_HERE);
             return;
         }
         if(count == 52)
@@ -257,7 +260,7 @@ public class UI_Story : UI_Scene
 
     void OnClickedNeumannBtn()
     {
-        CoroutineHandler.StartCoroutine(ShowInfo("폰 노인만의 방. 지금은 들어갈 수 없습니다."));
+        CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_VON_NORMAN)));
     }
 
     void OnClickedStainedGlassBtn()
@@ -269,28 +272,28 @@ public class UI_Story : UI_Scene
         }
         else 
         {
-            CoroutineHandler.StartCoroutine(ShowInfo("아름다운 장식의 스테인드 글라스입니다."));
+            CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_STAINED_GLASS)));
         }
     }
 
     void OnClickedEinsteinBtn()
     {
-        CoroutineHandler.StartCoroutine(ShowInfo("아인슈타인의 방. 지금은 들어갈 수 없습니다."));
+        CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_EINSTEIN)));
     }
 
     void OnClickedNewtonBtn()
     {
-        CoroutineHandler.StartCoroutine(ShowInfo("뉴턴의 방. 지금은 들어갈 수 없습니다."));
+        CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_NEWTON)));
     }
 
     void OnClickedPythagorasBtn()
     {
-        CoroutineHandler.StartCoroutine(ShowInfo("피타고라스의 방. 지금은 들어갈 수 없습니다."));
+        CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_PYTHAGORAS)));
     }
 
     void OnClickedGaussBtn()
     {
-        CoroutineHandler.StartCoroutine(ShowInfo("가우스의 방. 지금은 들어갈 수 없습니다."));
+        CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_PYTHAGORAS)));
     }
 
     void OnClickedEntranceBtn()
@@ -306,7 +309,7 @@ public class UI_Story : UI_Scene
         }
         else
         {
-            CoroutineHandler.StartCoroutine(ShowInfo("아까까진 교장실 입구로 이어졌지만 지금은 어디에도 연결되어 있지 않습니다."));
+            CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_DISCONNECT)));
         }
     }
 
@@ -389,6 +392,7 @@ public class UI_Story : UI_Scene
     {
         HideDialogue();
         GetImage((int)Images.SpeechBubbleImg).gameObject.SetActive(true);
+        GetText((int)Texts.SpeechTMP).text = I18n.Get(I18nDefine.STORY_WHO);
         WaitForSeconds waitForSeconds = new WaitForSeconds(time);
         yield return waitForSeconds;
         GetImage((int)Images.SpeechBubbleImg).gameObject.SetActive(false);
