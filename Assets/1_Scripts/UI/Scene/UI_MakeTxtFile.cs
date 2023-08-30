@@ -57,10 +57,11 @@ public class UI_MakeTxtFile : UI_Scene
     }
     void SelectTip()
     {
-        if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH) return;
-
         int tipTextCount = Random.Range(0, 21);
-        GetText((int)Texts.TipText).text = Managers.GetText(Define.TipText + tipTextCount);
-        //GetText((int)Texts.TipText).text = tipData[tipTextCount].tipText;
+
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
+            GetText((int)Texts.TipText).text = Managers.GetText(Define.TipText + tipTextCount);
+        else 
+            GetText((int)Texts.TipText).text = Managers.GetText(Define.TipText + tipTextCount);
     }
 }

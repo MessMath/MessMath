@@ -14,6 +14,8 @@ public class UI_GraceItem : UI_Base
 {
     public string _description = "";
     public string _name = "";
+    public string BgImage = "";
+    public string FullImage = "";
 
    enum GameObjects
     {
