@@ -24,7 +24,7 @@ public class DatabaseManager : MonoBehaviour
 
     private void WriteNewUser(string userId, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname)
     {
-        Managers.UserMng.InitUser(userId, coin, score, null, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, null, null, "안녕하세요!");
+        Managers.UserMng.InitUser(userId, coin, score, null, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, null, null, "^_^");
 
         string json = JsonUtility.ToJson(Managers.UserMng.user);
         Debug.Log("WriteNewUser");
