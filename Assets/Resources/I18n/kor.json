@@ -9,6 +9,8 @@
   "PURCHASE_CLOSE": "확인",
   "PURCHASE_SUCCESS": " 구매에 성공 했습니다.\n컬렉션에서 확인할 수 있습니다.",
   "PURCHASE_FAILED": " 구매에 실패 했습니다. 코인이 부족합니다.",
+  "PURCHASE_STORY_MODE": "마녀와 전투용 가호",
+  "PURCHASE_ONE_TO_ONE_MODE": "수학자 1vs1용 가호",
   // Lobby
   "LOBBY_SETTING": "설정",
   "LOBBY_HELP_ON": "도움말\nON",

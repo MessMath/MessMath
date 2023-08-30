@@ -44,25 +44,25 @@ public class UI_StoreItem : UI_Base
     }
     void Update()
     {
-        SetInfo(_storeData);
+        //SetInfo(_storeData);
     }
 
-    void OnClickBtn()
+    void OnClickBtn(bool isGrace)
     {
         if (PlayerPrefs.HasKey(_storeData.img)) 
             return;
         UI_Purchase purchasePopup = Managers.UI.ShowPopupUI<UI_Purchase>();
         if (purchasePopup.Init()) 
-            purchasePopup.SetPopup(_storeData.name, _storeData.explanation, _storeData.price, _storeData.img);
+            purchasePopup.SetPopup(isGrace, _storeData.name, _storeData.explanation, _storeData.price, _storeData.img, _storeData.mode);
     }
 
     void CancelPurChase(string name)
     {
         PlayerPrefs.DeleteKey(name);
-        GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(OnClickBtn);
+        //GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(OnClickBtn);
     }
 
-    public void SetInfo(StoreData storeData)
+    public void SetInfo(bool isGrace, StoreData storeData)
     {
         _storeData = storeData;
         img = Resources.Load("Sprites/Grace/" + _storeData.img, typeof(Sprite)) as Sprite;
@@ -80,7 +80,15 @@ public class UI_StoreItem : UI_Base
         {
             GetObject((int)GameObjects.Have).SetActive(false);
             GetText((int)Texts.PriceTMP).text = _storeData.price.ToString();
-            GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(OnClickBtn);
+            if(isGrace)
+            {
+                GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(()=>OnClickBtn(true));
+            }
+            else
+            {
+                GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(()=>OnClickBtn(false));
+            }
+            
         }
     }
 
@@ -97,6 +105,5 @@ public class UI_StoreItem : UI_Base
         if (_storeData.mode == "OneToOne") {
             GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_OneToOne");
         }
-
     }
 }

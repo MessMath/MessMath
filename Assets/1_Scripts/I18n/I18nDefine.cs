@@ -12,6 +12,8 @@ public static class I18nDefine
     public const string PURCHASE_CLOSE = "PURCHASE_CLOSE";
     public const string PURCHASE_SUCCESS = "PURCHASE_SUCCESS";
     public const string PURCHASE_FAILED = "PURCHASE_FAILED";
+    public const string PURCHASE_STORY_MODE = "PURCHASE_STORY_MODE";
+    public const string PURCHASE_ONE_TO_ONE_MODE = "PURCHASE_ONE_TO_ONE_MODE";
     // Lobby
     public const string LOBBY_SETTING = "LOBBY_SETTING";
     public const string LOBBY_HELP_ON = "LOBBY_HELP_ON";

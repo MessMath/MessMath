@@ -14,6 +14,7 @@ public class UI_Store : UI_Popup
     Color unclickedColor = new Color32(217, 217, 217, 255);
     Color clickedColor = new Color32(241, 148, 148, 255);
     bool isInitialized = false;
+
     enum Images
     {
         CoinImg,
@@ -110,7 +111,7 @@ public class UI_Store : UI_Popup
             item.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
             if (storeItem.Init())
-                storeItem.SetInfo(graceData[i]);
+                storeItem.SetInfo(true, graceData[i]);
         }
     }
 
@@ -130,7 +131,7 @@ public class UI_Store : UI_Popup
             GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
             if (storeItem.Init())
-                storeItem.SetInfo(collectionData[i]);
+                storeItem.SetInfo(false, collectionData[i]);
         }
     }
 
@@ -150,7 +151,7 @@ public class UI_Store : UI_Popup
             GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
             if (storeItem.Init())
-                storeItem.SetInfo(collectionData[i]);
+                storeItem.SetInfo(false, collectionData[i]);
         }
     }
 
