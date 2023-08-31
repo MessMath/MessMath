@@ -131,12 +131,12 @@ public class UI_PvpGameResult_Win : UI_Popup
 
     Player GetOppPlayer()
     {
-        Debug.Log($"<color=red>player[0] : {PhotonNetwork.CurrentRoom.Players[0].NickName} </color>");
-        Debug.Log($"<color=red>player[1] : {PhotonNetwork.CurrentRoom.Players[1].NickName} </color>");
+        Debug.Log($"<color=red>player[0] : {PhotonNetwork.PlayerList[0].NickName} </color>");
+        Debug.Log($"<color=red>player[1] : {PhotonNetwork.PlayerList[1].NickName} </color>");
 
         if (PhotonNetwork.IsMasterClient)
-            return PhotonNetwork.CurrentRoom.Players[1];
+            return PhotonNetwork.PlayerList[1];
         else
-            return PhotonNetwork.CurrentRoom.Players[0];
+            return PhotonNetwork.PlayerList[0];
     }
 }
