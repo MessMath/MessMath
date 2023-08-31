@@ -160,9 +160,7 @@ public class UI_Store : UI_Popup
 
     public void SetCoinText()
     {
-        if (PlayerPrefs.HasKey("Coin"))
-            GetText((int)Texts.CoinTMP).text = PlayerPrefs.GetInt("Coin").ToString();
-        else { PlayerPrefs.SetInt("Coin", 0); GetText((int)Texts.CoinTMP).text = PlayerPrefs.GetInt("Coin").ToString(); }
+        GetText((int)Texts.CoinTMP).text = Managers.UserMng.GetCoin().ToString();
     }
 }
 

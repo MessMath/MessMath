@@ -71,8 +71,9 @@ public class UI_Diagnosis : UI_Scene
         {
             // Sound
             Managers.Sound.Play("ClickBtnEff");
+            Managers.DBManager.SetIsCompletedDiagnosis(true);
             // TODO 예외처리
-            if(PlayerPrefs.HasKey("WatchedStory") && PlayerPrefs.GetInt("WatchedStory") == -2)
+            if(Managers.UserMng.user.isCompletedStory)
                 Managers.Scene.ChangeScene(Define.Scene.LobbyScene); 
             else
                 Managers.Scene.ChangeScene(Define.Scene.StoryScene);
