@@ -68,5 +68,9 @@
   "INFO_MESSAGE": "Enter your message.",
   "INFO_SAVE": "save",
   "INFO_TEXT": "MessMath Magic Academy",
-  "INFO_PROFILE": "PROFILE"
+  "INFO_PROFILE": "PROFILE",
+  // Collection
+  "COLLECTION_TITLE": "Collection",
+  // Clothes
+  "CLOTHES_TITLE": "Clothes"
 }

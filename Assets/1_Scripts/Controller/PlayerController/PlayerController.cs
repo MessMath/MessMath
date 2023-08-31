@@ -27,7 +27,7 @@ public class PlayerController : UI_Base
 
     float widthRatio;
     float heightRatio;
-    float adjustedSpeed;
+    public float adjustedSpeed;
 
     void Start()
     {

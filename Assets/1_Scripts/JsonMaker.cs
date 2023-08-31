@@ -17,13 +17,13 @@ public class JsonMaker : MonoBehaviour
         "https://docs.google.com/spreadsheets/d/18Ba5zNPk4IxahKMCI3498xQSPbOmDU-gYdiXF2n8wWM", // 수집품 정보 2
         "https://docs.google.com/spreadsheets/d/1SLsoFg1UYiPSzXfYs8j7lo-gDRo71pSopK1saJHtATU", // 튜토리얼 3
         "https://docs.google.com/spreadsheets/d/1A32zfYnZVIVMRCm4aKVXpt1vl1v_DVCe9Eut_2zIyy8", // 진단평가 4
-        "https://docs.google.com/spreadsheets/d/15QgoPu2K5ECsn4-LbznSyEWNYrc_WQ5DcexaIrKT6Wk", // 알쓸신잡 5
+        "https://docs.google.com/spreadsheets/d/1PQqQ221jaD5sAEUOksi8i-8FH9Qn4430iRqOqRXgnI0", // 의상 정보 5
         "https://docs.google.com/spreadsheets/d/1JVqCDQPs_rfZPhg3x05gzdvr5cDKgFYfUd5MAnB-rmM", // 스토리_영어 6
         "https://docs.google.com/spreadsheets/d/1WkDvfIOCIUD3NP21QboDDwPcCfuifDmoiFSYpCHkld4", // 가호정보_영어 7
         "https://docs.google.com/spreadsheets/d/1s6NE0G3nOnoRmRJcLa2osfqmwvTfZXjlI9-IPmmG7LM", // 수집폼 정보_영어 8
         "https://docs.google.com/spreadsheets/d/1OdKxEzgRwspt6SoLH0_Wnd8-33TqOsmLeKO7f5Hj5cg",  // 튜토리얼 정보_영어 9
         "https://docs.google.com/spreadsheets/d/1GAwrbav-8b991er9UQd9DwAal0O9nYNnfiW4aN9qofU", // 진단평가_영어 10
-        "https://docs.google.com/spreadsheets/d/1wo1Kj-wJdHZaGb_AZd4PIT3d8hIVX85Mo_fhKexgTXM", // 알쓸신잡_영어 11
+        "https://docs.google.com/spreadsheets/d/17E7BYZtHXLIgfHeGh0sqGE93TF3EZyLFkJ2ddcPgxsA", // 의상 정보_영어 11
         "https://docs.google.com/spreadsheets/d/12y7mWorBoIKE_zHAAINlxRFv8044bv57xv6QdW1CkKs", // 로비 튜토리얼 12
         "https://docs.google.com/spreadsheets/d/1WkWlJXH4WbmTLB0zg89g3DDRXuaup2GqDDD5L-hs5d0", // 로비 튜토리얼_영어 13
     };
@@ -87,13 +87,13 @@ public class JsonMaker : MonoBehaviour
         range.Add("A2:G4");
         range.Add("A2:A7");
         range.Add("A2:A6");
-        range.Add("A1:A21");
+        range.Add("A2:G8");
         range.Add("A2:G82");
         range.Add("A2:G7");
         range.Add("A2:G4");
         range.Add("A2:A7");
         range.Add("A2:A6");
-        range.Add("A1:A21");
+        range.Add("A2:G8");
         range.Add("A2:G23");
         range.Add("A2:G23");
     }
@@ -105,13 +105,13 @@ public class JsonMaker : MonoBehaviour
         fileName.Add("StoreCollection_KOR");
         fileName.Add("Tutorial_KOR");
         fileName.Add("Diagnosis_KOR");
-        fileName.Add("Tip_KOR");
+        fileName.Add("StoreClothes_KOR");
         fileName.Add("EnterGameStory_EN");
         fileName.Add("StoreGrace_EN");
         fileName.Add("StoreCollection_EN");
         fileName.Add("Tutorial_EN");
         fileName.Add("Diagnosis_EN");
-        fileName.Add("Tip_EN");
+        fileName.Add("StoreClothes_EN");
         fileName.Add("LobbyTutorial_KOR");
         fileName.Add("LobbyTutorial_EN");
     }
@@ -151,8 +151,8 @@ public class JsonMaker : MonoBehaviour
                 MakeDiagnosisJsonFile(idx);
                 break;
             case 5:
-                ParsingTipData(data);
-                MakeTipJsonFile(idx);
+                ParsingStoreData(data);
+                MakeStoreJsonFile(idx);
                 break;
             case 6:
                 ParsingDialogueData(data);
@@ -175,8 +175,8 @@ public class JsonMaker : MonoBehaviour
                 MakeDiagnosisJsonFile(idx);
                 break;
             case 11:
-                ParsingTipData(data);
-                MakeTipJsonFile(idx);
+                ParsingStoreData(data);
+                MakeStoreJsonFile(idx);
                 break;
             case 12:
                 ParsingDialogueData(data);

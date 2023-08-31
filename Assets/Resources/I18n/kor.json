@@ -68,5 +68,9 @@
   "INFO_MESSAGE": "상태메시지를 입력하세요.",
   "INFO_SAVE": "저장",
   "INFO_TEXT": "매쓰매쓰 마법학교",
-  "INFO_PROFILE": "프로필 사진"
+  "INFO_PROFILE": "프로필 사진",
+  // Collection
+  "COLLECTION_TITLE": "수집품",
+  // Clothes
+  "CLOTHES_TITLE" : "의상"
 }
