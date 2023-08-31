@@ -142,7 +142,9 @@ public class UI_ClothesBoxPopup : UI_Popup
     {
         if (selectedObject == null) { OnClosePopup(); return; }
 
-        PlayerPrefs.SetString("WearClothes", selectedObject.GetComponent<UI_ClothesItem>()._img);
+        Managers.DBManager.SetMyClothes(selectedObject.GetComponent<UI_ClothesItem>()._img);
+
+        //PlayerPrefs.SetString("WearClothes", selectedObject.GetComponent<UI_ClothesItem>()._img);
 
         gameObject.transform.parent.gameObject.GetComponent<UI_Lobby>().Invoke("RefreshUI", 0);
         Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup").GetComponent<UI_InventoryPopup>().Invoke("RefreshUI", 0);

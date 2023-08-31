@@ -21,6 +21,7 @@ public class DatabaseManager : MonoBehaviour
         Debug.Log("CreateNewUser");
         //WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, false, nickname);
         WriteNewUser(nickname, 0, 0, null, false, false, false, false, nickname);
+        Managers.DBManager.SetCoin(10000);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedClothes").SetValueAsync("");
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedGraces").SetValueAsync("");
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedCollections").SetValueAsync("");
@@ -115,6 +116,11 @@ public class DatabaseManager : MonoBehaviour
     {
         Managers.UserMng.SetUserScore(score);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("score").SetValueAsync(Managers.UserMng.user.score);
+    }
+
+    public int GetScore(string userId)
+    {
+        return int.Parse(ReadUser(userId, "score"));
     }
 
     public void SetIsCompletedDiagnosis(bool isCompleted)

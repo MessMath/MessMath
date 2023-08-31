@@ -81,6 +81,7 @@ public class UI_LobbyTutorial : UI_Popup
         }
         if (++count >= maxCount)
         {
+            Managers.DBManager.SetIsCompletedTutorial(true);
             Managers.UI.ClosePopupUI(this);
             return;
         }
