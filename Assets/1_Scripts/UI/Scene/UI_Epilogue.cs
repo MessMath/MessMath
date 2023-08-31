@@ -50,8 +50,10 @@ public class UI_Epilogue : UI_Scene
         BindImage(typeof(Images));
         BindButton(typeof(Buttons));
 
-        GetImage((int)Images.Image1).gameObject.BindEvent(() => {GetImage((int)Images.Image2).gameObject.SetActive(true); Managers.Sound.Play("합격통보음"); });
-        GetImage((int)Images.Image2).gameObject.BindEvent(() => GetImage((int)Images.Image3).gameObject.SetActive(true));
+        Managers.Sound.Play("EpilogueSealingBGM");
+
+        GetImage((int)Images.Image1).gameObject.BindEvent(() => { GetImage((int)Images.Image2).gameObject.SetActive(true); Managers.Sound.Play("합격통보음"); });
+        GetImage((int)Images.Image2).gameObject.BindEvent(() => { GetImage((int)Images.Image3).gameObject.SetActive(true); Managers.Sound.Clear(); Managers.Sound.Play("EpilogueAwardedBGM"); });
         GetImage((int)Images.Image3).gameObject.BindEvent(() => GetImage((int)Images.Image4).gameObject.SetActive(true));
         GetImage((int)Images.Image4).gameObject.BindEvent(ShowCredits);
 
