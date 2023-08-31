@@ -43,24 +43,36 @@ public class UI_Purchase : UI_Popup
         return true;
     }
 
-    void OnClickedPurchaseBtn(string name, int price)
+    void OnClickedPurchaseBtn(StoreData storeData)
     {
         // Sound
         Managers.Sound.Play("PurchaseEff3");
 
         UI_PurchaseStatus purchaseStatus = Managers.UI.ShowPopupUI<UI_PurchaseStatus>();
-        if(Managers.Coin.CheckPurchase(price)) 
+
+        if (!Managers.Coin.CheckPurchase(storeData.price))
         {
-            if(purchaseStatus.Init()) purchaseStatus.SetPurchaseStatus(true, GetText((int)Texts.NameTMP).text);
-            Managers.DBManager.SetObtainedClothes(name);
-            //PlayerPrefs.SetString(name, name);
-            //Debug.Log(PlayerPrefs.GetString(name));
-            
+            purchaseStatus.SetPurchaseStatus(false, GetText((int)Texts.NameTMP).text);
+            return;
         }
-        else
+
+        purchaseStatus.SetPurchaseStatus(true, GetText((int)Texts.NameTMP).text);
+
+        switch (storeData.mode)
         {
-            if(purchaseStatus.Init()) purchaseStatus.SetPurchaseStatus(false, GetText((int)Texts.NameTMP).text);
+            case "Story":
+            case "Both":
+            case "OneToOne":
+                Managers.DBManager.SetObtainedGraces(name);
+                break;
+            case "collection":
+                Managers.DBManager.SetObtainedCollections(name);
+                break;
+            case "clothes":
+                Managers.DBManager.SetObtainedClothes(name);
+                break;
         }
+
     }
 
     public void SetPopup(bool isGrace, StoreData storeData)
@@ -68,14 +80,14 @@ public class UI_Purchase : UI_Popup
         GetText((int)Texts.NameTMP).text = storeData.name;
         Managers.TextEffect.ApplyTextEffect(storeData.explanation, GetText((int)Texts.ExplanationTMP), 36);
         GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Grace/" + storeData.img, typeof(Sprite)) as Sprite;
-        if (storeData.mode == "collection") 
+        if (storeData.mode == "collection")
             GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Collections/" + storeData.img, typeof(Sprite)) as Sprite;
-        if (storeData.mode == "clothes") 
+        if (storeData.mode == "clothes")
             GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Clothes/" + storeData.img, typeof(Sprite)) as Sprite;
-        GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(()=>ClosePopupUI());
-        GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(()=>OnClickedPurchaseBtn(storeData.img, storeData.price));
+        GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(() => ClosePopupUI());
+        GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(() => OnClickedPurchaseBtn(storeData));
         GetButton((int)Buttons.PurchaseButton).gameObject.GetComponentInChildren<TextMeshProUGUI>().text = storeData.price.ToString();
-        if(isGrace)
+        if (isGrace)
         {
             switch (storeData.mode)
             {
@@ -100,7 +112,7 @@ public class UI_Purchase : UI_Popup
             GetObject((int)GameObjects.StoryMode).SetActive(false);
             GetObject((int)GameObjects.OneToOneMode).SetActive(false);
         }
-        
+
     }
 
     public void SetPopup(StoreData storeData)
@@ -111,7 +123,7 @@ public class UI_Purchase : UI_Popup
         if (storeData.mode == "collection") GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Collections/" + storeData.img, typeof(Sprite)) as Sprite;
         if (storeData.mode == "clothes") GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Clothes/" + storeData.img, typeof(Sprite)) as Sprite;
         GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(() => ClosePopupUI());
-        GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(() => OnClickedPurchaseBtn(storeData.img, storeData.price));
+        GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(() => OnClickedPurchaseBtn(storeData));
         GetButton((int)Buttons.PurchaseButton).gameObject.GetComponentInChildren<TextMeshProUGUI>().text = storeData.price.ToString();
     }
 }

@@ -154,7 +154,7 @@ public class UI_Store : UI_Popup
             GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
             if (storeItem.Init())
-                storeItem.SetInfo(false, collectionData[i]);
+                storeItem.SetInfo(false, ClothesData[i]);
         }
     }
 
