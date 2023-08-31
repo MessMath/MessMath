@@ -4,6 +4,13 @@
   "STORE_GRACE": "Graces",
   "STORE_COLLECTIONS": "Collections",
   "STORE_CLOTHES": "Clothes",
+  "STORE_PURCHASED": "Purchased",
+   // Purchase
+  "PURCHASE_CLOSE": "Close",
+  "PURCHASE_SUCCESS": " was purchased successfully!\nYou can check it out in the collection.",
+  "PURCHASE_FAILED": " purchase has failed.\nYou are not enough coins.",
+  "PURCHASE_STORY_MODE": "For Witch Hunt",
+  "PURCHASE_ONE_TO_ONE_MODE": "For One to One",
   // Lobby
   "LOBBY_SETTING": "Setting",
   "LOBBY_HELP_ON": "Help\nON",
@@ -69,6 +76,17 @@
   "INFO_SAVE": "save",
   "INFO_TEXT": "MessMath Magic Academy",
   "INFO_PROFILE": "PROFILE",
+  // Story
+  "STORY_TOUCH_SCREEN": "Touch Screen.",
+  "STORY_HERE": "h..e..r..e",
+  "STORY_WHO": "WTH!",
+  "STORY_VON_NORMAN": "Von Norman's room. You can't go in now.",
+  "STORY_STAINED_GLASS": "It's a stained glass with beautiful decorations.",
+  "STORY_EINSTEIN": "Einstein's room. You can't go in now.",
+  "STORY_NEWTON": "Newton's room. You can't go in now.",
+  "STORY_PYTHAGORAS": "Pythagoras's room. You can't go in now.",
+  "STORY_GAUSS": "Gauss's room. You can't go in now.",
+  "STORY_DISCONNECT": "It led to the entrance to the principal's office just now, but it's not connected anywhere.",
   // Collection
   "COLLECTION_TITLE": "Collection",
   // Clothes

@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using StoreDatas;
+using MessMathI18n;
 
 public class UI_Purchase : UI_Popup
 {
+    enum GameObjects
+    {
+        StoryMode,
+        OneToOneMode,
+    }
     enum Buttons
     {
         CloseButton,
@@ -15,6 +21,8 @@ public class UI_Purchase : UI_Popup
     {
         NameTMP,
         ExplanationTMP,
+        StoryModeTMP,
+        OneToOneTMP,
     }
     enum Images
     {
@@ -26,6 +34,7 @@ public class UI_Purchase : UI_Popup
         if (base.Init() == false)
             return false;
 
+        BindObject(typeof(GameObjects));
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
         BindImage(typeof(Images));
@@ -53,15 +62,44 @@ public class UI_Purchase : UI_Popup
         }
     }
 
-    public void SetPopup(string name, string explanation, int price, string img)
+    public void SetPopup(bool isGrace, StoreData storeData)
     {
-        GetText((int)Texts.NameTMP).text = name;
-        //GetText((int)Texts.ExplanationTMP).text = explanation;
-        Managers.TextEffect.ApplyTextEffect(explanation, GetText((int)Texts.ExplanationTMP), 36);
-        GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Grace/" + img, typeof(Sprite)) as Sprite;
+        GetText((int)Texts.NameTMP).text = storeData.name;
+        Managers.TextEffect.ApplyTextEffect(storeData.explanation, GetText((int)Texts.ExplanationTMP), 36);
+        GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Grace/" + storeData.img, typeof(Sprite)) as Sprite;
+        if (storeData.mode == "collection") 
+            GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Collections/" + storeData.img, typeof(Sprite)) as Sprite;
+        if (storeData.mode == "clothes") 
+            GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Clothes/" + storeData.img, typeof(Sprite)) as Sprite;
         GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(()=>ClosePopupUI());
-        GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(()=>OnClickedPurchaseBtn(img, price));
-        GetButton((int)Buttons.PurchaseButton).gameObject.GetComponentInChildren<TextMeshProUGUI>().text = price.ToString();
+        GetButton((int)Buttons.PurchaseButton).gameObject.BindEvent(()=>OnClickedPurchaseBtn(storeData.img, storeData.price));
+        GetButton((int)Buttons.PurchaseButton).gameObject.GetComponentInChildren<TextMeshProUGUI>().text = storeData.price.ToString();
+        if(isGrace)
+        {
+            switch (storeData.mode)
+            {
+                case "Both":
+                    GetObject((int)GameObjects.StoryMode).SetActive(true);
+                    GetObject((int)GameObjects.OneToOneMode).SetActive(true);
+                    break;
+                case "Story":
+                    GetObject((int)GameObjects.StoryMode).SetActive(true);
+                    GetObject((int)GameObjects.OneToOneMode).SetActive(false);
+                    break;
+                case "OneToOne":
+                    GetObject((int)GameObjects.StoryMode).SetActive(false);
+                    GetObject((int)GameObjects.OneToOneMode).SetActive(true);
+                    break;
+            }
+            GetText((int)Texts.StoryModeTMP).text = I18n.Get(I18nDefine.PURCHASE_STORY_MODE);
+            GetText((int)Texts.OneToOneTMP).text = I18n.Get(I18nDefine.PURCHASE_ONE_TO_ONE_MODE);
+        }
+        else
+        {
+            GetObject((int)GameObjects.StoryMode).SetActive(false);
+            GetObject((int)GameObjects.OneToOneMode).SetActive(false);
+        }
+        
     }
 
     public void SetPopup(StoreData storeData)

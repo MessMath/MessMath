@@ -30,6 +30,7 @@ public class UI_Story : UI_Scene
         BackGroundImage,
         PlayerImage,
         CharacterImage,
+        GaussImage,
         FadeImage,
         OpenedSide,
         ClosedSide,
@@ -65,6 +66,9 @@ public class UI_Story : UI_Scene
     {
         CharacterNameTMP,
         DialogueTMP,
+        TouchScreenTMP,
+        SmallTMP,
+        SpeechTMP,
     }
 
     private void Start()
@@ -82,6 +86,8 @@ public class UI_Story : UI_Scene
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
 
+        GetText((int)Texts.TouchScreenTMP).text = I18n.Get(I18nDefine.STORY_TOUCH_SCREEN);
+
         jsonReader = new JsonReader();
 
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
@@ -90,7 +96,7 @@ public class UI_Story : UI_Scene
         }
         else
         {
-            storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 4 + "_EnterGameStory_EN.json").talkDataList;
+            storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 6 + "_EnterGameStory_EN.json").talkDataList;
         }
 
         maxCount = storyTalkData.Count;
@@ -134,6 +140,7 @@ public class UI_Story : UI_Scene
         GetImage((int)Images.ThirdBrokeImg).gameObject.SetActive(false);
         GetImage((int)Images.SpeechBubbleImg).gameObject.SetActive(false);
         GetImage((int)Images.SmallSpeechBubbleImg).gameObject.SetActive(false);
+        GetImage((int)Images.GaussImage).gameObject.SetActive(false);
 
         // Sound
         Managers.Sound.Clear();
@@ -170,7 +177,7 @@ public class UI_Story : UI_Scene
                 Managers.Scene.ChangeScene(Define.Scene.TutorialGameScene);
             return;
         }
-        if(count == 7 || count == 11 || count == 32)
+        if(count == 7 || count == 11 || count == 33)
         {
             HideDialogue();
             GetObject((int)GameObjects.SchoolHallway).gameObject.SetActive(true);
@@ -181,6 +188,7 @@ public class UI_Story : UI_Scene
             HideDialogue();
             GetObject((int)GameObjects.Library).gameObject.SetActive(true);
             GetImage((int)Images.SmallSpeechBubbleImg).gameObject.SetActive(true);
+            GetText((int)Texts.SmallTMP).text = I18n.Get(I18nDefine.STORY_HERE);
             return;
         }
         if(count == 52)
@@ -198,8 +206,17 @@ public class UI_Story : UI_Scene
         Managers.SceneEffect.SceneEffect(GetImage((int)Images.FadeImage),GetButton((int)Buttons.nxtButton), storyTalkData[count].sceneEffect);
         Managers.SceneEffect.ChangeBackground(GetImage((int)Images.BackGroundImage), storyTalkData[count].backgroundImg);
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), storyTalkData[count].characterName);
-        Managers.SceneEffect.ChangeCharacter(GetImage((int)Images.PlayerImage), GetImage((int)Images.CharacterImage), storyTalkData[count].characterName, storyTalkData[count].expression);
-        
+        if (storyTalkData[count].characterName == "가우스" || storyTalkData[count].characterName == "Gauss")
+        {
+            GetImage((int)Images.GaussImage).gameObject.SetActive(true);
+            GetImage((int)Images.CharacterImage).gameObject.SetActive(false);
+        }
+        else
+        {
+            GetImage((int)Images.GaussImage).gameObject.SetActive(false);
+            GetImage((int)Images.CharacterImage).gameObject.SetActive(true);
+            Managers.SceneEffect.ChangeCharacter(GetImage((int)Images.PlayerImage), GetImage((int)Images.CharacterImage), storyTalkData[count].characterName, storyTalkData[count].expression);
+        }
 
         if(storyTalkData[count].txtEffect == "MAX") {
             GetText((int)Texts.DialogueTMP).fontSize = 100;
@@ -208,7 +225,14 @@ public class UI_Story : UI_Scene
             GetText((int)Texts.DialogueTMP).fontSize = 80;
         }
 
-        GetText((int)Texts.CharacterNameTMP).text = storyTalkData[count].characterName;
+        if(storyTalkData[count].characterName == "주인공" || storyTalkData[count].characterName == "Main character")
+        {
+            GetText((int)Texts.CharacterNameTMP).text = Managers.UserMng.GetNickname();
+        }
+        else
+        {
+            GetText((int)Texts.CharacterNameTMP).text = storyTalkData[count].characterName;
+        }
 
         Managers.TextEffect.SetNormalSpeed();
         Managers.TextEffect.Typing(storyTalkData[count].dialogue, GetText((int)Texts.DialogueTMP));
@@ -243,7 +267,7 @@ public class UI_Story : UI_Scene
 
     void OnClickedNeumannBtn()
     {
-        CoroutineHandler.StartCoroutine(ShowInfo("폰 노인만의 방. 지금은 들어갈 수 없습니다."));
+        CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_VON_NORMAN)));
     }
 
     void OnClickedStainedGlassBtn()
@@ -255,28 +279,28 @@ public class UI_Story : UI_Scene
         }
         else 
         {
-            CoroutineHandler.StartCoroutine(ShowInfo("아름다운 장식의 스테인드 글라스입니다."));
+            CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_STAINED_GLASS)));
         }
     }
 
     void OnClickedEinsteinBtn()
     {
-        CoroutineHandler.StartCoroutine(ShowInfo("아인슈타인의 방. 지금은 들어갈 수 없습니다."));
+        CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_EINSTEIN)));
     }
 
     void OnClickedNewtonBtn()
     {
-        CoroutineHandler.StartCoroutine(ShowInfo("뉴턴의 방. 지금은 들어갈 수 없습니다."));
+        CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_NEWTON)));
     }
 
     void OnClickedPythagorasBtn()
     {
-        CoroutineHandler.StartCoroutine(ShowInfo("피타고라스의 방. 지금은 들어갈 수 없습니다."));
+        CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_PYTHAGORAS)));
     }
 
     void OnClickedGaussBtn()
     {
-        CoroutineHandler.StartCoroutine(ShowInfo("가우스의 방. 지금은 들어갈 수 없습니다."));
+        CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_PYTHAGORAS)));
     }
 
     void OnClickedEntranceBtn()
@@ -292,7 +316,7 @@ public class UI_Story : UI_Scene
         }
         else
         {
-            CoroutineHandler.StartCoroutine(ShowInfo("아까까진 교장실 입구로 이어졌지만 지금은 어디에도 연결되어 있지 않습니다."));
+            CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_DISCONNECT)));
         }
     }
 
@@ -375,6 +399,7 @@ public class UI_Story : UI_Scene
     {
         HideDialogue();
         GetImage((int)Images.SpeechBubbleImg).gameObject.SetActive(true);
+        GetText((int)Texts.SpeechTMP).text = I18n.Get(I18nDefine.STORY_WHO);
         WaitForSeconds waitForSeconds = new WaitForSeconds(time);
         yield return waitForSeconds;
         GetImage((int)Images.SpeechBubbleImg).gameObject.SetActive(false);

@@ -4,6 +4,13 @@
   "STORE_GRACE": "가호",
   "STORE_COLLECTIONS": "수집품",
   "STORE_CLOTHES": "의상",
+  "STORE_PURCHASED": "보유중",
+  // Purchase
+  "PURCHASE_CLOSE": "확인",
+  "PURCHASE_SUCCESS": " 구매에 성공 했습니다.\n컬렉션에서 확인할 수 있습니다.",
+  "PURCHASE_FAILED": " 구매에 실패 했습니다. 코인이 부족합니다.",
+  "PURCHASE_STORY_MODE": "마녀와 전투용 가호",
+  "PURCHASE_ONE_TO_ONE_MODE": "수학자 1vs1용 가호",
   // Lobby
   "LOBBY_SETTING": "설정",
   "LOBBY_HELP_ON": "도움말\nON",
@@ -69,6 +76,17 @@
   "INFO_SAVE": "저장",
   "INFO_TEXT": "매쓰매쓰 마법학교",
   "INFO_PROFILE": "프로필 사진",
+  // Story
+  "STORY_TOUCH_SCREEN": "화면을 터치해주세요.",
+  "STORY_HERE": "ㅇ..ㅕ..ㄱ..ㅣ",
+  "STORY_WHO": "누구냐!",
+  "STORY_VON_NORMAN": "폰 노인만의 방. 지금은 들어갈 수 없습니다.",
+  "STORY_STAINED_GLASS": "아름다운 장식의 스테인드 글라스입니다.",
+  "STORY_EINSTEIN": "아인슈타인의 방. 지금은 들어갈 수 없습니다.",
+  "STORY_NEWTON": "뉴턴의 방. 지금은 들어갈 수 없습니다.",
+  "STORY_PYTHAGORAS": "피타고라스의 방. 지금은 들어갈 수 없습니다.",
+  "STORY_GAUSS": "가우스의 방. 지금은 들어갈 수 없습니다.",
+  "STORY_DISCONNECT": "방금까진 교장실 입구로 이어졌지만 지금은 어디에도 연결되어 있지 않습니다.",
   // Collection
   "COLLECTION_TITLE": "수집품",
   // Clothes

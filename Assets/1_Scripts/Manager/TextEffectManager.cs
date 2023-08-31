@@ -78,7 +78,7 @@ public class TextEffectManager
                     t_letter = LARGESIZE + t_letter + SIZETAG;
                     break;
                 case "n":
-                    t_letter = "<size=80>" + t_letter + SIZETAG;
+                    t_letter = "<size=70>" + t_letter + SIZETAG;
                     break;
             }
             switch(t_style)
@@ -160,7 +160,9 @@ public class TextEffectManager
     // 타이핑 효과
     public void Typing(string dialouge, TextMeshProUGUI textObj)
     {
-        dialouge = dialouge.Replace("\\n ", "\n");
+        //dialouge = dialouge.Replace("\\r","\n");
+        dialouge = dialouge.Replace("OOO", Managers.UserMng.GetNickname());
+        dialouge = dialouge.Replace("\\n", "\n");
         tempDialogue = dialouge;
         tempSave = textObj;
         
@@ -174,7 +176,9 @@ public class TextEffectManager
 
     public void ReplayTyping(string dialouge, TextMeshProUGUI textObj)
     {
-        dialouge = dialouge.Replace("\\n ", "\n");
+        //dialouge = dialouge.Replace("\\r", "");
+        dialouge = dialouge.Replace("OOO", Managers.UserMng.GetNickname());
+        dialouge = dialouge.Replace("\\n", "\n");
         dialouge = dialouge.Replace("ⓝ", "");
         textObj.text = "";
 
@@ -191,6 +195,7 @@ public class TextEffectManager
 
     public void ApplyTextEffect(string content, TextMeshProUGUI textObj, int textSize)
     {
+        content = content.Replace("OOO", Managers.UserMng.GetNickname());
         content = content.Replace("\\n ", "\n");
         content = content.Replace("ⓝ", "");
         textObj.text = "";

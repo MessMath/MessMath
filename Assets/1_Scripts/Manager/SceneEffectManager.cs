@@ -22,15 +22,18 @@ public class SceneEffectManager
         string imgName;
         switch(characterName)
         {
+            case "Main character":
             case "주인공":
                 imgName = "Script_player_UI";
                 break;
             case "???":
                 imgName = "Script_witch_UI";
                 break;
+            case "Renegade Witch":
             case "변절된 마법사":
                 imgName = "Script_witch_UI";
                 break;
+            case "Gauss":
             case "가우스":
                 imgName = "Script_book_UI";
                 break;
@@ -46,14 +49,17 @@ public class SceneEffectManager
     {
         switch(characterName)
         {
+            case "Main character":
             case "주인공":
                 playerImg.color = Color.white;
                 ChangeExpression(playerImg, expression);
                 break;
+            case "Principal":
             case "선생님":
                 characterImg.color = Color.white;
                 characterImg.sprite = Resources.Load("Sprites/Story/Characters/teacher", typeof(Sprite)) as Sprite;
                 break;
+            case "Gauss":
             case "가우스":
                 characterImg.color = Color.white;
                 characterImg.sprite = Resources.Load("Sprites/Story/Characters/gauss", typeof(Sprite)) as Sprite;

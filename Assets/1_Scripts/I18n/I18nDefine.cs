@@ -7,6 +7,13 @@ public static class I18nDefine
     public const string STORE_GRACE = "STORE_GRACE";
     public const string STORE_COLLECTIONS = "STORE_COLLECTIONS";
     public const string STORE_CLOTHES = "STORE_CLOTHES";
+    public const string STORE_PURCHASED = "STORE_PURCHASED";
+    // Purchase
+    public const string PURCHASE_CLOSE = "PURCHASE_CLOSE";
+    public const string PURCHASE_SUCCESS = "PURCHASE_SUCCESS";
+    public const string PURCHASE_FAILED = "PURCHASE_FAILED";
+    public const string PURCHASE_STORY_MODE = "PURCHASE_STORY_MODE";
+    public const string PURCHASE_ONE_TO_ONE_MODE = "PURCHASE_ONE_TO_ONE_MODE";
     // Lobby
     public const string LOBBY_SETTING = "LOBBY_SETTING";
     public const string LOBBY_HELP_ON = "LOBBY_HELP_ON";
@@ -55,13 +62,13 @@ public static class I18nDefine
     public const string Development = "Development";
     public const string Art = "Art";
     public const string Design = "Design";
-    public const string ¿ÀÇÕÁöÁ¹_´ëÀå_¼­ÇöÀç = "¿ÀÇÕÁöÁ¹_´ëÀå_¼­ÇöÀç";
-    public const string ¿ÀÇÕÁöÁ¹_¼­Àå_À±Áö¿¬ = "¿ÀÇÕÁöÁ¹_¼­Àå_À±Áö¿¬";
-    public const string ¿ÀÇÕÁöÁ¹_½ÉÀå_Á¤¼öÁø = "¿ÀÇÕÁöÁ¹_½ÉÀå_Á¤¼öÁø";
-    public const string ¿ÀÇÕÁöÁ¹_²¿Àå_¹èÁ¤ÈÆ = "¿ÀÇÕÁöÁ¹_²¿Àå_¹èÁ¤ÈÆ";
-    public const string ¿ÀÇÕÁöÁ¹_»õÀå_¼­¹Î¿µ = "¿ÀÇÕÁöÁ¹_»õÀå_¼­¹Î¿µ";
-    public const string ¾Æ¹«Æ°_Å©·¹µ÷ = "¾Æ¹«Æ°_Å©·¹µ÷";
-    public const string Team_¿ÀÇÕÁöÁ¹_Presents = "Team_¿ÀÇÕÁöÁ¹_Presents";
+    public const string ì˜¤í•©ì§€ì¡¸_ëŒ€ì¥_ì„œí˜„ì¬ = "ì˜¤í•©ì§€ì¡¸_ëŒ€ì¥_ì„œí˜„ì¬";
+    public const string ì˜¤í•©ì§€ì¡¸_ì„œì¥_ìœ¤ì§€ì—° = "ì˜¤í•©ì§€ì¡¸_ì„œì¥_ìœ¤ì§€ì—°";
+    public const string ì˜¤í•©ì§€ì¡¸_ì‹¬ì¥_ì •ìˆ˜ì§„ = "ì˜¤í•©ì§€ì¡¸_ì‹¬ì¥_ì •ìˆ˜ì§„";
+    public const string ì˜¤í•©ì§€ì¡¸_ê¼¬ì¥_ë°°ì •í›ˆ = "ì˜¤í•©ì§€ì¡¸_ê¼¬ì¥_ë°°ì •í›ˆ";
+    public const string ì˜¤í•©ì§€ì¡¸_ìƒˆì¥_ì„œë¯¼ì˜ = "ì˜¤í•©ì§€ì¡¸_ìƒˆì¥_ì„œë¯¼ì˜";
+    public const string ì•„ë¬´íŠ¼_í¬ë ˆë”§ = "ì•„ë¬´íŠ¼_í¬ë ˆë”§";
+    public const string Team_ì˜¤í•©ì§€ì¡¸_Presents = "Team_ì˜¤í•©ì§€ì¡¸_Presents";
     public const string BackToLobby = "BackToLobby";
     // Get Nickname
     public const string GET_NICKNAME = "GET_NICKNAME";
@@ -72,6 +79,17 @@ public static class I18nDefine
     public const string INFO_SAVE = "INFO_SAVE";
     public const string INFO_TEXT = "INFO_TEXT";
     public const string INFO_PROFILE = "INFO_PROFILE";
+    // Story
+    public const string STORY_TOUCH_SCREEN = "STORY_TOUCH_SCREEN";
+    public const string STORY_HERE = "STORY_HERE";
+    public const string STORY_WHO = "STORY_WHO";
+    public const string STORY_VON_NORMAN = "STORY_VON_NORMAN";
+    public const string STORY_STAINED_GLASS = "STORY_STAINED_GLASS";
+    public const string STORY_EINSTEIN = "STORY_EINSTEIN";
+    public const string STORY_NEWTON = "STORY_NEWTON";
+    public const string STORY_PYTHAGORAS = "STORY_PYTHAGORAS";
+    public const string STORY_GAUSS = "STORY_GAUSS";
+    public const string STORY_DISCONNECT = "STORY_DISCONNECT";
     // Collection
     public const string COLLECTION_TITLE = "COLLECTION_TITLE";
     // Clothes
