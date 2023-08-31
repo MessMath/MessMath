@@ -6,6 +6,7 @@ using TMPro;
 using Firebase;
 using Firebase.Database;
 using Firebase.Unity;
+using Unity.VisualScripting;
 
 public class DatabaseManager : MonoBehaviour
 {
@@ -19,12 +20,15 @@ public class DatabaseManager : MonoBehaviour
     {
         Debug.Log("CreateNewUser");
         //WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, false, nickname);
-        WriteNewUser(nickname, 0, 0, false, false, false, nickname);
+        WriteNewUser(nickname, 0, 0, null, false, false, false, nickname);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedClothes").SetValueAsync("");
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedGraces").SetValueAsync("");
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedCollections").SetValueAsync("");
     }
 
-    private void WriteNewUser(string userId, int coin, int score, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname)
+    private void WriteNewUser(string userId, int coin, int score, UserManager.Inventory inventory, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname)
     {
-        Managers.UserMng.InitUser(userId, coin, score, null, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, null, null, "^_^");
+        Managers.UserMng.InitUser(userId, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, null, null, "^_^");
 
         string json = JsonUtility.ToJson(Managers.UserMng.user);
         Debug.Log("WriteNewUser");
@@ -146,7 +150,7 @@ public class DatabaseManager : MonoBehaviour
     public void SetObtainedClothes(string clothes)
     {
         Managers.UserMng.SetUserObtainedClothes(clothes);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Inventory").Child("ObtainedClothes").SetValueAsync(Managers.UserMng.user.inventory.obtainedClothes);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedClothes").SetValueAsync(Managers.UserMng.user.inventory.obtainedClothes);
     }
     //public List<string> GetObtainedClothes(string userId)
     //{
@@ -156,13 +160,13 @@ public class DatabaseManager : MonoBehaviour
     public void SetObtainedGraces(string graces)
     {
         Managers.UserMng.SetUserObtainedGraces(graces);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Inventory").Child("ObtainedGraces").SetValueAsync(Managers.UserMng.user.inventory.obtainedGraces);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedGraces").SetValueAsync(Managers.UserMng.user.inventory.obtainedGraces);
     }
 
     public void SetObtainedCollections(string collections)
     {
         Managers.UserMng.SetUserObtainedCollections(collections);
-        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("Inventory").Child("ObtainedCollections").SetValueAsync(Managers.UserMng.user.inventory.obtainedCollections);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedCollections").SetValueAsync(Managers.UserMng.user.inventory.obtainedCollections);
     }
 
 }

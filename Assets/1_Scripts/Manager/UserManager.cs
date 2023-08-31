@@ -37,9 +37,9 @@ public class UserManager
         public OneOnOneModeGrace oneOnOneModeGrace;
         public StoryModeGrace storyModeGrace;
         public string message;
-        public string obtainedCollections;
-        public string obtainedClothes;
-        public string obtainedGraces;
+        //public string obtainedCollections;
+        //public string obtainedClothes;
+        //public string obtainedGraces;
 
         public User(string UID, int coin, int score, Inventory inventory ,bool isCompletedStory, bool isCompletedTutorial,
             bool isCompletedDiagnosis, string nickname, OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message)
@@ -51,8 +51,8 @@ public class UserManager
             this.isCompletedTutorial= isCompletedTutorial;
             this.isCompletedDiagnosis = isCompletedDiagnosis;
             this.nickname = nickname;
-            //this.oneOnOneModeGrace = oneOnOneModeGrace;
-            //this.storyModeGrace= storyModeGrace;
+            this.oneOnOneModeGrace = oneOnOneModeGrace;
+            this.storyModeGrace= storyModeGrace;
             this.message = message;
             this.inventory = new Inventory();
             this.oneOnOneModeGrace = new OneOnOneModeGrace();
@@ -129,17 +129,17 @@ public class UserManager
 
     public void SetUserObtainedClothes(string clothes)
     {
-        user.inventory.obtainedClothes = clothes;
+        user.inventory.obtainedClothes += clothes + ",";
     }
 
     public void SetUserObtainedGraces(string graces)
     {
-        user.inventory.obtainedGraces = graces;
+        user.inventory.obtainedGraces += graces + ",";
     }
 
     public void SetUserObtainedCollections(string collections)
     {
-        user.inventory.obtainedCollections = collections;
+        user.inventory.obtainedCollections += collections + ",";
     }
 
     public string GetNickname()
@@ -202,6 +202,8 @@ public class UserManager
 
     private List<string> StringToList(string data)
     {
+        if (data == null)
+            return null;
         string[] lines = data.Split(',');
         List<string> list = new List<string>();
 
@@ -209,6 +211,7 @@ public class UserManager
         {
             list.Add(lines[i]);
         }
+
         return list;
     }
 

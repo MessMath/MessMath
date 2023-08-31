@@ -127,13 +127,13 @@ public abstract class UI_Base : MonoBehaviour
                 newOneOnOneGrace2 = args.Snapshot.Child("OneOnOneGrace").Child("2").Value.ToString();
                 newOneOnOneGrace3 = args.Snapshot.Child("OneOnOneGrace").Child("3").Value.ToString();
             }
-            //string newObtainedClothes = args.Snapshot.Child("Inventory").Child("ObtainedClothes").Value.ToString();
-            //string newObtainedCollections = args.Snapshot.Child("Inventory").Child("ObtainedCollections").Value.ToString();
-            //string newObtainedGraces = args.Snapshot.Child("Inventory").Child("ObtainedGraces").Value.ToString();
+            string newObtainedClothes = args.Snapshot.Child("Inventory").Child("ObtainedClothes").Value.ToString();
+            string newObtainedCollections = args.Snapshot.Child("Inventory").Child("ObtainedCollections").Value.ToString();
+            string newObtainedGraces = args.Snapshot.Child("Inventory").Child("ObtainedGraces").Value.ToString();
 
-            string newObtainedClothes = args.Snapshot.Child("obtainedClothes").Value.ToString();
-            string newObtainedCollections = args.Snapshot.Child("obtainedCollections").Value.ToString();
-            string newObtainedGraces = args.Snapshot.Child("obtainedGraces").Value.ToString();
+            //string newObtainedClothes = args.Snapshot.Child("obtainedClothes").Value.ToString();
+            //string newObtainedCollections = args.Snapshot.Child("obtainedCollections").Value.ToString();
+            //string newObtainedGraces = args.Snapshot.Child("obtainedGraces").Value.ToString();
 
             Managers.UserMng.user.nickname = newNickname;
             Managers.UserMng.user.coin = int.Parse(newCoin);
@@ -148,9 +148,9 @@ public abstract class UI_Base : MonoBehaviour
             Managers.UserMng.user.oneOnOneModeGrace.grace1 = newOneOnOneGrace1;
             Managers.UserMng.user.oneOnOneModeGrace.grace2 = newOneOnOneGrace2;
             Managers.UserMng.user.oneOnOneModeGrace.grace3 = newOneOnOneGrace3;
-            //Managers.UserMng.user.obtainedClothes = newObtainedClothes;
-            //Managers.UserMng.user.obtainedCollections = newObtainedCollections;
-            //Managers.UserMng.user.obtainedGraces = newObtainedGraces;
+            Managers.UserMng.user.inventory.obtainedClothes = newObtainedClothes;
+            Managers.UserMng.user.inventory.obtainedCollections = newObtainedCollections;
+            Managers.UserMng.user.inventory.obtainedGraces = newObtainedGraces;
         }
         else
         {

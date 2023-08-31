@@ -46,6 +46,11 @@ public class UI_SignIn : UI_Scene
         GetImage((int)Images.BG).gameObject.BindEvent(OnClickBG);
         return true;
     }
+    void Update()
+    { 
+        
+
+    }
 
     void OnClickedSignIn()
     {

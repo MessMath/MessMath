@@ -72,6 +72,8 @@ public class UI_LobbyTutorial : UI_Popup
 
     public void OnClickNxtBtn()
     {
+        PlayerPrefs.SetInt("DoTutorial", 2);
+
         if (!Managers.TextEffect.isTypingEnd)
         {
             Managers.TextEffect.SetFastSpeed();
@@ -79,7 +81,6 @@ public class UI_LobbyTutorial : UI_Popup
         }
         if (++count >= maxCount)
         {
-            PlayerPrefs.SetInt("DoTutorial", 2);
             Managers.UI.ClosePopupUI(this);
             return;
         }

@@ -52,7 +52,8 @@ public class UI_Purchase : UI_Popup
         if(Managers.Coin.CheckPurchase(price)) 
         {
             if(purchaseStatus.Init()) purchaseStatus.SetPurchaseStatus(true, GetText((int)Texts.NameTMP).text);
-            PlayerPrefs.SetString(name, name);
+            Managers.DBManager.SetObtainedClothes(name);
+            //PlayerPrefs.SetString(name, name);
             //Debug.Log(PlayerPrefs.GetString(name));
             
         }
