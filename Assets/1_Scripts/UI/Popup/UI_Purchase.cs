@@ -52,27 +52,26 @@ public class UI_Purchase : UI_Popup
 
         if (!Managers.Coin.CheckPurchase(storeData.price))
         {
-            purchaseStatus.SetPurchaseStatus(false, GetText((int)Texts.NameTMP).text);
+            if (purchaseStatus.Init()) purchaseStatus.SetPurchaseStatus(false, GetText((int)Texts.NameTMP).text);
             return;
         }
 
-        purchaseStatus.SetPurchaseStatus(true, GetText((int)Texts.NameTMP).text);
+        if (purchaseStatus.Init()) purchaseStatus.SetPurchaseStatus(true, GetText((int)Texts.NameTMP).text);
 
         switch (storeData.mode)
         {
             case "Story":
             case "Both":
             case "OneToOne":
-                Managers.DBManager.SetObtainedGraces(name);
+                Managers.DBManager.SetObtainedGraces(storeData.img);
                 break;
             case "collection":
-                Managers.DBManager.SetObtainedCollections(name);
+                Managers.DBManager.SetObtainedCollections(storeData.img);
                 break;
             case "clothes":
-                Managers.DBManager.SetObtainedClothes(name);
+                Managers.DBManager.SetObtainedClothes(storeData.img);
                 break;
         }
-
     }
 
     public void SetPopup(bool isGrace, StoreData storeData)
