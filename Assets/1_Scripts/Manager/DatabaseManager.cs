@@ -20,15 +20,15 @@ public class DatabaseManager : MonoBehaviour
     {
         Debug.Log("CreateNewUser");
         //WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, false, nickname);
-        WriteNewUser(nickname, 0, 0, null, false, false, false, nickname);
+        WriteNewUser(nickname, 0, 0, null, false, false, false, false, nickname);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedClothes").SetValueAsync("");
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedGraces").SetValueAsync("");
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedCollections").SetValueAsync("");
     }
 
-    private void WriteNewUser(string userId, int coin, int score, UserManager.Inventory inventory, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname)
+    private void WriteNewUser(string userId, int coin, int score, UserManager.Inventory inventory, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, bool isKilledWitch, string nickname)
     {
-        Managers.UserMng.InitUser(userId, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, null, null, "^_^");
+        Managers.UserMng.InitUser(userId, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, isKilledWitch, nickname, null, null, "^_^", "");
 
         string json = JsonUtility.ToJson(Managers.UserMng.user);
         Debug.Log("WriteNewUser");
@@ -132,9 +132,34 @@ public class DatabaseManager : MonoBehaviour
         Managers.UserMng.SetUserIsCompletedStory(isCompleted);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("isCompletedStory").SetValueAsync(Managers.UserMng.user.isCompletedStory);
     }
+
     public bool GetIsCompletedStory(string userId)
     {
         return bool.Parse(ReadUser(userId, "isCompletedStory"));
+    }
+
+
+    public void SetIsKilledWitch(bool isKilled)
+    {
+        Managers.UserMng.SetUseIsKilledWitch(isKilled);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("isKilledWitch").SetValueAsync(Managers.UserMng.user.isKilledWitch);
+    }
+
+    public bool GetIsKilledWitch(string userId)
+    {
+        return bool.Parse(ReadUser(userId, "isKilledStory"));
+    }
+
+
+    public void SetMyClothes(string myClothes)
+    {
+        Managers.UserMng.SetUserMyClothes(myClothes);
+        reference.Child("Users").Child(Managers.UserMng.user.UID).Child("myClothes").SetValueAsync(Managers.UserMng.user.myClothes);
+    }
+
+    public string GetMyClothes(string userId)
+    {
+        return ReadUser(userId, "myClothes");
     }
 
     public void SetIsCompletedTutorial(bool isCompleted)

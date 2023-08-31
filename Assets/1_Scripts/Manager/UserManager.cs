@@ -33,16 +33,18 @@ public class UserManager
         public bool isCompletedStory;
         public bool isCompletedTutorial;
         public bool isCompletedDiagnosis;
+        public bool isKilledWitch;
         public string nickname;
         public OneOnOneModeGrace oneOnOneModeGrace;
         public StoryModeGrace storyModeGrace;
         public string message;
+        public string myClothes;
         //public string obtainedCollections;
         //public string obtainedClothes;
         //public string obtainedGraces;
 
         public User(string UID, int coin, int score, Inventory inventory ,bool isCompletedStory, bool isCompletedTutorial,
-            bool isCompletedDiagnosis, string nickname, OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message)
+            bool isCompletedDiagnosis, bool isKilledWitch, string nickname, OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message, string myClothes)
         {
             this.UID = UID;
             this.coin = coin;
@@ -50,10 +52,12 @@ public class UserManager
             this.isCompletedStory = isCompletedStory;
             this.isCompletedTutorial= isCompletedTutorial;
             this.isCompletedDiagnosis = isCompletedDiagnosis;
+            this.isKilledWitch = isKilledWitch;
             this.nickname = nickname;
             this.oneOnOneModeGrace = oneOnOneModeGrace;
             this.storyModeGrace= storyModeGrace;
             this.message = message;
+            this.myClothes = myClothes;
             this.inventory = new Inventory();
             this.oneOnOneModeGrace = new OneOnOneModeGrace();
             this.storyModeGrace= new StoryModeGrace();
@@ -63,9 +67,9 @@ public class UserManager
     public User user {get;set;}
 
     public void InitUser(string UID, int coin, int score, Inventory inventory,bool isCompletedStory,
-        bool isCompletedTutorial, bool isCompletedDiagnosis, string nickname, OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message)
+        bool isCompletedTutorial, bool isCompletedDiagnosis, bool isKilledWitch,string nickname, OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message, string myClothes)
     {
-        user = new User(UID, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname, oneOnOneModeGrace, storyModeGrace, message);
+        user = new User(UID, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, isKilledWitch ,nickname, oneOnOneModeGrace, storyModeGrace, message, myClothes);
     }
 
     //public void SetExistingUser()
@@ -127,6 +131,16 @@ public class UserManager
         user.isCompletedDiagnosis = isCompleted;
     }
 
+    public void SetUseIsKilledWitch(bool isKilled)
+    {
+        user.isKilledWitch = isKilled;
+    }
+
+    public void SetUserMyClothes(string myClothes)
+    {
+        user.myClothes = myClothes;
+    }
+
     public void SetUserObtainedClothes(string clothes)
     {
         user.inventory.obtainedClothes += clothes + ",";
@@ -184,6 +198,16 @@ public class UserManager
     public bool GetIsCompletedDiagnosis()
     {
         return user.isCompletedDiagnosis;
+    }
+
+    public bool GetIsKilledWitch()
+    {
+        return user.isKilledWitch;
+    }
+
+    public string GetMyClothes()
+    {
+        return user.myClothes;
     }
 
     public OneOnOneModeGrace GetOneOnOneModeGrace()
