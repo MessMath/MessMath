@@ -341,7 +341,10 @@ public class UI_StoryGame : UI_Scene
             else if (currentPhase == Phase.Phase2)
                 ChangePhase(Phase.Phase3);
             else
+            {
+                Managers.DBManager.SetIsKilledWitch(true);
                 StartCoroutine(Epilogue());
+            }
         }
 
     }
