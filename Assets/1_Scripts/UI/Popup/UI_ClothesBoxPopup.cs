@@ -63,7 +63,7 @@ public class UI_ClothesBoxPopup : UI_Popup
             _clothesDatas = _jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 11 + "_StoreClothes_EN.json").storeDataList;
         }
 
-        GetText((int)Texts.SelectText).text = I18n.Get(I18nDefine.GRACE_BOX_SELECT);
+        GetText((int)Texts.SelectText).text = I18n.Get(I18nDefine.CLOTHES_SELECT);
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(OnClosePopup);
         GetButton((int)Buttons.SelectBtn).gameObject.BindEvent(OnClickSelectBtn);
         GetImage((int)Images.SelectedClothesImage).gameObject.SetActive(false);
@@ -138,6 +138,7 @@ public class UI_ClothesBoxPopup : UI_Popup
         PlayerPrefs.SetString("WearClothes", selectedObject.GetComponent<UI_ClothesItem>()._img);
 
         gameObject.transform.parent.gameObject.GetComponent<UI_Lobby>().Invoke("RefreshUI", 0);
+        Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup").GetComponent<UI_InventoryPopup>().Invoke("RefreshUI", 0);
 
         // Sound
         Managers.Sound.Play("ClickBtnEff");

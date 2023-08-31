@@ -179,6 +179,10 @@ public class UI_GraceBoxPopup : UI_Popup
     {
         if (selectedObject == null) { OnClosePopup(); return; }
 
+        // 인벤토리 팝업이라면 RefreshUI
+        if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup") != null)
+            Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup").GetComponent<UI_InventoryPopup>().Invoke("RefreshUI", 0);
+
         if (_state == State.OneToOne)
         {
             CheckSameGrace();
@@ -193,7 +197,7 @@ public class UI_GraceBoxPopup : UI_Popup
             if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null)
                 Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("StoryModeRefreshUI", 0);
         }
-
+        
         // Sound
         // TODO ClosePopupSound
         Managers.Sound.Play("ClickBtnEff");

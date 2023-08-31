@@ -72,5 +72,6 @@
   // Collection
   "COLLECTION_TITLE": "수집품",
   // Clothes
-  "CLOTHES_TITLE" : "의상"
+  "CLOTHES_TITLE": "의상",
+  "CLOTHES_SELECT": "변신"
 }

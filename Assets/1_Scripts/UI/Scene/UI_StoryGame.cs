@@ -727,7 +727,7 @@ public class UI_StoryGame : UI_Scene
         StopCoroutine("SetArrowGenerationTime");
         yield return new WaitForSeconds(1.0f);
 
-        Managers.Sound.Play("ArrowEff");
+        Managers.Sound.Play("3페이즈스킬");
 
         for (int i = 0; i < 9; i++)
         {

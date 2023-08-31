@@ -72,5 +72,6 @@
   // Collection
   "COLLECTION_TITLE": "Collection",
   // Clothes
-  "CLOTHES_TITLE": "Clothes"
+  "CLOTHES_TITLE": "Clothes",
+  "CLOTHES_SELECT": "Transform"
 }

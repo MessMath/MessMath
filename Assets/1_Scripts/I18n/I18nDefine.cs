@@ -76,4 +76,5 @@ public static class I18nDefine
     public const string COLLECTION_TITLE = "COLLECTION_TITLE";
     // Clothes
     public const string CLOTHES_TITLE = "CLOTHES_TITLE";
+    public const string CLOTHES_SELECT = "CLOTHES_SELECT";
 }
