@@ -103,23 +103,27 @@ public class UI_GraceBoxPopup : UI_Popup
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        // TODO Add Item as User Data
-        for (int i = 0; i < _graceDatas.Count; i++)
+        for (int i = 0; i < Managers.UserMng.GetObtainedGraces().Count - 1; i++)
         {
-            if ((PlayerPrefs.HasKey(_graceDatas[i].img) && PlayerPrefs.GetString(_graceDatas[i].img) != "") && (_graceDatas[i].mode == "OneToOne" || _graceDatas[i].mode == "Both"))
+            for (int j = 0; j < _graceDatas.Count; j++)
             {
+                if (Managers.UserMng.GetObtainedGraces()[i] != _graceDatas[j].img) continue;
+                if (_graceDatas[j].mode == "Story") continue;
+
                 GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
-                Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
-                Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
-                graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
-                graceItem.GetComponent<UI_GraceItem>().BgImage = _graceDatas[i].bgImage;
-                string[] fullImageName = _graceDatas[i].img2.Split('\r');
+                Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[j].name;
+                Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[j].img);
+                graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[j].img;
+                graceItem.GetComponent<UI_GraceItem>().BgImage = _graceDatas[j].bgImage;
+                string[] fullImageName = _graceDatas[j].img2.Split('\r');
                 graceItem.GetComponent<UI_GraceItem>().FullImage = fullImageName[0];
                 graceItem.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
-                graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
+                graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[j].explanation;
                 graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = graceItem; OnClickGraceBtn(); });
+
             }
         }
+
     }
 
     void StoryModeRefreshUI()
@@ -132,23 +136,27 @@ public class UI_GraceBoxPopup : UI_Popup
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        // TODO Add Item as User Data
-        for (int i = 0; i < _graceDatas.Count; i++)
+        for (int obtainedGracedIdx = 0; obtainedGracedIdx < Managers.UserMng.GetObtainedGraces().Count - 1; obtainedGracedIdx++)
         {
-            if ((PlayerPrefs.HasKey(_graceDatas[i].img) && PlayerPrefs.GetString(_graceDatas[i].img) != "") && (_graceDatas[i].mode == "Story" || _graceDatas[i].mode == "Both"))
+            for (int j = 0; j < _graceDatas.Count; j++)
             {
+                if (Managers.UserMng.GetObtainedGraces()[obtainedGracedIdx] != _graceDatas[j].img) continue;
+                if (_graceDatas[j].mode == "OneToOne") continue;
+
                 GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
-                Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
-                Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[i].img);
-                graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[i].img;
-                graceItem.GetComponent<UI_GraceItem>().BgImage = _graceDatas[i].bgImage;
-                string[] fullImageName = _graceDatas[i].img2.Split('\r');
+                Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[j].name;
+                Utils.FindChild(graceItem, "Grace", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/" + _graceDatas[j].img);
+                graceItem.GetComponent<UI_GraceItem>()._name = _graceDatas[j].img;
+                graceItem.GetComponent<UI_GraceItem>().BgImage = _graceDatas[j].bgImage;
+                string[] fullImageName = _graceDatas[j].img2.Split('\r');
                 graceItem.GetComponent<UI_GraceItem>().FullImage = fullImageName[0];
                 graceItem.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
-                graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[i].explanation;
+                graceItem.GetOrAddComponent<UI_GraceItem>()._description = _graceDatas[j].explanation;
                 graceItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = graceItem; OnClickGraceBtn(); });
+                
             }
         }
+            
     }
 
     void OnClosePopup()
@@ -197,7 +205,7 @@ public class UI_GraceBoxPopup : UI_Popup
             if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null)
                 Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("StoryModeRefreshUI", 0);
         }
-        
+
         // Sound
         // TODO ClosePopupSound
         Managers.Sound.Play("ClickBtnEff");

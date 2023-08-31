@@ -92,27 +92,27 @@ public class UI_ClothesBoxPopup : UI_Popup
 
         if (Managers.UserMng.GetObtainedClothes() == null) return; // ø ¿Â ≈÷ ∫Òæ˙¿ª ∂ß
 
-        // TODO Add Item as User Data
         for (int i = 0; i < Managers.UserMng.GetObtainedClothes().Count - 1; i++)
-        { 
-            //if (PlayerPrefs.HasKey(_clothesDatas[i].img) && PlayerPrefs.GetString(_clothesDatas[i].img) != "")
+            Debug.Log(Managers.UserMng.GetObtainedClothes()[i]);
+
+        for (int i = 0; i < Managers.UserMng.GetObtainedClothes().Count - 1; i++)
+        {
             for(int j = 0; j < _clothesDatas.Count; j++)
             {
-                if (Managers.UserMng.GetObtainedClothes()[i] == _clothesDatas[j].img)
-                {
-                    Debug.Log(Managers.UserMng.GetObtainedClothes()[i]);
-                    GameObject clothesItem = Managers.UI.MakeSubItem<UI_ClothesItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
-                    Utils.FindChild(clothesItem, "ClothesIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _clothesDatas[j].name;
-                    Utils.FindChild(clothesItem, "ClothesIcon", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Clothes/" + _clothesDatas[j].img);
-                    clothesItem.GetComponent<UI_ClothesItem>()._name = _clothesDatas[j].img;
-                    clothesItem.GetComponent<UI_ClothesItem>()._img = _clothesDatas[j].img;
-                    clothesItem.GetComponent<UI_ClothesItem>()._fullImg = _clothesDatas[j].bgImage;
-                    string[] fullImageName = _clothesDatas[j].img2.Split('\r');
-                    //clothesItem.GetComponent<UI_ClothesItem>()._fullImg = fullImageName[0];
-                    clothesItem.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
-                    clothesItem.GetOrAddComponent<UI_ClothesItem>()._description = _clothesDatas[j].explanation;
-                    clothesItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = clothesItem; OnClickClothesBtn(); });
-                }
+                if (Managers.UserMng.GetObtainedClothes()[i] != _clothesDatas[j].img) continue;
+                
+                Debug.Log(Managers.UserMng.GetObtainedClothes()[i]);
+                GameObject clothesItem = Managers.UI.MakeSubItem<UI_ClothesItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
+                Utils.FindChild(clothesItem, "ClothesIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _clothesDatas[j].name;
+                Utils.FindChild(clothesItem, "ClothesIcon", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Clothes/" + _clothesDatas[j].img);
+                clothesItem.GetComponent<UI_ClothesItem>()._name = _clothesDatas[j].img;
+                clothesItem.GetComponent<UI_ClothesItem>()._img = _clothesDatas[j].img;
+                clothesItem.GetComponent<UI_ClothesItem>()._fullImg = _clothesDatas[j].bgImage;
+                string[] fullImageName = _clothesDatas[j].img2.Split('\r');
+                //clothesItem.GetComponent<UI_ClothesItem>()._fullImg = fullImageName[0];
+                clothesItem.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
+                clothesItem.GetOrAddComponent<UI_ClothesItem>()._description = _clothesDatas[j].explanation;
+                clothesItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = clothesItem; OnClickClothesBtn(); });
             }
         }
     }
@@ -135,7 +135,6 @@ public class UI_ClothesBoxPopup : UI_Popup
         GetText((int)Texts.SelectedClothesText).text = Utils.FindChild(selectedObject, "ClothesIconText", true).GetOrAddComponent<TextMeshProUGUI>().text;
         //GetText((int)Texts.SelectedGraceDescription).text = selectedObject.GetOrAddComponent<UI_GraceItem>()._description;
         Managers.TextEffect.ApplyTextEffect(selectedObject.GetOrAddComponent<UI_ClothesItem>()._description, GetText((int)Texts.SelectedClothesDescription), 60);
-
     }
 
     void OnClickSelectBtn()

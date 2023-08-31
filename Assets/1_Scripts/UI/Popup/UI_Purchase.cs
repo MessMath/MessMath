@@ -72,6 +72,11 @@ public class UI_Purchase : UI_Popup
                 Managers.DBManager.SetObtainedClothes(storeData.img);
                 break;
         }
+
+        if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_Store") != null)
+        {
+            Utils.FindChild(gameObject.transform.parent.gameObject, "UI_Store").GetComponentInChildren<UI_StoreItem>().Invoke("SetInfo", 0); ;
+        }
     }
 
     public void SetPopup(bool isGrace, StoreData storeData)
