@@ -117,6 +117,11 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("score").SetValueAsync(Managers.UserMng.user.score);
     }
 
+    public int GetScore(string userId)
+    {
+        return int.Parse(ReadUser(userId, "score"));
+    }
+
     public void SetIsCompletedDiagnosis(bool isCompleted)
     {
         Managers.UserMng.SetUserIsCompletedDiagnosis(isCompleted);

@@ -3,6 +3,7 @@ using MessMathI18n;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UI_PvpGameResult_Win : UI_Popup
@@ -15,11 +16,9 @@ public class UI_PvpGameResult_Win : UI_Popup
 
     public enum Texts
     {
-        // TODO
-        // 결과 통계 텍스트 만들어서,
-        // 바인드하고,
-        // 실제 경기에 대한 기록을
-        // 시각화 해야 한다.
+        MyNickname,
+        MyScore,
+        OppsNickname,
     }
     
     public enum Images
@@ -53,6 +52,21 @@ public class UI_PvpGameResult_Win : UI_Popup
         }
 
         Managers.Sound.Play("ClearEff");
+
+        // 사용자 닉네임
+        GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
+
+        #region AboutDB
+
+        // 점수 등락
+        int curScore = Managers.DBManager.GetScore(Managers.UserMng.user.UID);
+        Managers.DBManager.SetScore(curScore + 100);
+
+        // 점수 등락 시각적으로 표현
+        StartCoroutine(CountUp(curScore, curScore + 100, GetText((int)Texts.MyScore)));
+
+        #endregion
+
 
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
@@ -94,5 +108,21 @@ public class UI_PvpGameResult_Win : UI_Popup
 
         Managers.Sound.Play("ClickBtnEff");
         Managers.Scene.ChangeScene(Scene);
+    }
+
+    IEnumerator CountUp(float target, float current, TextMeshProUGUI tmp)
+    {
+        float duration = 0.7f; // 카운팅에 걸리는 시간 설정. 
+        float offset = (target - current) / duration;
+
+        while (current < target)
+        {
+            current += offset * Time.deltaTime;
+            tmp.text = ((int)current).ToString();
+            yield return null;
+
+        }
+        current = target;
+        tmp.text = ((int)current).ToString();
     }
 }

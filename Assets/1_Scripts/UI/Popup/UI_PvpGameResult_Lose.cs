@@ -1,7 +1,8 @@
-using MessMathI18n;
+﻿using MessMathI18n;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,9 +17,11 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
     public enum Texts
     {
-        
+        MyNickname,
+        MyScore,
+        OppsNickname,
     }
-    
+
     public enum Images
     {
         ReMatchBtn,
@@ -48,6 +51,22 @@ public class UI_PvpGameResult_Lose : UI_Popup
             GetImage((int)Images.Lose).sprite = Managers.Resource.Load<Sprite>("Sprites/Pvp/ResultPopup/Defeat_ENG");
             GetImage((int)Images.Lose1).sprite = Managers.Resource.Load<Sprite>("Sprites/Pvp/ResultPopup/Defeat2_ENG");
         }
+
+        // 사용자 닉네임
+        GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
+
+        #region AboutDB
+
+        // 점수 등락
+        int curScore = Managers.DBManager.GetScore(Managers.UserMng.user.UID);
+        if(curScore >= 100)
+        {
+            Managers.DBManager.SetScore(curScore - 100);
+            // 점수 등락 시각적으로 표현
+            StartCoroutine(CountDown(curScore, curScore - 100, GetText((int)Texts.MyScore)));
+        }
+        #endregion
+
 
         Managers.Sound.Play("DefeatEff");
 
@@ -91,5 +110,21 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
         Managers.Sound.Play("ClickBtnEff");
         Managers.Scene.ChangeScene(Scene);
+    }
+
+    IEnumerator CountDown(float target, float current, TextMeshProUGUI tmp)
+    {
+        float duration = 0.7f; // 카운팅에 걸리는 시간 설정. 
+        float offset = (target - current) / duration;
+
+        while (current > target)
+        {
+            current -= offset * Time.deltaTime;
+            tmp.text = ((int)current).ToString();
+            yield return null;
+
+        }
+        current = target;
+        tmp.text = ((int)current).ToString();
     }
 }
