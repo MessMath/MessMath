@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using MessMathI18n;
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -53,20 +54,12 @@ public class UI_PvpGameResult_Win : UI_Popup
 
         Managers.Sound.Play("ClearEff");
 
-        // 사용자 닉네임
+        // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
-
-        #region AboutDB
-
-        // 점수 등락
-        int curScore = Managers.DBManager.GetScore(Managers.UserMng.user.UID);
-        Managers.DBManager.SetScore(curScore + 100);
-
-        // 점수 등락 시각적으로 표현
-        StartCoroutine(CountUp(curScore, curScore + 100, GetText((int)Texts.MyScore)));
-
-        #endregion
-
+        // 상대방 닉네임 가져오기 (DB를 참조해서)
+        GetText((int)Texts.OppsNickname).text = Managers.DBManager.ReadData(GetOppPlayer().NickName, "nickname");
+            
+        ChangeScore();
 
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
@@ -124,5 +117,26 @@ public class UI_PvpGameResult_Win : UI_Popup
         }
         current = target;
         tmp.text = ((int)current).ToString();
+    }
+
+    void ChangeScore()
+    {
+        // 점수 등락
+        int curScore = Managers.DBManager.GetScore(Managers.UserMng.user.UID);
+        Managers.DBManager.SetScore(curScore + 100);
+
+        // 점수 등락 시각적으로 표현
+        StartCoroutine(CountUp(curScore, curScore + 100, GetText((int)Texts.MyScore)));
+    }
+
+    Player GetOppPlayer()
+    {
+        Debug.Log($"<color=red>player[0] : {PhotonNetwork.CurrentRoom.Players[0].NickName} </color>");
+        Debug.Log($"<color=red>player[1] : {PhotonNetwork.CurrentRoom.Players[1].NickName} </color>");
+
+        if (PhotonNetwork.IsMasterClient)
+            return PhotonNetwork.CurrentRoom.Players[1];
+        else
+            return PhotonNetwork.CurrentRoom.Players[0];
     }
 }
