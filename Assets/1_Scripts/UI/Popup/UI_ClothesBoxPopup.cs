@@ -90,22 +90,29 @@ public class UI_ClothesBoxPopup : UI_Popup
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
+        if (Managers.UserMng.GetObtainedClothes() == null) return; // ø ¿Â ≈÷ ∫Òæ˙¿ª ∂ß
+
         // TODO Add Item as User Data
-        for (int i = 0; i < _clothesDatas.Count; i++)
-        {
-            if (PlayerPrefs.HasKey(_clothesDatas[i].img) && PlayerPrefs.GetString(_clothesDatas[i].img) != "")
+        for (int i = 0; i < Managers.UserMng.GetObtainedClothes().Count - 1; i++)
+        { 
+            //if (PlayerPrefs.HasKey(_clothesDatas[i].img) && PlayerPrefs.GetString(_clothesDatas[i].img) != "")
+            for(int j = 0; j < _clothesDatas.Count; j++)
             {
-                GameObject clothesItem = Managers.UI.MakeSubItem<UI_ClothesItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
-                Utils.FindChild(clothesItem, "ClothesIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _clothesDatas[i].name;
-                Utils.FindChild(clothesItem, "ClothesIcon", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Clothes/" + _clothesDatas[i].img);
-                clothesItem.GetComponent<UI_ClothesItem>()._name = _clothesDatas[i].img;
-                clothesItem.GetComponent<UI_ClothesItem>()._img = _clothesDatas[i].img;
-                clothesItem.GetComponent<UI_ClothesItem>()._fullImg = _clothesDatas[i].bgImage;
-                string[] fullImageName = _clothesDatas[i].img2.Split('\r');
-                //clothesItem.GetComponent<UI_ClothesItem>()._fullImg = fullImageName[0];
-                clothesItem.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
-                clothesItem.GetOrAddComponent<UI_ClothesItem>()._description = _clothesDatas[i].explanation;
-                clothesItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = clothesItem; OnClickClothesBtn(); });
+                if (Managers.UserMng.GetObtainedClothes()[i] == _clothesDatas[j].img)
+                {
+                    Debug.Log(Managers.UserMng.GetObtainedClothes()[i]);
+                    GameObject clothesItem = Managers.UI.MakeSubItem<UI_ClothesItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
+                    Utils.FindChild(clothesItem, "ClothesIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _clothesDatas[j].name;
+                    Utils.FindChild(clothesItem, "ClothesIcon", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Clothes/" + _clothesDatas[j].img);
+                    clothesItem.GetComponent<UI_ClothesItem>()._name = _clothesDatas[j].img;
+                    clothesItem.GetComponent<UI_ClothesItem>()._img = _clothesDatas[j].img;
+                    clothesItem.GetComponent<UI_ClothesItem>()._fullImg = _clothesDatas[j].bgImage;
+                    string[] fullImageName = _clothesDatas[j].img2.Split('\r');
+                    //clothesItem.GetComponent<UI_ClothesItem>()._fullImg = fullImageName[0];
+                    clothesItem.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
+                    clothesItem.GetOrAddComponent<UI_ClothesItem>()._description = _clothesDatas[j].explanation;
+                    clothesItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = clothesItem; OnClickClothesBtn(); });
+                }
             }
         }
     }
