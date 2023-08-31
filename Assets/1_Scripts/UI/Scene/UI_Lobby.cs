@@ -97,7 +97,8 @@ public class UI_Lobby : UI_Scene
         Managers.Sound.Clear();
         Managers.Sound.Play("LobbyBgm", Define.Sound.Bgm);
 
-        Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
+        if (PlayerPrefs.GetInt("DoTutorial") != 2)
+            Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
 
         return true;
     }
@@ -154,12 +155,6 @@ public class UI_Lobby : UI_Scene
         GetText((int)Texts.ExerciseBtnText).text = I18n.Get(I18nDefine.LOBBY_PRACTICE_GAME);
         GetText((int)Texts.UserBtnText).text = I18n.Get(I18nDefine.LOBBY_STUDENT_ID_CARD);
         GetText((int)Texts.PvpBroomstickBtnText).text = I18n.Get(I18nDefine.LOBBY_HELP_ON);
-    }
-
-    void showTutorial()
-    {
-        if (PlayerPrefs.GetInt("DoTutorial") != 2)
-            Managers.UI.ShowPopupUI<UI_TutorialPopup>();
     }
 
     void ButtonTextOnOff()

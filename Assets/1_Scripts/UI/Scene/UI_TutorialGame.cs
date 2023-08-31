@@ -118,7 +118,6 @@ public class UI_TutorialGame : UI_Scene
         // ì§??š°ê°? ë²„íŠ¼
         GetText((int)Texts.QuestionNumber_Text).text = "8";
 
-        PlayerPrefs.SetInt("DoTutorial", 2);
         ShowTutorialPopup();
         return true;
     }
