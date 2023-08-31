@@ -37,6 +37,11 @@ public class UI_SelectLanguage : UI_Popup
         BindImage(typeof(Images));
         BindText(typeof(Texts));
 
+        GetText((int)Texts.KoreaText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.grey;
+        GetText((int)Texts.EnglishText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.grey;
+        GetImage((int)Images.Korea).gameObject.GetComponent<Image>().color = Color.grey;
+        GetImage((int)Images.English).gameObject.GetComponent<Image>().color = Color.grey;
+
         GetText((int)Texts.NextText).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickedNextBtn(); });
         GetButton((int)Buttons.KoreanBtn).gameObject.BindEvent(OnClickedKorBtn);
         GetButton((int)Buttons.EnglishBtn).gameObject.BindEvent(OnClickedEnBtn);
@@ -63,10 +68,10 @@ public class UI_SelectLanguage : UI_Popup
     {
         LocalizationManager.Get().SetLanguage(Language.KOREAN);
 
-        GetText((int)Texts.KoreaText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.grey;
-        GetText((int)Texts.EnglishText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.white;
-        GetImage((int)Images.Korea).gameObject.GetComponent<Image>().color = Color.grey;
-        GetImage((int)Images.English).gameObject.GetComponent<Image>().color = Color.white;
+        GetText((int)Texts.KoreaText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.white;
+        GetText((int)Texts.EnglishText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.grey;
+        GetImage((int)Images.Korea).gameObject.GetComponent<Image>().color = Color.white;
+        GetImage((int)Images.English).gameObject.GetComponent<Image>().color = Color.grey;
         GetText((int)Texts.NextText).gameObject.SetActive(true);
         GetImage((int)Images.Image).gameObject.SetActive(true);
         Debug.Log("한글 버전 선택");
@@ -76,10 +81,10 @@ public class UI_SelectLanguage : UI_Popup
     {
         LocalizationManager.Get().SetLanguage(Language.ENGLISH);
 
-        GetText((int)Texts.KoreaText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.white;
-        GetText((int)Texts.EnglishText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.grey;
-        GetImage((int)Images.Korea).gameObject.GetComponent<Image>().color = Color.white;
-        GetImage((int)Images.English).gameObject.GetComponent<Image>().color = Color.grey;
+        GetText((int)Texts.KoreaText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.grey;
+        GetText((int)Texts.EnglishText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.white;
+        GetImage((int)Images.Korea).gameObject.GetComponent<Image>().color = Color.grey;
+        GetImage((int)Images.English).gameObject.GetComponent<Image>().color = Color.white;
         GetText((int)Texts.NextText).gameObject.SetActive(true);
         GetImage((int)Images.Image).gameObject.SetActive(true);
         Debug.Log("영어 버전 선택");

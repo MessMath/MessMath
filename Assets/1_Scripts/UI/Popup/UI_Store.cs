@@ -10,6 +10,7 @@ public class UI_Store : UI_Popup
     JsonReader jsonReader;
     List<StoreData> graceData = new List<StoreData>();
     List<StoreData> collectionData = new List<StoreData>();
+    List<StoreData> ClothesData = new List<StoreData>();
     GameObject content;
     Color unclickedColor = new Color32(217, 217, 217, 255);
     Color clickedColor = new Color32(241, 148, 148, 255);
@@ -81,11 +82,13 @@ public class UI_Store : UI_Popup
         {
             graceData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 1 + "_StoreGrace_KOR.json").storeDataList;
             collectionData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 2 + "_StoreCollection_KOR.json").storeDataList;
+            ClothesData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 5 + "_StoreClothes_KOR.json").storeDataList;
         }
         else
         {
             graceData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 7 + "_StoreGrace_EN.json").storeDataList;
             collectionData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 8 + "_StoreCollection_EN.json").storeDataList;
+            ClothesData = jsonReader.ReadStoreJson(Application.persistentDataPath + "/" + 11 + "_StoreClothes_EN.json").storeDataList; //StoreClothes_EN
         }
 
         OnClickedGraceBtn();
@@ -146,7 +149,7 @@ public class UI_Store : UI_Popup
         GetImage((int)Images.CollectionLightBar).gameObject.SetActive(false);
         GetImage((int)Images.ClothesLightBar).gameObject.SetActive(true);
 
-        for (int i = 0; i < collectionData.Count; i++)
+        for (int i = 0; i < ClothesData.Count; i++)
         {
             GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();

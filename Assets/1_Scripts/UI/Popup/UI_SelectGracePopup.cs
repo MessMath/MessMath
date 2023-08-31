@@ -54,7 +54,7 @@ public class UI_SelectGracePopup : UI_Popup
 
         GetText((int)Texts.TitleText).text = "";
         GetText((int)Texts.StartGameBtnText).text = I18n.Get(I18nDefine.GAME_START);
-        GetImage((int)Images.BG).gameObject.BindEvent(OnClosePopup);
+        GetImage((int)Images.BG).gameObject.BindEvent(() => { InventoryRefreshUI(); OnClosePopup(); });
         GetButton((int)Buttons.Cancel0Btn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickCancelBtn(0); });
         GetButton((int)Buttons.Cancel1Btn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickCancelBtn(1); });
         GetButton((int)Buttons.Cancel2Btn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickCancelBtn(2); });
@@ -184,6 +184,12 @@ public class UI_SelectGracePopup : UI_Popup
             else
                 GetButton(i).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Grace/EmptyGrace");
         }
+    }
+
+    public void InventoryRefreshUI()
+    {
+        if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup") != null)
+            Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup").GetComponent<UI_InventoryPopup>().Invoke("RefreshUI", 0);
     }
 
     void OnClosePopup()

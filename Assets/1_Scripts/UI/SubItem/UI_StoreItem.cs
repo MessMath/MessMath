@@ -53,7 +53,7 @@ public class UI_StoreItem : UI_Base
             return;
         UI_Purchase purchasePopup = Managers.UI.ShowPopupUI<UI_Purchase>();
         if (purchasePopup.Init()) 
-            purchasePopup.SetPopup(isGrace, _storeData.name, _storeData.explanation, _storeData.price, _storeData.img, _storeData.mode);
+            purchasePopup.SetPopup(isGrace, _storeData);
     }
 
     void CancelPurChase(string name)
@@ -66,6 +66,8 @@ public class UI_StoreItem : UI_Base
     {
         _storeData = storeData;
         img = Resources.Load("Sprites/Grace/" + _storeData.img, typeof(Sprite)) as Sprite;
+        if (_storeData.mode == "collection") img = Resources.Load("Sprites/Collections/" + _storeData.img, typeof(Sprite)) as Sprite;
+        if (_storeData.mode == "clothes") img = Resources.Load("Sprites/Clothes/" + _storeData.img, typeof(Sprite)) as Sprite;
         GetText((int)Texts.NameTMP).text = _storeData.name;
         GetImage((int)Images.ItemImage).sprite = img;
         SetModeImage(storeData);
@@ -95,15 +97,9 @@ public class UI_StoreItem : UI_Base
     public void SetModeImage(StoreData storeData)
     {
         _storeData = storeData;
-        if (_storeData.mode == "Both") 
-        {
-            GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_Both");
-        }
-        if (_storeData.mode == "Story") {
-            GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_Story");
-        }
-        if (_storeData.mode == "OneToOne") {
-            GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_OneToOne");
-        }
+        if (_storeData.mode == "Both") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_Both");
+        if (_storeData.mode == "Story") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_Story"); ;
+        if (_storeData.mode == "OneToOne") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_OneToOne");
+
     }
 }

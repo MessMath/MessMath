@@ -86,5 +86,10 @@
   "STORY_NEWTON": "Newton's room. You can't go in now.",
   "STORY_PYTHAGORAS": "Pythagoras's room. You can't go in now.",
   "STORY_GAUSS": "Gauss's room. You can't go in now.",
-  "STORY_DISCONNECT": "It led to the entrance to the principal's office just now, but it's not connected anywhere."
+  "STORY_DISCONNECT": "It led to the entrance to the principal's office just now, but it's not connected anywhere.",
+  // Collection
+  "COLLECTION_TITLE": "Collection",
+  // Clothes
+  "CLOTHES_TITLE": "Clothes",
+  "CLOTHES_SELECT": "Transform"
 }

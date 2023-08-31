@@ -62,13 +62,13 @@ public static class I18nDefine
     public const string Development = "Development";
     public const string Art = "Art";
     public const string Design = "Design";
-    public const string ¿ÀÇÕÁöÁ¹_´ëÀå_¼­ÇöÀç = "¿ÀÇÕÁöÁ¹_´ëÀå_¼­ÇöÀç";
-    public const string ¿ÀÇÕÁöÁ¹_¼­Àå_À±Áö¿¬ = "¿ÀÇÕÁöÁ¹_¼­Àå_À±Áö¿¬";
-    public const string ¿ÀÇÕÁöÁ¹_½ÉÀå_Á¤¼öÁø = "¿ÀÇÕÁöÁ¹_½ÉÀå_Á¤¼öÁø";
-    public const string ¿ÀÇÕÁöÁ¹_²¿Àå_¹èÁ¤ÈÆ = "¿ÀÇÕÁöÁ¹_²¿Àå_¹èÁ¤ÈÆ";
-    public const string ¿ÀÇÕÁöÁ¹_»õÀå_¼­¹Î¿µ = "¿ÀÇÕÁöÁ¹_»õÀå_¼­¹Î¿µ";
-    public const string ¾Æ¹«Æ°_Å©·¹µ÷ = "¾Æ¹«Æ°_Å©·¹µ÷";
-    public const string Team_¿ÀÇÕÁöÁ¹_Presents = "Team_¿ÀÇÕÁöÁ¹_Presents";
+    public const string ì˜¤í•©ì§€ì¡¸_ëŒ€ì¥_ì„œí˜„ì¬ = "ì˜¤í•©ì§€ì¡¸_ëŒ€ì¥_ì„œí˜„ì¬";
+    public const string ì˜¤í•©ì§€ì¡¸_ì„œì¥_ìœ¤ì§€ì—° = "ì˜¤í•©ì§€ì¡¸_ì„œì¥_ìœ¤ì§€ì—°";
+    public const string ì˜¤í•©ì§€ì¡¸_ì‹¬ì¥_ì •ìˆ˜ì§„ = "ì˜¤í•©ì§€ì¡¸_ì‹¬ì¥_ì •ìˆ˜ì§„";
+    public const string ì˜¤í•©ì§€ì¡¸_ê¼¬ì¥_ë°°ì •í›ˆ = "ì˜¤í•©ì§€ì¡¸_ê¼¬ì¥_ë°°ì •í›ˆ";
+    public const string ì˜¤í•©ì§€ì¡¸_ìƒˆì¥_ì„œë¯¼ì˜ = "ì˜¤í•©ì§€ì¡¸_ìƒˆì¥_ì„œë¯¼ì˜";
+    public const string ì•„ë¬´íŠ¼_í¬ë ˆë”§ = "ì•„ë¬´íŠ¼_í¬ë ˆë”§";
+    public const string Team_ì˜¤í•©ì§€ì¡¸_Presents = "Team_ì˜¤í•©ì§€ì¡¸_Presents";
     public const string BackToLobby = "BackToLobby";
     // Get Nickname
     public const string GET_NICKNAME = "GET_NICKNAME";
@@ -90,4 +90,9 @@ public static class I18nDefine
     public const string STORY_PYTHAGORAS = "STORY_PYTHAGORAS";
     public const string STORY_GAUSS = "STORY_GAUSS";
     public const string STORY_DISCONNECT = "STORY_DISCONNECT";
+    // Collection
+    public const string COLLECTION_TITLE = "COLLECTION_TITLE";
+    // Clothes
+    public const string CLOTHES_TITLE = "CLOTHES_TITLE";
+    public const string CLOTHES_SELECT = "CLOTHES_SELECT";
 }

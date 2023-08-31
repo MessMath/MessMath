@@ -86,5 +86,10 @@
   "STORY_NEWTON": "뉴턴의 방. 지금은 들어갈 수 없습니다.",
   "STORY_PYTHAGORAS": "피타고라스의 방. 지금은 들어갈 수 없습니다.",
   "STORY_GAUSS": "가우스의 방. 지금은 들어갈 수 없습니다.",
-  "STORY_DISCONNECT": "방금까진 교장실 입구로 이어졌지만 지금은 어디에도 연결되어 있지 않습니다."
+  "STORY_DISCONNECT": "방금까진 교장실 입구로 이어졌지만 지금은 어디에도 연결되어 있지 않습니다.",
+  // Collection
+  "COLLECTION_TITLE": "수집품",
+  // Clothes
+  "CLOTHES_TITLE": "의상",
+  "CLOTHES_SELECT": "변신"
 }

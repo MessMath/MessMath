@@ -13,7 +13,7 @@ public class WitchController : MonoBehaviour
     public Image HpBar;
     public int QuestionNumber;
     public TextMeshProUGUI QuestionNumberText;
-    Color color;
+    Color32 color;
 
     private void Awake()
     {
@@ -29,21 +29,19 @@ public class WitchController : MonoBehaviour
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.15f);
         int countTime = 0;
 
-        Color prevColor = witchImg.color;
-
         while (countTime < 10)
         {
             if (countTime % 2 == 0)
-                witchImg.color = new Color32(prevColor.ConvertTo<Color32>().r, prevColor.ConvertTo<Color32>().g, prevColor.ConvertTo<Color32>().b, 90);
+                witchImg.color = new Color32(color.r, color.g, color.b, 90);
             else
-                witchImg.color = new Color32(prevColor.ConvertTo<Color32>().r, prevColor.ConvertTo<Color32>().g, prevColor.ConvertTo<Color32>().b, 180);
+                witchImg.color = new Color32(color.r, color.g, color.b, 180);
 
             yield return waitForSeconds;
 
             countTime++;
         }
 
-        witchImg.color = prevColor;
+        witchImg.color = color;
         yield return null;
     }
 

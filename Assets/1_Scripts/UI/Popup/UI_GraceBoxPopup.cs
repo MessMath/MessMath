@@ -106,7 +106,7 @@ public class UI_GraceBoxPopup : UI_Popup
         // TODO Add Item as User Data
         for (int i = 0; i < _graceDatas.Count; i++)
         {
-            if (PlayerPrefs.HasKey(_graceDatas[i].img) && PlayerPrefs.GetString(_graceDatas[i].img) != "")
+            if ((PlayerPrefs.HasKey(_graceDatas[i].img) && PlayerPrefs.GetString(_graceDatas[i].img) != "") && (_graceDatas[i].mode == "OneToOne" || _graceDatas[i].mode == "Both"))
             {
                 GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
                 Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
@@ -135,7 +135,7 @@ public class UI_GraceBoxPopup : UI_Popup
         // TODO Add Item as User Data
         for (int i = 0; i < _graceDatas.Count; i++)
         {
-            if (PlayerPrefs.HasKey(_graceDatas[i].img) && PlayerPrefs.GetString(_graceDatas[i].img) != "")
+            if ((PlayerPrefs.HasKey(_graceDatas[i].img) && PlayerPrefs.GetString(_graceDatas[i].img) != "") && (_graceDatas[i].mode == "Story" || _graceDatas[i].mode == "Both"))
             {
                 GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
                 Utils.FindChild(graceItem, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _graceDatas[i].name;
@@ -169,32 +169,19 @@ public class UI_GraceBoxPopup : UI_Popup
         GetImage((int)Images.SelectedGraceImage).gameObject.SetActive(true);
 
         GetImage((int)Images.SelectedGraceBGImage).sprite = Resources.Load<Sprite>("Sprites/MathMtcInFight1vs1/" + selectedObject.GetComponent<UI_GraceItem>().BgImage);
-        #region 폰노이만 크기 예외
-        // 아니 폰노이만 크기가 이상해서 이거만 예외처리 해야 돼 => 말 안됨.
-        // 이렇게 하드코딩하는거 잘못된거 아는데 어떻게 할 지 모르겠으니까 하드코딩해야징
-        if (selectedObject.GetComponent<UI_GraceItem>().FullImage == "NeumannImage")
-        {
-            GetImage((int)Images.SelectedGraceImage).transform.localPosition = new Vector3(-1708.3f, 426.69f, 0);
-            Debug.Log(GetImage((int)Images.SelectedGraceImage).transform.localPosition);
-            GetImage((int)Images.SelectedGraceImage).rectTransform.sizeDelta = new Vector2(509.8f, 944.08f);
-        }
-        else if (selectedObject.GetComponent<UI_GraceItem>().FullImage != "NeumannImage")
-        {
-            GetImage((int)Images.SelectedGraceImage).transform.localPosition = new Vector3(-1964.95f, 426.69f, 0);
-            Debug.Log(GetImage((int)Images.SelectedGraceImage).transform.localPosition);
-            GetImage((int)Images.SelectedGraceImage).rectTransform.sizeDelta = new Vector2(956.02f, 818.46f);
-        }
-        #endregion
         GetImage((int)Images.SelectedGraceImage).sprite = Resources.Load<Sprite>("Sprites/MathMtcInFight1vs1/" + selectedObject.GetComponent<UI_GraceItem>().FullImage);
         GetText((int)Texts.SelectedGraceText).text = Utils.FindChild(selectedObject, "GraceIconText", true).GetOrAddComponent<TextMeshProUGUI>().text;
         //GetText((int)Texts.SelectedGraceDescription).text = selectedObject.GetOrAddComponent<UI_GraceItem>()._description;
         Managers.TextEffect.ApplyTextEffect(selectedObject.GetOrAddComponent<UI_GraceItem>()._description, GetText((int)Texts.SelectedGraceDescription), 60);
-
     }
 
     void OnClickSelectBtn()
     {
         if (selectedObject == null) { OnClosePopup(); return; }
+
+        // 인벤토리 팝업이라면 RefreshUI
+        if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup") != null)
+            Utils.FindChild(gameObject.transform.parent.gameObject, "UI_InventoryPopup").GetComponent<UI_InventoryPopup>().Invoke("RefreshUI", 0);
 
         if (_state == State.OneToOne)
         {
@@ -210,7 +197,7 @@ public class UI_GraceBoxPopup : UI_Popup
             if (Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup") != null)
                 Utils.FindChild(gameObject.transform.parent.gameObject, "UI_SelectGracePopup").GetComponent<UI_SelectGracePopup>().Invoke("StoryModeRefreshUI", 0);
         }
-
+        
         // Sound
         // TODO ClosePopupSound
         Managers.Sound.Play("ClickBtnEff");
