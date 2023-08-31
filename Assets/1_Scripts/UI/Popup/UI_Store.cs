@@ -114,7 +114,7 @@ public class UI_Store : UI_Popup
             item.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
             if (storeItem.Init())
-                storeItem.SetInfo(true, graceData[i]);
+                storeItem.SetInfo(graceData[i]);
         }
     }
 
@@ -134,7 +134,7 @@ public class UI_Store : UI_Popup
             GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
             if (storeItem.Init())
-                storeItem.SetInfo(false, collectionData[i]);
+                storeItem.SetInfo(collectionData[i]);
         }
     }
 
@@ -154,7 +154,7 @@ public class UI_Store : UI_Popup
             GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
             if (storeItem.Init())
-                storeItem.SetInfo(false, ClothesData[i]);
+                storeItem.SetInfo(ClothesData[i]);
         }
     }
 

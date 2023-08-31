@@ -9,7 +9,7 @@ using MessMathI18n;
 public class UI_StoreItem : UI_Base
 {
     Sprite img;
-    StoreData _storeData;
+    public StoreData _storeData;
     enum GameObjects
     {
         Have,
@@ -47,13 +47,13 @@ public class UI_StoreItem : UI_Base
 
     }
 
-    void OnClickBtn(bool isGrace)
+    void OnClickBtn()
     {
         if (PlayerPrefs.HasKey(_storeData.img))
             return;
         UI_Purchase purchasePopup = Managers.UI.ShowPopupUI<UI_Purchase>();
         if (purchasePopup.Init())
-            purchasePopup.SetPopup(isGrace, _storeData);
+            purchasePopup.SetPopup(_storeData);
     }
 
     void CancelPurChase(string name)
@@ -62,7 +62,7 @@ public class UI_StoreItem : UI_Base
         //GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(OnClickBtn);
     }
 
-    public void SetInfo(bool isGrace, StoreData storeData)
+    public void SetInfo(StoreData storeData)
     {
         _storeData = storeData;
         img = Resources.Load("Sprites/Grace/" + _storeData.img, typeof(Sprite)) as Sprite;
@@ -82,14 +82,7 @@ public class UI_StoreItem : UI_Base
         {
             GetObject((int)GameObjects.Have).SetActive(false);
             GetText((int)Texts.PriceTMP).text = _storeData.price.ToString();
-            if (isGrace)
-            {
-                GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(() => OnClickBtn(true));
-            }
-            else
-            {
-                GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(() => OnClickBtn(false));
-            }
+            GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(() => OnClickBtn());
 
         }
     }
