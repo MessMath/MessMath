@@ -44,15 +44,15 @@ public class UI_StoreItem : UI_Base
     }
     void Update()
     {
-        //SetInfo(_storeData);
+
     }
 
     void OnClickBtn(bool isGrace)
     {
-        if (PlayerPrefs.HasKey(_storeData.img)) 
+        if (PlayerPrefs.HasKey(_storeData.img))
             return;
         UI_Purchase purchasePopup = Managers.UI.ShowPopupUI<UI_Purchase>();
-        if (purchasePopup.Init()) 
+        if (purchasePopup.Init())
             purchasePopup.SetPopup(isGrace, _storeData);
     }
 
@@ -71,7 +71,7 @@ public class UI_StoreItem : UI_Base
         GetText((int)Texts.NameTMP).text = _storeData.name;
         GetImage((int)Images.ItemImage).sprite = img;
         SetModeImage(storeData);
-        if (PlayerPrefs.HasKey(_storeData.img))
+        if (IsHave(storeData))
         {
             GetObject((int)GameObjects.Have).SetActive(true);
             GetText((int)Texts.HaveTMP).text = I18n.Get(I18nDefine.STORE_PURCHASED);
@@ -82,16 +82,39 @@ public class UI_StoreItem : UI_Base
         {
             GetObject((int)GameObjects.Have).SetActive(false);
             GetText((int)Texts.PriceTMP).text = _storeData.price.ToString();
-            if(isGrace)
+            if (isGrace)
             {
-                GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(()=>OnClickBtn(true));
+                GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(() => OnClickBtn(true));
             }
             else
             {
-                GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(()=>OnClickBtn(false));
+                GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(() => OnClickBtn(false));
             }
-            
+
         }
+    }
+
+    public bool IsHave(StoreData storeData)
+    {
+        if (storeData.mode == "clothes" && Managers.UserMng.GetObtainedClothes() != null)
+            for (int i = 0; i < Managers.UserMng.GetObtainedClothes().Count - 1; i++)
+            {
+                if (Managers.UserMng.GetObtainedClothes()[i] == storeData.img) return true;
+            }
+
+        if (storeData.mode == "collection" && Managers.UserMng.GetObtainedCollections() != null)
+            for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count - 1; i++)
+            {
+                if (Managers.UserMng.GetObtainedCollections()[i] == storeData.img) return true;
+            }
+
+        if (Managers.UserMng.GetObtainedGraces() != null)
+            for (int i = 0; i < Managers.UserMng.GetObtainedGraces().Count - 1; i++)
+            {
+                if (Managers.UserMng.GetObtainedGraces()[i] == storeData.img) return true;
+            }
+
+        return false;
     }
 
     public void SetModeImage(StoreData storeData)
