@@ -7,9 +7,7 @@ public class CoinManager
 {
     public int GetCoin()
     {
-        if (PlayerPrefs.HasKey("Coin"))
-            return PlayerPrefs.GetInt("Coin");
-        else { PlayerPrefs.SetInt("Coin", 0); return PlayerPrefs.GetInt("Coin"); }
+        return Managers.UserMng.GetCoin();
     }
 
     public bool CheckPurchase(int price)
@@ -27,7 +25,7 @@ public class CoinManager
 
     public void Purchase(int price)
     {
-        PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") - price);
-        if (GetCoin() <= 0) PlayerPrefs.SetInt("Coin", 0);
+        Managers.DBManager.SetCoin(GetCoin() - price);
+        if (GetCoin() <= 0) Managers.DBManager.SetCoin(0);
     }
 }
