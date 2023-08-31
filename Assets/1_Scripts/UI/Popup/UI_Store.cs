@@ -114,7 +114,7 @@ public class UI_Store : UI_Popup
             item.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); });
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
             if (storeItem.Init())
-                storeItem.SetInfo(true, graceData[i]);
+                storeItem.SetInfo(graceData[i]);
         }
     }
 
@@ -134,7 +134,7 @@ public class UI_Store : UI_Popup
             GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
             if (storeItem.Init())
-                storeItem.SetInfo(false, collectionData[i]);
+                storeItem.SetInfo(collectionData[i]);
         }
     }
 
@@ -154,15 +154,13 @@ public class UI_Store : UI_Popup
             GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
             if (storeItem.Init())
-                storeItem.SetInfo(false, ClothesData[i]);
+                storeItem.SetInfo(ClothesData[i]);
         }
     }
 
     public void SetCoinText()
     {
-        if (PlayerPrefs.HasKey("Coin"))
-            GetText((int)Texts.CoinTMP).text = PlayerPrefs.GetInt("Coin").ToString();
-        else { PlayerPrefs.SetInt("Coin", 0); GetText((int)Texts.CoinTMP).text = PlayerPrefs.GetInt("Coin").ToString(); }
+        GetText((int)Texts.CoinTMP).text = Managers.UserMng.GetCoin().ToString();
     }
 }
 

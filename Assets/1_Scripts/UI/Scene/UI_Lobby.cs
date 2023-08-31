@@ -79,7 +79,7 @@ public class UI_Lobby : UI_Scene
 
         RefreshUI();
 
-        if (PlayerPrefs.HasKey("WatchedStory") && PlayerPrefs.GetInt("WatchedStory") == -2)
+        if (Managers.UserMng.user.isCompletedStory == true)
         {
             GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() =>
             {
@@ -97,7 +97,7 @@ public class UI_Lobby : UI_Scene
         Managers.Sound.Clear();
         Managers.Sound.Play("LobbyBgm", Define.Sound.Bgm);
 
-        if (PlayerPrefs.GetInt("DoTutorial") != 2)
+        if (Managers.UserMng.user.isCompletedTutorial == false)
             Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
 
         return true;
@@ -156,8 +156,8 @@ public class UI_Lobby : UI_Scene
         GetText((int)Texts.UserBtnText).text = I18n.Get(I18nDefine.LOBBY_STUDENT_ID_CARD);
         GetText((int)Texts.PvpBroomstickBtnText).text = I18n.Get(I18nDefine.LOBBY_HELP_ON);
 
-        if (PlayerPrefs.HasKey("WearClothes"))
-            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + (PlayerPrefs.GetString("WearClothes")));
+        if (Managers.UserMng.user.myClothes != "")
+            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.user.myClothes);
         else
             GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/lobby_Character");
 

@@ -49,6 +49,8 @@ public class UI_CollectionBoxPopup : UI_Popup
         BindButton(typeof(Buttons));
         BindImage(typeof(Images));
 
+        GetImage((int)Images.SelectedCollectionImage).gameObject.SetActive(false);
+
         _jsonReader = new JsonReader();
 
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
