@@ -44,13 +44,13 @@ public class UI_InventoryPopup : UI_Popup
     void CostumeBtn()
     {
         Managers.Sound.Play("ClickBtnEff");
-        Debug.Log("On Click CostumeBtn");
+        Managers.UI.ShowPopupUI<UI_ClothesBoxPopup>();
     }
 
     void CollectionBtn()
     {
         Managers.Sound.Play("ClickBtnEff");
-        Debug.Log("On Click On Click CollectionBtn");
+        Managers.UI.ShowPopupUI<UI_CollectionBoxPopup>();
     }
 
     public void ExitBtn()

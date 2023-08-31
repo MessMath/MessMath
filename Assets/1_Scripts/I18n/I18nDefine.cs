@@ -72,4 +72,8 @@ public static class I18nDefine
     public const string INFO_SAVE = "INFO_SAVE";
     public const string INFO_TEXT = "INFO_TEXT";
     public const string INFO_PROFILE = "INFO_PROFILE";
+    // Collection
+    public const string COLLECTION_TITLE = "COLLECTION_TITLE";
+    // Clothes
+    public const string CLOTHES_TITLE = "CLOTHES_TITLE";
 }

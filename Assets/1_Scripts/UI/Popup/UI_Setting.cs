@@ -80,7 +80,7 @@ public class UI_Setting : UI_Popup
         LocalizationManager.Get().SetLanguage(Language.KOREAN);
         if (Managers.Scene.CurrentSceneType == Define.Scene.LobbyScene)
         {
-            GameObject.Find("UI_Lobby").GetOrAddComponent<UI_Lobby>().ReFreshUIText();
+            GameObject.Find("UI_Lobby").GetOrAddComponent<UI_Lobby>().RefreshUI();
         }
     }
 
@@ -91,7 +91,7 @@ public class UI_Setting : UI_Popup
         LocalizationManager.Get().SetLanguage(Language.ENGLISH);
         if (Managers.Scene.CurrentSceneType == Define.Scene.LobbyScene)
         {
-            GameObject.Find("UI_Lobby").GetOrAddComponent<UI_Lobby>().ReFreshUIText();
+            GameObject.Find("UI_Lobby").GetOrAddComponent<UI_Lobby>().RefreshUI();
         }
     }
 }

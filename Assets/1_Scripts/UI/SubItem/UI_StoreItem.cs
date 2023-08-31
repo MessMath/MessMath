@@ -48,7 +48,7 @@ public class UI_StoreItem : UI_Base
     {
         if (PlayerPrefs.HasKey(_storeData.img)) return;
         UI_Purchase purchasePopup = Managers.UI.ShowPopupUI<UI_Purchase>();
-        if (purchasePopup.Init()) purchasePopup.SetPopup(_storeData.name, _storeData.explanation, _storeData.price, _storeData.img);
+        if (purchasePopup.Init()) purchasePopup.SetPopup(_storeData);
         //GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(()=>CancelPurChase(_storeData.img));
     }
 
@@ -62,6 +62,8 @@ public class UI_StoreItem : UI_Base
     {
         _storeData = storeData;
         img = Resources.Load("Sprites/Grace/" + _storeData.img, typeof(Sprite)) as Sprite;
+        if (_storeData.mode == "collection") img = Resources.Load("Sprites/Collections/" + _storeData.img, typeof(Sprite)) as Sprite;
+        if (_storeData.mode == "clothes") img = Resources.Load("Sprites/Clothes/" + _storeData.img, typeof(Sprite)) as Sprite;
         GetText((int)Texts.NameTMP).text = _storeData.name;
         GetImage((int)Images.ItemImage).sprite = img;
         SetModeImage(storeData);
@@ -85,6 +87,6 @@ public class UI_StoreItem : UI_Base
         if (_storeData.mode == "Both") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_Both");
         if (_storeData.mode == "Story") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_Story"); ;
         if (_storeData.mode == "OneToOne") GetImage((int)Images.ModeImage).sprite = Resources.Load<Sprite>("Sprites/UI/StoreUI/Mode_OneToOne");
-
+        else GetImage((int)Images.ModeImage).gameObject.SetActive(false);
     }
 }

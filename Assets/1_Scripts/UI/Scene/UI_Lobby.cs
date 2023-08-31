@@ -77,7 +77,7 @@ public class UI_Lobby : UI_Scene
         GetButton((int)Buttons.PvpBtn).gameObject.BindEvent(() => { CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Pvp()); });
         GetButton((int)Buttons.PvpBroomstickBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ButtonTextOnOff(); });
 
-        ReFreshUIText();
+        RefreshUI();
 
         if (PlayerPrefs.HasKey("WatchedStory") && PlayerPrefs.GetInt("WatchedStory") == -2)
         {
@@ -143,7 +143,7 @@ public class UI_Lobby : UI_Scene
     }
     #endregion
 
-    public void ReFreshUIText()
+    public void RefreshUI()
     {
         GetText((int)Texts.SettingBtnText).text = I18n.Get(I18nDefine.LOBBY_SETTING);
         GetText((int)Texts.StoryModeBtnText).text = I18n.Get(I18nDefine.LOBBY_STORY_GAME);
@@ -154,6 +154,13 @@ public class UI_Lobby : UI_Scene
         GetText((int)Texts.ExerciseBtnText).text = I18n.Get(I18nDefine.LOBBY_PRACTICE_GAME);
         GetText((int)Texts.UserBtnText).text = I18n.Get(I18nDefine.LOBBY_STUDENT_ID_CARD);
         GetText((int)Texts.PvpBroomstickBtnText).text = I18n.Get(I18nDefine.LOBBY_HELP_ON);
+
+        if (PlayerPrefs.HasKey("WearClothes"))
+            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + (PlayerPrefs.GetString("WearClothes")));
+        else
+            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/lobby_Character");
+
+        Debug.Log("UI_Lobby RefreshUI");
     }
 
     void showTutorial()
