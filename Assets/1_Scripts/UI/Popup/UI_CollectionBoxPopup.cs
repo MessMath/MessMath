@@ -87,11 +87,12 @@ public class UI_CollectionBoxPopup : UI_Popup
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        // TODO Add Item as User Data
-        for (int i = 0; i < _collectionDatas.Count; i++)
+        for (int obtainedCollectiondIdx = 0; obtainedCollectiondIdx < Managers.UserMng.GetObtainedGraces().Count - 1; obtainedCollectiondIdx++)
         {
-            if (PlayerPrefs.HasKey(_collectionDatas[i].img) && PlayerPrefs.GetString(_collectionDatas[i].img) != "")
+            for (int i = 0; i < _collectionDatas.Count; i++)
             {
+                if (Managers.UserMng.GetObtainedCollections()[obtainedCollectiondIdx] != _collectionDatas[i].img) continue;
+
                 GameObject collectionItem = Managers.UI.MakeSubItem<UI_CollectionItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
                 Utils.FindChild(collectionItem, "CollectionIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _collectionDatas[i].name;
                 Utils.FindChild(collectionItem, "CollectionIcon", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Collections/" + _collectionDatas[i].img);
