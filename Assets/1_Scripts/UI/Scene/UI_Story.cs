@@ -237,7 +237,7 @@ public class UI_Story : UI_Scene
         Managers.TextEffect.SetNormalSpeed();
         Managers.TextEffect.Typing(storyTalkData[count].dialogue, GetText((int)Texts.DialogueTMP));
         replayPopup.SetActive(true);
-        replayPopup.GetComponent<UI_ReplayStory>().AddReplayStory(storyTalkData[count].characterName, storyTalkData[count].dialogue, storyTalkData[count].expression);
+        replayPopup.GetComponent<UI_ReplayStory>().AddReplayStory(storyTalkData[count].characterName, storyTalkData[count].dialogue);
         replayPopup.SetActive(false);
 
         // Sound

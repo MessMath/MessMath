@@ -36,7 +36,7 @@ public class UI_ReplayStory : UI_Popup
         return true;
     }
 
-    public void AddReplayStory(string characterName, string dialogue, string expression)
+    public void AddReplayStory(string characterName, string dialogue)
     {
         if(!Init()) Init();
         // 발화자에따른 Area생성, 대사랑 발화장 넘겨주기
@@ -48,9 +48,9 @@ public class UI_ReplayStory : UI_Popup
             {
                 GameObject item = Managers.UI.MakeSubItem<UI_Area>(GetObject((int)GameObjects.Content).transform, "PlayerArea").gameObject; 
                 UI_Area area = item.GetOrAddComponent<UI_Area>();
-                picture = "Sprites/Story/Characters/Expression";
+                picture = "Sprites/Character/Profile/profile_player";
                 if(area.Init()) 
-                area.SetArea(Managers.UserMng.GetNickname(), dialogue, picture, expression);
+                area.SetArea(Managers.UserMng.GetNickname(), dialogue, picture);
                 Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
                 break;
             }
@@ -59,9 +59,9 @@ public class UI_ReplayStory : UI_Popup
             {
                 GameObject item = Managers.UI.MakeSubItem<UI_Area>(GetObject((int)GameObjects.Content).transform, "OpponentArea").gameObject; 
                 UI_Area area = item.GetOrAddComponent<UI_Area>();
-                picture = "Sprites/Story/Characters/gaus";
+                picture = "Sprites/Story/Characters/gauss";
                 if(area.Init()) 
-                area.SetArea(characterName, dialogue, picture, expression);
+                area.SetArea(characterName, dialogue, picture);
                 Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
                 break;
             }
@@ -70,9 +70,9 @@ public class UI_ReplayStory : UI_Popup
             {
                 GameObject item = Managers.UI.MakeSubItem<UI_Area>(GetObject((int)GameObjects.Content).transform, "OpponentArea").gameObject; 
                 UI_Area area = item.GetOrAddComponent<UI_Area>();
-                picture = "Sprites/Story/Characters/teacher";
+                picture = "Sprites/Character/Profile/profile_pricipal";
                 if(area.Init()) 
-                area.SetArea(characterName, dialogue, picture, expression);
+                area.SetArea(characterName, dialogue, picture);
                 Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
                 break;
             }
@@ -81,7 +81,7 @@ public class UI_ReplayStory : UI_Popup
                 GameObject item = Managers.UI.MakeSubItem<UI_Area>(GetObject((int)GameObjects.Content).transform, "PositionArea").gameObject; 
                 UI_Area area = item.GetOrAddComponent<UI_Area>();
                 if(area.Init()) 
-                area.SetArea(characterName, dialogue, picture, expression);
+                area.SetArea(characterName, dialogue, picture);
                 Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
                 break;
             }
