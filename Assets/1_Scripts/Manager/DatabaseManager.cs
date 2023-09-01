@@ -19,8 +19,7 @@ public class DatabaseManager : MonoBehaviour
     public void CreateNewUser(string nickname)
     {
         Debug.Log("CreateNewUser");
-        //WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, false, false, false, nickname);
-        WriteNewUser(nickname, 0, 0, null, false, false, false, false, nickname);
+        WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, null, false, false, false, false, nickname);
         Managers.DBManager.SetCoin(10000);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedClothes").SetValueAsync("");
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("inventory").Child("obtainedGraces").SetValueAsync("");
