@@ -27,8 +27,8 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
     bool isSet = false;
     Vector3 curPos;
 
-    Color oppsColor = new Color(1f, 0.6f, 0.6f);
-    Color myColor = new Color(0.6f, 0.6f, 1f);
+    Color oppsColor = new Color(0.6f, 0.6f, 1f);
+    Color myColor = new Color(1f, 0.6f, 0.6f);
 
     // 추가된 변수
     private Vector3 predictedPosition;

@@ -28,10 +28,21 @@ public class UI_PvpGameResult_Win : UI_Popup
         Win1,
         Players_Illust,
         Opps_Illust,
+        OppsTier,
+    }
+
+    public enum GameObjects
+    {
+        MyResult,
+        OppsResult,
     }
 
     public Player OppPlayer;
     public string OppPlayersName;
+    public int OppPlayersScore;
+    public string OppPlayersCloth;
+
+    public int IncreasingScore = 15;
 
     public override bool Init()
     {
@@ -41,6 +52,7 @@ public class UI_PvpGameResult_Win : UI_Popup
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
         BindImage(typeof(Images));
+        BindObject(typeof(GameObjects));
 
         GetButton((int)Buttons.ReMatchBtn).gameObject.BindEvent(ReMatch);
         GetButton((int)Buttons.BackToLobbyBtn).gameObject.BindEvent(ToLobby);
@@ -55,19 +67,27 @@ public class UI_PvpGameResult_Win : UI_Popup
 
         Managers.Sound.Play("ClearEff");
 
-        Debug.Log($"<color=yellow> MyNickname : {Managers.UserMng.GetNickname()} </color>");
-        Debug.Log($"<color=yellow> OppsNickname : {OppPlayersName} </color>");
-
         // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
         // 상대방 닉네임 가져오기 (DB를 참조해서)
         GetText((int)Texts.OppsNickname).text = OppPlayersName;
 
+        // 상대방의 Score (Tier)
+        GetImage((int)Images.OppsTier).sprite = Managers.Resource.Load<Sprite>("Sprites/Tier/T" + ((OppPlayersScore / 100) + 1).ToString());
+        // 상대방의 옷
+        GetImage((int)Images.Opps_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + OppPlayersCloth + "_full");
+        // 상대방의 하트갯수
+        CopyAllChildren(GameObject.Find("OppsScores"), GetObject((int)GameObjects.OppsResult));
+
+        // 나의 Score
         ChangeScore();
+        // 나의 옷
+        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes() + "_full");
+        // 나의 하트갯수
+        CopyAllChildren(GameObject.Find("MyScores"), GetObject((int)GameObjects.MyResult));
 
         Exit();
 
-        Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
 
         return true;
@@ -114,6 +134,10 @@ public class UI_PvpGameResult_Win : UI_Popup
 
     IEnumerator CountUp(float target, float current, TextMeshProUGUI tmp)
     {
+        tmp.text = ((int)current).ToString();
+
+        yield return new WaitForSeconds(1f);
+
         float duration = 3f; // 카운팅에 걸리는 시간 설정. 
         float offset = (target - current) / duration;
 
@@ -132,10 +156,25 @@ public class UI_PvpGameResult_Win : UI_Popup
     {
         // 점수 등락
         int curScore = Managers.UserMng.GetScore();
-        Managers.UserMng.SetUserScore(curScore + 100);
+
+        if ((curScore / 100) < (OppPlayersScore / 100))
+            IncreasingScore += 10;
+
+        Managers.DBManager.SetScore(curScore + IncreasingScore);
 
         // 점수 등락 시각적으로 표현
-        StartCoroutine(CountUp(curScore + 100, curScore, GetText((int)Texts.MyScore)));
+        StartCoroutine(CountUp(curScore + IncreasingScore, curScore, GetText((int)Texts.MyScore)));
+    }
+
+    public void CopyAllChildren(GameObject sourceObject, GameObject targetObject)
+    {
+        int childCount = sourceObject.transform.childCount;
+
+        for (int i = 0; i < childCount; i++)
+        {
+            Transform child = sourceObject.transform.GetChild(i);
+            GameObject copiedChild = Instantiate(child.gameObject, targetObject.transform);
+        }
     }
 
 }
