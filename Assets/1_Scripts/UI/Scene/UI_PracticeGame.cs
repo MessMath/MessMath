@@ -75,9 +75,7 @@ public class UI_PracticeGame : UI_Scene
         BindImage(typeof(Images));
 
         #region Set Coin
-        if (PlayerPrefs.HasKey("Coin"))
-            GetText((int)Texts.CoinCount).text = PlayerPrefs.GetInt("Coin").ToString();
-        else { PlayerPrefs.SetInt("Coin", 0); GetText((int)Texts.CoinCount).text = PlayerPrefs.GetInt("Coin").ToString(); }
+        GetText((int)Texts.CoinCount).text = Managers.UserMng.GetCoin().ToString();
         #endregion
 
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(OnClickSettingBtn);

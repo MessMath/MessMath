@@ -103,6 +103,8 @@ public class UI_GraceBoxPopup : UI_Popup
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
+        if (Managers.UserMng.GetObtainedGraces() == null) return;
+
         for (int i = 0; i < Managers.UserMng.GetObtainedGraces().Count - 1; i++)
         {
             for (int j = 0; j < _graceDatas.Count; j++)
@@ -135,6 +137,8 @@ public class UI_GraceBoxPopup : UI_Popup
         Transform parent = GetObject((int)GameObjects.Content).gameObject.transform;
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
+
+        if (Managers.UserMng.GetObtainedGraces() == null) return;
 
         for (int obtainedGracedIdx = 0; obtainedGracedIdx < Managers.UserMng.GetObtainedGraces().Count - 1; obtainedGracedIdx++)
         {

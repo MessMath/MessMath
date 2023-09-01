@@ -101,6 +101,10 @@ public class UI_InventoryPopup : UI_Popup
     public void ReplayStoryBtn()
     {
         Managers.Sound.Play("ClickBtnEff");
-        Managers.Scene.ChangeScene(Define.Scene.StoryScene);
+
+        if (Managers.UserMng.GetIsCompletedTutorial() && Managers.UserMng.GetIsKilledWitch())
+            Managers.Scene.ChangeScene(Define.Scene.EpilogueScene);
+        else
+            Managers.Scene.ChangeScene(Define.Scene.StoryScene);
     }
 }
