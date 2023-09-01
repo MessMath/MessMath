@@ -23,6 +23,7 @@ public class UI_LobbyTutorial : UI_Popup
         PlayerImage,
         CharacterImage,
         CharacterBG,
+        FadeImage,
     }
     enum Buttons
     {
