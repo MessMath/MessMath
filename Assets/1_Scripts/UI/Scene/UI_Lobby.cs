@@ -11,6 +11,7 @@ public class UI_Lobby : UI_Scene
     {
         BG,
         UserImage,
+        UserBtnImage,
     }
 
     enum Buttons
@@ -68,7 +69,7 @@ public class UI_Lobby : UI_Scene
         #endregion
 
         #region ¿¬µ¿
-        GetImage((int)Images.UserImage).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Info>(); });
+        GetImage((int)Images.UserBtnImage).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Info>(); });
         GetButton((int)Buttons.ExerciseBtn).gameObject.BindEvent(() => { CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_PracticeGameScene()); });
         GetButton((int)Buttons.StoreBtn).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_Store>(); });
         GetButton((int)Buttons.InventoryBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_InventoryPopup>(); });
@@ -157,9 +158,9 @@ public class UI_Lobby : UI_Scene
         GetText((int)Texts.PvpBroomstickBtnText).text = I18n.Get(I18nDefine.LOBBY_HELP_ON);
 
         if (Managers.UserMng.user.myClothes != "")
-            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.user.myClothes);
+            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.user.myClothes + "_full" );
         else
-            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/lobby_Character");
+            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/uniform_full");
 
         Debug.Log("UI_Lobby RefreshUI");
     }

@@ -46,9 +46,9 @@ public class UI_InventoryPopup : UI_Popup
     {
         // 인벤토리 팝업 의상
         if (Managers.UserMng.GetMyClothes() != "")
-            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes());
+            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes() + "_full");
         else
-            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/lobby_Character");
+            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/uniform_full");
 
         // 스토리모드 가호 이미지
         if ((PlayerPrefs.GetString($"SelectedGrace0InStory") != "") || (PlayerPrefs.GetString($"SelectedGrace1InStory") != "") || (PlayerPrefs.GetString($"SelectedGrace2InStory") != ""))
