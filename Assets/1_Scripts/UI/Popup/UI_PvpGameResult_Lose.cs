@@ -68,6 +68,8 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
         ChangeScore();
 
+        Exit();
+
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
 

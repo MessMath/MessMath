@@ -14,6 +14,7 @@ using System.Reflection;
 using Random = UnityEngine.Random;
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Pun.Demo.PunBasics;
 
 public class UI_PvpGameScene : UI_Scene
 {
@@ -73,6 +74,8 @@ public class UI_PvpGameScene : UI_Scene
         Managers.Network.Spawn();
     }
 
+    Player[] playerList;
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -108,6 +111,8 @@ public class UI_PvpGameScene : UI_Scene
         // ScoreSet
         ScoreSet();
 
+        playerList = PhotonNetwork.PlayerList;
+
         return true;
     }
 
@@ -122,46 +127,65 @@ public class UI_PvpGameScene : UI_Scene
 
         if (_player1Score == 1) GetImage((int)Images.MyScore1).gameObject.SetActive(true);
         if (_player1Score == 2) { GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); }
-        if (_player1Score == 3) { GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); GetImage((int)Images.MyScore3).gameObject.SetActive(true);
-            PvpResult(); }
+        if (_player1Score == 3)
+        {
+            GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); GetImage((int)Images.MyScore3).gameObject.SetActive(true);
+            PvpResult();
+        }
         if (_player2Score == 1) GetImage((int)Images.OpponentScore1).gameObject.SetActive(true);
         if (_player2Score == 2) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); }
-        if (_player2Score == 3) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); GetImage((int)Images.OpponentScore3).gameObject.SetActive(true);
-            PvpResult(); }
-
-
+        if (_player2Score == 3)
+        {
+            GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); GetImage((int)Images.OpponentScore3).gameObject.SetActive(true);
+            PvpResult();
+        }
     }
 
     public void PvpResult()
     {
+        for (int i = 0; i < PhotonNetwork.PlayerList.Count(); i++)
+        {
+            Debug.Log(PhotonNetwork.PlayerList[i]);
+            Debug.Log(PhotonNetwork.PlayerList[i].NickName);
+            Debug.Log(PhotonNetwork.PlayerList[i].ToString());
+            Debug.Log(PhotonNetwork.PlayerList[i].IsMasterClient);
+        }
+
+        Player player = GetOppPlayer();
 
         // 승리화면
         if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = GetOppPlayer();
+            Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = player;
         }
         if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = GetOppPlayer();
+            Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = player;
         }
 
         // 패배화면
         if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>().OppPlayer = GetOppPlayer();
+            Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>().OppPlayer = player;
         }
         if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>().OppPlayer = GetOppPlayer();
+            Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>().OppPlayer = player;
         }
     }
 
     Player GetOppPlayer()
     {
-        if (PhotonNetwork.IsMasterClient)
-            return PhotonNetwork.PlayerList[1];
-        else
-            return PhotonNetwork.PlayerList[0];
+        for (int i = 0; i <= playerList.Count(); i++)
+        {
+            Debug.Log("All __" + playerList[i]);
+            if (playerList[i].ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                Debug.Log(playerList[i]);
+                return playerList[i];
+            }
+        }
+        return null;
     }
 
     #region 수식 계산
@@ -434,7 +458,7 @@ public class UI_PvpGameScene : UI_Scene
     // 현재 플레이어의 위치로 설정
     void SetArrowDirection(ArrowOnlyinPvp arrow)
     {
-        if(firstCycle)
+        if (firstCycle)
             PlayerList = GameObject.FindObjectsOfType<PlayerControllerOnlyinPvp>();
 
         int randValue = Random.Range(0, PlayerList.Length);

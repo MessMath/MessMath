@@ -50,7 +50,7 @@ public class DatabaseManager : MonoBehaviour
         {
             if (task.IsFaulted)
             {
-                Debug.Log("error");
+                Debug.Log("task.IsFaulted error");
                 return "error";
             }
             //task가 성공적이면
@@ -65,13 +65,16 @@ public class DatabaseManager : MonoBehaviour
                 foreach (DataSnapshot data in snapshot.Children)
                 {
                     if(data.Key == key)
+                    {
                         Debug.Log(data.Value);
-                    return data.Value.ToString();
+                        string resultData = data.Value.ToString();
+                        return resultData;
+                    }
                 }
             }
-            return "error";
+            return "task.IsCompleted after error";
         });
-        return "error";
+        return "task.IsCompleted end error";
     }
 
     public void SetNickname(string nickname)
@@ -79,6 +82,12 @@ public class DatabaseManager : MonoBehaviour
         Managers.UserMng.SetNickname(nickname);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("nickname").SetValueAsync(Managers.UserMng.user.nickname);
     }
+
+    public int GetNickname(string userId)
+    {
+        return int.Parse(ReadUser(userId, "nickname"));
+    }
+
     public void SetUserMessage(string message)
     {
         Managers.UserMng.SetUserMessage(message);
