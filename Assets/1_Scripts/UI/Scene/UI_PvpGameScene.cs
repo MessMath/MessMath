@@ -1,20 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.Windows;
 using System.Data;
 using System;
 using TMPro;
-using System.IO;
-using Unity.VisualScripting;
 using System.Linq;
-using System.Reflection;
 using Random = UnityEngine.Random;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Pun.Demo.PunBasics;
 using System.Threading.Tasks;
 
 public class UI_PvpGameScene : UI_Scene
@@ -128,11 +121,8 @@ public class UI_PvpGameScene : UI_Scene
 
         if (_player1Score == 1) GetImage((int)Images.MyScore1).gameObject.SetActive(true);
         if (_player1Score == 2) { GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); }
-        if (_player1Score == 3)
-        {
-            GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); GetImage((int)Images.MyScore3).gameObject.SetActive(true);
-            PvpResult();
-        }
+        if (_player1Score == 3) { GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); GetImage((int)Images.MyScore3).gameObject.SetActive(true);
+            PvpResult(); }
         if (_player2Score == 1) GetImage((int)Images.OpponentScore1).gameObject.SetActive(true);
         if (_player2Score == 2) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); }
         if (_player2Score == 3) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); GetImage((int)Images.OpponentScore3).gameObject.SetActive(true);
@@ -145,27 +135,29 @@ public class UI_PvpGameScene : UI_Scene
 
         if (_player1Score == 3 || _player2Score == 3)
         {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = player;
+            bool isWin = (PhotonNetwork.LocalPlayer.ActorNumber == 1 && _player1Score == 3) || (PhotonNetwork.LocalPlayer.ActorNumber == 2 && _player2Score == 3);
+            await ShowResultPopupAsync(player, isWin);
         }
-        if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = player;
-        }
+    }
 
-        // 패배화면
-        if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        {
+    private async Task ShowResultPopupAsync(Player player, bool isWin)
+    {
+        string OppPlayersName = await Managers.DBManager.ReadDataAsync(player.NickName, "nickname");
+
+        if (isWin)
         {
             UI_PvpGameResult_Win p = Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>();
-            p.OppPlayersName = oppPlayersName;
+            p.OppPlayer = player;
+            p.OppPlayersName = OppPlayersName;
         }
         else
         {
             UI_PvpGameResult_Lose p = Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>();
             p.OppPlayer = player;
-            p.OppPlayersName = oppPlayersName;
+            p.OppPlayersName = OppPlayersName;
         }
     }
+
 
 
     Player GetOppPlayer()
