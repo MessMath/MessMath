@@ -14,8 +14,13 @@ public class UI_PvpGameScene : UI_Scene
 {
     PhotonView PhotonView;
     public int QusetionNumber;
-    public int _player1Score;
-    public int _player2Score;
+    public int _player1Score = 0;
+    public int _player2Score = 0;
+
+    Player OppPlayer;
+    string OppPlayersName;
+    int OppScore;
+    string OppPlayersCloth;
 
     enum Texts
     {
@@ -53,6 +58,8 @@ public class UI_PvpGameScene : UI_Scene
         JoyStick,
         ArrowController,
         JoyStickPanel,
+        MyScores,
+        OppsScores,
     }
 
     private void Awake()
@@ -102,63 +109,99 @@ public class UI_PvpGameScene : UI_Scene
         // 지우개 버튼
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
 
-        // ScoreSet
-        ScoreSet();
+        // 팝업에서 쓸 상대방 정보 준비
+        StartCoroutine(ReadyOppsData());
 
         playerList = PhotonNetwork.PlayerList;
 
         return true;
     }
+    
+    IEnumerator ReadyOppsData()
+    {
+        yield return new WaitForSeconds(1.0f);
+        OppsDataReadyAsyncCall();
+    }
+
+    public async void OppsDataReadyAsyncCall()
+    {
+        await OppsDataReadyAsync();
+    }
+
+    public async Task OppsDataReadyAsync()
+    {
+        OppPlayer = GetOppPlayer();
+
+        OppPlayersName = await Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "nickname");
+        OppScore = await Managers.DBManager.GetScore(OppPlayer.NickName);
+        OppPlayersCloth = await Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "myClothes");
+    }
 
     public void ScoreSet()
     {
-        GetImage((int)Images.MyScore1).gameObject.SetActive(false);
-        GetImage((int)Images.MyScore2).gameObject.SetActive(false);
-        GetImage((int)Images.MyScore3).gameObject.SetActive(false);
-        GetImage((int)Images.OpponentScore1).gameObject.SetActive(false);
-        GetImage((int)Images.OpponentScore2).gameObject.SetActive(false);
-        GetImage((int)Images.OpponentScore3).gameObject.SetActive(false);
-
-        if (_player1Score == 1) GetImage((int)Images.MyScore1).gameObject.SetActive(true);
-        if (_player1Score == 2) { GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); }
-        if (_player1Score == 3) { GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); GetImage((int)Images.MyScore3).gameObject.SetActive(true);
-            PvpResult(); }
-        if (_player2Score == 1) GetImage((int)Images.OpponentScore1).gameObject.SetActive(true);
-        if (_player2Score == 2) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); }
-        if (_player2Score == 3) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); GetImage((int)Images.OpponentScore3).gameObject.SetActive(true);
-            PvpResult(); }
-    }
-
-    public async void PvpResult()
-    {
-        Player player = GetOppPlayer();
+        if(PhotonNetwork.LocalPlayer.ActorNumber == 1)
+        {
+            ActivateNChildren(GetObject((int)GameObjects.MyScores), _player1Score);
+            ActivateNChildren(GetObject((int)GameObjects.OppsScores), _player2Score);
+        }
+        else
+        {
+            ActivateNChildren(GetObject((int)GameObjects.MyScores), _player2Score);
+            ActivateNChildren(GetObject((int)GameObjects.OppsScores), _player1Score);
+        }
 
         if (_player1Score == 3 || _player2Score == 3)
+            PvpResult();
+    }
+
+    public void ActivateNChildren(GameObject parentObject, int numberOfChildrenToActivate)
+    {
+        if (numberOfChildrenToActivate == 0)
+            return;
+
+        int childCount = parentObject.transform.childCount;
+
+        for (int i = 0; i < childCount; i++)
         {
-            bool isWin = (PhotonNetwork.LocalPlayer.ActorNumber == 1 && _player1Score == 3) || (PhotonNetwork.LocalPlayer.ActorNumber == 2 && _player2Score == 3);
-            await ShowResultPopupAsync(player, isWin);
+            Transform child = parentObject.transform.GetChild(i);
+
+            if (!child.gameObject.activeSelf)
+                child.gameObject.SetActive(true);
+
+            if (i == numberOfChildrenToActivate - 1)
+                break;
         }
     }
 
-    private async Task ShowResultPopupAsync(Player player, bool isWin)
+    public void PvpResult()
     {
-        string OppPlayersName = await Managers.DBManager.ReadDataAsync(player.NickName, "nickname");
+        if (_player1Score == 3 || _player2Score == 3)
+        {
+            bool isWin = (PhotonNetwork.LocalPlayer.ActorNumber == 1 && _player1Score == 3) || (PhotonNetwork.LocalPlayer.ActorNumber == 2 && _player2Score == 3);
+            ShowResultPopupAsync(OppPlayer, isWin);
+        }
+    }
 
+    private void ShowResultPopupAsync(Player player, bool isWin)
+    {
         if (isWin)
         {
             UI_PvpGameResult_Win p = Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>();
             p.OppPlayer = player;
             p.OppPlayersName = OppPlayersName;
+            p.OppPlayersScore = OppScore;
+            p.OppPlayersCloth = OppPlayersCloth;
         }
         else
         {
             UI_PvpGameResult_Lose p = Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>();
             p.OppPlayer = player;
             p.OppPlayersName = OppPlayersName;
+            p.OppPlayersScore = OppScore;
+            p.OppPlayersCloth = OppPlayersCloth;
         }
+
     }
-
-
 
     Player GetOppPlayer()
     {
@@ -270,6 +313,8 @@ public class UI_PvpGameScene : UI_Scene
 
         PhotonView = GameObject.FindGameObjectWithTag("RPCSychronizer").GetComponent<PhotonView>();
         PhotonView.RPC("Answer", RpcTarget.AllViaServer, printResult, QusetionNumber, PhotonNetwork.LocalPlayer.ActorNumber);
+
+        PvpResult();
     }
 
     IEnumerator Waitfor2Sec()
@@ -444,7 +489,7 @@ public class UI_PvpGameScene : UI_Scene
     // 현재 플레이어의 위치로 설정
     void SetArrowDirection(ArrowOnlyinPvp arrow)
     {
-        if (firstCycle)
+        if(firstCycle)
             PlayerList = GameObject.FindObjectsOfType<PlayerControllerOnlyinPvp>();
 
         int randValue = Random.Range(0, PlayerList.Length);

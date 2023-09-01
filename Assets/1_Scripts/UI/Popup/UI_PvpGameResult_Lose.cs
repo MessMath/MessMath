@@ -4,6 +4,7 @@ using Photon.Realtime;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using static UI_PvpGameResult_Win;
 
 public class UI_PvpGameResult_Lose : UI_Popup
 {
@@ -28,10 +29,19 @@ public class UI_PvpGameResult_Lose : UI_Popup
         Lose1,
         Players_Illust,
         Opps_Illust,
+        OppsTier,
+    }
+
+    public enum GameObjects
+    {
+        MyResult,
+        OppsResult,
     }
 
     public Player OppPlayer;
     public string OppPlayersName;
+    public int OppPlayersScore;
+    public string OppPlayersCloth;
 
     public override bool Init()
     {
@@ -55,19 +65,30 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
         Managers.Sound.Play("DefeatEff");
 
-        Debug.Log($"<color=yellow> MyNickname : {Managers.UserMng.GetNickname()} </color>");
-        Debug.Log($"<color=yellow> OppsNickname : {OppPlayersName} </color>");
-
         // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
         // 상대방 닉네임 가져오기 (DB를 참조해서)
         GetText((int)Texts.OppsNickname).text = OppPlayersName;
 
+        // TODO
+        // 상대방의 Score (Tier)
+        GetImage((int)Images.OppsTier).sprite = Managers.Resource.Load<Sprite>("Sprites/Tier/T" + ((OppPlayersScore / 100) + 1).ToString());
+        // 상대방의 옷
+        GetImage((int)Images.Opps_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + OppPlayersCloth + "_full");
+        // 상대방의 하트갯수
+        GetObject((int)GameObjects.OppsResult);
+
+        // 나의 Score
+        ChangeScore();
+        // 나의 옷
+        GetImage((int)Images.Opps_Illust).sprite = Managers.Resource.Load<Sprite>("Sprite/Clothes/" + Managers.UserMng.GetMyClothes() + "_full");
+        // 나의 하트갯수
+        GetObject((int)GameObjects.OppsResult);
+
         ChangeScore();
 
         Exit();
 
-        Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
 
         return true;
@@ -114,6 +135,8 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
     IEnumerator CountDown(float target, float current, TextMeshProUGUI tmp)
     {
+        yield return new WaitForSeconds(1f);
+
         float duration = 3f; // 카운팅에 걸리는 시간 설정. 
         float offset = (current - target) / duration;
 
@@ -122,7 +145,6 @@ public class UI_PvpGameResult_Lose : UI_Popup
             current -= offset * Time.deltaTime;
             tmp.text = ((int)current).ToString();
             yield return null;
-
         }
         current = target;
         tmp.text = ((int)current).ToString();
@@ -132,8 +154,9 @@ public class UI_PvpGameResult_Lose : UI_Popup
     {
         // 점수 등락
         int curScore = Managers.UserMng.GetScore();
-        int resultScore = (curScore - 100) < 0 ? 0 : (curScore - 100);
-        Managers.UserMng.SetUserScore(resultScore);
+        int resultScore = ((curScore - 100) < 0) ? 0 : (curScore - 100);
+        Managers.DBManager.SetScore(resultScore);
+
         // 점수 등락 시각적으로 표현
         StartCoroutine(CountDown(resultScore, curScore, GetText((int)Texts.MyScore)));
     }
