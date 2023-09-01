@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
 using Firebase;
 using Firebase.Database;
 using Firebase.Unity;
 using Unity.VisualScripting;
+using System.Threading.Tasks;
 
 public class DatabaseManager : MonoBehaviour
 {
@@ -38,40 +38,38 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(userId).SetRawJsonValueAsync(json);
     }
 
-    public string ReadData(string userId, string key)
+    public async Task<string> ReadDataAsync(string userId, string key)
     {
-        return ReadUser(userId, key);
+        return await ReadUserAsync(userId, key);
     }
 
-    private string ReadUser(string userId, string key)
+    private async Task<string> ReadUserAsync(string userId, string key)
     {
-        //reference의 자식(userEmail)를 task로 받음
-        reference.Child("Users").Child(userId).GetValueAsync().ContinueWith(task =>
-        {
-            if (task.IsFaulted)
-            {
-                Debug.Log("error");
-                return "error";
-            }
-            //task가 성공적이면
-            else if (task.IsCompleted)
-            {
-                // DataSnapshot 변수를 선언하여 task의 결과 값을 반환
-                DataSnapshot snapshot = task.Result;
-                // snapshot의 자식 개수를 확인
-                Debug.Log(snapshot.ChildrenCount);
+        string result = "";
 
-                //foreach문으로 각각 데이터를 IDictionary로 변환해 각 이름에 맞게 변수 초기화
-                foreach (DataSnapshot data in snapshot.Children)
+        DataSnapshot snapshot = await reference.Child("Users").Child(userId).GetValueAsync();
+
+        if (snapshot.Exists)
+        {
+            Debug.Log(snapshot.ChildrenCount);
+
+            foreach (DataSnapshot data in snapshot.Children)
+            {
+                if (data.Key == key)
                 {
-                    if(data.Key == key)
-                        Debug.Log(data.Value);
-                    return data.Value.ToString();
+                    result = data.Value.ToString();
+                    Debug.Log(result);
+                    break;
                 }
             }
-            return "error";
-        });
-        return "error";
+        }
+        else
+        {
+            Debug.Log("error");
+            result = "error";
+        }
+
+        return result;
     }
 
     public void SetNickname(string nickname)
@@ -107,9 +105,10 @@ public class DatabaseManager : MonoBehaviour
         Managers.UserMng.SetUserCoin(coin);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("coin").SetValueAsync(Managers.UserMng.user.coin);
     }
-    public int GetCoin(string userId)
+
+    public async Task<int> GetCoin(string userId)
     {
-        return int.Parse(ReadUser(userId, "coin"));
+        return int.Parse(await ReadUserAsync(userId, "coin"));
     }
 
     public void SetScore(int score)
@@ -118,9 +117,9 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("score").SetValueAsync(Managers.UserMng.user.score);
     }
 
-    public int GetScore(string userId)
+    public async Task<int> GetScore(string userId)
     {
-        return int.Parse(ReadUser(userId, "score"));
+        return int.Parse(await ReadUserAsync(userId, "score"));
     }
 
     public void SetIsCompletedDiagnosis(bool isCompleted)
@@ -128,9 +127,9 @@ public class DatabaseManager : MonoBehaviour
         Managers.UserMng.SetUserIsCompletedDiagnosis(isCompleted);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("isCompletedDiagnosis").SetValueAsync(Managers.UserMng.user.isCompletedDiagnosis);
     }
-    public bool GetIsCompletedDiagnosis(string userId)
+    public async Task<bool> GetIsCompletedDiagnosis(string userId)
     {
-        return bool.Parse(ReadUser(userId, "isCompletedDiagnosis"));
+        return bool.Parse(await ReadUserAsync(userId, "isCompletedDiagnosis"));
     }
 
     public void SetIsCompletedStory(bool isCompleted)
@@ -139,9 +138,9 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("isCompletedStory").SetValueAsync(Managers.UserMng.user.isCompletedStory);
     }
 
-    public bool GetIsCompletedStory(string userId)
+    public async Task<bool> GetIsCompletedStory(string userId)
     {
-        return bool.Parse(ReadUser(userId, "isCompletedStory"));
+        return bool.Parse(await ReadUserAsync(userId, "isCompletedStory"));
     }
 
 
@@ -151,9 +150,9 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("isKilledWitch").SetValueAsync(Managers.UserMng.user.isKilledWitch);
     }
 
-    public bool GetIsKilledWitch(string userId)
+    public async Task<bool> GetIsKilledWitch(string userId)
     {
-        return bool.Parse(ReadUser(userId, "isKilledStory"));
+        return bool.Parse(await ReadUserAsync(userId, "isKilledStory"));
     }
 
 
@@ -163,9 +162,9 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("myClothes").SetValueAsync(Managers.UserMng.user.myClothes);
     }
 
-    public string GetMyClothes(string userId)
+    public async Task<string> GetMyClothes(string userId)
     {
-        return ReadUser(userId, "myClothes");
+        return await ReadUserAsync(userId, "myClothes");
     }
 
     public void SetIsCompletedTutorial(bool isCompleted)
@@ -173,9 +172,9 @@ public class DatabaseManager : MonoBehaviour
         Managers.UserMng.SetUserIsCompletedTutorial(isCompleted);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("isCompletedTutorial").SetValueAsync(Managers.UserMng.user.isCompletedTutorial);
     }
-    public bool GetIsCompletedTutorial(string userId)
+    public async Task<bool> GetIsCompletedTutorial(string userId)
     {
-        return bool.Parse(ReadUser(userId, "isCompletedTutorial"));
+        return bool.Parse(await ReadUserAsync(userId, "isCompletedTutorial"));
     }
 
     public void SetObtainedClothes(string clothes)

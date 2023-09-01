@@ -14,6 +14,8 @@ using System.Reflection;
 using Random = UnityEngine.Random;
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Pun.Demo.PunBasics;
+using System.Threading.Tasks;
 
 public class UI_PvpGameScene : UI_Scene
 {
@@ -73,6 +75,8 @@ public class UI_PvpGameScene : UI_Scene
         Managers.Network.Spawn();
     }
 
+    Player[] playerList;
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -108,6 +112,8 @@ public class UI_PvpGameScene : UI_Scene
         // ScoreSet
         ScoreSet();
 
+        playerList = PhotonNetwork.PlayerList;
+
         return true;
     }
 
@@ -128,40 +134,50 @@ public class UI_PvpGameScene : UI_Scene
         if (_player2Score == 2) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); }
         if (_player2Score == 3) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); GetImage((int)Images.OpponentScore3).gameObject.SetActive(true);
             PvpResult(); }
-
-
     }
 
-    public void PvpResult()
+    public async void PvpResult()
     {
+        Player player = GetOppPlayer();
 
-        // 승리화면
-        if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
+        if (_player1Score == 3 || _player2Score == 3)
         {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = GetOppPlayer();
-        }
-        if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = GetOppPlayer();
-        }
-
-        // 패배화면
-        if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>().OppPlayer = GetOppPlayer();
-        }
-        if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
-        {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>().OppPlayer = GetOppPlayer();
+            bool isWin = (PhotonNetwork.LocalPlayer.ActorNumber == 1 && _player1Score == 3) || (PhotonNetwork.LocalPlayer.ActorNumber == 2 && _player2Score == 3);
+            await ShowResultPopupAsync(player, isWin);
         }
     }
+
+    private async Task ShowResultPopupAsync(Player player, bool isWin)
+    {
+        string oppPlayersName = await Managers.DBManager.ReadDataAsync(player.NickName, "nickname");
+
+        if (isWin)
+        {
+            UI_PvpGameResult_Win p = Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>();
+            p.OppPlayer = player;
+            p.OppPlayersName = oppPlayersName;
+        }
+        else
+        {
+            UI_PvpGameResult_Lose p = Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>();
+            p.OppPlayer = player;
+            p.OppPlayersName = oppPlayersName;
+        }
+    }
+
 
     Player GetOppPlayer()
     {
-        if (PhotonNetwork.IsMasterClient)
-            return PhotonNetwork.PlayerList[1];
-        else
-            return PhotonNetwork.PlayerList[0];
+        for (int i = 0; i <= playerList.Count(); i++)
+        {
+            Debug.Log("All __" + playerList[i]);
+            if (playerList[i].ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                Debug.Log(playerList[i]);
+                return playerList[i];
+            }
+        }
+        return null;
     }
 
     #region 수식 계산
