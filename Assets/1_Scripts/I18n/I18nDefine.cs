@@ -98,7 +98,7 @@ public static class I18nDefine
     // Setting
     public const string SETTING_CONTINUE = "SETTING_CONTINUE";
     public const string SETTING_LOGOUT = "SETTING_LOGOUT";
-    public const string SETTING_EXIT = "SETTING_LOGOUT";
+    public const string SETTING_EXIT = "SETTING_EXIT";
     // main
     public const string MAIN_START = "MAIN_START";
 }

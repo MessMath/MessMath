@@ -95,5 +95,7 @@
   // Setting
   "SETTING_CONTINUE": "Continue",
   "SETTING_LOGOUT": "Logout",
-  "SETTING_EXIT": "Exit"
+  "SETTING_EXIT": "Exit",
+  // Main
+  "MAIN_START": "Touch to start!"
 }

@@ -66,9 +66,9 @@ public class UI_Setting : UI_Popup
     void OnClickedLogoutBtn()
     {
         Managers.Sound.Play("ClickBtnEff");
-        Managers.UI.CloseAllPopupUI();
-        Managers.Scene.ChangeScene(Define.Scene.MainScene);
         Managers.GoogleSignIn.SignOutFromGoogle();
+        Managers.Scene.ChangeScene(Define.Scene.MainScene);
+        Managers.UI.CloseAllPopupUI();
         Debug.Log("·Î±×¾Æ¿ô");
     }
 

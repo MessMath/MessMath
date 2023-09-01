@@ -13,8 +13,7 @@ public class UI_Main : UI_Scene
 {
     enum Texts
     {
-        SignIn,
-        SignInPressed,
+        Start,
     }
 
     enum Buttons
@@ -25,6 +24,8 @@ public class UI_Main : UI_Scene
     enum Images
     {
         BG,
+        SignIn,
+        SignInPressed,
     }
 
     enum GameObjects
@@ -48,8 +49,11 @@ public class UI_Main : UI_Scene
         BindImage(typeof(Images));
 
         GetImage((int)Images.BG).gameObject.BindEvent(OnClickBG);
-        GetText((int)Texts.SignIn).gameObject.BindEvent(onClickedSignIn);
-        GetText((int)Texts.SignInPressed).gameObject.SetActive(false);
+        GetImage((int)Images.SignIn).gameObject.BindEvent(onClickedSignIn);
+        GetImage((int)Images.SignInPressed).gameObject.SetActive(false);
+        GetText((int)Texts.Start).text = I18n.Get(I18nDefine.MAIN_START);
+        GetText((int)Texts.Start).gameObject.SetActive(false);
+
         // Sound
         Managers.Sound.Clear();
         Managers.Sound.Play("MainBgm", Define.Sound.Bgm);
@@ -60,7 +64,11 @@ public class UI_Main : UI_Scene
     private void Update()
     {
         if (Managers.GoogleSignIn.isLogin() == true)
+        {
             GetObject((int)GameObjects.Panel).SetActive(false);
+            GetImage((int)Images.SignIn).gameObject.SetActive(false);
+            GetText((int)Texts.Start).gameObject.SetActive(true);
+        }
     }
 
     void OnClickBG( )
@@ -79,8 +87,8 @@ public class UI_Main : UI_Scene
     
     void onClickedSignIn()
     {
-        GetText((int)Texts.SignIn).gameObject.SetActive(false);
-        GetText((int)Texts.SignInPressed).gameObject.SetActive(true);
+        GetText((int)Images.SignIn).gameObject.SetActive(false);
+        GetText((int)Images.SignInPressed).gameObject.SetActive(true);
 
         Managers.Sound.Play("ClickBtnEff");
 

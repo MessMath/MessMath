@@ -67,7 +67,7 @@ public class UI_Info : UI_Popup
         placeholder = (TextMeshProUGUI)GetObject((int)GameObjects.UserMessage).gameObject.GetComponentInChildren<TMP_InputField>().placeholder;
         placeholder.text = I18n.Get(I18nDefine.INFO_MESSAGE);
 
-        GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.UserMng.user.UID;
+        GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.UserMng.GetNickname();
         GetObject((int)GameObjects.UserMessage).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.UserMng.GetMessage();
         return true;
     }
