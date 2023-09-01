@@ -45,8 +45,8 @@ public class UI_InventoryPopup : UI_Popup
     public void RefreshUI()
     {
         // 인벤토리 팝업 의상
-        if (PlayerPrefs.HasKey("WearClothes"))
-            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + (PlayerPrefs.GetString("WearClothes")));
+        if (Managers.UserMng.GetMyClothes() != "")
+            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes());
         else
             GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/lobby_Character");
 

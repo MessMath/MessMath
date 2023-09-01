@@ -68,8 +68,8 @@ public class UI_ClothesBoxPopup : UI_Popup
         GetButton((int)Buttons.SelectBtn).gameObject.BindEvent(OnClickSelectBtn);
         GetImage((int)Images.SelectedClothesImage).gameObject.SetActive(false);
 
-        if (PlayerPrefs.HasKey("WearClothes"))
-            GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + (PlayerPrefs.GetString("WearClothes")));
+        if (Managers.UserMng.GetMyClothes() != "")
+            GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes());
         else
             GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/lobby_Character");
 
@@ -97,10 +97,10 @@ public class UI_ClothesBoxPopup : UI_Popup
 
         for (int i = 0; i < Managers.UserMng.GetObtainedClothes().Count - 1; i++)
         {
-            for(int j = 0; j < _clothesDatas.Count; j++)
+            for (int j = 0; j < _clothesDatas.Count; j++)
             {
                 if (Managers.UserMng.GetObtainedClothes()[i] != _clothesDatas[j].img) continue;
-                
+
                 Debug.Log(Managers.UserMng.GetObtainedClothes()[i]);
                 GameObject clothesItem = Managers.UI.MakeSubItem<UI_ClothesItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
                 Utils.FindChild(clothesItem, "ClothesIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _clothesDatas[j].name;
