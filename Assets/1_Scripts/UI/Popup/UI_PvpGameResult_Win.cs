@@ -122,11 +122,11 @@ public class UI_PvpGameResult_Win : UI_Popup
     void ChangeScore()
     {
         // 점수 등락
-        int curScore = Managers.DBManager.GetScore(Managers.UserMng.user.UID);
-        Managers.DBManager.SetScore(curScore + 100);
+        int curScore = Managers.UserMng.GetScore();
+        Managers.UserMng.SetUserScore(curScore + 100);
 
         // 점수 등락 시각적으로 표현
-        StartCoroutine(CountUp(curScore, curScore + 100, GetText((int)Texts.MyScore)));
+        StartCoroutine(CountUp(curScore + 100, curScore, GetText((int)Texts.MyScore)));
     }
 
     Player GetOppPlayer()

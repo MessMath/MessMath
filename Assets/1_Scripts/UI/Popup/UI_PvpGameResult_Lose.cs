@@ -57,7 +57,7 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
         // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
-        // 상대방 닉네임 가져오기 (DB를 참조해서)
+        // 상대방 닉네임 가져오기 (DB를 참조해서) (UID를 참조해서?)
         GetText((int)Texts.OppsNickname).text = Managers.DBManager.ReadData(GetOppPlayer().NickName, "nickname");
 
         ChangeScore();
@@ -123,12 +123,18 @@ public class UI_PvpGameResult_Lose : UI_Popup
     void ChangeScore()
     {
         // 점수 등락
-        int curScore = Managers.DBManager.GetScore(Managers.UserMng.user.UID);
+        int curScore = Managers.UserMng.GetScore();
         if (curScore >= 100)
         {
-            Managers.DBManager.SetScore(curScore - 100);
+            Managers.UserMng.SetUserScore(curScore - 100);
             // 점수 등락 시각적으로 표현
-            StartCoroutine(CountDown(curScore, curScore - 100, GetText((int)Texts.MyScore)));
+            StartCoroutine(CountDown(curScore - 100, curScore, GetText((int)Texts.MyScore)));
+        }
+        else if (curScore < 100 && curScore > 0)
+        {
+            Managers.UserMng.SetUserScore(0);
+            // 점수 등락 시각적으로 표현
+            StartCoroutine(CountDown(0, curScore, GetText((int)Texts.MyScore)));
         }
     }
 

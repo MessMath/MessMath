@@ -63,7 +63,7 @@ public class UI_GetNicknamePopup : UI_Popup
         Managers.DBManager.SetIsCompletedStory(true);
         Managers.DBManager.SetIsCompletedTutorial(true);
         Managers.DBManager.SetIsCompletedDiagnosis(true);
-        Managers.DBManager.SetIsKilledWitch(true);
+        //Managers.DBManager.SetIsKilledWitch(true);
 
         Managers.UI.ClosePopupUI(this);
 
