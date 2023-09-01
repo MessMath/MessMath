@@ -134,28 +134,34 @@ public class UI_PvpGameScene : UI_Scene
 
     public void PvpResult()
     {
-        UI_Popup ui_PvpGameResult;
 
         // 승리화면
         if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
-            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>();
+            Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = GetOppPlayer();
         }
         if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
-            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>();
+            Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = GetOppPlayer();
         }
 
         // 패배화면
         if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
-            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>();
-
+            Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>().OppPlayer = GetOppPlayer();
         }
         if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
-            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>();
+            Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>().OppPlayer = GetOppPlayer();
         }
+    }
+
+    Player GetOppPlayer()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            return PhotonNetwork.PlayerList[1];
+        else
+            return PhotonNetwork.PlayerList[0];
     }
 
     #region 수식 계산
