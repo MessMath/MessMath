@@ -57,17 +57,24 @@ public class UI_Main : UI_Scene
         // Sound
         Managers.Sound.Clear();
         Managers.Sound.Play("MainBgm", Define.Sound.Bgm);
-
         return true;
     }
 
     private void Update()
     {
-        if (Managers.GoogleSignIn.isLogin() == true)
+        if (Managers.GoogleSignIn.IsLogined == true)
         {
             GetObject((int)GameObjects.Panel).SetActive(false);
             GetImage((int)Images.SignIn).gameObject.SetActive(false);
+            GetImage((int)Images.SignInPressed).gameObject.SetActive(false);
             GetText((int)Texts.Start).gameObject.SetActive(true);
+        }
+        else
+        {
+            GetObject((int)GameObjects.Panel).SetActive(true);
+            GetImage((int)Images.SignIn).gameObject.SetActive(true);
+            //GetImage((int)Images.SignInPressed).gameObject.SetActive(false);
+            GetText((int)Texts.Start).gameObject.SetActive(false);
         }
     }
 
@@ -75,7 +82,7 @@ public class UI_Main : UI_Scene
     {
         // Sound
         Managers.Sound.Play("ClickBtnEff");
-
+        Managers.GoogleSignIn.SignInWithGoogle();
         Managers.UI.ShowPopupUI<UI_SelectLanguage>();
 
         //if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH || LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
@@ -87,8 +94,8 @@ public class UI_Main : UI_Scene
     
     void onClickedSignIn()
     {
-        GetText((int)Images.SignIn).gameObject.SetActive(false);
-        GetText((int)Images.SignInPressed).gameObject.SetActive(true);
+        GetImage((int)Images.SignIn).gameObject.SetActive(false);
+        GetImage((int)Images.SignInPressed).gameObject.SetActive(true);
 
         Managers.Sound.Play("ClickBtnEff");
 

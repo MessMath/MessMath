@@ -13,7 +13,7 @@ public class GoogleSignInManager : MonoBehaviour
 {
     public TMP_Text infoText;
     private string webClientId = "571063997782-k040dqj6fnrd57rgck2ocblfp4gkaff0.apps.googleusercontent.com";
-
+    public bool IsLogined = false;
     private FirebaseAuth auth;
     private GoogleSignInConfiguration configuration;
     string UID;
@@ -25,10 +25,18 @@ public class GoogleSignInManager : MonoBehaviour
 
     public bool isLogin()
     {
-        if (auth.CurrentUser != null)
-            return true;
-        else
+        try {
+            if (auth.CurrentUser != null)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        } catch
+        {
             return false;
+        }
     }
 
     private void CheckFirebaseDependencies()
@@ -67,12 +75,18 @@ public class GoogleSignInManager : MonoBehaviour
 
         GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinished);
         UID = GetUID();
+
+        IsLogined = true;
     }
 
     private void OnSignOut()
     {
         //AddToInformation("Calling SignOut");
         GoogleSignIn.DefaultInstance.SignOut();
+        Debug.Log("실행은 되긴 해?");
+        Debug.Log(auth.CurrentUser.UserId);
+
+        IsLogined = false;
     }
 
     public void OnDisconnect()
