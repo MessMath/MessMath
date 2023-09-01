@@ -151,6 +151,8 @@ public class UI_Store : UI_Popup
 
         for (int i = 0; i < ClothesData.Count; i++)
         {
+            if (ClothesData[i].img == "the_wise" && !Managers.UserMng.GetIsKilledWitch()) continue;
+
             GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
             if (storeItem.Init())

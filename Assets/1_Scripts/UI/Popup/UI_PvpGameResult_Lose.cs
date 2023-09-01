@@ -2,11 +2,8 @@
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class UI_PvpGameResult_Lose : UI_Popup
 {
@@ -33,6 +30,9 @@ public class UI_PvpGameResult_Lose : UI_Popup
         Opps_Illust,
     }
 
+    public Player OppPlayer;
+    public string OppPlayersName;
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -55,18 +55,20 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
         Managers.Sound.Play("DefeatEff");
 
+        Debug.Log($"<color=yellow> MyNickname : {Managers.UserMng.GetNickname()} </color>");
+        Debug.Log($"<color=yellow> OppsNickname : {OppPlayersName} </color>");
+
         // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
         // 상대방 닉네임 가져오기 (DB를 참조해서)
-        GetText((int)Texts.OppsNickname).text = Managers.DBManager.ReadData(GetOppPlayer().NickName, "nickname");
+        GetText((int)Texts.OppsNickname).text = OppPlayersName;
 
         ChangeScore();
 
+        Exit();
+
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
-
-        PhotonNetwork.Disconnect();
-        PhotonNetwork.AutomaticallySyncScene = false;
 
         return true;
     }
@@ -89,6 +91,12 @@ public class UI_PvpGameResult_Lose : UI_Popup
         Time.timeScale = 1;
     }
 
+    void Exit()
+    {
+        PhotonNetwork.Disconnect();
+        PhotonNetwork.AutomaticallySyncScene = false;
+    }
+
     IEnumerator SceneChangeAnimation(Define.Scene Scene)
     {
         // Ani
@@ -106,8 +114,8 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
     IEnumerator CountDown(float target, float current, TextMeshProUGUI tmp)
     {
-        float duration = 0.7f; // 카운팅에 걸리는 시간 설정. 
-        float offset = (target - current) / duration;
+        float duration = 3f; // 카운팅에 걸리는 시간 설정. 
+        float offset = (current - target) / duration;
 
         while (current > target)
         {
@@ -123,23 +131,10 @@ public class UI_PvpGameResult_Lose : UI_Popup
     void ChangeScore()
     {
         // 점수 등락
-        int curScore = Managers.DBManager.GetScore(Managers.UserMng.user.UID);
-        if (curScore >= 100)
-        {
-            Managers.DBManager.SetScore(curScore - 100);
-            // 점수 등락 시각적으로 표현
-            StartCoroutine(CountDown(curScore, curScore - 100, GetText((int)Texts.MyScore)));
-        }
-    }
-
-    Player GetOppPlayer()
-    {
-        Debug.Log($"<color=red>player[0] : {PhotonNetwork.CurrentRoom.Players[0].NickName} </color>");
-        Debug.Log($"<color=red>player[1] : {PhotonNetwork.CurrentRoom.Players[1].NickName} </color>");
-
-        if (PhotonNetwork.IsMasterClient)
-            return PhotonNetwork.CurrentRoom.Players[1];
-        else
-            return PhotonNetwork.CurrentRoom.Players[0];
+        int curScore = Managers.UserMng.GetScore();
+        int resultScore = (curScore - 100) < 0 ? 0 : (curScore - 100);
+        Managers.UserMng.SetUserScore(resultScore);
+        // 점수 등락 시각적으로 표현
+        StartCoroutine(CountDown(resultScore, curScore, GetText((int)Texts.MyScore)));
     }
 }

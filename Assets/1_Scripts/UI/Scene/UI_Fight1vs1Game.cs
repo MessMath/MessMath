@@ -325,7 +325,7 @@ public class UI_Fight1vs1Game : UI_Scene
 
         if (witchController.Hp <= 0)
         {
-            PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") + SolvedQstNum * 10);
+            Managers.UserMng.SetUserCoin(Managers.UserMng.GetCoin() + SolvedQstNum * 10);
             return;
         }
 

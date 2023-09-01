@@ -50,6 +50,7 @@ public class UI_Story : UI_Scene
         nxtButton,
         SettingButton,
         ReplayButton,
+        SkipButton,
         TmpNxtButton,
         NeumannBtn,
         StainedGlassBtn,
@@ -109,6 +110,7 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.TmpNxtButton).gameObject.BindEvent(StartBtn);
         GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
         GetButton((int)Buttons.ReplayButton).gameObject.BindEvent(OnClickReplayBtn);
+        GetButton((int)Buttons.SkipButton).gameObject.BindEvent(Skip);
         GetButton((int)Buttons.LockedBookBtn).gameObject.BindEvent(OnClickedLockedBookBtn);
 
         GetButton((int)Buttons.NeumannBtn).gameObject.BindEvent(OnClickedNeumannBtn);
@@ -120,11 +122,11 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.EntranceBtn).gameObject.BindEvent(OnClickedEntranceBtn);
         GetButton((int)Buttons.DoorBtn).gameObject.BindEvent(OnClickedDoorBtn);
 
-        for(int i = 0; i < System.Enum.GetValues(typeof(Buttons)).Length; i++)
+        for (int i = 0; i < System.Enum.GetValues(typeof(Buttons)).Length; i++)
         {
             GetButton(i).gameObject.BindEvent(CloseSide);
         }
-       
+
         GetImage((int)Images.OpenedSide).gameObject.BindEvent(OnClickedSide);
         GetImage((int)Images.OpenedSide).gameObject.SetActive(!openSide);
         GetImage((int)Images.ClosedSide).gameObject.BindEvent(OnClickedSide);
@@ -142,6 +144,10 @@ public class UI_Story : UI_Scene
         GetImage((int)Images.SmallSpeechBubbleImg).gameObject.SetActive(false);
         GetImage((int)Images.GaussImage).gameObject.SetActive(false);
 
+        // skip
+        if (!Managers.UserMng.GetIsCompletedStory())
+            GetButton((int)Buttons.SkipButton).gameObject.SetActive(false);
+
         // Sound
         Managers.Sound.Clear();
         Managers.Sound.Play("StoryBgm", Define.Sound.Bgm);
@@ -150,7 +156,6 @@ public class UI_Story : UI_Scene
     }
     void Skip()
     {
-        PlayerPrefs.SetInt("WatchedStory", -2);
         Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
     }
 
@@ -168,7 +173,7 @@ public class UI_Story : UI_Scene
             Managers.TextEffect.SetFastSpeed();
             return;
         }
-        if(++count >= maxCount) 
+        if (++count >= maxCount)
         {
             Managers.DBManager.SetIsCompletedStory(true);
             if (Managers.UserMng.user.isCompletedTutorial == true)
@@ -177,7 +182,7 @@ public class UI_Story : UI_Scene
                 Managers.Scene.ChangeScene(Define.Scene.TutorialGameScene);
             return;
         }
-        if(count == 7 || count == 11 || count == 33)
+        if (count == 7 || count == 11 || count == 33)
         {
             HideDialogue();
             GetObject((int)GameObjects.SchoolHallway).gameObject.SetActive(true);
@@ -191,7 +196,7 @@ public class UI_Story : UI_Scene
             GetText((int)Texts.SmallTMP).text = I18n.Get(I18nDefine.STORY_HERE);
             return;
         }
-        if(count == 52)
+        if (count == 52)
         {
             CoroutineHandler.StartCoroutine(ShowSpeechBubble(1.5f));
         }
@@ -203,7 +208,7 @@ public class UI_Story : UI_Scene
             return;
         }
         PlayerPrefs.SetInt("WatchedStory", count);
-        Managers.SceneEffect.SceneEffect(GetImage((int)Images.FadeImage),GetButton((int)Buttons.nxtButton), storyTalkData[count].sceneEffect);
+        Managers.SceneEffect.SceneEffect(GetImage((int)Images.FadeImage), GetButton((int)Buttons.nxtButton), storyTalkData[count].sceneEffect);
         Managers.SceneEffect.ChangeBackground(GetImage((int)Images.BackGroundImage), storyTalkData[count].backgroundImg);
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), storyTalkData[count].characterName);
         if (storyTalkData[count].characterName == "가우스" || storyTalkData[count].characterName == "Gauss")
@@ -218,14 +223,16 @@ public class UI_Story : UI_Scene
             Managers.SceneEffect.ChangeCharacter(GetImage((int)Images.PlayerImage), GetImage((int)Images.CharacterImage), storyTalkData[count].characterName, storyTalkData[count].expression);
         }
 
-        if(storyTalkData[count].txtEffect == "MAX") {
+        if (storyTalkData[count].txtEffect == "MAX")
+        {
             GetText((int)Texts.DialogueTMP).fontSize = 100;
         }
-        else {
+        else
+        {
             GetText((int)Texts.DialogueTMP).fontSize = 80;
         }
 
-        if(storyTalkData[count].characterName == "주인공" || storyTalkData[count].characterName == "Main character")
+        if (storyTalkData[count].characterName == "주인공" || storyTalkData[count].characterName == "Main character")
         {
             GetText((int)Texts.CharacterNameTMP).text = Managers.UserMng.GetNickname();
         }
@@ -272,12 +279,12 @@ public class UI_Story : UI_Scene
 
     void OnClickedStainedGlassBtn()
     {
-        if(enteredOffice) 
+        if (enteredOffice)
         {
             OnClickNxtBtn();
             ShowDialogue();
         }
-        else 
+        else
         {
             CoroutineHandler.StartCoroutine(ShowInfo(I18n.Get(I18nDefine.STORY_STAINED_GLASS)));
         }
@@ -321,7 +328,7 @@ public class UI_Story : UI_Scene
     }
 
     void OnClickedDoorBtn()
-    {       
+    {
         ShowDialogue();
         OnClickNxtBtn();
     }
@@ -340,8 +347,8 @@ public class UI_Story : UI_Scene
     void OnClickedLockedBtn()
     {
         unlockCnt++;
-        
-        switch(unlockCnt)
+
+        switch (unlockCnt)
         {
             case 5:
                 GetImage((int)Images.FirstBrokeImg).gameObject.SetActive(true);
@@ -367,7 +374,7 @@ public class UI_Story : UI_Scene
                 CoroutineHandler.StartCoroutine(UnlockedAnimation(2.0f, "unlocked3"));
                 break;
         }
-        
+
     }
 
     IEnumerator ShowInfo(string dialgoue)
@@ -386,7 +393,7 @@ public class UI_Story : UI_Scene
         WaitForSeconds waitForSeconds = new WaitForSeconds(time);
         yield return waitForSeconds;
         GetImage((int)Images.BackGroundImage).sprite = Resources.Load("Sprites/Story/Background/" + imgName, typeof(Sprite)) as Sprite;
-        if(imgName == "unlocked3")
+        if (imgName == "unlocked3")
         {
             ShowDialogue();
             GetImage((int)Images.CharacterImage).gameObject.SetActive(true);
@@ -426,7 +433,7 @@ public class UI_Story : UI_Scene
     Color HexColor(string hexCode)
     {
         Color color;
-       
+
         if (ColorUtility.TryParseHtmlString("#A2A2A2", out color))
         {
             return color;

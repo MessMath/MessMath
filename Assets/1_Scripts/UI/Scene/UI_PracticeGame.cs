@@ -75,9 +75,7 @@ public class UI_PracticeGame : UI_Scene
         BindImage(typeof(Images));
 
         #region Set Coin
-        if (PlayerPrefs.HasKey("Coin"))
-            GetText((int)Texts.CoinCount).text = PlayerPrefs.GetInt("Coin").ToString();
-        else { PlayerPrefs.SetInt("Coin", 0); GetText((int)Texts.CoinCount).text = PlayerPrefs.GetInt("Coin").ToString(); }
+        GetText((int)Texts.CoinCount).text = Managers.UserMng.GetCoin().ToString();
         #endregion
 
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(OnClickSettingBtn);
@@ -112,9 +110,7 @@ public class UI_PracticeGame : UI_Scene
         // Sound
         Managers.Sound.Play("ClickBtnEff");
 
-        // 코인 수 연결. TODO 데베랑 연결해야 됨.
-        if (PlayerPrefs.HasKey("Coin"))
-            GetText((int)Texts.CoinCount).text = PlayerPrefs.GetInt("Coin").ToString();
+        GetText((int)Texts.CoinCount).text = Managers.UserMng.GetCoin().ToString();
 
         if (Managers.Game.IsCorrect == true && Managers.Game.CurrentStatus == Define.CurrentStatus.LEARNING) // 오답일 경우?
         {

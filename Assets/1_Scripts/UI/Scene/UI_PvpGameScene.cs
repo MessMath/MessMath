@@ -1,19 +1,14 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.Windows;
 using System.Data;
 using System;
 using TMPro;
-using System.IO;
-using Unity.VisualScripting;
 using System.Linq;
-using System.Reflection;
 using Random = UnityEngine.Random;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Threading.Tasks;
 
 public class UI_PvpGameScene : UI_Scene
 {
@@ -73,6 +68,8 @@ public class UI_PvpGameScene : UI_Scene
         Managers.Network.Spawn();
     }
 
+    Player[] playerList;
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -108,6 +105,8 @@ public class UI_PvpGameScene : UI_Scene
         // ScoreSet
         ScoreSet();
 
+        playerList = PhotonNetwork.PlayerList;
+
         return true;
     }
 
@@ -128,34 +127,51 @@ public class UI_PvpGameScene : UI_Scene
         if (_player2Score == 2) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); }
         if (_player2Score == 3) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); GetImage((int)Images.OpponentScore3).gameObject.SetActive(true);
             PvpResult(); }
-
-
     }
 
-    public void PvpResult()
+    public async void PvpResult()
     {
-        UI_Popup ui_PvpGameResult;
+        Player player = GetOppPlayer();
 
-        // 승리화면
-        if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
+        if (_player1Score == 3 || _player2Score == 3)
         {
-            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>();
+            bool isWin = (PhotonNetwork.LocalPlayer.ActorNumber == 1 && _player1Score == 3) || (PhotonNetwork.LocalPlayer.ActorNumber == 2 && _player2Score == 3);
+            await ShowResultPopupAsync(player, isWin);
         }
-        if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        {
-            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>();
-        }
+    }
 
-        // 패배화면
-        if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        {
-            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>();
+    private async Task ShowResultPopupAsync(Player player, bool isWin)
+    {
+        string OppPlayersName = await Managers.DBManager.ReadDataAsync(player.NickName, "nickname");
 
-        }
-        if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
+        if (isWin)
         {
-            ui_PvpGameResult = Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>();
+            UI_PvpGameResult_Win p = Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>();
+            p.OppPlayer = player;
+            p.OppPlayersName = OppPlayersName;
         }
+        else
+        {
+            UI_PvpGameResult_Lose p = Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>();
+            p.OppPlayer = player;
+            p.OppPlayersName = OppPlayersName;
+        }
+    }
+
+
+
+    Player GetOppPlayer()
+    {
+        for (int i = 0; i <= playerList.Count(); i++)
+        {
+            Debug.Log("All __" + playerList[i]);
+            if (playerList[i].ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                Debug.Log(playerList[i]);
+                return playerList[i];
+            }
+        }
+        return null;
     }
 
     #region 수식 계산
@@ -428,7 +444,7 @@ public class UI_PvpGameScene : UI_Scene
     // 현재 플레이어의 위치로 설정
     void SetArrowDirection(ArrowOnlyinPvp arrow)
     {
-        if(firstCycle)
+        if (firstCycle)
             PlayerList = GameObject.FindObjectsOfType<PlayerControllerOnlyinPvp>();
 
         int randValue = Random.Range(0, PlayerList.Length);

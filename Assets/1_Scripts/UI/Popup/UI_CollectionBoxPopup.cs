@@ -89,7 +89,9 @@ public class UI_CollectionBoxPopup : UI_Popup
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        for (int obtainedCollectiondIdx = 0; obtainedCollectiondIdx < Managers.UserMng.GetObtainedGraces().Count - 1; obtainedCollectiondIdx++)
+        if (Managers.UserMng.GetObtainedCollections() == null) return;
+
+        for (int obtainedCollectiondIdx = 0; obtainedCollectiondIdx < Managers.UserMng.GetObtainedCollections().Count - 1; obtainedCollectiondIdx++)
         {
             for (int i = 0; i < _collectionDatas.Count; i++)
             {
