@@ -32,6 +32,8 @@ public class UI_PvpGameResult_Win : UI_Popup
         Opps_Illust,
     }
 
+    public Player OppPlayer;
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -57,15 +59,15 @@ public class UI_PvpGameResult_Win : UI_Popup
         // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
         // 상대방 닉네임 가져오기 (DB를 참조해서)
-        GetText((int)Texts.OppsNickname).text = Managers.DBManager.ReadData(GetOppPlayer().NickName, "nickname");
-            
+        GetText((int)Texts.OppsNickname).text = Managers.DBManager.ReadData(OppPlayer.NickName, "nickname");
+
+        Debug.Log($"<color=yellow> MyNickname : {Managers.UserMng.GetNickname()} </color>");
+        Debug.Log($"<color=yellow> OppsNickname : {Managers.DBManager.ReadData(OppPlayer.NickName, "nickname")} </color>");
+
         ChangeScore();
 
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
-
-        PhotonNetwork.Disconnect();
-        PhotonNetwork.AutomaticallySyncScene = false;
 
         return true;
     }
@@ -88,6 +90,12 @@ public class UI_PvpGameResult_Win : UI_Popup
         Time.timeScale = 1;
     }
 
+    void Exit()
+    {
+        PhotonNetwork.Disconnect();
+        PhotonNetwork.AutomaticallySyncScene = false;
+    }
+
     IEnumerator SceneChangeAnimation(Define.Scene Scene)
     {
         // Ani
@@ -105,7 +113,7 @@ public class UI_PvpGameResult_Win : UI_Popup
 
     IEnumerator CountUp(float target, float current, TextMeshProUGUI tmp)
     {
-        float duration = 0.7f; // 카운팅에 걸리는 시간 설정. 
+        float duration = 3f; // 카운팅에 걸리는 시간 설정. 
         float offset = (target - current) / duration;
 
         while (current < target)
@@ -129,14 +137,4 @@ public class UI_PvpGameResult_Win : UI_Popup
         StartCoroutine(CountUp(curScore + 100, curScore, GetText((int)Texts.MyScore)));
     }
 
-    Player GetOppPlayer()
-    {
-        Debug.Log($"<color=red>player[0] : {PhotonNetwork.PlayerList[0].NickName} </color>");
-        Debug.Log($"<color=red>player[1] : {PhotonNetwork.PlayerList[1].NickName} </color>");
-
-        if (PhotonNetwork.IsMasterClient)
-            return PhotonNetwork.PlayerList[1];
-        else
-            return PhotonNetwork.PlayerList[0];
-    }
 }

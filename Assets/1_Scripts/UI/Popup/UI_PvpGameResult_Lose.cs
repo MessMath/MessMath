@@ -33,6 +33,8 @@ public class UI_PvpGameResult_Lose : UI_Popup
         Opps_Illust,
     }
 
+    public Player OppPlayer;
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -58,7 +60,11 @@ public class UI_PvpGameResult_Lose : UI_Popup
         // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
         // 상대방 닉네임 가져오기 (DB를 참조해서) (UID를 참조해서?)
-        GetText((int)Texts.OppsNickname).text = Managers.DBManager.ReadData(GetOppPlayer().NickName, "nickname");
+        GetText((int)Texts.OppsNickname).text = Managers.DBManager.ReadData(OppPlayer.NickName, "nickname");
+
+        Debug.Log($"<color=yellow> MyNickname : {Managers.UserMng.GetNickname()} </color>");
+        Debug.Log($"<color=yellow> OppsNickname : {Managers.DBManager.ReadData(OppPlayer.NickName, "nickname")} </color>");
+
 
         ChangeScore();
 
@@ -89,6 +95,12 @@ public class UI_PvpGameResult_Lose : UI_Popup
         Time.timeScale = 1;
     }
 
+    void Exit()
+    {
+        PhotonNetwork.Disconnect();
+        PhotonNetwork.AutomaticallySyncScene = false;
+    }
+
     IEnumerator SceneChangeAnimation(Define.Scene Scene)
     {
         // Ani
@@ -106,7 +118,7 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
     IEnumerator CountDown(float target, float current, TextMeshProUGUI tmp)
     {
-        float duration = 0.7f; // 카운팅에 걸리는 시간 설정. 
+        float duration = 3f; // 카운팅에 걸리는 시간 설정. 
         float offset = (target - current) / duration;
 
         while (current > target)
@@ -124,18 +136,10 @@ public class UI_PvpGameResult_Lose : UI_Popup
     {
         // 점수 등락
         int curScore = Managers.UserMng.GetScore();
-        if (curScore >= 100)
-        {
-            Managers.UserMng.SetUserScore(curScore - 100);
-            // 점수 등락 시각적으로 표현
-            StartCoroutine(CountDown(curScore - 100, curScore, GetText((int)Texts.MyScore)));
-        }
-        else if (curScore < 100 && curScore > 0)
-        {
-            Managers.UserMng.SetUserScore(0);
-            // 점수 등락 시각적으로 표현
-            StartCoroutine(CountDown(0, curScore, GetText((int)Texts.MyScore)));
-        }
+        int resultScore = (curScore - 100) < 0 ? 0 : (curScore - 100);
+        Managers.UserMng.SetUserScore(resultScore);
+        // 점수 등락 시각적으로 표현
+        StartCoroutine(CountDown(resultScore, curScore, GetText((int)Texts.MyScore)));
     }
 
     Player GetOppPlayer()
