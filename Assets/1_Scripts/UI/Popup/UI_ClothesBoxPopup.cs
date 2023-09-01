@@ -74,8 +74,7 @@ public class UI_ClothesBoxPopup : UI_Popup
             GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/lobby_Character");
 
         RefreshUI();
-
-        Debug.Log($"UI_ClothesBoxPopup is opened");
+        RefreshCurrentClothes();
 
         return true;
     }
@@ -91,9 +90,6 @@ public class UI_ClothesBoxPopup : UI_Popup
             Managers.Resource.Destroy(t.gameObject);
 
         if (Managers.UserMng.GetObtainedClothes() == null) return; // ø ¿Â ≈÷ ∫Òæ˙¿ª ∂ß
-
-        for (int i = 0; i < Managers.UserMng.GetObtainedClothes().Count - 1; i++)
-            Debug.Log(Managers.UserMng.GetObtainedClothes()[i]);
 
         for (int i = 0; i < Managers.UserMng.GetObtainedClothes().Count - 1; i++)
         {
@@ -114,6 +110,18 @@ public class UI_ClothesBoxPopup : UI_Popup
                 clothesItem.GetOrAddComponent<UI_ClothesItem>()._description = _clothesDatas[j].explanation;
                 clothesItem.GetComponentInChildren<Image>().gameObject.BindEvent(() => { selectedObject = clothesItem; OnClickClothesBtn(); });
             }
+        }
+    }
+
+    void RefreshCurrentClothes()
+    {
+        if (Managers.UserMng.GetObtainedClothes() == null) return;
+
+        for (int i = 0; i < _clothesDatas.Count; i++)
+        {
+            if (_clothesDatas[i].img != Managers.UserMng.GetMyClothes()) return;
+            GetText((int)Texts.SelectedClothesText).text = _clothesDatas[i].name;
+            Managers.TextEffect.ApplyTextEffect(_clothesDatas[i].explanation, GetText((int)Texts.SelectedClothesDescription), 60);
         }
     }
 

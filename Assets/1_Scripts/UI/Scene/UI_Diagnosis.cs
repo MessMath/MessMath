@@ -72,6 +72,8 @@ public class UI_Diagnosis : UI_Scene
             // Sound
             Managers.Sound.Play("ClickBtnEff");
             Managers.DBManager.SetIsCompletedDiagnosis(true);
+            Managers.DBManager.SetMyClothes("uniform");
+            Managers.DBManager.SetObtainedClothes("uniform");
             // TODO 예외처리
             if(Managers.UserMng.user.isCompletedStory)
                 Managers.Scene.ChangeScene(Define.Scene.LobbyScene); 
