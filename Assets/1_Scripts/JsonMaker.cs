@@ -87,13 +87,13 @@ public class JsonMaker : MonoBehaviour
         range.Add("A2:G7");
         range.Add("A2:A7");
         range.Add("A2:A6");
-        range.Add("A2:G8");
+        range.Add("A2:G11");
         range.Add("A2:G82");
         range.Add("A2:G7");
         range.Add("A2:G7");
         range.Add("A2:A7");
         range.Add("A2:A6");
-        range.Add("A2:G8");
+        range.Add("A2:G11");
         range.Add("A2:G23");
         range.Add("A2:G23");
     }
