@@ -1,9 +1,7 @@
-﻿using JetBrains.Annotations;
-using MessMathI18n;
+﻿using MessMathI18n;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -33,6 +31,7 @@ public class UI_PvpGameResult_Win : UI_Popup
     }
 
     public Player OppPlayer;
+    public string OppPlayersName;
 
     public override bool Init()
     {
@@ -56,13 +55,13 @@ public class UI_PvpGameResult_Win : UI_Popup
 
         Managers.Sound.Play("ClearEff");
 
+        Debug.Log($"<color=yellow> MyNickname : {Managers.UserMng.GetNickname()} </color>");
+        Debug.Log($"<color=yellow> OppsNickname : {OppPlayersName} </color>");
+
         // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
         // 상대방 닉네임 가져오기 (DB를 참조해서)
-        GetText((int)Texts.OppsNickname).text = Managers.DBManager.ReadData(OppPlayer.NickName, "nickname");
-
-        Debug.Log($"<color=yellow> MyNickname : {Managers.UserMng.GetNickname()} </color>");
-        Debug.Log($"<color=yellow> OppsNickname : {Managers.DBManager.ReadData(OppPlayer.NickName, "nickname")} </color>");
+        GetText((int)Texts.OppsNickname).text = OppPlayersName;
 
         ChangeScore();
 

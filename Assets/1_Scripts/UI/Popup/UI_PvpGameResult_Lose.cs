@@ -2,11 +2,8 @@
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class UI_PvpGameResult_Lose : UI_Popup
 {
@@ -34,6 +31,7 @@ public class UI_PvpGameResult_Lose : UI_Popup
     }
 
     public Player OppPlayer;
+    public string OppPlayersName;
 
     public override bool Init()
     {
@@ -57,14 +55,13 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
         Managers.Sound.Play("DefeatEff");
 
+        Debug.Log($"<color=yellow> MyNickname : {Managers.UserMng.GetNickname()} </color>");
+        Debug.Log($"<color=yellow> OppsNickname : {OppPlayersName} </color>");
+
         // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
-        // 상대방 닉네임 가져오기 (DB를 참조해서) (UID를 참조해서?)
-        GetText((int)Texts.OppsNickname).text = Managers.DBManager.ReadData(OppPlayer.NickName, "nickname");
-
-        Debug.Log($"<color=yellow> MyNickname : {Managers.UserMng.GetNickname()} </color>");
-        Debug.Log($"<color=yellow> OppsNickname : {Managers.DBManager.ReadData(OppPlayer.NickName, "nickname")} </color>");
-
+        // 상대방 닉네임 가져오기 (DB를 참조해서)
+        GetText((int)Texts.OppsNickname).text = OppPlayersName;
 
         ChangeScore();
 
@@ -72,9 +69,6 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
-
-        PhotonNetwork.Disconnect();
-        PhotonNetwork.AutomaticallySyncScene = false;
 
         return true;
     }
@@ -121,7 +115,7 @@ public class UI_PvpGameResult_Lose : UI_Popup
     IEnumerator CountDown(float target, float current, TextMeshProUGUI tmp)
     {
         float duration = 3f; // 카운팅에 걸리는 시간 설정. 
-        float offset = (target - current) / duration;
+        float offset = (current - target) / duration;
 
         while (current > target)
         {
@@ -142,16 +136,5 @@ public class UI_PvpGameResult_Lose : UI_Popup
         Managers.UserMng.SetUserScore(resultScore);
         // 점수 등락 시각적으로 표현
         StartCoroutine(CountDown(resultScore, curScore, GetText((int)Texts.MyScore)));
-    }
-
-    Player GetOppPlayer()
-    {
-        Debug.Log($"<color=red>player[0] : {PhotonNetwork.PlayerList[0].NickName} </color>");
-        Debug.Log($"<color=red>player[1] : {PhotonNetwork.PlayerList[1].NickName} </color>");
-
-        if (PhotonNetwork.IsMasterClient)
-            return PhotonNetwork.PlayerList[1];
-        else
-            return PhotonNetwork.PlayerList[0];
     }
 }

@@ -15,6 +15,7 @@ using Random = UnityEngine.Random;
 using Photon.Pun;
 using Photon.Realtime;
 using Photon.Pun.Demo.PunBasics;
+using System.Threading.Tasks;
 
 public class UI_PvpGameScene : UI_Scene
 {
@@ -134,27 +135,15 @@ public class UI_PvpGameScene : UI_Scene
         }
         if (_player2Score == 1) GetImage((int)Images.OpponentScore1).gameObject.SetActive(true);
         if (_player2Score == 2) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); }
-        if (_player2Score == 3)
-        {
-            GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); GetImage((int)Images.OpponentScore3).gameObject.SetActive(true);
-            PvpResult();
-        }
+        if (_player2Score == 3) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); GetImage((int)Images.OpponentScore3).gameObject.SetActive(true);
+            PvpResult(); }
     }
 
-    public void PvpResult()
+    public async void PvpResult()
     {
-        for (int i = 0; i < PhotonNetwork.PlayerList.Count(); i++)
-        {
-            Debug.Log(PhotonNetwork.PlayerList[i]);
-            Debug.Log(PhotonNetwork.PlayerList[i].NickName);
-            Debug.Log(PhotonNetwork.PlayerList[i].ToString());
-            Debug.Log(PhotonNetwork.PlayerList[i].IsMasterClient);
-        }
-
         Player player = GetOppPlayer();
 
-        // 승리화면
-        if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
+        if (_player1Score == 3 || _player2Score == 3)
         {
             Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = player;
         }
@@ -166,13 +155,18 @@ public class UI_PvpGameScene : UI_Scene
         // 패배화면
         if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
         {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>().OppPlayer = player;
-        }
-        if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>().OppPlayer = player;
+            UI_PvpGameResult_Win p = Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>();
+            p.OppPlayersName = oppPlayersName;
+        }
+        else
+        {
+            UI_PvpGameResult_Lose p = Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>();
+            p.OppPlayer = player;
+            p.OppPlayersName = oppPlayersName;
         }
     }
+
 
     Player GetOppPlayer()
     {
