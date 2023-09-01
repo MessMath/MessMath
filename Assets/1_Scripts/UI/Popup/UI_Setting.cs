@@ -12,12 +12,20 @@ public class UI_Setting : UI_Popup
         Panel,
     }
 
+    enum Texts
+    {
+        ContinueText,
+        LogoutText,
+        ExitText,
+    }
+
     enum Buttons
     {
         ContinueBtn,
         KorianBtn,
         EnglishBtn,
         ExitBtn,
+        LogoutBtn,
     }
 
     public override bool Init()
@@ -27,8 +35,12 @@ public class UI_Setting : UI_Popup
 
         BindImage(typeof(Images));
         BindButton(typeof(Buttons));
+        BindText(typeof(Texts));
 
-        
+        GetText((int)Texts.ContinueText).text = I18n.Get(I18nDefine.SETTING_CONTINUE);
+        GetText((int)Texts.LogoutText).text = I18n.Get(I18nDefine.SETTING_LOGOUT);
+        GetText((int)Texts.ExitText).text = I18n.Get(I18nDefine.SETTING_EXIT);
+
         GetImage((int)Images.Panel).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ClosePopupUI(); });
 
         GetButton((int)Buttons.ContinueBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ClosePopupUI(); });
@@ -44,10 +56,20 @@ public class UI_Setting : UI_Popup
         });
         GetButton((int)Buttons.KorianBtn).gameObject.BindEvent(OnClickedKorBtn);
         GetButton((int)Buttons.EnglishBtn).gameObject.BindEvent(OnClickedEnBtn);
+        GetButton((int)Buttons.LogoutBtn).gameObject.BindEvent(OnClickedLogoutBtn);
         SetLanguageBtn();
 
         Time.timeScale = 0.0f;
         return true;
+    }
+
+    void OnClickedLogoutBtn()
+    {
+        Managers.Sound.Play("ClickBtnEff");
+        Managers.UI.CloseAllPopupUI();
+        Managers.Scene.ChangeScene(Define.Scene.MainScene);
+        Managers.GoogleSignIn.SignOutFromGoogle();
+        Debug.Log("·Î±×¾Æ¿ô");
     }
 
     IEnumerator SceneChangeAnimation_In_Lobby()

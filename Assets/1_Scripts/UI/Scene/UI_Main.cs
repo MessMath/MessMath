@@ -13,7 +13,8 @@ public class UI_Main : UI_Scene
 {
     enum Texts
     {
-
+        SignIn,
+        SignInPressed,
     }
 
     enum Buttons
@@ -28,7 +29,7 @@ public class UI_Main : UI_Scene
 
     enum GameObjects
     {
-
+        Panel,
     }
 
     private void Start()
@@ -47,12 +48,19 @@ public class UI_Main : UI_Scene
         BindImage(typeof(Images));
 
         GetImage((int)Images.BG).gameObject.BindEvent(OnClickBG);
-
+        GetText((int)Texts.SignIn).gameObject.BindEvent(onClickedSignIn);
+        GetText((int)Texts.SignInPressed).gameObject.SetActive(false);
         // Sound
         Managers.Sound.Clear();
         Managers.Sound.Play("MainBgm", Define.Sound.Bgm);
 
         return true;
+    }
+
+    private void Update()
+    {
+        if (Managers.GoogleSignIn.isLogin() == true)
+            GetObject((int)GameObjects.Panel).SetActive(false);
     }
 
     void OnClickBG( )
@@ -67,6 +75,17 @@ public class UI_Main : UI_Scene
         //else
         //    Managers.UI.ShowPopupUI<UI_SelectLanguage>();
 
+    }
+    
+    void onClickedSignIn()
+    {
+        GetText((int)Texts.SignIn).gameObject.SetActive(false);
+        GetText((int)Texts.SignInPressed).gameObject.SetActive(true);
+
+        Managers.Sound.Play("ClickBtnEff");
+
+        Managers.GoogleSignIn.SignInWithGoogle();
+        Debug.Log("·Î±×ÀÎ");
     }
 
 }

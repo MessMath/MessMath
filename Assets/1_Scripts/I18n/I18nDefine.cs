@@ -95,4 +95,8 @@ public static class I18nDefine
     // Clothes
     public const string CLOTHES_TITLE = "CLOTHES_TITLE";
     public const string CLOTHES_SELECT = "CLOTHES_SELECT";
+    // Setting
+    public const string SETTING_CONTINUE = "SETTING_CONTINUE";
+    public const string SETTING_LOGOUT = "SETTING_LOGOUT";
+    public const string SETTING_EXIT = "SETTING_LOGOUT";
 }

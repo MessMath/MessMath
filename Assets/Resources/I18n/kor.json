@@ -91,5 +91,9 @@
   "COLLECTION_TITLE": "수집품",
   // Clothes
   "CLOTHES_TITLE": "의상",
-  "CLOTHES_SELECT": "변신"
+  "CLOTHES_SELECT": "변신",
+  // Setting
+  "SETTING_CONTINUE": "계속하기",
+  "SETTING_LOGOUT": "로그아웃",
+  "SETTING_EXIT": "나가기"
 }
