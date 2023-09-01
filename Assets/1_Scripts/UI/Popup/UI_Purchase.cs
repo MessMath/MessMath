@@ -80,7 +80,7 @@ public class UI_Purchase : UI_Popup
     public void SetPopup(StoreData storeData)
     {
         GetText((int)Texts.NameTMP).text = storeData.name;
-        Managers.TextEffect.ApplyTextEffect(storeData.explanation, GetText((int)Texts.ExplanationTMP), 36);
+        Managers.TextEffect.ApplyTextEffect(storeData.explanation, GetText((int)Texts.ExplanationTMP), 45);
         GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Grace/" + storeData.img, typeof(Sprite)) as Sprite;
         if (storeData.mode == "collection")
             GetImage((int)Images.ItemImage).sprite = Resources.Load("Sprites/Collections/" + storeData.img, typeof(Sprite)) as Sprite;

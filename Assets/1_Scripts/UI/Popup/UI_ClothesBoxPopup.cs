@@ -69,9 +69,9 @@ public class UI_ClothesBoxPopup : UI_Popup
         GetImage((int)Images.SelectedClothesImage).gameObject.SetActive(false);
 
         if (Managers.UserMng.GetMyClothes() != "")
-            GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes());
+            GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes() + "_full");
         else
-            GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/lobby_Character");
+            GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/uniform_full");
 
         RefreshUI();
         RefreshCurrentClothes();
@@ -139,7 +139,7 @@ public class UI_ClothesBoxPopup : UI_Popup
 
         GetImage((int)Images.SelectedClothesImage).gameObject.SetActive(true);
 
-        GetImage((int)Images.SelectedClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + selectedObject.GetComponent<UI_ClothesItem>()._img);
+        GetImage((int)Images.SelectedClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + selectedObject.GetComponent<UI_ClothesItem>()._img + "_full");
         GetText((int)Texts.SelectedClothesText).text = Utils.FindChild(selectedObject, "ClothesIconText", true).GetOrAddComponent<TextMeshProUGUI>().text;
         //GetText((int)Texts.SelectedGraceDescription).text = selectedObject.GetOrAddComponent<UI_GraceItem>()._description;
         Managers.TextEffect.ApplyTextEffect(selectedObject.GetOrAddComponent<UI_ClothesItem>()._description, GetText((int)Texts.SelectedClothesDescription), 60);
