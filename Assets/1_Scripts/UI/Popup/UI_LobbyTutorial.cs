@@ -66,7 +66,6 @@ public class UI_LobbyTutorial : UI_Popup
         GetText((int)Texts.CharacterNameTMP).text = "";
         GetText((int)Texts.DialogueTMP).text = "";
         GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
-
         return true;
     }
 
@@ -89,7 +88,6 @@ public class UI_LobbyTutorial : UI_Popup
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), storyTalkData[count].characterName);
         Managers.SceneEffect.ChangeCharacter(GetImage((int)Images.PlayerImage), GetImage((int)Images.CharacterImage), storyTalkData[count].characterName, storyTalkData[count].expression);
 
-
         if (storyTalkData[count].txtEffect == "MAX")
         {
             GetText((int)Texts.DialogueTMP).fontSize = 100;
@@ -99,7 +97,14 @@ public class UI_LobbyTutorial : UI_Popup
             GetText((int)Texts.DialogueTMP).fontSize = 80;
         }
 
-        GetText((int)Texts.CharacterNameTMP).text = storyTalkData[count].characterName;
+        if (storyTalkData[count].characterName == "¡÷¿Œ∞¯" || storyTalkData[count].characterName == "Main character")
+        {
+            GetText((int)Texts.CharacterNameTMP).text = Managers.UserMng.GetNickname();
+        }
+        else
+        {
+            GetText((int)Texts.CharacterNameTMP).text = storyTalkData[count].characterName;
+        }
 
         Managers.TextEffect.SetNormalSpeed();
         Managers.TextEffect.Typing(storyTalkData[count].dialogue, GetText((int)Texts.DialogueTMP));

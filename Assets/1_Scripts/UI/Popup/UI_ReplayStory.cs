@@ -59,7 +59,7 @@ public class UI_ReplayStory : UI_Popup
             {
                 GameObject item = Managers.UI.MakeSubItem<UI_Area>(GetObject((int)GameObjects.Content).transform, "OpponentArea").gameObject; 
                 UI_Area area = item.GetOrAddComponent<UI_Area>();
-                picture = "Sprites/Story/Characters/gauss";
+                picture = "Sprites/Character/Profile/profile_gauss";
                 if(area.Init()) 
                 area.SetArea(characterName, dialogue, picture);
                 Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
