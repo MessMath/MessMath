@@ -49,7 +49,7 @@ public class UI_Main : UI_Scene
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
 
-        // 배경 소지품 가지고 있으면 랜덤으로 배경 바꿔주는 함수
+        //배경 소지품 가지고 있으면 랜덤으로 배경 바꿔주는 함수
         //if (CheckHaveBgImage())
         //{
         //    GetImage((int)Images.BG).sprite = Resources.Load<Sprite>("Sprites/background" + GetRandomBgSprite());
@@ -69,18 +69,19 @@ public class UI_Main : UI_Scene
         // Sound
         Managers.Sound.Play("ClickBtnEff");
 
-        Managers.UI.ShowPopupUI<UI_SelectLanguage>();
+        //Managers.UI.ShowPopupUI<UI_SelectLanguage>();
 
-        //if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH || LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
-        //    Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
-        //else
-        //    Managers.UI.ShowPopupUI<UI_SelectLanguage>();
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH || LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
+            Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
+        else
+            Managers.UI.ShowPopupUI<UI_SelectLanguage>();
 
     }
 
     bool CheckHaveBgImage()
     {
         if (Managers.UserMng.user.UID == null) return false;
+        if (Managers.UserMng.GetObtainedCollections() == null) return false;
 
         for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
         {

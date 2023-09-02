@@ -8,7 +8,8 @@ namespace MessMathI18n
     public enum Language
     {
         KOREAN = 0,
-        ENGLISH = 1
+        ENGLISH = 1,
+        NONE,
     }
     public enum ResLoadType
     {
@@ -48,7 +49,7 @@ namespace MessMathI18n
     [CreateAssetMenu(menuName = "I18n/ResSettings", fileName = "ResSettings")]
     public class LocalizationManager : ScriptableObject
     {
-        private Language selectedLanguage = Language.KOREAN;
+        private Language selectedLanguage = Language.NONE;
         [SerializeField]
         private ResLoadType m_LoadType;
         [SerializeField]

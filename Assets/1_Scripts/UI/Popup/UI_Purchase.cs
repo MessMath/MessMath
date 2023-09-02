@@ -75,6 +75,9 @@ public class UI_Purchase : UI_Popup
                 Utils.FindChild(gameObject.transform.parent.gameObject, "UI_Store").GetComponentInChildren<UI_Store>().Invoke("OnClickedClothesBtn", 0); ;
                 break;
         }
+
+        // ·Îºñ RefreshUI
+         gameObject.transform.parent.gameObject.GetComponentInChildren<UI_Lobby>().Invoke("RefreshUI", 0); ;
     }
 
     public void SetPopup(StoreData storeData)
