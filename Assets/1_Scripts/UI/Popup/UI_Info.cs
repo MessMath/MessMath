@@ -59,7 +59,7 @@ public class UI_Info : UI_Popup
         GetText((int)Texts.InfoText).text = I18n.Get(I18nDefine.INFO_TEXT);
         GetImage((int)Images.UserImage).gameObject.BindEvent(() => OnClickedProfile());
 
-        Managers.DBManager.reference.Child("Users").Child(Managers.UserMng.user.UID).ValueChanged += HandleValueChanged;
+        Managers.DBManager.reference.Child("Users").Child(Managers.UserMng.UID).ValueChanged += HandleValueChanged;
 
         // placeholder
         TextMeshProUGUI placeholder = (TextMeshProUGUI)GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().placeholder;

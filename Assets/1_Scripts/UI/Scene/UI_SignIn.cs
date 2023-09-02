@@ -96,6 +96,6 @@ public class UI_SignIn : UI_Scene
     void AddCoin()
     {
         Managers.DBManager.SetCoin(3);
-        GetButton((int)Buttons.AddCoinButton).gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Managers.UserMng.user.coin.ToString();
+        GetButton((int)Buttons.AddCoinButton).gameObject.GetComponentInChildren<TextMeshProUGUI>().text = Managers.UserMng.coin.ToString();
     }
 }

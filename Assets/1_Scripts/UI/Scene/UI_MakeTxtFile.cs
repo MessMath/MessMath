@@ -72,7 +72,7 @@ public class UI_MakeTxtFile : UI_Scene
 
     bool CheckHaveMagicCircleImage()
     {
-        if (Managers.UserMng.user.UID == null) return false;
+        if (Managers.UserMng.UID == null) return false;
         if (Managers.UserMng.GetObtainedCollections() == null) return false;
 
         for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)

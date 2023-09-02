@@ -13,7 +13,7 @@ public class PvpNetworkManager : MonoBehaviourPunCallbacks
     public void Connect()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.NickName = Managers.UserMng.user.UID;
+        PhotonNetwork.NickName = Managers.UserMng.UID;
         PhotonNetwork.ConnectUsingSettings();
     }
 

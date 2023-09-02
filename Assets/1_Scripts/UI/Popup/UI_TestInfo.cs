@@ -55,7 +55,7 @@ public class UI_TestInfo : UI_Popup
         BindButton(typeof(Buttons));
         BindImage(typeof(Images));
 
-        Managers.DBManager.reference.Child("Users").Child(Managers.UserMng.user.UID).ValueChanged += HandleValueChanged;
+        Managers.DBManager.reference.Child("Users").Child(Managers.UserMng.UID).ValueChanged += HandleValueChanged;
         #region CustomizingObject Clear
         GetObject((int)GameObjects.CustomizingObject1).gameObject.GetComponent<Image>().sprite = null;
         GetObject((int)GameObjects.CustomizingObject2).gameObject.GetComponent<Image>().sprite = null;
@@ -65,7 +65,7 @@ public class UI_TestInfo : UI_Popup
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(()=> Managers.UI.ClosePopupUI(this));
         GetButton((int)Buttons.SaveBtn).gameObject.BindEvent(() => OnClickedSaveBtn());
 
-        GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.UserMng.user.nickname;
+        GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = Managers.UserMng.nickname;
         return true;
     }
 

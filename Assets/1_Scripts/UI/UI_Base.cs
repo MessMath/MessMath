@@ -135,22 +135,22 @@ public abstract class UI_Base : MonoBehaviour
             //string newObtainedCollections = args.Snapshot.Child("obtainedCollections").Value.ToString();
             //string newObtainedGraces = args.Snapshot.Child("obtainedGraces").Value.ToString();
 
-            Managers.UserMng.user.nickname = newNickname;
-            Managers.UserMng.user.coin = int.Parse(newCoin);
-            Managers.UserMng.user.isCompletedDiagnosis = bool.Parse(newIsCompletedDiagnosis);
-            Managers.UserMng.user.isCompletedStory = bool.Parse(newIsCompletedStory);
-            Managers.UserMng.user.isCompletedTutorial = bool.Parse(newIsTutorial);
-            Managers.UserMng.user.message = newMessage;
-            Managers.UserMng.user.score = int.Parse(newScore);
-            Managers.UserMng.user.storyModeGrace.grace1 = newStoryGrace1;
-            Managers.UserMng.user.storyModeGrace.grace2 = newStoryGrace2;
-            Managers.UserMng.user.storyModeGrace.grace3 = newStoryGrace3;
-            Managers.UserMng.user.oneOnOneModeGrace.grace1 = newOneOnOneGrace1;
-            Managers.UserMng.user.oneOnOneModeGrace.grace2 = newOneOnOneGrace2;
-            Managers.UserMng.user.oneOnOneModeGrace.grace3 = newOneOnOneGrace3;
-            Managers.UserMng.user.inventory.obtainedClothes = newObtainedClothes;
-            Managers.UserMng.user.inventory.obtainedCollections = newObtainedCollections;
-            Managers.UserMng.user.inventory.obtainedGraces = newObtainedGraces;
+            Managers.UserMng.nickname = newNickname;
+            Managers.UserMng.coin = int.Parse(newCoin);
+            Managers.UserMng.isCompletedDiagnosis = bool.Parse(newIsCompletedDiagnosis);
+            Managers.UserMng.isCompletedStory = bool.Parse(newIsCompletedStory);
+            Managers.UserMng.isCompletedTutorial = bool.Parse(newIsTutorial);
+            Managers.UserMng.message = newMessage;
+            Managers.UserMng.score = int.Parse(newScore);
+            Managers.UserMng.storyModeGrace.grace1 = newStoryGrace1;
+            Managers.UserMng.storyModeGrace.grace2 = newStoryGrace2;
+            Managers.UserMng.storyModeGrace.grace3 = newStoryGrace3;
+            Managers.UserMng.oneOnOneModeGrace.grace1 = newOneOnOneGrace1;
+            Managers.UserMng.oneOnOneModeGrace.grace2 = newOneOnOneGrace2;
+            Managers.UserMng.oneOnOneModeGrace.grace3 = newOneOnOneGrace3;
+            Managers.UserMng.inventory.obtainedClothes = newObtainedClothes;
+            Managers.UserMng.inventory.obtainedCollections = newObtainedCollections;
+            Managers.UserMng.inventory.obtainedGraces = newObtainedGraces;
         }
         else
         {

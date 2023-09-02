@@ -90,7 +90,7 @@ public class UI_Lobby : UI_Scene
 
         RefreshUI();
 
-        if (Managers.UserMng.user.isCompletedStory == true)
+        if (Managers.UserMng.isCompletedStory == true)
         {
             GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() =>
             {
@@ -108,7 +108,7 @@ public class UI_Lobby : UI_Scene
         Managers.Sound.Clear();
         Managers.Sound.Play("LobbyBgm", Define.Sound.Bgm);
 
-        if (Managers.UserMng.user.isCompletedTutorial == false)
+        if (Managers.UserMng.isCompletedTutorial == false)
             Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
 
         return true;
@@ -169,8 +169,8 @@ public class UI_Lobby : UI_Scene
 
         CheckCollection();
 
-        if (Managers.UserMng.user.myClothes != "")
-            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.user.myClothes + "_full");
+        if (Managers.UserMng.myClothes != "")
+            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.myClothes + "_full");
         else
             GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/uniform_full");
 
@@ -212,7 +212,7 @@ public class UI_Lobby : UI_Scene
     #region MagicCircle
     bool CheckHaveMagicCircleImage()
     {
-        if (Managers.UserMng.user.UID == null) return false;
+        if (Managers.UserMng.UID == null) return false;
         if (Managers.UserMng.GetObtainedCollections() == null) return false;
 
         for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)

@@ -130,12 +130,13 @@ public class UI_Main : UI_Scene
         {
             Managers.DBManager.SignInUser(Managers.GoogleSignIn.GetUID());
         }
+
         Debug.Log("�α���");
     }
 
     bool CheckHaveBgImage()
     {
-        if (Managers.UserMng.user.UID == null) return false;
+        if (Managers.UserMng.UID == null) return false;
         if (Managers.UserMng.GetObtainedCollections() == null) return false;
 
         for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)

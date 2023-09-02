@@ -89,69 +89,53 @@ public class UserManager
         }
     }
 
-    public class User
+    public string UID;
+    public int coin;
+    public int score;
+    public Inventory inventory;
+    public bool isCompletedStory;
+    public bool isCompletedTutorial;
+    public bool isCompletedDiagnosis;
+    public bool isKilledWitch;
+    public string nickname;
+    public OneOnOneModeGrace oneOnOneModeGrace;
+    public StoryModeGrace storyModeGrace;
+    public string message;
+    public string myClothes;
+    //public string obtainedCollections;
+    //public string obtainedClothes;
+    //public string obtainedGraces;
+
+    public void InitUser(string _UID, int _coin, int _score, Inventory _inventory, bool _isCompletedStory,
+    bool _isCompletedTutorial, bool _isCompletedDiagnosis, bool _isKilledWitch, string _nickname, OneOnOneModeGrace _oneOnOneModeGrace, StoryModeGrace _storyModeGrace, string _message, string _myClothes)
     {
-        private static User instance = null;
-        public User Instance()
+        UID = _UID;
+        coin = _coin;
+        score = _score;
+        isCompletedStory = _isCompletedStory;
+        isCompletedTutorial = _isCompletedTutorial;
+        isCompletedDiagnosis = _isCompletedDiagnosis;
+        isKilledWitch = _isKilledWitch;
+        nickname = _nickname;
+        oneOnOneModeGrace = _oneOnOneModeGrace;
+        storyModeGrace = _storyModeGrace;
+        message = _message;
+        myClothes = _myClothes;
+        if (_inventory == null)
         {
-            if (instance == null)
-            {
-                instance = new User();
-            }
-            return instance;
+            inventory = new Inventory();
+        }
+        else
+        {
+            inventory = _inventory;
         }
 
-        public string UID;
-        public int coin;
-        public int score;
-        public Inventory inventory;
-        public bool isCompletedStory;
-        public bool isCompletedTutorial;
-        public bool isCompletedDiagnosis;
-        public bool isKilledWitch;
-        public string nickname;
-        public OneOnOneModeGrace oneOnOneModeGrace;
-        public StoryModeGrace storyModeGrace;
-        public string message;
-        public string myClothes;
-        //public string obtainedCollections;
-        //public string obtainedClothes;
-        //public string obtainedGraces;
-
-        public void InitUser(string _UID, int _coin, int _score, Inventory _inventory, bool _isCompletedStory,
-        bool _isCompletedTutorial, bool _isCompletedDiagnosis, bool _isKilledWitch, string _nickname, OneOnOneModeGrace _oneOnOneModeGrace, StoryModeGrace _storyModeGrace, string _message, string _myClothes)
-        {
-            UID = _UID;
-            coin = _coin;
-            score = _score;
-            isCompletedStory = _isCompletedStory;
-            isCompletedTutorial = _isCompletedTutorial;
-            isCompletedDiagnosis = _isCompletedDiagnosis;
-            isKilledWitch = _isKilledWitch;
-            nickname = _nickname;
-            oneOnOneModeGrace = _oneOnOneModeGrace;
-            storyModeGrace = _storyModeGrace;
-            message = _message;
-            myClothes = _myClothes;
-            if (_inventory == null)
-            {
-                inventory = new Inventory();
-            }
-            else
-            {
-                inventory = _inventory;
-            }
-
-            oneOnOneModeGrace = _oneOnOneModeGrace;
-            storyModeGrace = _storyModeGrace;
-        }
+        oneOnOneModeGrace = _oneOnOneModeGrace;
+        storyModeGrace = _storyModeGrace;
     }
 
-    public User user;
-
     public void Init()
-    {
-        user = user.Instance();
+    {        
     }
 
     //public void SetExistingUser()
@@ -169,141 +153,141 @@ public class UserManager
 
     public void SetNickname(string nickname)
     {
-        user.nickname = nickname;
+        nickname = nickname;
     }
 
     public void SetUserMessage(string messsage)
     {
-        user.message = messsage;
+        message = messsage;
     }
 
     public void SetOneOnOneGrace(string grace1 = null, string grace2 = null, string grace3 = null)
     {
-        user.oneOnOneModeGrace.grace1 = grace1;
-        user.oneOnOneModeGrace.grace2 = grace2;
-        user.oneOnOneModeGrace.grace2 = grace3;
+        oneOnOneModeGrace.grace1 = grace1;
+        oneOnOneModeGrace.grace2 = grace2;
+        oneOnOneModeGrace.grace2 = grace3;
     }
     public void SetStoryGrace(string grace1 = null, string grace2 = null, string grace3 = null)
     {
-        user.storyModeGrace.grace1 = grace1;
-        user.storyModeGrace.grace2 = grace2;
-        user.storyModeGrace.grace3 = grace3;
+        storyModeGrace.grace1 = grace1;
+        storyModeGrace.grace2 = grace2;
+        storyModeGrace.grace3 = grace3;
     }
     public void SetUserCoin(int coin)
     {
-        user.coin = coin;
+        coin = coin;
     }
     public void SetUserScore(int score)
     {
-        user.score = score;
+        score = score;
     }
 
     public void SetUserIsCompletedStory(bool isCompleted)
     {
-        user.isCompletedStory = isCompleted;
+        isCompletedStory = isCompleted;
     }
 
     public void SetUserIsCompletedTutorial(bool isCompleted)
     {
-        user.isCompletedTutorial = isCompleted;
+        isCompletedTutorial = isCompleted;
     }
 
     public void SetUserIsCompletedDiagnosis(bool isCompleted)
     {
-        user.isCompletedDiagnosis = isCompleted;
+        isCompletedDiagnosis = isCompleted;
     }
 
     public void SetUseIsKilledWitch(bool isKilled)
     {
-        user.isKilledWitch = isKilled;
+        isKilledWitch = isKilled;
     }
 
     public void SetUserMyClothes(string myClothes)
     {
-        user.myClothes = myClothes;
+        myClothes = myClothes;
     }
 
     public void SetUserObtainedClothes(string clothes)
     {
-        user.inventory.obtainedClothes += clothes + ",";
+        inventory.obtainedClothes += clothes + ",";
     }
 
     public void SetUserObtainedGraces(string graces)
     {
-        user.inventory.obtainedGraces += graces + ",";
+        inventory.obtainedGraces += graces + ",";
     }
 
     public void SetUserObtainedCollections(string collections)
     {
-        user.inventory.obtainedCollections += collections + ",";
+        inventory.obtainedCollections += collections + ",";
     }
 
     public string GetNickname()
     {
-        return user.nickname;
+        return nickname;
     }
 
     public int GetCoin()
     {
-        return user.coin;
+        return coin;
     }
 
     public int GetScore()
     {
-        return user.score;
+        return score;
     }
     public List<string> GetObtainedClothes()
     {
-        return StringToList(user.inventory.obtainedClothes);
+        return StringToList(inventory.obtainedClothes);
     }
 
     public List<string> GetObtainedGraces()
     {
-        return StringToList(user.inventory.obtainedGraces);
+        return StringToList(inventory.obtainedGraces);
     }
 
     public List<string> GetObtainedCollections()
     {
-        return StringToList(user.inventory.obtainedCollections);
+        return StringToList(inventory.obtainedCollections);
     }
 
     public bool GetIsCompletedStory()
     {
-        return user.isCompletedStory;
+        return isCompletedStory;
     }
 
     public bool GetIsCompletedTutorial()
     {
-        return user.isCompletedTutorial;
+        return isCompletedTutorial;
     }
 
     public bool GetIsCompletedDiagnosis()
     {
-        return user.isCompletedDiagnosis;
+        return isCompletedDiagnosis;
     }
 
     public bool GetIsKilledWitch()
     {
-        return user.isKilledWitch;
+        return isKilledWitch;
     }
 
     public string GetMyClothes()
     {
-        return user.myClothes;
+        return myClothes;
     }
 
     public OneOnOneModeGrace GetOneOnOneModeGrace()
     {
-        return user.oneOnOneModeGrace;
+        return oneOnOneModeGrace;
     }
     public StoryModeGrace GetStoryModeGrace()
     {
-        return user.storyModeGrace;
+        return storyModeGrace;
     }
 
     public string GetMessage()
     {
-        return user.message;
+        return message;
     }
 
     private List<string> StringToList(string data)
