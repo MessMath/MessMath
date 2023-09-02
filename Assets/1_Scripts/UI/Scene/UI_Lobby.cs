@@ -101,7 +101,20 @@ public class UI_Lobby : UI_Scene
 
         RefreshUI();
 
-        if (Managers.UserMng.isCompletedStory == true)
+        CheckStory();
+        #endregion
+        // Sound
+        Managers.Sound.Clear();
+        Managers.Sound.Play("LobbyBgm", Define.Sound.Bgm);
+
+        CheckTutorial();
+
+        return true;
+    }
+
+    async void CheckStory()
+    {
+        if (await Managers.DBManager.GetIsCompletedStory(Managers.GoogleSignIn.GetUID()) == true)
         {
             GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() =>
             {
@@ -114,16 +127,14 @@ public class UI_Lobby : UI_Scene
         {
             //GetButton((int)Buttons.QuestBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
         }
-        #endregion
-        // Sound
-        Managers.Sound.Clear();
-        Managers.Sound.Play("LobbyBgm", Define.Sound.Bgm);
-
-        if (Managers.UserMng.isCompletedTutorial == false)
-            Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
-
-        return true;
     }
+
+    async void CheckTutorial()
+    {
+        if (await Managers.DBManager.GetIsCompletedTutorial(Managers.GoogleSignIn.GetUID()) == false)
+            Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
+    }
+
 
     #region ¾Àº¯È¯ ¾Ö´Ï
     IEnumerator SceneChangeAnimation_In_PracticeGameScene()
@@ -166,7 +177,7 @@ public class UI_Lobby : UI_Scene
     }
     #endregion
 
-    public void RefreshUI()
+    async public void RefreshUI()
     {
         GetText((int)Texts.SettingBtnText).text = I18n.Get(I18nDefine.LOBBY_SETTING);
         GetText((int)Texts.StoryModeBtnText).text = I18n.Get(I18nDefine.LOBBY_STORY_GAME);
@@ -180,8 +191,8 @@ public class UI_Lobby : UI_Scene
 
         CheckCollection();
 
-        if (Managers.UserMng.myClothes != "")
-            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.myClothes + "_full");
+        if (await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) != "")
+            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) + "_full");
         else
             GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/uniform_full");
 
@@ -190,6 +201,7 @@ public class UI_Lobby : UI_Scene
 
     async void CheckCollection()
     {
+        Managers.UserMng.GetObtainedCollections();
         GetImage((int)Images.maine_coon).gameObject.SetActive(false);
         GetImage((int)Images.russian_blue).gameObject.SetActive(false);
         GetImage((int)Images.siamese).gameObject.SetActive(false);

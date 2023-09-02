@@ -23,9 +23,9 @@ public class DatabaseManager : MonoBehaviour
         Debug.Log("CreateNewUser");
         WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, null, false, false, false, false, nickname);
         Managers.DBManager.SetCoin(10000);
-        reference.Child("Users").Child(Managers.UserMng.UID).Child("inventory").Child("obtainedClothes").SetValueAsync("");
-        reference.Child("Users").Child(Managers.UserMng.UID).Child("inventory").Child("obtainedGraces").SetValueAsync("");
-        reference.Child("Users").Child(Managers.UserMng.UID).Child("inventory").Child("obtainedCollections").SetValueAsync("");
+        reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedClothes").SetValueAsync("");
+        reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedGraces").SetValueAsync("");
+        reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedCollections").SetValueAsync("");
     }
 
     private void WriteNewUser(string userId, int coin, int score, UserManager.Inventory inventory, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, bool isKilledWitch, string nickname)

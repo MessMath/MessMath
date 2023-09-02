@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Threading.Tasks;
 
 public class CoinManager
 {
-    public int GetCoin()
+    public async Task<int> GetCoin()
     {
-        return Managers.UserMng.GetCoin();
+        return await Managers.DBManager.GetCoin(Managers.GoogleSignIn.GetUID());
     }
 
-    public bool CheckPurchase(int price)
+    public async Task<bool> CheckPurchase(int price)
     {
-        if(price <= GetCoin())
+        if(price <= await GetCoin())
         {
             Purchase(price);
             return true;
@@ -23,9 +24,9 @@ public class CoinManager
         }
     }
 
-    public void Purchase(int price)
+    public async void Purchase(int price)
     {
-        Managers.DBManager.SetCoin(GetCoin() - price);
-        if (GetCoin() <= 0) Managers.DBManager.SetCoin(0);
+        Managers.DBManager.SetCoin(await GetCoin() - price);
+        if (await GetCoin() <= 0) Managers.DBManager.SetCoin(0);
     }
 }
