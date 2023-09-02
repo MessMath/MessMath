@@ -22,6 +22,7 @@ public class UI_StoreItem : UI_Base
     {
         ItemImage,
         ModeImage,
+        CoinImage,
     }
     enum Texts
     {
@@ -84,6 +85,21 @@ public class UI_StoreItem : UI_Base
             GetText((int)Texts.PriceTMP).text = _storeData.price.ToString();
             GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(() => OnClickBtn());
 
+        }
+
+        RefreshUI();
+    }
+
+    public void RefreshUI()
+    {
+        if (Managers.UserMng.GetObtainedCollections() == null) return;
+
+        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        {
+            if (Managers.UserMng.GetObtainedCollections()[i] != "gauss_token") continue;
+
+            GetImage((int)Images.CoinImage).sprite = Resources.Load<Sprite>("Sprites/Collections/gauss_token");
+            GetImage((int)Images.CoinImage).gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(70, 70);
         }
     }
 

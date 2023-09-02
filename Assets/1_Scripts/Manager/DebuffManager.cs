@@ -117,9 +117,24 @@ public class DebuffManager
         if (newtonOn) return; newtonOn = true;
         Debug.Log("<color=blue>DebuffOfNewton</color>");
 
-        GameObject Apple = Managers.Resource.Instantiate("Debuffs/AppleOfNewton",player.transform.parent);
+        GameObject Apple = Managers.Resource.Instantiate("Debuffs/AppleOfNewton", player.transform.parent);
+
+        if (CheckHaveNewtonApple())
+            Apple.gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>("Sprites/Collections/newton_apple");
 
         CoroutineHandler.StartCoroutine(NewtonApple(Apple));
+    }
+
+    bool CheckHaveNewtonApple()
+    {
+        if (Managers.UserMng.GetObtainedCollections() == null) return false;
+
+        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        {
+            if (Managers.UserMng.GetObtainedCollections()[i] == "newton_apple") return true;
+        }
+
+        return false;
     }
 
     /// <summary>

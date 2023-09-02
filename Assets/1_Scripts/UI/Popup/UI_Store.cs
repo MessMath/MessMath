@@ -95,8 +95,22 @@ public class UI_Store : UI_Popup
 
         OnClickedGraceBtn();
 
+        RefreshUI();
+
         isInitialized = true;
         return true;
+    }
+
+    void RefreshUI()
+    {
+        if (Managers.UserMng.GetObtainedCollections() == null) return;
+
+        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        {
+            if (Managers.UserMng.GetObtainedCollections()[i] == "gauss_token")
+                GetImage((int)Images.CoinImg).sprite = Resources.Load<Sprite>("Sprites/Collections/gauss_token");
+        }
+
     }
 
     void OnClickedGraceBtn()

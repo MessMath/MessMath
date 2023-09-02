@@ -10,6 +10,7 @@ using TMPro;
 using System.IO;
 using Random = UnityEngine.Random;
 using DG.Tweening;
+using Photon.Realtime;
 
 public class UI_StoryGame : UI_Scene
 {
@@ -122,6 +123,9 @@ public class UI_StoryGame : UI_Scene
         GetButton((int)Buttons.EqualButton).gameObject.BindEvent(Calculate);
         GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_CheckToLobby>(); });
 
+        CheckHaveEraserImage();
+        CheckHaveSkinImage();
+
         for (int i = 0; i < 3; i++)
         {
             GameObject.Find($"Player/Circle/heart{i}").SetActive(true);
@@ -188,6 +192,26 @@ public class UI_StoryGame : UI_Scene
         GetImage((int)Images.FadeOut).gameObject.SetActive(false);
 
         return true;
+    }
+
+    void CheckHaveEraserImage()
+    {
+        if (Managers.UserMng.GetObtainedCollections() == null) return;
+
+        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        {
+            if (Managers.UserMng.GetObtainedCollections()[i] != "board_eraser") continue;
+            GetButton((int)Buttons.AllErase).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Collections/board_eraser");
+            GetButton((int)Buttons.AllErase).gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 200);
+        }
+    }
+
+    void CheckHaveSkinImage()
+    {
+        if (Managers.UserMng.GetObtainedClothes() == null) return;
+        if (Managers.UserMng.GetMyClothes() == null) return;
+
+        GetObject((int)GameObjects.Player).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes());
     }
 
     void SettingGraceBtn()
@@ -844,7 +868,7 @@ public class UI_StoryGame : UI_Scene
     {
         GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_easy_attack");
 
-        yield return new WaitForSeconds(1.0f); 
+        yield return new WaitForSeconds(1.0f);
 
         GetImage((int)Images.WitchImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Character/witch/W_easy");
 
