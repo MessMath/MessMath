@@ -28,7 +28,7 @@ public class JsonMaker : MonoBehaviour
         "https://docs.google.com/spreadsheets/d/1WkWlJXH4WbmTLB0zg89g3DDRXuaup2GqDDD5L-hs5d0", // 로비 튜토리얼_영어 13
     };
     string sheetNum = "0";
-    List<string> range = new List<string>(); 
+    List<string> range = new List<string>();
     List<string> fileName = new List<string>();
     TalkInfo storyTalkInfo = new TalkInfo();
     StoreInfo storeInfo = new StoreInfo();
@@ -36,9 +36,9 @@ public class JsonMaker : MonoBehaviour
     DiagnosisInfo diagnosisInfo = new DiagnosisInfo();
     TipInfo tipInfo = new TipInfo();
     bool madeFile = false;
-    bool[] isDone = {false, false, false, false, false, false, false, false, false, false, false, false, false, false };
-    
-    void Awake() 
+    bool[] isDone = { false, false, false, false, false, false, false, false, false, false, false, false, false, false };
+
+    void Awake()
     {
         AddRange();
         AddFileName();
@@ -51,29 +51,36 @@ public class JsonMaker : MonoBehaviour
 
     void Update()
     {
+
+    }
+
+    async void func()
+    {
         // todo Managers.UserMng.GetIsCompletedDiagnosis()
-        if (Managers.DBManager.GetIsCompletedDiagnosis(Managers.GoogleSignIn.GetUID()).Result == true && isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11] && isDone[12] && isDone[13])
+        if (await Managers.DBManager.GetIsCompletedDiagnosis(Managers.GoogleSignIn.GetUID()) == true && isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11] && isDone[12] && isDone[13])
         {
             Managers.Game.CurrentStatus = Define.CurrentStatus.LEARNING;
             Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
         }
         // 진단평가가 되어 있지 않다면 진단평가부터
-        else if(isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11] && isDone[12] && isDone[13])
+        else if (isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11] && isDone[12] && isDone[13])
         {
             Managers.Scene.ChangeScene(Define.Scene.DiagnosisScene);
         }
-        if(madeFile == false) {
-                GetDatas();
-                madeFile = true;
+        if (madeFile == false)
+        {
+            GetDatas();
+            madeFile = true;
         }
     }
 
     void GetDatas()
     {
-        if(madeFile) return;
-        for(int i = 0; i < isDone.Length; i++)
+        if (madeFile) return;
+        for (int i = 0; i < isDone.Length; i++)
         {
-            if(isDone[i]) {
+            if (isDone[i])
+            {
                 StopCoroutine(NetConnect(i));
                 continue;
             }
@@ -85,16 +92,16 @@ public class JsonMaker : MonoBehaviour
     {
         range.Add("A2:G82");
         range.Add("A2:G7");
-        range.Add("A2:G30");
+        range.Add("A2:G38");
         range.Add("A2:A7");
         range.Add("A2:A6");
-        range.Add("A2:G18");
+        range.Add("A2:G21");
         range.Add("A2:G82");
         range.Add("A2:G7");
-        range.Add("A2:G30");
+        range.Add("A2:G38");
         range.Add("A2:A7");
         range.Add("A2:A6");
-        range.Add("A2:G18");
+        range.Add("A2:G21");
         range.Add("A2:G23");
         range.Add("A2:G23");
     }
@@ -118,8 +125,8 @@ public class JsonMaker : MonoBehaviour
     }
 
     // ANCHOR 구글 docs에서 데이터 읽기
-    IEnumerator NetConnect(int idx) 
-    {      
+    IEnumerator NetConnect(int idx)
+    {
         string URL = DBAddress[idx] + "/export?format=tsv&gid=" + sheetNum + "&range=" + range[idx];
         Debug.Log(URL);
 
@@ -129,9 +136,9 @@ public class JsonMaker : MonoBehaviour
         string data = www.downloadHandler.text;
         Debug.Log(data);
 
-        switch(idx)
+        switch (idx)
         {
-            case 0: 
+            case 0:
                 ParsingDialogueData(data);
                 MakeDialgoueJsonFile(idx);
                 break;
@@ -194,8 +201,8 @@ public class JsonMaker : MonoBehaviour
     {
         string[] lines = data.Split('\n');
         storyTalkInfo.talkDataList = new List<TalkData>();
-        
-        for(int i = 0; i < lines.Length; i++)
+
+        for (int i = 0; i < lines.Length; i++)
         {
             TalkData talkData = new TalkData();
             string[] tap = lines[i].Split('\t');
@@ -205,7 +212,7 @@ public class JsonMaker : MonoBehaviour
             talkData.soundEffect = tap[3];
             talkData.soundEffectDuration = float.Parse(tap[4]);
             talkData.backgroundImg = tap[5];
-            talkData.expression = tap[6].Replace("\r","");
+            talkData.expression = tap[6].Replace("\r", "");
             storyTalkInfo.talkDataList.Add(talkData);
         }
     }
@@ -214,8 +221,8 @@ public class JsonMaker : MonoBehaviour
     {
         string[] lines = data.Split('\n');
         storeInfo.storeDataList = new List<StoreData>();
-        
-        for(int i = 0; i < lines.Length; i++)
+
+        for (int i = 0; i < lines.Length; i++)
         {
             StoreData storeData = new StoreData();
             string[] tap = lines[i].Split('\t');
@@ -234,8 +241,8 @@ public class JsonMaker : MonoBehaviour
     {
         string[] lines = data.Split('\n');
         tutorialInfo.tutorialDataList = new List<TutorialData>();
-        
-        for(int i = 0; i < lines.Length; i++)
+
+        for (int i = 0; i < lines.Length; i++)
         {
             TutorialData tutorialData = new TutorialData();
             tutorialData.dialogue = lines[i];
@@ -271,7 +278,7 @@ public class JsonMaker : MonoBehaviour
 
     void MakeDialgoueJsonFile(int i)
     {
-        string filePath = Application.persistentDataPath + "/" + i + "_" + fileName[i] +".json";
+        string filePath = Application.persistentDataPath + "/" + i + "_" + fileName[i] + ".json";
         StreamWriter sw;
         FileStream fs;
 
@@ -291,12 +298,13 @@ public class JsonMaker : MonoBehaviour
             File.Delete(filePath);
             MakeDialgoueJsonFile(i);
             isDone[i] = true;
+            func();
         }
     }
 
     void MakeStoreJsonFile(int i)
     {
-        string filePath = Application.persistentDataPath + "/" + i + "_" + fileName[i] +".json";
+        string filePath = Application.persistentDataPath + "/" + i + "_" + fileName[i] + ".json";
         StreamWriter sw;
         FileStream fs;
 
@@ -316,12 +324,13 @@ public class JsonMaker : MonoBehaviour
             File.Delete(filePath);
             MakeStoreJsonFile(i);
             isDone[i] = true;
+            func();
         }
     }
 
     void MakeTutorailJsonFile(int i)
     {
-        string filePath = Application.persistentDataPath + "/" + i + "_" + fileName[i] +".json";
+        string filePath = Application.persistentDataPath + "/" + i + "_" + fileName[i] + ".json";
         StreamWriter sw;
         FileStream fs;
 
@@ -342,6 +351,7 @@ public class JsonMaker : MonoBehaviour
             MakeTutorailJsonFile(i);
             Debug.Log("Done Making 3_Tutorial.json File");
             isDone[i] = true;
+            func();
         }
     }
 
@@ -368,6 +378,7 @@ public class JsonMaker : MonoBehaviour
             MakeDiagnosisJsonFile(i);
             Debug.Log("Done Making Diagnosis.json File");
             isDone[i] = true;
+            func();
         }
     }
 
@@ -394,6 +405,7 @@ public class JsonMaker : MonoBehaviour
             MakeTipJsonFile(i);
             Debug.Log("Done Making tip.json File");
             isDone[i] = true;
+            func();
         }
     }
 

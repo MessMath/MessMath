@@ -63,6 +63,7 @@ public class UI_Lobby : UI_Scene
     UI_SelectGracePopup _selectGracePopup = null;
     bool TextOn;
     string[] obtainedMagicCircle;
+    List<string> obtainedCollections = new List<string>();
 
     public override bool Init()
     {
@@ -177,7 +178,7 @@ public class UI_Lobby : UI_Scene
         Debug.Log("UI_Lobby RefreshUI");
     }
 
-    void CheckCollection()
+    async void CheckCollection()
     {
         GetImage((int)Images.maine_coon).gameObject.SetActive(false);
         GetImage((int)Images.russian_blue).gameObject.SetActive(false);
@@ -185,20 +186,22 @@ public class UI_Lobby : UI_Scene
         GetImage((int)Images.long_cat).gameObject.SetActive(false);
         GetImage((int)Images.MagicCircle).gameObject.SetActive(false);
 
-        if (Managers.UserMng.GetObtainedCollections() == null) return;
+        if (await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()) == null) return;
 
-        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        obtainedCollections = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
+
+        for (int i = 0; i < obtainedCollections.Count; i++)
         {
             // 너 이거 가지고있냐? 그럼 뭐 켜줄게
             // 고양이 가지고있냐?
-            if (Managers.UserMng.GetObtainedCollections()[i] == "maine_coon") GetImage((int)Images.maine_coon).gameObject.SetActive(true);
-            if (Managers.UserMng.GetObtainedCollections()[i] == "russian_blue") GetImage((int)Images.russian_blue).gameObject.SetActive(true);
-            if (Managers.UserMng.GetObtainedCollections()[i] == "siamese") GetImage((int)Images.siamese).gameObject.SetActive(true);
-            if (Managers.UserMng.GetObtainedCollections()[i] == "long_cat") GetImage((int)Images.long_cat).gameObject.SetActive(true);
+            if (obtainedCollections[i] == "maine_coon") GetImage((int)Images.maine_coon).gameObject.SetActive(true);
+            if (obtainedCollections[i] == "russian_blue") GetImage((int)Images.russian_blue).gameObject.SetActive(true);
+            if (obtainedCollections[i] == "siamese") GetImage((int)Images.siamese).gameObject.SetActive(true);
+            if (obtainedCollections[i] == "long_cat") GetImage((int)Images.long_cat).gameObject.SetActive(true);
 
             // 마법 깃펜이랑 학교는?
-            if (Managers.UserMng.GetObtainedCollections()[i] == "magic_quill") GetImage((int)Images.Pencil).sprite = Resources.Load<Sprite>("Sprites/Collections/magic_quill");
-            if (Managers.UserMng.GetObtainedCollections()[i] == "castle") { GetImage((int)Images.PvpImage).sprite = Resources.Load<Sprite>("Sprites/Collections/castle"); GetButton((int)Buttons.PvpBtn).gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 0); }
+            if (obtainedCollections[i] == "magic_quill") GetImage((int)Images.Pencil).sprite = Resources.Load<Sprite>("Sprites/Collections/magic_quill");
+            if (obtainedCollections[i] == "castle") { GetImage((int)Images.PvpImage).sprite = Resources.Load<Sprite>("Sprites/Collections/castle"); GetButton((int)Buttons.PvpBtn).gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 0); }
 
             // 마법 서클
             if (CheckHaveMagicCircleImage())
@@ -212,14 +215,13 @@ public class UI_Lobby : UI_Scene
     #region MagicCircle
     bool CheckHaveMagicCircleImage()
     {
-        if (Managers.UserMng.UID == null) return false;
-        if (Managers.UserMng.GetObtainedCollections() == null) return false;
+        if (obtainedCollections == null) return false;
 
-        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        for (int i = 0; i < obtainedCollections.Count; i++)
         {
-            if (Managers.UserMng.GetObtainedCollections()[i] == "light_magic_circle") return true;
-            if (Managers.UserMng.GetObtainedCollections()[i] == "moon_magic_circle") return true;
-            if (Managers.UserMng.GetObtainedCollections()[i] == "old_magic_circle") return true;
+            if (obtainedCollections[i] == "light_magic_circle") return true;
+            if (obtainedCollections[i] == "moon_magic_circle") return true;
+            if (obtainedCollections[i] == "old_magic_circle") return true;
         }
 
         return false;
@@ -229,11 +231,11 @@ public class UI_Lobby : UI_Scene
     {
         if (!CheckHaveMagicCircleImage()) return "";
 
-        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        for (int i = 0; i < obtainedCollections.Count; i++)
         {
-            if (Managers.UserMng.GetObtainedCollections()[i] == "light_magic_circle") obtainedMagicCircle[0] = (Managers.UserMng.GetObtainedCollections()[i]);
-            if (Managers.UserMng.GetObtainedCollections()[i] == "moon_magic_circle") obtainedMagicCircle[1] = (Managers.UserMng.GetObtainedCollections()[i]);
-            if (Managers.UserMng.GetObtainedCollections()[i] == "old_magic_circle") obtainedMagicCircle[2] = (Managers.UserMng.GetObtainedCollections()[i]);
+            if (obtainedCollections[i] == "light_magic_circle") obtainedMagicCircle[0] = (obtainedCollections[i]);
+            if (obtainedCollections[i] == "moon_magic_circle") obtainedMagicCircle[1] = (obtainedCollections[i]);
+            if (obtainedCollections[i] == "old_magic_circle") obtainedMagicCircle[2] = (obtainedCollections[i]);
         }
 
         if (obtainedMagicCircle[UnityEngine.Random.Range(0, 3)] != "")

@@ -8,10 +8,11 @@ using Firebase.Unity;
 using Unity.VisualScripting;
 using System.Threading.Tasks;
 using static UserManager;
+using System;
 
 public class DatabaseManager : MonoBehaviour
 {
-    public DatabaseReference reference{get;set;}
+    public DatabaseReference reference { get; set; }
     public void Init()
     {
         reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -38,7 +39,7 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(userId).SetRawJsonValueAsync(json);
     }
 
-    public void SignInUser(string UID)
+    public async void SignInUser(string UID)
     {
         //if(ReadDataAsync(UID, "UID").ToString() == "NotExist")
         //{
@@ -46,28 +47,29 @@ public class DatabaseManager : MonoBehaviour
         //}
         //else
         //{
-            string userId = ReadDataAsync(UID, "UID").Result;
-            int coin = int.Parse(ReadDataAsync(UID, "coin").Result);
-            int score = int.Parse(ReadDataAsync(UID, "score").Result);
-            Inventory inventory = new Inventory();
-            inventory.obtainedGraces = ReadDataAsync(UID, "obtainedGraces").Result;
-            inventory.obtainedClothes = ReadDataAsync(UID, "obtainedClothes").Result;
-            inventory.obtainedCollections = ReadDataAsync(UID, "obtainedCollections").Result;
-            bool isCompletedStory = bool.Parse(ReadDataAsync(UID, "isCompletedStory").Result);
-            bool isCompletedTutorial = bool.Parse(ReadDataAsync(UID, "isCompletedTutorial").Result);
-            bool isCompletedDiagnosis = bool.Parse(ReadDataAsync(UID, "isCompletedDiagnosis").Result);
-            bool isKilledWitch = bool.Parse(ReadDataAsync(UID, "isKilledWitch").Result);
-            string nickname = ReadDataAsync(UID, "nickname").Result;
-            OneOnOneModeGrace oneOnOneModeGrace = new OneOnOneModeGrace();
-            oneOnOneModeGrace = oneOnOneModeGrace.Parse(ReadDataAsync(UID, "oneOnOneModeGrace").Result);
-            StoryModeGrace storyModeGrace = new StoryModeGrace();
-            storyModeGrace = storyModeGrace.Parse(ReadDataAsync(UID, "storyModeGrace").Result);
-            string message= ReadDataAsync(UID, "message").Result;
-            string myClothes= ReadDataAsync(UID, "myClothes").Result;
+        string userId = await ReadDataAsync(UID, "UID");
+        int coin = int.Parse(await ReadDataAsync(UID, "coin"));
+        int score = int.Parse(await ReadDataAsync(UID, "score"));
+        Inventory inventory = new Inventory();
+        inventory.obtainedGraces = await ReadDataAsync(UID, "obtainedGraces");
+        inventory.obtainedClothes = await ReadDataAsync(UID, "obtainedClothes");
+        inventory.obtainedCollections = await ReadDataAsync(UID, "obtainedCollections");
+        bool isCompletedStory = bool.Parse(await ReadDataAsync(UID, "isCompletedStory"));
+        bool isCompletedTutorial = bool.Parse(await ReadDataAsync(UID, "isCompletedTutorial"));
+        bool isCompletedDiagnosis = bool.Parse(await ReadDataAsync(UID, "isCompletedDiagnosis"));
+        bool isKilledWitch = bool.Parse(await ReadDataAsync(UID, "isKilledWitch"));
+        string nickname = await ReadDataAsync(UID, "nickname");
+        OneOnOneModeGrace oneOnOneModeGrace = new OneOnOneModeGrace();
+        oneOnOneModeGrace = oneOnOneModeGrace.Parse(await ReadDataAsync(UID, "oneOnOneModeGrace"));
+        StoryModeGrace storyModeGrace = new StoryModeGrace();
+        storyModeGrace = storyModeGrace.Parse(await ReadDataAsync(UID, "storyModeGrace"));
+        string message = await ReadDataAsync(UID, "message");
+        string myClothes = await ReadDataAsync(UID, "myClothes");
 
-            Managers.UserMng.InitUser(userId, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, isKilledWitch, nickname, oneOnOneModeGrace, storyModeGrace, message, myClothes);
+        Managers.UserMng.InitUser(userId, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, isKilledWitch, nickname, oneOnOneModeGrace, storyModeGrace, message, myClothes);
         //}
     }
+
 
     public async Task<string> ReadDataAsync(string userId, string key)
     {
@@ -103,6 +105,35 @@ public class DatabaseManager : MonoBehaviour
         return result;
     }
 
+    private async Task<string> ReadInventoryAsync(string userId, string key)
+    {
+        string result = "";
+
+        DataSnapshot snapshot = await reference.Child("Users").Child(userId).Child("inventory").GetValueAsync();
+
+        if (snapshot.Exists)
+        {
+            Debug.Log(snapshot.ChildrenCount);
+
+            foreach (DataSnapshot data in snapshot.Children)
+            {
+                if (data.Key == key)
+                {
+                    result = data.Value.ToString();
+                    Debug.Log(result);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("NotExist");
+            result = "NotExist";
+        }
+
+        return result;
+    }
+
     public async Task<bool> CheckUserId(string userId)
     {
         Managers.Game.IsExisted = false;
@@ -114,11 +145,9 @@ public class DatabaseManager : MonoBehaviour
 
             foreach (DataSnapshot data in snapshot.Children)
             {
-                Debug.Log("데이터 키값" + data.Key);
                 if (data.Key == userId)
                 {
                     Managers.Game.IsExisted = true;
-                    Debug.Log("0000000000000000000000000000000");
                 }
             }
 
@@ -132,6 +161,15 @@ public class DatabaseManager : MonoBehaviour
         return Managers.Game.IsExisted;
     }
 
+    public List<string> ParseObtanined(string str)
+    {
+        List<string> result = new List<string>();
+        foreach (string s in str.Split(","))
+        {
+            result.Add(s);
+        }
+        return result;
+    }
 
     public void SetNickname(string nickname)
     {
@@ -168,6 +206,12 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("coin").SetValueAsync(Managers.UserMng.coin);
     }
 
+    public async Task<string> GetObtainedCollections(string userId)
+    {
+        return await ReadInventoryAsync(userId, "inventory");
+    }
+
+
     public async Task<int> GetCoin(string userId)
     {
         return int.Parse(await ReadUserAsync(userId, "coin"));
@@ -191,7 +235,7 @@ public class DatabaseManager : MonoBehaviour
     }
     public async Task<bool> GetIsCompletedDiagnosis(string userId)
     {
-        return bool.Parse(await ReadUserAsync(userId, "isCompletedDiagnosis"));
+        return Convert.ToBoolean(await ReadUserAsync(userId, "isCompletedDiagnosis"));
     }
 
     public void SetIsCompletedStory(bool isCompleted)
