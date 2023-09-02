@@ -397,7 +397,7 @@ public class UI_Fight1vs1Game : UI_Scene
 
         ShootArrow();
 
-        StartCoroutine("SetArrowGenerationTime", 1f);
+        StartCoroutine("SetArrowGenerationTime", UnityEngine.Random.Range(0.1f, 1f));
     }
 
     // 현재 플레이어의 위치를 향해 오브젝트 날리기 

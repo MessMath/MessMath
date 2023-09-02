@@ -15,6 +15,8 @@ public class UI_Store : UI_Popup
     Color unclickedColor = new Color32(217, 217, 217, 255);
     Color clickedColor = new Color32(241, 148, 148, 255);
     bool isInitialized = false;
+    float storeContentWidthSizie = 250f;
+    float storeContentHeightSizie = 926.87f;
 
     enum Images
     {
@@ -107,6 +109,7 @@ public class UI_Store : UI_Popup
         GetImage((int)Images.GraceLightBar).gameObject.SetActive(true);
         GetImage((int)Images.CollectionLightBar).gameObject.SetActive(false);
         GetImage((int)Images.ClothesLightBar).gameObject.SetActive(false);
+        GetObject((int)GameObjects.StoreContent).gameObject.GetComponent<RectTransform>().sizeDelta= new Vector2(storeContentWidthSizie * graceData.Count, storeContentHeightSizie);
 
         for (int i = 0; i < graceData.Count; i++)
         {
@@ -128,6 +131,7 @@ public class UI_Store : UI_Popup
         GetImage((int)Images.GraceLightBar).gameObject.SetActive(false);
         GetImage((int)Images.CollectionLightBar).gameObject.SetActive(true);
         GetImage((int)Images.ClothesLightBar).gameObject.SetActive(false);
+        GetObject((int)GameObjects.StoreContent).gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(storeContentWidthSizie * collectionData.Count, storeContentHeightSizie);
 
         for (int i = 0; i < collectionData.Count; i++)
         {
@@ -148,6 +152,7 @@ public class UI_Store : UI_Popup
         GetImage((int)Images.GraceLightBar).gameObject.SetActive(false);
         GetImage((int)Images.CollectionLightBar).gameObject.SetActive(false);
         GetImage((int)Images.ClothesLightBar).gameObject.SetActive(true);
+        GetObject((int)GameObjects.StoreContent).gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(storeContentWidthSizie * ClothesData.Count, storeContentHeightSizie);
 
         for (int i = 0; i < ClothesData.Count; i++)
         {
@@ -163,6 +168,11 @@ public class UI_Store : UI_Popup
     public void SetCoinText()
     {
         GetText((int)Texts.CoinTMP).text = Managers.UserMng.GetCoin().ToString();
+    }
+
+    public void SetStorContentSize()
+    {
+
     }
 }
 
