@@ -37,7 +37,8 @@ public class UI_CheckToLobby : UI_Popup
         GetText((int)Texts.CheckToLobbyText).text = I18n.Get(I18nDefine.LOBBY_TO_LOBBY_CHECK);
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH) GetText((int)Texts.CheckToLobbyText).fontSize = 80;
 
-            GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { 
+        GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() =>
+        {
             Managers.Sound.Play("ClickBtnEff");
             Time.timeScale = 1.0f;
             CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());

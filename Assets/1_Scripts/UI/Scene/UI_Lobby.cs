@@ -25,6 +25,10 @@ public class UI_Lobby : UI_Scene
         Sun,
         Moon,
         Dog,
+        Flame,
+        Glacier,
+        Liquid,
+        Spark,
     }
 
     enum Buttons
@@ -68,7 +72,7 @@ public class UI_Lobby : UI_Scene
     UI_SelectGracePopup _selectGracePopup = null;
     bool TextOn;
     string[] obtainedMagicCircle = new string[3];
-    string[] obtaineBGImage = new string[3];
+    string[] obtaineBGImage = new string[4];
 
     public override bool Init()
     {
@@ -195,6 +199,10 @@ public class UI_Lobby : UI_Scene
         GetImage((int)Images.Sun).gameObject.SetActive(false);
         GetImage((int)Images.Moon).gameObject.SetActive(false);
         GetImage((int)Images.Dog).gameObject.SetActive(false);
+        GetImage((int)Images.Flame).gameObject.SetActive(false);
+        GetImage((int)Images.Glacier).gameObject.SetActive(false);
+        GetImage((int)Images.Liquid).gameObject.SetActive(false);
+        GetImage((int)Images.Spark).gameObject.SetActive(false);
 
         if (Managers.UserMng.GetObtainedCollections() == null) return;
 
@@ -209,6 +217,10 @@ public class UI_Lobby : UI_Scene
             if (Managers.UserMng.GetObtainedCollections()[i] == "sun") GetImage((int)Images.Sun).gameObject.SetActive(true);
             if (Managers.UserMng.GetObtainedCollections()[i] == "moon") GetImage((int)Images.Moon).gameObject.SetActive(true);
             if (Managers.UserMng.GetObtainedCollections()[i] == "dog") GetImage((int)Images.Dog).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "flame") GetImage((int)Images.Flame).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "glacier") GetImage((int)Images.Glacier).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "liquid") GetImage((int)Images.Liquid).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "spark") GetImage((int)Images.Spark).gameObject.SetActive(true);
 
             // ¸¶¹ý ±êÆæÀÌ¶û ÇÐ±³´Â?
             if (Managers.UserMng.GetObtainedCollections()[i] == "magic_quill") GetImage((int)Images.Pencil).sprite = Resources.Load<Sprite>("Sprites/Collections/magic_quill");
@@ -290,6 +302,7 @@ public class UI_Lobby : UI_Scene
             if (Managers.UserMng.GetObtainedCollections()[i] == "landscape") return true;
             if (Managers.UserMng.GetObtainedCollections()[i] == "night_landscape") return true;
             if (Managers.UserMng.GetObtainedCollections()[i] == "space_landscape") return true;
+            if (Managers.UserMng.GetObtainedCollections()[i] == "dawn_landscape") return true;
         }
 
         return false;
@@ -298,9 +311,9 @@ public class UI_Lobby : UI_Scene
     string GetRandomBGImageSprite()
     {
         if (!CheckHaveBGImage()) return "";
-        int randValue = UnityEngine.Random.Range(0, 3);
+        int randValue = UnityEngine.Random.Range(0, 4);
         
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             obtaineBGImage[i] = "";
         }
@@ -310,6 +323,7 @@ public class UI_Lobby : UI_Scene
             if (Managers.UserMng.GetObtainedCollections()[i] == "landscape") obtaineBGImage[0] = (Managers.UserMng.GetObtainedCollections()[i]);
             if (Managers.UserMng.GetObtainedCollections()[i] == "night_landscape") obtaineBGImage[1] = (Managers.UserMng.GetObtainedCollections()[i]);
             if (Managers.UserMng.GetObtainedCollections()[i] == "space_landscape") obtaineBGImage[2] = (Managers.UserMng.GetObtainedCollections()[i]);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "dawn_landscape") obtaineBGImage[3] = (Managers.UserMng.GetObtainedCollections()[i]);
         }
 
         if (obtaineBGImage[randValue] != "")
