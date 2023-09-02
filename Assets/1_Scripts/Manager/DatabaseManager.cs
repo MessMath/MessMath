@@ -7,6 +7,7 @@ using Firebase.Database;
 using Firebase.Unity;
 using Unity.VisualScripting;
 using System.Threading.Tasks;
+using static UserManager;
 
 public class DatabaseManager : MonoBehaviour
 {
@@ -38,6 +39,37 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(userId).SetRawJsonValueAsync(json);
     }
 
+    public void SignInUser(string UID)
+    {
+        if(ReadDataAsync(UID, "UID").ToString() == "NotExist")
+        {
+            Managers.UI.ShowPopupUI<UI_GetNicknamePopup>();
+        }
+        else
+        {
+            string userId = ReadDataAsync(UID, "UID").ToString();
+            int coin = int.Parse(ReadDataAsync(UID, "coin").ToString());
+            int score = int.Parse(ReadDataAsync(UID, "score").ToString());
+            Inventory inventory = new Inventory();
+            inventory.obtainedGraces = ReadDataAsync(UID, "obtainedGraces").ToString();
+            inventory.obtainedClothes = ReadDataAsync(UID, "obtainedClothes").ToString();
+            inventory.obtainedCollections = ReadDataAsync(UID, "obtainedCollections").ToString();
+            bool isCompletedStory = bool.Parse(ReadDataAsync(UID, "isCompletedStory").ToString());
+            bool isCompletedTutorial = bool.Parse(ReadDataAsync(UID, "isCompletedTutorial").ToString());
+            bool isCompletedDiagnosis = bool.Parse(ReadDataAsync(UID, "isCompletedDiagnosis").ToString());
+            bool isKilledWitch = bool.Parse(ReadDataAsync(UID, "isKilledWitch").ToString());
+            string nickname = ReadDataAsync(UID, "nickname").ToString();
+            OneOnOneModeGrace oneOnOneModeGrace = new OneOnOneModeGrace();
+            oneOnOneModeGrace = oneOnOneModeGrace.Parse(ReadDataAsync(UID, "oneOnOneModeGrace").ToString());
+            StoryModeGrace storyModeGrace = new StoryModeGrace();
+            storyModeGrace = storyModeGrace.Parse(ReadDataAsync(UID, "storyModeGrace").ToString());
+            string message= ReadDataAsync(UID, "message").ToString();
+            string myClothes= ReadDataAsync(UID, "myClothes").ToString();
+
+            Managers.UserMng.InitUser(userId, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, isKilledWitch, nickname, oneOnOneModeGrace, storyModeGrace, message, myClothes);
+        }
+    }
+
     public async Task<string> ReadDataAsync(string userId, string key)
     {
         return await ReadUserAsync(userId, key);
@@ -65,8 +97,8 @@ public class DatabaseManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("error");
-            result = "error";
+            Debug.Log("NotExist");
+            result = "NotExist";
         }
 
         return result;

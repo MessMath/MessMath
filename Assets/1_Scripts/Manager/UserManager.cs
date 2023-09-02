@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UserManager;
 
 public class UserManager
 {
@@ -16,12 +17,75 @@ public class UserManager
         public string grace1;
         public string grace2;
         public string grace3;
+
+        public OneOnOneModeGrace Parse(string str)
+        {
+            OneOnOneModeGrace oneOnOneModeGrace = new OneOnOneModeGrace();
+            string[] tmp = str.Split(',');
+            if (tmp[0] == "null")
+            {
+                oneOnOneModeGrace.grace1 = "";
+            }
+            else
+            {
+                oneOnOneModeGrace.grace1 = tmp[0];
+            }
+            if (tmp[1] == "null")
+            {
+                oneOnOneModeGrace.grace2 = "";
+            }
+            else
+            {
+                oneOnOneModeGrace.grace2 = tmp[1];
+            }
+            if (tmp[2] == "null")
+            {
+                oneOnOneModeGrace.grace3 = "";
+            }
+            else
+            {
+                oneOnOneModeGrace.grace3 = tmp[2];
+            }
+
+            return oneOnOneModeGrace;
+        }
     };
     public class StoryModeGrace
     {
         public string grace1;
         public string grace2;
         public string grace3;
+
+        public StoryModeGrace Parse(string str)
+        {
+            StoryModeGrace storyModeGrace = new StoryModeGrace();
+            string[] tmp = str.Split(',');
+            if (tmp[0] == "null")
+            {
+                storyModeGrace.grace1 = "";
+            }
+            else
+            {
+                storyModeGrace.grace1 = tmp[0];
+            }
+            if (tmp[1] == "null")
+            {
+                storyModeGrace.grace2 = "";
+            }
+            else
+            {
+                storyModeGrace.grace2 = tmp[1];
+            }
+            if (tmp[2] == "null")
+            {
+                storyModeGrace.grace3 = "";
+            }
+            else
+            {
+                storyModeGrace.grace3 = tmp[2];
+            }
+            return storyModeGrace;
+        }
     }
 
     public class User
@@ -58,9 +122,17 @@ public class UserManager
             this.storyModeGrace= storyModeGrace;
             this.message = message;
             this.myClothes = myClothes;
-            this.inventory = new Inventory();
-            this.oneOnOneModeGrace = new OneOnOneModeGrace();
-            this.storyModeGrace= new StoryModeGrace();
+            if(inventory == null)
+            {
+                this.inventory = new Inventory();
+            }
+            else
+            {
+                this.inventory = inventory;
+            }
+            
+            this.oneOnOneModeGrace = oneOnOneModeGrace;
+            this.storyModeGrace= storyModeGrace;
         }
     }
 

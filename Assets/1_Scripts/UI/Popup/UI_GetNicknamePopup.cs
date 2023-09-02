@@ -38,6 +38,7 @@ public class UI_GetNicknamePopup : UI_Popup
         GetImage((int)Images.Image).gameObject.SetActive(false);
         TextMeshProUGUI placeholder = (TextMeshProUGUI)GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().placeholder;
         placeholder.text = I18n.Get(I18nDefine.GET_NICKNAME);
+        GetObject((int)GameObjects.UserName).BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickedInputField(); });
         Time.timeScale = 0;
         return true;
     }
@@ -55,6 +56,10 @@ public class UI_GetNicknamePopup : UI_Popup
             GetImage((int)Images.Image).gameObject.SetActive(false);
         }
     }
+    void OnClickedInputField()
+    {
+        GetText((int)Texts.UserNameText).text = "";
+    }
 
     void OnClickedNextBtn()
     {
@@ -64,7 +69,5 @@ public class UI_GetNicknamePopup : UI_Popup
         //Managers.DBManager.SetIsCompletedTutorial(true);
         //Managers.DBManager.SetIsCompletedDiagnosis(true);
         Managers.UI.ClosePopupUI(this);
-
     }
-
 }

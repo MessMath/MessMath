@@ -6,6 +6,7 @@ using TMPro;
 public class UI_SignIn : UI_Scene
 {
     bool isExist = false;
+
     enum Images
     {
         BG
@@ -46,16 +47,11 @@ public class UI_SignIn : UI_Scene
         GetImage((int)Images.BG).gameObject.BindEvent(OnClickBG);
         return true;
     }
-    void Update()
-    { 
-        
-
-    }
 
     void OnClickedSignIn()
     {
         Managers.GoogleSignIn.SignInWithGoogle();
-        Managers.DBManager.CreateNewUser("test");
+        Managers.DBManager.SignInUser(Managers.GoogleSignIn.GetUID());
 
         //Managers.DBManager.CreateNewUser("test");
         /*GetText((int)Texts.LogTMP).text += "\nSignInWithGoogle\n" + Managers.GoogleSignIn.GetUID();
