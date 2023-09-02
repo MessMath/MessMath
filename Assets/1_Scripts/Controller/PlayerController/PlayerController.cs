@@ -32,7 +32,7 @@ public class PlayerController : UI_Base
     void Start()
     {
         _hp = 3;
-        _speed = 400;
+        _speed = 500;
         _rigid = gameObject.GetOrAddComponent<Rigidbody2D>();
         _image = gameObject.GetOrAddComponent<Image>();
 

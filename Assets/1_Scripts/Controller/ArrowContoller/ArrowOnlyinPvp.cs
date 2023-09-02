@@ -51,20 +51,14 @@ public class ArrowOnlyinPvp : MonoBehaviourPun, IPunObservable
             // 텍스트를 초기 값으로 설정
             tmp.text = text;
         }
+
+        Destroy(gameObject, 20f);
     }
 
     private void OnValidate()
     {
         if (tmp != null)
             tmp.text = text;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("DeadLine"))
-        {
-            PV.RPC("DestroyRPC", RpcTarget.AllViaServer);
-        }
     }
 
     float initialPositionDelay = 0.5f; // 초기 위치 설정을 지연할 시간(초)
