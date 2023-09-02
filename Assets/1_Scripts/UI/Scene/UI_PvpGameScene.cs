@@ -313,8 +313,6 @@ public class UI_PvpGameScene : UI_Scene
 
         PhotonView = GameObject.FindGameObjectWithTag("RPCSychronizer").GetComponent<PhotonView>();
         PhotonView.RPC("Answer", RpcTarget.AllViaServer, printResult, QusetionNumber, PhotonNetwork.LocalPlayer.ActorNumber);
-
-        PvpResult();
     }
 
     IEnumerator Waitfor2Sec()
@@ -375,7 +373,7 @@ public class UI_PvpGameScene : UI_Scene
 
     #region 화살 관리
 
-    string[] Operator = { "+", "-", "x", "/" };
+    string[] Operator = { "+", "-", "×", "÷" };
 
     private const int MAX_NUM_ARROW = 3;
     private const int MAX_SYMBOL_ARROW = 2;
