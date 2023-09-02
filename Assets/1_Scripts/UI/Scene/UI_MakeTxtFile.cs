@@ -44,10 +44,10 @@ public class UI_MakeTxtFile : UI_Scene
 
         SelectTip();
 
-        GetObject((int)GameObjects.MagicCircle).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Collections/" + GetRandomMagicCircleSprite());
+        //GetObject((int)GameObjects.MagicCircle).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Collections/" + GetRandomMagicCircleSprite());
         GetText((int)Texts.LogTMP).text = "Loading...";
 
-        jsonReader = new JsonReader();
+        /*jsonReader = new JsonReader();
 
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
         {
@@ -56,7 +56,7 @@ public class UI_MakeTxtFile : UI_Scene
         else
         {
             tipData = jsonReader.ReadTipJson(Application.persistentDataPath + "/" + 11 + "_Tip_EN.json").tipDataList;
-        }
+        }*/
 
         return true;
     }
