@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.SceneManagement;
+using static UserManager;
 //using static Define;
 
 public class Managers : MonoBehaviour

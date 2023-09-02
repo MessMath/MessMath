@@ -29,7 +29,7 @@ public class DatabaseManager : MonoBehaviour
 
     private void WriteNewUser(string userId, int coin, int score, UserManager.Inventory inventory, bool isCompletedStory, bool isCompletedTutorial, bool isCompletedDiagnosis, bool isKilledWitch, string nickname)
     {
-        Managers.UserMng.InitUser(userId, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, isKilledWitch, nickname, null, null, "^_^", "");
+        Managers.UserMng.user.InitUser(userId, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, isKilledWitch, nickname, null, null, "^_^", "");
 
         string json = JsonUtility.ToJson(Managers.UserMng.user);
         Debug.Log("WriteNewUser");
@@ -65,7 +65,7 @@ public class DatabaseManager : MonoBehaviour
             string message= ReadDataAsync(UID, "message").ToString();
             string myClothes= ReadDataAsync(UID, "myClothes").ToString();
 
-            Managers.UserMng.InitUser(userId, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, isKilledWitch, nickname, oneOnOneModeGrace, storyModeGrace, message, myClothes);
+            Managers.UserMng.user.InitUser(userId, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, isKilledWitch, nickname, oneOnOneModeGrace, storyModeGrace, message, myClothes);
         }
     }
 

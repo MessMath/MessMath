@@ -91,6 +91,16 @@ public class UserManager
 
     public class User
     {
+        private static User instance = null;
+        public User Instance()
+        {
+            if (instance == null)
+            {
+                instance = new User();
+            }
+            return instance;
+        }
+
         public string UID;
         public int coin;
         public int score;
@@ -108,45 +118,40 @@ public class UserManager
         //public string obtainedClothes;
         //public string obtainedGraces;
 
-        public User(string UID, int coin, int score, Inventory inventory ,bool isCompletedStory, bool isCompletedTutorial,
-            bool isCompletedDiagnosis, bool isKilledWitch, string nickname, OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message, string myClothes)
+        public void InitUser(string _UID, int _coin, int _score, Inventory _inventory, bool _isCompletedStory,
+        bool _isCompletedTutorial, bool _isCompletedDiagnosis, bool _isKilledWitch, string _nickname, OneOnOneModeGrace _oneOnOneModeGrace, StoryModeGrace _storyModeGrace, string _message, string _myClothes)
         {
-            this.UID = UID;
-            this.coin = coin;
-            this.score = score;
-            this.isCompletedStory = isCompletedStory;
-            this.isCompletedTutorial= isCompletedTutorial;
-            this.isCompletedDiagnosis = isCompletedDiagnosis;
-            this.isKilledWitch = isKilledWitch;
-            this.nickname = nickname;
-            this.oneOnOneModeGrace = oneOnOneModeGrace;
-            this.storyModeGrace= storyModeGrace;
-            this.message = message;
-            this.myClothes = myClothes;
-            if(inventory == null)
+            UID = _UID;
+            coin = _coin;
+            score = _score;
+            isCompletedStory = _isCompletedStory;
+            isCompletedTutorial = _isCompletedTutorial;
+            isCompletedDiagnosis = _isCompletedDiagnosis;
+            isKilledWitch = _isKilledWitch;
+            nickname = _nickname;
+            oneOnOneModeGrace = _oneOnOneModeGrace;
+            storyModeGrace = _storyModeGrace;
+            message = _message;
+            myClothes = _myClothes;
+            if (_inventory == null)
             {
-                this.inventory = new Inventory();
+                inventory = new Inventory();
             }
             else
             {
-                this.inventory = inventory;
+                inventory = _inventory;
             }
-            
-            this.oneOnOneModeGrace = oneOnOneModeGrace;
-            this.storyModeGrace= storyModeGrace;
+
+            oneOnOneModeGrace = _oneOnOneModeGrace;
+            storyModeGrace = _storyModeGrace;
         }
     }
 
-    public User user {get;set;}
+    public User user;
 
     public void Init()
     {
-       
-    }
-    public void InitUser(string UID, int coin, int score, Inventory inventory,bool isCompletedStory,
-        bool isCompletedTutorial, bool isCompletedDiagnosis, bool isKilledWitch,string nickname, OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message, string myClothes)
-    {
-        user = new User(UID, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, isKilledWitch ,nickname, oneOnOneModeGrace, storyModeGrace, message, myClothes);
+        user = user.Instance();
     }
 
     //public void SetExistingUser()
@@ -315,5 +320,4 @@ public class UserManager
 
         return list;
     }
-
 }
