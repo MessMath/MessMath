@@ -93,7 +93,7 @@ public class WJ_Sample : MonoBehaviour
                 // 입학증서 보여주기
                 GameObject.Find("UI_Diagnosis").GetComponent<UI_Diagnosis>().MakeToLobbyBtn();
                 //PlayerPrefs.SetInt("DoDiagnosis", 1);
-                Managers.UserMng.SetUserIsCompletedDiagnosis(true);
+                Managers.DBManager.SetIsCompletedDiagnosis(true);
                 getLearningButton.interactable = true;
                 break;
         }

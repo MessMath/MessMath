@@ -77,10 +77,13 @@ public class UI_Main : UI_Scene
     {
         if (PlayerPrefs.HasKey("LogInOut") && PlayerPrefs.GetInt("LogInOut") == 100)
         {
-            GetObject((int)GameObjects.Panel).SetActive(false);
-            GetImage((int)Images.SignIn).gameObject.SetActive(false);
-            GetImage((int)Images.SignInPressed).gameObject.SetActive(false);
-            GetText((int)Texts.Start).gameObject.SetActive(true);
+            if (Managers.GoogleSignIn.GetUID() != null)
+            {
+                GetObject((int)GameObjects.Panel).SetActive(false);
+                GetImage((int)Images.SignIn).gameObject.SetActive(false);
+                GetImage((int)Images.SignInPressed).gameObject.SetActive(false);
+                GetText((int)Texts.Start).gameObject.SetActive(true);
+            }
         }
         else
         {
