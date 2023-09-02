@@ -158,10 +158,10 @@ public class TextEffectManager
 
 
     // 타이핑 효과
-    public void Typing(string dialouge, TextMeshProUGUI textObj)
+    async public void Typing(string dialouge, TextMeshProUGUI textObj)
     {
         //dialouge = dialouge.Replace("\\r","\n");
-        dialouge = dialouge.Replace("OOO", Managers.UserMng.GetNickname());
+        dialouge = dialouge.Replace("OOO", await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()));
         dialouge = dialouge.Replace("\\n", "\n");
         tempDialogue = dialouge;
         tempSave = textObj;
@@ -174,10 +174,10 @@ public class TextEffectManager
         tempSave = null;
     }
 
-    public void ReplayTyping(string dialouge, TextMeshProUGUI textObj)
+    async public void ReplayTyping(string dialouge, TextMeshProUGUI textObj)
     {
         //dialouge = dialouge.Replace("\\r", "");
-        dialouge = dialouge.Replace("OOO", Managers.UserMng.GetNickname());
+        dialouge = dialouge.Replace("OOO", await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()));
         dialouge = dialouge.Replace("\\n", "\n");
         dialouge = dialouge.Replace("ⓝ", "");
         textObj.text = "";
@@ -193,9 +193,9 @@ public class TextEffectManager
         textObj.text = "<size=42>" + textObj.text + SIZETAG;
     }
 
-    public void ApplyTextEffect(string content, TextMeshProUGUI textObj, int textSize)
+    public async void ApplyTextEffect(string content, TextMeshProUGUI textObj, int textSize)
     {
-        content = content.Replace("OOO", Managers.UserMng.GetNickname());
+        content = content.Replace("OOO", await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()));
         content = content.Replace("\\n ", "\n");
         content = content.Replace("ⓝ", "");
         textObj.text = "";
