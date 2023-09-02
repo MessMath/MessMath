@@ -58,7 +58,7 @@ public class UI_GetNicknamePopup : UI_Popup
     }
     void OnClickedInputField()
     {
-        GetText((int)Texts.UserNameText).text = "";
+        //GetText((int)Texts.UserNameText).text = "";
     }
 
     void OnClickedNextBtn()
@@ -73,7 +73,7 @@ public class UI_GetNicknamePopup : UI_Popup
         ////Debug.Log(Managers.DBManager.ReadData(Managers.UserMng.user.UID, "nickname"));
         //Debug.Log(Managers.DBManager.GetCoin(Managers.UserMng.user.UID));
         //Debug.Log(Managers.DBManager.GetScore(Managers.UserMng.user.UID));
-        //Debug.Log(Managers.DBManager.GetIsCompletedDiagnosis(Managers.UserMng.user.UID));
+        //Debug.Log(Managers.DBManager.GetIsCompletedDiagnosis(Managers.UserMng.user.UID));        
         Managers.DBManager.SetNickname(GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text);
         Managers.UI.ClosePopupUI(this);
     }
