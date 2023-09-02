@@ -2,11 +2,10 @@
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.SocialPlatforms.Impl;
+using static UI_PvpGameResult_Win;
 
 public class UI_PvpGameResult_Lose : UI_Popup
 {
@@ -31,9 +30,21 @@ public class UI_PvpGameResult_Lose : UI_Popup
         Lose1,
         Players_Illust,
         Opps_Illust,
+        OppsTier,
+    }
+
+    public enum GameObjects
+    {
+        MyResult,
+        OppsResult,
     }
 
     public Player OppPlayer;
+    public string OppPlayersName;
+    public int OppPlayersScore;
+    public string OppPlayersCloth;
+
+    public int DecreasingScore = -8;
 
     public override bool Init()
     {
@@ -43,6 +54,7 @@ public class UI_PvpGameResult_Lose : UI_Popup
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
         BindImage(typeof(Images));
+        BindObject(typeof(GameObjects));
 
         GetButton((int)Buttons.ReMatchBtn).gameObject.BindEvent(ReMatch);
         GetButton((int)Buttons.BackToLobbyBtn).gameObject.BindEvent(ToLobby);
@@ -59,22 +71,26 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
         // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
-        // 상대방 닉네임 가져오기 (DB를 참조해서) (UID를 참조해서?)
-        GetText((int)Texts.OppsNickname).text = Managers.DBManager.ReadData(OppPlayer.NickName, "nickname");
+        // 상대방 닉네임 가져오기 (DB를 참조해서)
+        GetText((int)Texts.OppsNickname).text = OppPlayersName;
 
-        Debug.Log($"<color=yellow> MyNickname : {Managers.UserMng.GetNickname()} </color>");
-        Debug.Log($"<color=yellow> OppsNickname : {Managers.DBManager.ReadData(OppPlayer.NickName, "nickname")} </color>");
+        // 상대방의 Score (Tier)
+        GetImage((int)Images.OppsTier).sprite = Managers.Resource.Load<Sprite>("Sprites/Tier/T" + ((OppPlayersScore / 100) + 1).ToString());
+        // 상대방의 옷
+        GetImage((int)Images.Opps_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + OppPlayersCloth + "_full");
+        // 상대방의 하트갯수
+        CopyAllChildren(GameObject.Find("OppsScores"), GetObject((int)GameObjects.OppsResult));
 
-
+        // 나의 Score
         ChangeScore();
+        // 나의 옷
+        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes() + "_full");
+        // 나의 하트갯수
+        CopyAllChildren(GameObject.Find("MyScores"), GetObject((int)GameObjects.MyResult));
 
         Exit();
 
-        Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
-
-        PhotonNetwork.Disconnect();
-        PhotonNetwork.AutomaticallySyncScene = false;
 
         return true;
     }
@@ -120,15 +136,18 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
     IEnumerator CountDown(float target, float current, TextMeshProUGUI tmp)
     {
+        tmp.text = ((int)current).ToString();
+
+        yield return new WaitForSeconds(1f);
+
         float duration = 3f; // 카운팅에 걸리는 시간 설정. 
-        float offset = (target - current) / duration;
+        float offset = (current - target) / duration;
 
         while (current > target)
         {
             current -= offset * Time.deltaTime;
             tmp.text = ((int)current).ToString();
             yield return null;
-
         }
         current = target;
         tmp.text = ((int)current).ToString();
@@ -138,20 +157,26 @@ public class UI_PvpGameResult_Lose : UI_Popup
     {
         // 점수 등락
         int curScore = Managers.UserMng.GetScore();
-        int resultScore = (curScore - 100) < 0 ? 0 : (curScore - 100);
-        Managers.UserMng.SetUserScore(resultScore);
+
+        if ((curScore / 100) > (OppPlayersScore / 100))
+            DecreasingScore -= 6;
+
+        int resultScore = ((curScore + DecreasingScore) < 0) ? 0 : (curScore + DecreasingScore);
+        Managers.DBManager.SetScore(resultScore);
+
         // 점수 등락 시각적으로 표현
         StartCoroutine(CountDown(resultScore, curScore, GetText((int)Texts.MyScore)));
     }
 
-    Player GetOppPlayer()
+    public void CopyAllChildren(GameObject sourceObject, GameObject targetObject)
     {
-        Debug.Log($"<color=red>player[0] : {PhotonNetwork.PlayerList[0].NickName} </color>");
-        Debug.Log($"<color=red>player[1] : {PhotonNetwork.PlayerList[1].NickName} </color>");
+        int childCount = sourceObject.transform.childCount;
 
-        if (PhotonNetwork.IsMasterClient)
-            return PhotonNetwork.PlayerList[1];
-        else
-            return PhotonNetwork.PlayerList[0];
+        for (int i = 0; i < childCount; i++)
+        {
+            Transform child = sourceObject.transform.GetChild(i);
+            GameObject copiedChild = Instantiate(child.gameObject, targetObject.transform);
+        }
     }
+
 }

@@ -1,27 +1,26 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.Windows;
 using System.Data;
 using System;
 using TMPro;
-using System.IO;
-using Unity.VisualScripting;
 using System.Linq;
-using System.Reflection;
 using Random = UnityEngine.Random;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Pun.Demo.PunBasics;
+using System.Threading.Tasks;
 
 public class UI_PvpGameScene : UI_Scene
 {
     PhotonView PhotonView;
     public int QusetionNumber;
-    public int _player1Score;
-    public int _player2Score;
+    public int _player1Score = 0;
+    public int _player2Score = 0;
+
+    Player OppPlayer;
+    string OppPlayersName;
+    int OppScore;
+    string OppPlayersCloth;
 
     enum Texts
     {
@@ -59,6 +58,8 @@ public class UI_PvpGameScene : UI_Scene
         JoyStick,
         ArrowController,
         JoyStickPanel,
+        MyScores,
+        OppsScores,
     }
 
     private void Awake()
@@ -108,70 +109,98 @@ public class UI_PvpGameScene : UI_Scene
         // 지우개 버튼
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
 
-        // ScoreSet
-        ScoreSet();
+        // 팝업에서 쓸 상대방 정보 준비
+        StartCoroutine(ReadyOppsData());
 
         playerList = PhotonNetwork.PlayerList;
 
         return true;
     }
+    
+    IEnumerator ReadyOppsData()
+    {
+        yield return new WaitForSeconds(1.0f);
+        OppsDataReadyAsyncCall();
+    }
+
+    public async void OppsDataReadyAsyncCall()
+    {
+        await OppsDataReadyAsync();
+    }
+
+    public async Task OppsDataReadyAsync()
+    {
+        OppPlayer = GetOppPlayer();
+
+        OppPlayersName = await Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "nickname");
+        OppScore = await Managers.DBManager.GetScore(OppPlayer.NickName);
+        OppPlayersCloth = await Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "myClothes");
+    }
 
     public void ScoreSet()
     {
-        GetImage((int)Images.MyScore1).gameObject.SetActive(false);
-        GetImage((int)Images.MyScore2).gameObject.SetActive(false);
-        GetImage((int)Images.MyScore3).gameObject.SetActive(false);
-        GetImage((int)Images.OpponentScore1).gameObject.SetActive(false);
-        GetImage((int)Images.OpponentScore2).gameObject.SetActive(false);
-        GetImage((int)Images.OpponentScore3).gameObject.SetActive(false);
-
-        if (_player1Score == 1) GetImage((int)Images.MyScore1).gameObject.SetActive(true);
-        if (_player1Score == 2) { GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); }
-        if (_player1Score == 3)
+        if(PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
-            GetImage((int)Images.MyScore1).gameObject.SetActive(true); GetImage((int)Images.MyScore2).gameObject.SetActive(true); GetImage((int)Images.MyScore3).gameObject.SetActive(true);
-            PvpResult();
+            ActivateNChildren(GetObject((int)GameObjects.MyScores), _player1Score);
+            ActivateNChildren(GetObject((int)GameObjects.OppsScores), _player2Score);
         }
-        if (_player2Score == 1) GetImage((int)Images.OpponentScore1).gameObject.SetActive(true);
-        if (_player2Score == 2) { GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); }
-        if (_player2Score == 3)
+        else
         {
-            GetImage((int)Images.OpponentScore1).gameObject.SetActive(true); GetImage((int)Images.OpponentScore2).gameObject.SetActive(true); GetImage((int)Images.OpponentScore3).gameObject.SetActive(true);
+            ActivateNChildren(GetObject((int)GameObjects.MyScores), _player2Score);
+            ActivateNChildren(GetObject((int)GameObjects.OppsScores), _player1Score);
+        }
+
+        if (_player1Score == 3 || _player2Score == 3)
             PvpResult();
+    }
+
+    public void ActivateNChildren(GameObject parentObject, int numberOfChildrenToActivate)
+    {
+        if (numberOfChildrenToActivate == 0)
+            return;
+
+        int childCount = parentObject.transform.childCount;
+
+        for (int i = 0; i < childCount; i++)
+        {
+            Transform child = parentObject.transform.GetChild(i);
+
+            if (!child.gameObject.activeSelf)
+                child.gameObject.SetActive(true);
+
+            if (i == numberOfChildrenToActivate - 1)
+                break;
         }
     }
 
     public void PvpResult()
     {
-        for (int i = 0; i < PhotonNetwork.PlayerList.Count(); i++)
+        if (_player1Score == 3 || _player2Score == 3)
         {
-            Debug.Log(PhotonNetwork.PlayerList[i]);
-            Debug.Log(PhotonNetwork.PlayerList[i].NickName);
-            Debug.Log(PhotonNetwork.PlayerList[i].ToString());
-            Debug.Log(PhotonNetwork.PlayerList[i].IsMasterClient);
+            bool isWin = (PhotonNetwork.LocalPlayer.ActorNumber == 1 && _player1Score == 3) || (PhotonNetwork.LocalPlayer.ActorNumber == 2 && _player2Score == 3);
+            ShowResultPopupAsync(OppPlayer, isWin);
+        }
+    }
+
+    private void ShowResultPopupAsync(Player player, bool isWin)
+    {
+        if (isWin)
+        {
+            UI_PvpGameResult_Win p = Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>();
+            p.OppPlayer = player;
+            p.OppPlayersName = OppPlayersName;
+            p.OppPlayersScore = OppScore;
+            p.OppPlayersCloth = OppPlayersCloth;
+        }
+        else
+        {
+            UI_PvpGameResult_Lose p = Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>();
+            p.OppPlayer = player;
+            p.OppPlayersName = OppPlayersName;
+            p.OppPlayersScore = OppScore;
+            p.OppPlayersCloth = OppPlayersCloth;
         }
 
-        Player player = GetOppPlayer();
-
-        // 승리화면
-        if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
-        {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = player;
-        }
-        if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Win>().OppPlayer = player;
-        }
-
-        // 패배화면
-        if (_player1Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>().OppPlayer = player;
-        }
-        if (_player2Score == 3 && PhotonNetwork.LocalPlayer.ActorNumber == 1)
-        {
-            Managers.UI.ShowPopupUI<UI_PvpGameResult_Lose>().OppPlayer = player;
-        }
     }
 
     Player GetOppPlayer()
@@ -284,6 +313,8 @@ public class UI_PvpGameScene : UI_Scene
 
         PhotonView = GameObject.FindGameObjectWithTag("RPCSychronizer").GetComponent<PhotonView>();
         PhotonView.RPC("Answer", RpcTarget.AllViaServer, printResult, QusetionNumber, PhotonNetwork.LocalPlayer.ActorNumber);
+
+        PvpResult();
     }
 
     IEnumerator Waitfor2Sec()
@@ -458,7 +489,7 @@ public class UI_PvpGameScene : UI_Scene
     // 현재 플레이어의 위치로 설정
     void SetArrowDirection(ArrowOnlyinPvp arrow)
     {
-        if (firstCycle)
+        if(firstCycle)
             PlayerList = GameObject.FindObjectsOfType<PlayerControllerOnlyinPvp>();
 
         int randValue = Random.Range(0, PlayerList.Length);

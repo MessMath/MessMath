@@ -207,7 +207,7 @@ public class UI_Story : UI_Scene
             GetObject((int)GameObjects.Library).gameObject.SetActive(true);
             return;
         }
-        PlayerPrefs.SetInt("WatchedStory", count);
+        //PlayerPrefs.SetInt("WatchedStory", count);
         Managers.SceneEffect.SceneEffect(GetImage((int)Images.FadeImage), GetButton((int)Buttons.nxtButton), storyTalkData[count].sceneEffect);
         Managers.SceneEffect.ChangeBackground(GetImage((int)Images.BackGroundImage), storyTalkData[count].backgroundImg);
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), storyTalkData[count].characterName);

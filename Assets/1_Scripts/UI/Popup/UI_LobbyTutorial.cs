@@ -71,8 +71,7 @@ public class UI_LobbyTutorial : UI_Popup
 
     public void OnClickNxtBtn()
     {
-        PlayerPrefs.SetInt("DoTutorial", 2);
-
+        //PlayerPrefs.SetInt("DoTutorial", 2);
         if (!Managers.TextEffect.isTypingEnd)
         {
             Managers.TextEffect.SetFastSpeed();
@@ -85,7 +84,7 @@ public class UI_LobbyTutorial : UI_Popup
             return;
         }
 
-        PlayerPrefs.SetInt("WatchedStory", count);
+        //PlayerPrefs.SetInt("WatchedStory", count);
         Managers.SceneEffect.ChangeCharacterBG(GetImage((int)Images.CharacterBG), storyTalkData[count].characterName);
         Managers.SceneEffect.ChangeCharacter(GetImage((int)Images.PlayerImage), GetImage((int)Images.CharacterImage), storyTalkData[count].characterName, storyTalkData[count].expression);
 

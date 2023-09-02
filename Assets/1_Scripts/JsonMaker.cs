@@ -51,7 +51,8 @@ public class JsonMaker : MonoBehaviour
 
     void Update()
     {
-        if(PlayerPrefs.GetInt("DoDiagnosis") == 1 && isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11] && isDone[12] && isDone[13])
+        // todo Managers.UserMng.GetIsCompletedDiagnosis()
+        if (PlayerPrefs.GetInt("DoDiagnosis") == 1 && isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11] && isDone[12] && isDone[13])
         {
             Managers.Game.CurrentStatus = Define.CurrentStatus.LEARNING;
             Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
@@ -84,16 +85,16 @@ public class JsonMaker : MonoBehaviour
     {
         range.Add("A2:G82");
         range.Add("A2:G7");
-        range.Add("A2:G7");
+        range.Add("A2:G30");
         range.Add("A2:A7");
         range.Add("A2:A6");
-        range.Add("A2:G8");
+        range.Add("A2:G18");
         range.Add("A2:G82");
         range.Add("A2:G7");
-        range.Add("A2:G7");
+        range.Add("A2:G30");
         range.Add("A2:A7");
         range.Add("A2:A6");
-        range.Add("A2:G8");
+        range.Add("A2:G18");
         range.Add("A2:G23");
         range.Add("A2:G23");
     }

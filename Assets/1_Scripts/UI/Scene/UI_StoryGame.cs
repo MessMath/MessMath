@@ -345,6 +345,7 @@ public class UI_StoryGame : UI_Scene
                 Managers.DBManager.SetIsKilledWitch(true);
                 Managers.DBManager.SetMyClothes("the_wise"); // 대현자 해금
                 Managers.DBManager.SetObtainedClothes("the_wise");
+                Managers.Sound.Clear();
                 StartCoroutine(Epilogue());
             }
         }
