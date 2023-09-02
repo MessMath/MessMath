@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 public class DatabaseManager : MonoBehaviour
 {
     public DatabaseReference reference{get;set;}
-
     public void Init()
     {
         reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
+
     public void CreateNewUser(string nickname)
     {
         Debug.Log("CreateNewUser");
@@ -71,11 +71,42 @@ public class DatabaseManager : MonoBehaviour
         return result;
     }
 
+    public async Task<bool> CheckUserId(string userId)
+    {
+        Managers.Game.IsExisted = false;
+        DataSnapshot snapshot = await reference.Child("Users").GetValueAsync();
+
+        if (snapshot.Exists)
+        {
+            Debug.Log(snapshot.ChildrenCount);
+
+            foreach (DataSnapshot data in snapshot.Children)
+            {
+                Debug.Log("데이터 키값" + data.Key);
+                if (data.Key == userId)
+                {
+                    Managers.Game.IsExisted = true;
+                    Debug.Log("0000000000000000000000000000000");
+                }
+            }
+
+            return Managers.Game.IsExisted;
+        }
+        else
+        {
+            Debug.Log("error");
+        }
+
+        return Managers.Game.IsExisted;
+    }
+
+
     public void SetNickname(string nickname)
     {
         Managers.UserMng.SetNickname(nickname);
         reference.Child("Users").Child(Managers.UserMng.user.UID).Child("nickname").SetValueAsync(Managers.UserMng.user.nickname);
     }
+
     public void SetUserMessage(string message)
     {
         Managers.UserMng.SetUserMessage(message);

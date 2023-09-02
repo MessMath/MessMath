@@ -1,3 +1,4 @@
+using Firebase.Database;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
@@ -66,6 +67,10 @@ public class UserManager
 
     public User user {get;set;}
 
+    public void Init()
+    {
+       
+    }
     public void InitUser(string UID, int coin, int score, Inventory inventory,bool isCompletedStory,
         bool isCompletedTutorial, bool isCompletedDiagnosis, bool isKilledWitch,string nickname, OneOnOneModeGrace oneOnOneModeGrace, StoryModeGrace storyModeGrace, string message, string myClothes)
     {

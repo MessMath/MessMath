@@ -58,7 +58,6 @@ public class UI_GetNicknamePopup : UI_Popup
 
     void OnClickedNextBtn()
     {
-        Managers.DBManager.CreateNewUser(GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text);
         Managers.DBManager.SetIsCompletedStory(true);
         Managers.DBManager.SetIsCompletedTutorial(true);
         //Managers.DBManager.SetIsCompletedDiagnosis(true);
@@ -72,6 +71,7 @@ public class UI_GetNicknamePopup : UI_Popup
         //Debug.Log(Managers.DBManager.GetCoin(Managers.UserMng.user.UID));
         //Debug.Log(Managers.DBManager.GetScore(Managers.UserMng.user.UID));
         //Debug.Log(Managers.DBManager.GetIsCompletedDiagnosis(Managers.UserMng.user.UID));
+        Managers.DBManager.SetNickname(GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text);
         Managers.UI.ClosePopupUI(this);
 
     }

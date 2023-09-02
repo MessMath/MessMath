@@ -61,7 +61,7 @@ public class UI_SelectLanguage : UI_Popup
         Time.timeScale = 1;
         Managers.UI.ClosePopupUI(this);
         Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
-        
+        PlayerPrefs.SetInt("SelectLanguage", 98);
     }
 
     void OnClickedKorBtn()

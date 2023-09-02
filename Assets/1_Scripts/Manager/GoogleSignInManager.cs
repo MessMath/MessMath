@@ -13,7 +13,6 @@ public class GoogleSignInManager : MonoBehaviour
 {
     public TMP_Text infoText;
     private string webClientId = "571063997782-k040dqj6fnrd57rgck2ocblfp4gkaff0.apps.googleusercontent.com";
-    public bool IsLogined = false;
     private FirebaseAuth auth;
     private GoogleSignInConfiguration configuration;
     string UID;
@@ -76,7 +75,7 @@ public class GoogleSignInManager : MonoBehaviour
         GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinished);
         UID = GetUID();
 
-        IsLogined = true;
+        PlayerPrefs.SetInt("LogInOut", 100);
     }
 
     private void OnSignOut()
@@ -84,9 +83,9 @@ public class GoogleSignInManager : MonoBehaviour
         //AddToInformation("Calling SignOut");
         GoogleSignIn.DefaultInstance.SignOut();
         Debug.Log("실행은 되긴 해?");
-        Debug.Log(auth.CurrentUser.UserId);
+        Debug.Log(isLogin());
 
-        IsLogined = false;
+        PlayerPrefs.SetInt("LogInOut", 99);
     }
 
     public void OnDisconnect()

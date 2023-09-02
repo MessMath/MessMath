@@ -1,14 +1,18 @@
+using Firebase.Database;
 using MessMathI18n;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 using UnityEngine.XR;
 using static Define;
+using static UserManager;
 
 public class UI_Main : UI_Scene
 {
@@ -71,7 +75,7 @@ public class UI_Main : UI_Scene
 
     private void Update()
     {
-        if (Managers.GoogleSignIn.IsLogined == true)
+        if (PlayerPrefs.HasKey("LogInOut") && PlayerPrefs.GetInt("LogInOut") == 100)
         {
             GetObject((int)GameObjects.Panel).SetActive(false);
             GetImage((int)Images.SignIn).gameObject.SetActive(false);
@@ -92,8 +96,13 @@ public class UI_Main : UI_Scene
         // Sound
         Managers.Sound.Play("ClickBtnEff");
         Managers.GoogleSignIn.SignInWithGoogle();
+        CreateUser();
+        if (PlayerPrefs.GetInt("SelectLanguage") == 98)
+        {
+            Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
+            return;
+        }
         Managers.UI.ShowPopupUI<UI_SelectLanguage>();
-
         //if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH || LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
         //    Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
         //else
@@ -101,6 +110,14 @@ public class UI_Main : UI_Scene
 
     }
     
+    async void CreateUser()
+    {
+        await Managers.DBManager.CheckUserId(Managers.GoogleSignIn.GetUID());
+        Debug.Log("///////////////////////////"+ Managers.Game.IsExisted);
+        if (Managers.Game.IsExisted == false) { Managers.DBManager.CreateNewUser(""); }
+
+    }
+
     void onClickedSignIn()
     {
         GetImage((int)Images.SignIn).gameObject.SetActive(false);
