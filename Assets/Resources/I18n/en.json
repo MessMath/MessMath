@@ -93,5 +93,11 @@
   "COLLECTION_TITLE": "Collection",
   // Clothes
   "CLOTHES_TITLE": "Clothes",
-  "CLOTHES_SELECT": "Transform"
+  "CLOTHES_SELECT": "Transform",
+  // Setting
+  "SETTING_CONTINUE": "Continue",
+  "SETTING_LOGOUT": "Logout",
+  "SETTING_EXIT": "Exit",
+  // Main
+  "MAIN_START": "Touch to start!"
 }

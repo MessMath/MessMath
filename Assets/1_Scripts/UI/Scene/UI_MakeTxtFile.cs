@@ -47,7 +47,7 @@ public class UI_MakeTxtFile : UI_Scene
         //GetObject((int)GameObjects.MagicCircle).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Collections/" + GetRandomMagicCircleSprite());
         GetText((int)Texts.LogTMP).text = "Loading...";
 
-        jsonReader = new JsonReader();
+        /*jsonReader = new JsonReader();
 
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
         {
@@ -56,7 +56,7 @@ public class UI_MakeTxtFile : UI_Scene
         else
         {
             tipData = jsonReader.ReadTipJson(Application.persistentDataPath + "/" + 11 + "_Tip_EN.json").tipDataList;
-        }
+        }*/
 
         return true;
     }
@@ -72,7 +72,7 @@ public class UI_MakeTxtFile : UI_Scene
 
     bool CheckHaveMagicCircleImage()
     {
-        if (Managers.UserMng.user.UID == null) return false;
+        if (Managers.UserMng.UID == null) return false;
         if (Managers.UserMng.GetObtainedCollections() == null) return false;
 
         for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)

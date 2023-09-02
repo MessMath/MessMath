@@ -75,7 +75,7 @@ public class UI_Diagnosis : UI_Scene
             Managers.DBManager.SetMyClothes("uniform");
             Managers.DBManager.SetObtainedClothes("uniform");
             // TODO 예외처리
-            if(Managers.UserMng.user.isCompletedStory)
+            if(Managers.UserMng.isCompletedStory)
                 Managers.Scene.ChangeScene(Define.Scene.LobbyScene); 
             else
                 Managers.Scene.ChangeScene(Define.Scene.StoryScene);

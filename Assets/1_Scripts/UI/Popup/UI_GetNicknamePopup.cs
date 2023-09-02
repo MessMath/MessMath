@@ -38,6 +38,7 @@ public class UI_GetNicknamePopup : UI_Popup
         GetImage((int)Images.Image).gameObject.SetActive(false);
         TextMeshProUGUI placeholder = (TextMeshProUGUI)GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().placeholder;
         placeholder.text = I18n.Get(I18nDefine.GET_NICKNAME);
+        GetObject((int)GameObjects.UserName).BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); OnClickedInputField(); });
         Time.timeScale = 0;
         return true;
     }
@@ -55,16 +56,25 @@ public class UI_GetNicknamePopup : UI_Popup
             GetImage((int)Images.Image).gameObject.SetActive(false);
         }
     }
+    void OnClickedInputField()
+    {
+        GetText((int)Texts.UserNameText).text = "";
+    }
 
     void OnClickedNextBtn()
     {
-        Managers.DBManager.CreateNewUser(GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text);
+        //Managers.DBManager.SetIsCompletedDiagnosis(true);
         Time.timeScale = 1;
-        Managers.DBManager.SetIsCompletedStory(true);
-        Managers.DBManager.SetIsCompletedTutorial(true);
-        Managers.DBManager.SetIsCompletedDiagnosis(true);
+        //Managers.DBManager.SetIsCompletedStory(true);
+        //Managers.DBManager.SetIsCompletedTutorial(true);
+        //Managers.DBManager.SetIsCompletedDiagnosis(true);
+        //Managers.DBManager.SetIsKilledWitch(true);
+        //Debug.Log(Managers.UserMng.user.UID);
+        ////Debug.Log(Managers.DBManager.ReadData(Managers.UserMng.user.UID, "nickname"));
+        //Debug.Log(Managers.DBManager.GetCoin(Managers.UserMng.user.UID));
+        //Debug.Log(Managers.DBManager.GetScore(Managers.UserMng.user.UID));
+        //Debug.Log(Managers.DBManager.GetIsCompletedDiagnosis(Managers.UserMng.user.UID));
+        Managers.DBManager.SetNickname(GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text);
         Managers.UI.ClosePopupUI(this);
-
     }
-
 }

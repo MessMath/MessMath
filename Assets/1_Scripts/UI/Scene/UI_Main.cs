@@ -1,14 +1,18 @@
+using Firebase.Database;
 using MessMathI18n;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 using UnityEngine.XR;
 using static Define;
+using static UserManager;
 
 public class UI_Main : UI_Scene
 {
@@ -16,7 +20,7 @@ public class UI_Main : UI_Scene
 
     enum Texts
     {
-
+        Start,
     }
 
     enum Buttons
@@ -27,11 +31,13 @@ public class UI_Main : UI_Scene
     enum Images
     {
         BG,
+        SignIn,
+        SignInPressed,
     }
 
     enum GameObjects
     {
-
+        Panel,
     }
 
     private void Start()
@@ -49,38 +55,91 @@ public class UI_Main : UI_Scene
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
 
-        //¹è°æ ¼ÒÁöÇ° °¡Áö°í ÀÖÀ¸¸é ·£´ýÀ¸·Î ¹è°æ ¹Ù²ãÁÖ´Â ÇÔ¼ö
+        //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ö´ï¿½ ï¿½Ô¼ï¿½
         //if (CheckHaveBgImage())
         //{
         //    GetImage((int)Images.BG).sprite = Resources.Load<Sprite>("Sprites/background" + GetRandomBgSprite());
         //}
 
         GetImage((int)Images.BG).gameObject.BindEvent(OnClickBG);
+        GetImage((int)Images.SignIn).gameObject.BindEvent(onClickedSignIn);
+        GetImage((int)Images.SignInPressed).gameObject.SetActive(false);
+        GetText((int)Texts.Start).text = I18n.Get(I18nDefine.MAIN_START);
+        GetText((int)Texts.Start).gameObject.SetActive(false);
 
         // Sound
         Managers.Sound.Clear();
         Managers.Sound.Play("MainBgm", Define.Sound.Bgm);
-
         return true;
     }
 
-    void OnClickBG()
+    private void Update()
+    {
+        if (PlayerPrefs.HasKey("LogInOut") && PlayerPrefs.GetInt("LogInOut") == 100)
+        {
+            GetObject((int)GameObjects.Panel).SetActive(false);
+            GetImage((int)Images.SignIn).gameObject.SetActive(false);
+            GetImage((int)Images.SignInPressed).gameObject.SetActive(false);
+            GetText((int)Texts.Start).gameObject.SetActive(true);
+        }
+        else
+        {
+            GetObject((int)GameObjects.Panel).SetActive(true);
+            GetImage((int)Images.SignIn).gameObject.SetActive(true);
+            //GetImage((int)Images.SignInPressed).gameObject.SetActive(false);
+            GetText((int)Texts.Start).gameObject.SetActive(false);
+        }
+    }
+
+    void OnClickBG( )
     {
         // Sound
         Managers.Sound.Play("ClickBtnEff");
-
+        CreateUser();
+        /*Managers.GoogleSignIn.SignInWithGoogle();
+        CreateUser();
+        if (PlayerPrefs.GetInt("SelectLanguage") == 98)
+        {
+            Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
+            return;
+        }
+        Managers.UI.ShowPopupUI<UI_SelectLanguage>();*/
+        /*if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH || LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
+            Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
+        else
+            Managers.UI.ShowPopupUI<UI_SelectLanguage>();*/
         Managers.UI.ShowPopupUI<UI_SelectLanguage>();
+    }
+    
+    async void CreateUser()
+    {
+        await Managers.DBManager.CheckUserId(Managers.GoogleSignIn.GetUID());
+        if (Managers.Game.IsExisted == false) { Managers.DBManager.CreateNewUser(""); }
+        else
+        { 
+            Managers.DBManager.SignInUser(Managers.GoogleSignIn.GetUID());
+        }
+    }
 
-        //if (PlayerPrefs.HasKey("Language") || PlayerPrefs.GetInt("Language") == 0 || PlayerPrefs.GetInt("Language") == 1)
-        //    Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
-        //else
-        //    Managers.UI.ShowPopupUI<UI_SelectLanguage>();
+    void onClickedSignIn()
+    {
+        GetImage((int)Images.SignIn).gameObject.SetActive(false);
+        GetImage((int)Images.SignInPressed).gameObject.SetActive(true);
 
+        Managers.Sound.Play("ClickBtnEff");
+
+        Managers.GoogleSignIn.SignInWithGoogle();
+        //if(Managers.GoogleSignIn.GetUID() != null)
+        //{
+        //    Managers.DBManager.SignInUser(Managers.GoogleSignIn.GetUID());
+        //}
+        //CreateUser();
+        Debug.Log("ï¿½Î±ï¿½ï¿½ï¿½");
     }
 
     bool CheckHaveBgImage()
     {
-        if (Managers.UserMng.user.UID == null) return false;
+        if (Managers.UserMng.UID == null) return false;
         if (Managers.UserMng.GetObtainedCollections() == null) return false;
 
         for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)

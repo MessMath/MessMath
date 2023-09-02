@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.SceneManagement;
+using static UserManager;
 //using static Define;
 
 public class Managers : MonoBehaviour
@@ -98,7 +99,7 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(connectorGo);
             DontDestroyOnLoad(NetworkGo);
 
-            //s_userManager.Init();
+            s_userManager.Init();
             s_resourceManager.Init();
             s_soundManager.Init();
             s_dataManager.Init();
