@@ -98,7 +98,7 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(connectorGo);
             DontDestroyOnLoad(NetworkGo);
 
-            //s_userManager.Init();
+            s_userManager.Init();
             s_resourceManager.Init();
             s_soundManager.Init();
             s_dataManager.Init();

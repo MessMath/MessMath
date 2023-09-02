@@ -5,7 +5,7 @@
   "STORE_COLLECTIONS": "Collections",
   "STORE_CLOTHES": "Clothes",
   "STORE_PURCHASED": "Purchased",
-   // Purchase
+  // Purchase
   "PURCHASE_CLOSE": "Close",
   "PURCHASE_SUCCESS": " was purchased successfully!\nYou can check it out in the collection.",
   "PURCHASE_FAILED": " purchase has failed.\nYou are not enough coins.",
@@ -91,5 +91,11 @@
   "COLLECTION_TITLE": "Collection",
   // Clothes
   "CLOTHES_TITLE": "Clothes",
-  "CLOTHES_SELECT": "Transform"
+  "CLOTHES_SELECT": "Transform",
+  // Setting
+  "SETTING_CONTINUE": "Continue",
+  "SETTING_LOGOUT": "Logout",
+  "SETTING_EXIT": "Exit",
+  // Main
+  "MAIN_START": "Touch to start!"
 }

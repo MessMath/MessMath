@@ -20,6 +20,8 @@ public class GameManagerEx
     public Define.CurrentStatus CurrentStatus { get; set; }
     public Define.Mode CurrentMode { get; set; } = Define.Mode.None;
 
+    public bool IsExisted { get; set; }
+
     public string Name { get; set; }
 
     public int _idxOfHeart;
