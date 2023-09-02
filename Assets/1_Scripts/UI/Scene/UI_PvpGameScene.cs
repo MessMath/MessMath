@@ -34,6 +34,7 @@ public class UI_PvpGameScene : UI_Scene
     {
         AllErase,
         EqualButton,
+        ToMainBtn,
     }
 
     enum Images
@@ -109,18 +110,34 @@ public class UI_PvpGameScene : UI_Scene
         // 지우개 버튼
         GetButton((int)Buttons.AllErase).gameObject.BindEvent(() => AllErase());
 
-        // 팝업에서 쓸 상대방 정보 준비
-        StartCoroutine(ReadyOppsData());
+        // 뒤로가기 버튼
+        GetButton((int)Buttons.ToMainBtn).gameObject.BindEvent(() => {
+            Managers.Sound.Play("ClickBtnEff");
+            Managers.UI.ShowPopupUI<UI_CheckToLobby>();
+        });
 
         playerList = PhotonNetwork.PlayerList;
+
+        // 팝업에서 쓸 상대방 정보 준비
+        ReadyOppsData();
+
+        Managers.Scene.CurrentSceneType = Define.Scene.PvpGameScene;
+
+        PhotonNetwork.AutomaticallySyncScene = false;
 
         return true;
     }
     
-    IEnumerator ReadyOppsData()
+    async void ReadyOppsData()
     {
-        yield return new WaitForSeconds(1.0f);
-        OppsDataReadyAsyncCall();
+        await OppsDataReadyAsync();
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            string cloth = player.GetComponent<PhotonView>().IsMine ? Managers.UserMng.GetMyClothes() : OppPlayersCloth;
+            player.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + cloth);
+        }
     }
 
     public async void OppsDataReadyAsyncCall()
@@ -173,16 +190,22 @@ public class UI_PvpGameScene : UI_Scene
         }
     }
 
-    public void PvpResult()
+    public void PvpResult(bool UnconditionallyWin = false)
     {
+        if(UnconditionallyWin)
+        {
+            ShowResultPopup(OppPlayer, true);
+            return;
+        }
+
         if (_player1Score == 3 || _player2Score == 3)
         {
             bool isWin = (PhotonNetwork.LocalPlayer.ActorNumber == 1 && _player1Score == 3) || (PhotonNetwork.LocalPlayer.ActorNumber == 2 && _player2Score == 3);
-            ShowResultPopupAsync(OppPlayer, isWin);
+            ShowResultPopup(OppPlayer, isWin);
         }
     }
 
-    private void ShowResultPopupAsync(Player player, bool isWin)
+    private void ShowResultPopup(Player player, bool isWin)
     {
         if (isWin)
         {

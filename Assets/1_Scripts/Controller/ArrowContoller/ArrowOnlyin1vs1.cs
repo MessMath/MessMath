@@ -21,6 +21,7 @@ public class ArrowOnlyin1vs1 : MonoBehaviour
 
     private void Start()
     {
+        Destroy(gameObject, 20f);
     }
 
     private void OnValidate()
@@ -29,13 +30,5 @@ public class ArrowOnlyin1vs1 : MonoBehaviour
             tmp.text = text;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "DeadLine")
-        {
-            Destroy(gameObject);
-        }
-
-    }
 }
 

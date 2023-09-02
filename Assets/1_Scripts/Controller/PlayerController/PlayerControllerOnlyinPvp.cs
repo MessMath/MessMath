@@ -27,8 +27,8 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
     bool isSet = false;
     Vector3 curPos;
 
-    Color oppsColor = new Color(0.6f, 0.6f, 1f);
-    Color myColor = new Color(1f, 0.6f, 0.6f);
+    Color oppsColor = new Color(0.6f, 0.6f, 0.6f);
+    Color myColor = new Color(1f, 1f, 1f);
 
     // 추가된 변수
     private Vector3 predictedPosition;
@@ -60,6 +60,7 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
 
         // 상대방과 나의 색 설정
         _image.color = !PV.IsMine ? oppsColor : myColor;
+        
 
         // 속도를 해상도에 맞춰 조절
         widthRatio = currentWidth / referenceWidth;
@@ -72,7 +73,6 @@ public class PlayerControllerOnlyinPvp : MonoBehaviourPun, IPunObservable
             _rectTransform.anchoredPosition = GameObject.Find("SpawnPoint1").GetComponent<RectTransform>().anchoredPosition;
         else
             _rectTransform.anchoredPosition = GameObject.Find("SpawnPoint2").GetComponent<RectTransform>().anchoredPosition;
-
     }
 
     void FixedUpdate()

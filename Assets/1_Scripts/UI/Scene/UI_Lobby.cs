@@ -11,6 +11,7 @@ public class UI_Lobby : UI_Scene
     enum Images
     {
         BG,
+        BGImage,
         UserImage,
         UserBtnImage,
         Pencil,
@@ -20,6 +21,14 @@ public class UI_Lobby : UI_Scene
         siamese,
         long_cat,
         MagicCircle,
+        Potion,
+        Sun,
+        Moon,
+        Dog,
+        Flame,
+        Glacier,
+        Liquid,
+        Spark,
     }
 
     enum Buttons
@@ -62,7 +71,8 @@ public class UI_Lobby : UI_Scene
 
     UI_SelectGracePopup _selectGracePopup = null;
     bool TextOn;
-    string[] obtainedMagicCircle;
+    string[] obtainedMagicCircle = new string[3];
+    string[] obtaineBGImage = new string[4];
     List<string> obtainedCollections = new List<string>();
 
     public override bool Init()
@@ -71,7 +81,6 @@ public class UI_Lobby : UI_Scene
             return false;
 
         TextOn = true;
-        obtainedMagicCircle = new string[3];
 
         #region 바인드
         BindImage(typeof(Images));
@@ -88,6 +97,7 @@ public class UI_Lobby : UI_Scene
         GetButton((int)Buttons.Fight1vs1GameBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_SelectMathMtcfor1vs1>(); });
         GetButton((int)Buttons.PvpBtn).gameObject.BindEvent(() => { CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Pvp()); });
         GetButton((int)Buttons.PvpBroomstickBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ButtonTextOnOff(); });
+        GetImage((int)Images.MagicCircle).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); RefreshUI(); });
 
         RefreshUI();
 
@@ -185,6 +195,15 @@ public class UI_Lobby : UI_Scene
         GetImage((int)Images.siamese).gameObject.SetActive(false);
         GetImage((int)Images.long_cat).gameObject.SetActive(false);
         GetImage((int)Images.MagicCircle).gameObject.SetActive(false);
+        GetImage((int)Images.BGImage).gameObject.SetActive(false);
+        GetImage((int)Images.Potion).gameObject.SetActive(false);
+        GetImage((int)Images.Sun).gameObject.SetActive(false);
+        GetImage((int)Images.Moon).gameObject.SetActive(false);
+        GetImage((int)Images.Dog).gameObject.SetActive(false);
+        GetImage((int)Images.Flame).gameObject.SetActive(false);
+        GetImage((int)Images.Glacier).gameObject.SetActive(false);
+        GetImage((int)Images.Liquid).gameObject.SetActive(false);
+        GetImage((int)Images.Spark).gameObject.SetActive(false);
 
         if (await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()) == null) return;
 
@@ -193,11 +212,18 @@ public class UI_Lobby : UI_Scene
         for (int i = 0; i < obtainedCollections.Count; i++)
         {
             // 너 이거 가지고있냐? 그럼 뭐 켜줄게
-            // 고양이 가지고있냐?
-            if (obtainedCollections[i] == "maine_coon") GetImage((int)Images.maine_coon).gameObject.SetActive(true);
-            if (obtainedCollections[i] == "russian_blue") GetImage((int)Images.russian_blue).gameObject.SetActive(true);
-            if (obtainedCollections[i] == "siamese") GetImage((int)Images.siamese).gameObject.SetActive(true);
-            if (obtainedCollections[i] == "long_cat") GetImage((int)Images.long_cat).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "maine_coon") GetImage((int)Images.maine_coon).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "russian_blue") GetImage((int)Images.russian_blue).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "siamese") GetImage((int)Images.siamese).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "long_cat") GetImage((int)Images.long_cat).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "potion") GetImage((int)Images.Potion).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "sun") GetImage((int)Images.Sun).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "moon") GetImage((int)Images.Moon).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "dog") GetImage((int)Images.Dog).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "flame") GetImage((int)Images.Flame).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "glacier") GetImage((int)Images.Glacier).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "liquid") GetImage((int)Images.Liquid).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "spark") GetImage((int)Images.Spark).gameObject.SetActive(true);
 
             // 마법 깃펜이랑 학교는?
             if (obtainedCollections[i] == "magic_quill") GetImage((int)Images.Pencil).sprite = Resources.Load<Sprite>("Sprites/Collections/magic_quill");
@@ -206,8 +232,21 @@ public class UI_Lobby : UI_Scene
             // 마법 서클
             if (CheckHaveMagicCircleImage())
             {
+                string magicCircleImageSprite = GetRandomMagicCircleSprite();
+                if (magicCircleImageSprite == "") return;
                 GetImage((int)Images.MagicCircle).gameObject.SetActive(true);
-                GetImage((int)Images.MagicCircle).sprite = Resources.Load<Sprite>("Sprites/Collections/" + GetRandomMagicCircleSprite());
+                Debug.Log("Sprites/Collections/" + magicCircleImageSprite);
+                GetImage((int)Images.MagicCircle).sprite = Resources.Load<Sprite>("Sprites/Collections/" + magicCircleImageSprite);
+            }
+
+            // 배경 이미지
+            if (CheckHaveBGImage())
+            {
+                string bgImageSprite = GetRandomBGImageSprite();
+                if (bgImageSprite == "") return;
+                GetImage((int)Images.BGImage).gameObject.SetActive(true);
+                Debug.Log("Sprites/Collections/" + bgImageSprite);
+                GetImage((int)Images.BGImage).sprite = Resources.Load<Sprite>("Sprites/Collections/" + bgImageSprite + "_full");
             }
         }
     }
@@ -230,6 +269,12 @@ public class UI_Lobby : UI_Scene
     string GetRandomMagicCircleSprite()
     {
         if (!CheckHaveMagicCircleImage()) return "";
+        int randValue = UnityEngine.Random.Range(0, 2);
+            
+        for (int i = 0; i < 3; i++)
+        {
+            obtainedMagicCircle[i] = "";
+        }
 
         for (int i = 0; i < obtainedCollections.Count; i++)
         {
@@ -238,10 +283,58 @@ public class UI_Lobby : UI_Scene
             if (obtainedCollections[i] == "old_magic_circle") obtainedMagicCircle[2] = (obtainedCollections[i]);
         }
 
-        if (obtainedMagicCircle[UnityEngine.Random.Range(0, 3)] != "")
-            return obtainedMagicCircle[UnityEngine.Random.Range(0, 3)];
+        if (obtainedMagicCircle[randValue] != "")
+        {
+            Debug.Log(obtainedMagicCircle[randValue]);
+            return obtainedMagicCircle[randValue];
+        }
         else 
             return "old_magic_circle";
+    }
+    #endregion
+
+    #region BGImage
+    bool CheckHaveBGImage()
+    {
+        if (Managers.UserMng.user.UID == null) return false;
+        if (Managers.UserMng.GetObtainedCollections() == null) return false;
+
+        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        {
+            if (Managers.UserMng.GetObtainedCollections()[i] == "landscape") return true;
+            if (Managers.UserMng.GetObtainedCollections()[i] == "night_landscape") return true;
+            if (Managers.UserMng.GetObtainedCollections()[i] == "space_landscape") return true;
+            if (Managers.UserMng.GetObtainedCollections()[i] == "dawn_landscape") return true;
+        }
+
+        return false;
+    }
+
+    string GetRandomBGImageSprite()
+    {
+        if (!CheckHaveBGImage()) return "";
+        int randValue = UnityEngine.Random.Range(0, 4);
+        
+        for (int i = 0; i < 4; i++)
+        {
+            obtaineBGImage[i] = "";
+        }
+
+        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        {
+            if (Managers.UserMng.GetObtainedCollections()[i] == "landscape") obtaineBGImage[0] = (Managers.UserMng.GetObtainedCollections()[i]);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "night_landscape") obtaineBGImage[1] = (Managers.UserMng.GetObtainedCollections()[i]);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "space_landscape") obtaineBGImage[2] = (Managers.UserMng.GetObtainedCollections()[i]);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "dawn_landscape") obtaineBGImage[3] = (Managers.UserMng.GetObtainedCollections()[i]);
+        }
+
+        if (obtaineBGImage[randValue] != "")
+        {
+            Debug.Log(obtaineBGImage[randValue]);
+            return obtaineBGImage[randValue];
+        }
+        else
+            return "landscape";
     }
     #endregion
 

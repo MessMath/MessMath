@@ -47,7 +47,21 @@ public class PvpNetworkManager : MonoBehaviourPunCallbacks
         player.transform.localScale = new Vector3(1, 1, 1);
     }
 
+    public override void OnLeftRoom()
+    {
+        PhotonNetwork.AutomaticallySyncScene = false;
+    }
+
     public override void OnDisconnected(DisconnectCause cause)
     {
+        PhotonNetwork.AutomaticallySyncScene = false;
     }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        PhotonNetwork.AutomaticallySyncScene = false;
+        PhotonNetwork.Disconnect();
+        GameObject.Find("UI_PvpGameScene").GetComponent<UI_PvpGameScene>().PvpResult(true);
+    }
+
 }

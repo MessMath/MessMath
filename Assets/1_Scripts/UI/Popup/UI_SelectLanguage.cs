@@ -67,6 +67,7 @@ public class UI_SelectLanguage : UI_Popup
     void OnClickedKorBtn()
     {
         LocalizationManager.Get().SetLanguage(Language.KOREAN);
+        PlayerPrefs.SetInt("Language", 0);
 
         GetText((int)Texts.KoreaText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.white;
         GetText((int)Texts.EnglishText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.grey;
@@ -80,6 +81,7 @@ public class UI_SelectLanguage : UI_Popup
     void OnClickedEnBtn()
     {
         LocalizationManager.Get().SetLanguage(Language.ENGLISH);
+        PlayerPrefs.SetInt("Language", 1);
 
         GetText((int)Texts.KoreaText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.grey;
         GetText((int)Texts.EnglishText).gameObject.GetComponent<TextMeshProUGUI>().color = Color.white;
