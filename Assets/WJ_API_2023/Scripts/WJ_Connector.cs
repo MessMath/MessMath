@@ -89,8 +89,8 @@ public class WJ_Connector : MonoBehaviour
         request.gameVer = strGameVer;
         request.osScnCd = strOsScnCd;
         
-        if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN) request.langCd = "KO";
-        if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH) request.langCd = "EN";
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN || PlayerPrefs.GetInt("Language") == 0) request.langCd = "KO";
+        if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH || PlayerPrefs.GetInt("Language") == 1) request.langCd = "EN";
 
         request.timeZone = TimeZoneInfo.Local.BaseUtcOffset.Hours;
 

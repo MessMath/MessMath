@@ -60,9 +60,9 @@ public class UI_GetNicknamePopup : UI_Popup
     {
         Managers.DBManager.CreateNewUser(GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text);
         Time.timeScale = 1;
-        //Managers.DBManager.SetIsCompletedStory(true);
-        //Managers.DBManager.SetIsCompletedTutorial(true);
-        //Managers.DBManager.SetIsCompletedDiagnosis(true);
+        Managers.DBManager.SetIsCompletedStory(true);
+        Managers.DBManager.SetIsCompletedTutorial(true);
+        Managers.DBManager.SetIsCompletedDiagnosis(true);
         Managers.UI.ClosePopupUI(this);
 
     }
