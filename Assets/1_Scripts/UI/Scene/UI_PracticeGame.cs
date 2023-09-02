@@ -31,6 +31,9 @@ public class UI_PracticeGame : UI_Scene
         TeacherImage,
         TeacherTalkImage,
         AnswerAni,
+        HolyRing,
+        DarkRing,
+        Pencil,
     }
 
     enum GameObjects
@@ -92,11 +95,29 @@ public class UI_PracticeGame : UI_Scene
         GetButton((int)Buttons.Button_GetLearning).interactable = true;
         GetButton((int)Buttons.Button_GetLearning).gameObject.BindEvent(() => { GetButton((int)Buttons.Button_GetLearning).gameObject.SetActive(false); });
 
+        CheckHaveCollectionImage();
+
         // Sound
         Managers.Sound.Clear();
         Managers.Sound.Play("PracticeBgm");
 
         return true;
+    }
+
+    void CheckHaveCollectionImage()
+    {
+        GetImage((int)Images.HolyRing).gameObject.SetActive(false);
+        GetImage((int)Images.DarkRing).gameObject.SetActive(false);
+        GetImage((int)Images.Pencil).gameObject.SetActive(false);
+
+        if (Managers.UserMng.GetObtainedCollections() == null) return;
+
+        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        {
+            if (Managers.UserMng.GetObtainedCollections()[i] == "holy_ring") GetImage((int)Images.HolyRing).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "dark_ring") GetImage((int)Images.DarkRing).gameObject.SetActive(true);
+            if (Managers.UserMng.GetObtainedCollections()[i] == "smarty_pencil") GetImage((int)Images.Pencil).gameObject.SetActive(true);
+        }
     }
 
     void OnClickSettingBtn()
