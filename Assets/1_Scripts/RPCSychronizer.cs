@@ -19,12 +19,14 @@ public class RPCSychronizer : MonoBehaviourPun
     {
         if (int.Parse(printResult) == QusetionNumber && Who == 1)
         {
+            Managers.Sound.Play("RightAnswerEff");
             ui_PvpGameScene._player1Score++;
             ui_PvpGameScene.ScoreSet();
             ui_PvpGameScene.Questioning();
         }
         else if (int.Parse(printResult) == QusetionNumber && Who == 2)
         {
+            Managers.Sound.Play("RightAnswerEff");
             ui_PvpGameScene._player2Score++;
             ui_PvpGameScene.ScoreSet();
             ui_PvpGameScene.Questioning();
