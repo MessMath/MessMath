@@ -63,13 +63,11 @@ public class UI_GetNicknamePopup : UI_Popup
 
     void OnClickedNextBtn()
     {
-        Managers.DBManager.SetIsCompletedStory(true);
-        Managers.DBManager.SetIsCompletedTutorial(true);
         //Managers.DBManager.SetIsCompletedDiagnosis(true);
         Time.timeScale = 1;
-        Managers.DBManager.SetIsCompletedStory(true);
-        Managers.DBManager.SetIsCompletedTutorial(true);
-        Managers.DBManager.SetIsCompletedDiagnosis(true);
+        //Managers.DBManager.SetIsCompletedStory(true);
+        //Managers.DBManager.SetIsCompletedTutorial(true);
+        //Managers.DBManager.SetIsCompletedDiagnosis(true);
         //Managers.DBManager.SetIsKilledWitch(true);
         //Debug.Log(Managers.UserMng.user.UID);
         ////Debug.Log(Managers.DBManager.ReadData(Managers.UserMng.user.UID, "nickname"));

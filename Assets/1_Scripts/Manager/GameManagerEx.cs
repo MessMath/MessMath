@@ -21,6 +21,7 @@ public class GameManagerEx
     public Define.Mode CurrentMode { get; set; } = Define.Mode.None;
 
     public bool IsExisted { get; set; }
+    public bool IsCompletedDiagnosis { get; set; }  
 
     public string Name { get; set; }
 

@@ -151,14 +151,14 @@ public class UserManager
     //    InitUser(UID, coin, score, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, nickname);
     //}
 
-    public void SetNickname(string nickname)
+    public void SetNickname(string _nickname)
     {
-        nickname = nickname;
+        nickname = _nickname;
     }
 
-    public void SetUserMessage(string messsage)
+    public void SetUserMessage(string _messsage)
     {
-        message = messsage;
+        message = _messsage;
     }
 
     public void SetOneOnOneGrace(string grace1 = null, string grace2 = null, string grace3 = null)
@@ -173,13 +173,13 @@ public class UserManager
         storyModeGrace.grace2 = grace2;
         storyModeGrace.grace3 = grace3;
     }
-    public void SetUserCoin(int coin)
+    public void SetUserCoin(int _coin)
     {
-        coin = coin;
+        coin = _coin;
     }
-    public void SetUserScore(int score)
+    public void SetUserScore(int _score)
     {
-        score = score;
+        score = _score;
     }
 
     public void SetUserIsCompletedStory(bool isCompleted)
@@ -202,9 +202,9 @@ public class UserManager
         isKilledWitch = isKilled;
     }
 
-    public void SetUserMyClothes(string myClothes)
+    public void SetUserMyClothes(string _myClothes)
     {
-        myClothes = myClothes;
+        myClothes = _myClothes;
     }
 
     public void SetUserObtainedClothes(string clothes)

@@ -52,7 +52,7 @@ public class JsonMaker : MonoBehaviour
     void Update()
     {
         // todo Managers.UserMng.GetIsCompletedDiagnosis()
-        if (Managers.UserMng.GetIsCompletedDiagnosis() == true && isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11] && isDone[12] && isDone[13])
+        if (Managers.DBManager.GetIsCompletedDiagnosis(Managers.GoogleSignIn.GetUID()).Result == true && isDone[0] && isDone[1] && isDone[2] && isDone[3] && isDone[4] && isDone[5] && isDone[6] && isDone[7] && isDone[8] && isDone[9] && isDone[10] && isDone[11] && isDone[12] && isDone[13])
         {
             Managers.Game.CurrentStatus = Define.CurrentStatus.LEARNING;
             Managers.Scene.ChangeScene(Define.Scene.LobbyScene);

@@ -95,6 +95,7 @@ public class UI_Main : UI_Scene
     {
         // Sound
         Managers.Sound.Play("ClickBtnEff");
+        CreateUser();
         /*Managers.GoogleSignIn.SignInWithGoogle();
         CreateUser();
         if (PlayerPrefs.GetInt("SelectLanguage") == 98)
@@ -113,9 +114,11 @@ public class UI_Main : UI_Scene
     async void CreateUser()
     {
         await Managers.DBManager.CheckUserId(Managers.GoogleSignIn.GetUID());
-        Debug.Log("///////////////////////////"+ Managers.Game.IsExisted);
         if (Managers.Game.IsExisted == false) { Managers.DBManager.CreateNewUser(""); }
-
+        else
+        { 
+            Managers.DBManager.SignInUser(Managers.GoogleSignIn.GetUID());
+        }
     }
 
     void onClickedSignIn()
@@ -126,11 +129,11 @@ public class UI_Main : UI_Scene
         Managers.Sound.Play("ClickBtnEff");
 
         Managers.GoogleSignIn.SignInWithGoogle();
-        if(Managers.GoogleSignIn.GetUID() != null)
-        {
-            Managers.DBManager.SignInUser(Managers.GoogleSignIn.GetUID());
-        }
-
+        //if(Managers.GoogleSignIn.GetUID() != null)
+        //{
+        //    Managers.DBManager.SignInUser(Managers.GoogleSignIn.GetUID());
+        //}
+        //CreateUser();
         Debug.Log("�α���");
     }
 
