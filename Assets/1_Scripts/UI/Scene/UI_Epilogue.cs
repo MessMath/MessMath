@@ -1,4 +1,4 @@
-﻿using MessMathI18n;
+using MessMathI18n;
 using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,6 +49,20 @@ public class UI_Epilogue : UI_Scene
         BackToLobbyBtn,
     }
 
+    public void Start()
+    {
+        Init();
+    }
+
+    public void Update()
+    {
+        if (GetText((int)Texts.Award_AwardContext) != null)
+        {
+            GetText((int)Texts.Award_AwardContext).gameObject.SetActive(true);
+            GetText((int)Texts.Award_AwardContext).text = I18n.Get(I18nDefine.Award_AwardContext);
+        }
+    }
+
     public override bool Init()
     {
         if (base.Init() == false)
@@ -68,6 +82,7 @@ public class UI_Epilogue : UI_Scene
         GetImage((int)Images.Image4).gameObject.BindEvent(() => { StartCoroutine(NextImage("FadeWhite", GetImage((int)Images.Image5).gameObject)); });
         GetImage((int)Images.Image5).gameObject.BindEvent(ShowCredits);
 
+        GetText((int)Texts.Award_AwardContext).gameObject.SetActive(true);
         GetText((int)Texts.Award_AwardContext).text = I18n.Get(I18nDefine.Award_AwardContext);
         GetText((int)Texts.Award_Title).text = I18n.Get(I18nDefine.Award_Title);
 
