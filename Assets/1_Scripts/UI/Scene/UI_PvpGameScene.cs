@@ -153,43 +153,21 @@ public class UI_PvpGameScene : UI_Scene
         }
     }
 
-    public void OppsDataReadyAsync()
+    async public void OppsDataReadyAsync()
     {
         OppPlayer = GetOppPlayer();
 
-        var gettingOppPlayerName = Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "nickname").GetAwaiter();
-        gettingOppPlayerName.OnCompleted(() => {
-            OppPlayersName = gettingOppPlayerName.GetResult();
-        });
+        OppPlayersName = await Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "nickname");
 
-        var gettingOppScore = Managers.DBManager.GetScore(OppPlayer.NickName).GetAwaiter();
-        gettingOppScore.OnCompleted(() =>
-        {
-            OppScore = gettingOppScore.GetResult();
-        });
+        OppScore = await Managers.DBManager.GetScore(OppPlayer.NickName);
 
-        var gettingOppPlayersCloth = Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "myClothes").GetAwaiter();
-        gettingOppPlayersCloth.OnCompleted(() =>
-        {
-            OppPlayersCloth = gettingOppPlayersCloth.GetResult();
-        });
+        OppPlayersCloth = await Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "myClothes");
 
-        var gettingPlayerName = Managers.DBManager.ReadDataAsync(Managers.GoogleSignIn.GetUID(), "nickname").GetAwaiter();
-        gettingOppPlayerName.OnCompleted(() => {
-            PlayerName = gettingOppPlayerName.GetResult();
-        });
+        PlayerName = await Managers.DBManager.ReadDataAsync(Managers.GoogleSignIn.GetUID(), "nickname");
 
-        var gettingScore = Managers.DBManager.GetScore(Managers.GoogleSignIn.GetUID()).GetAwaiter();
-        gettingOppScore.OnCompleted(() =>
-        {
-            PlayerScore = gettingOppScore.GetResult();
-        });
+        PlayerScore = await Managers.DBManager.GetScore(Managers.GoogleSignIn.GetUID());
 
-        var gettingPlayersCloth = Managers.DBManager.ReadDataAsync(Managers.GoogleSignIn.GetUID(), "myClothes").GetAwaiter();
-        gettingOppPlayersCloth.OnCompleted(() =>
-        {
-            PlayerClothes = gettingOppPlayersCloth.GetResult();
-        });
+        PlayerClothes = await Managers.DBManager.ReadDataAsync(Managers.GoogleSignIn.GetUID(), "myClothes");
 
     }
 
