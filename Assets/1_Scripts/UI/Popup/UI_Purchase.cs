@@ -43,18 +43,20 @@ public class UI_Purchase : UI_Popup
         return true;
     }
 
-    async void OnClickedPurchaseBtn(StoreData storeData)
+    void OnClickedPurchaseBtn(StoreData storeData)
     {
         // Sound
         Managers.Sound.Play("PurchaseEff3");
 
         UI_PurchaseStatus purchaseStatus = Managers.UI.ShowPopupUI<UI_PurchaseStatus>();
 
-        if (!(await Managers.Coin.CheckPurchase(storeData.price)))
+        var checkPrice = Managers.Coin.CheckPurchase(storeData.price).GetAwaiter();
+        checkPrice.OnCompleted(() =>
         {
-            if (purchaseStatus.Init()) purchaseStatus.SetPurchaseStatus(false, GetText((int)Texts.NameTMP).text);
+            if (!checkPrice.GetResult())
+                if (purchaseStatus.Init()) purchaseStatus.SetPurchaseStatus(false, GetText((int)Texts.NameTMP).text);
             return;
-        }
+        });
 
         if (purchaseStatus.Init()) purchaseStatus.SetPurchaseStatus(true, GetText((int)Texts.NameTMP).text);
 
