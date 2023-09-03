@@ -55,15 +55,8 @@ public class UI_Main : UI_Scene
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
 
-        //��� ����ǰ ������ ������ �������� ��� �ٲ��ִ� �Լ�
-        //if (CheckHaveBgImage())
-        //{
-        //    GetImage((int)Images.BG).sprite = Resources.Load<Sprite>("Sprites/background" + GetRandomBgSprite());
-        //}
-
         GetImage((int)Images.BG).gameObject.BindEvent(OnClickBG);
         GetImage((int)Images.SignIn).gameObject.BindEvent(onClickedSignIn);
-        GetImage((int)Images.SignInPressed).gameObject.SetActive(false);
         GetText((int)Texts.Start).text = I18n.Get(I18nDefine.MAIN_START);
         GetText((int)Texts.Start).gameObject.SetActive(false);
 
@@ -75,18 +68,16 @@ public class UI_Main : UI_Scene
 
     private void Update()
     {
-        if (PlayerPrefs.HasKey("LogInOut") && PlayerPrefs.GetInt("LogInOut") == 100)
+        if (Managers.GoogleSignIn.isLogin())
         {
             GetObject((int)GameObjects.Panel).SetActive(false);
             GetImage((int)Images.SignIn).gameObject.SetActive(false);
-            GetImage((int)Images.SignInPressed).gameObject.SetActive(false);
             GetText((int)Texts.Start).gameObject.SetActive(true);
         }
         else
         {
             GetObject((int)GameObjects.Panel).SetActive(true);
             GetImage((int)Images.SignIn).gameObject.SetActive(true);
-            //GetImage((int)Images.SignInPressed).gameObject.SetActive(false);
             GetText((int)Texts.Start).gameObject.SetActive(false);
         }
     }
@@ -124,7 +115,7 @@ public class UI_Main : UI_Scene
     void onClickedSignIn()
     {
         GetImage((int)Images.SignIn).gameObject.SetActive(false);
-        GetImage((int)Images.SignInPressed).gameObject.SetActive(true);
+        //GetImage((int)Images.SignInPressed).gameObject.SetActive(true);
 
         Managers.Sound.Play("ClickBtnEff");
 
@@ -134,7 +125,6 @@ public class UI_Main : UI_Scene
         //    Managers.DBManager.SignInUser(Managers.GoogleSignIn.GetUID());
         //}
         //CreateUser();
-        Debug.Log("�α���");
     }
 
     bool CheckHaveBgImage()

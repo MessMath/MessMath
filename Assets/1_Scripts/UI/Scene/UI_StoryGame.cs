@@ -76,6 +76,8 @@ public class UI_StoryGame : UI_Scene
         JoyStickPanel,
     }
 
+    List<string> obtainedCollections = new List<string>();
+
     private void Awake()
     {
         Init();
@@ -194,13 +196,13 @@ public class UI_StoryGame : UI_Scene
         return true;
     }
 
-    void CheckHaveEraserImage()
+    async void CheckHaveEraserImage()
     {
-        if (Managers.UserMng.GetObtainedCollections() == null) return;
+        if (await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()) == null) return;
 
         for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
         {
-            if (Managers.UserMng.GetObtainedCollections()[i] != "board_eraser") continue;
+            if (Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID())[i] != "board_eraser") continue;
             GetButton((int)Buttons.AllErase).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Collections/board_eraser");
             GetButton((int)Buttons.AllErase).gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 200);
         }
