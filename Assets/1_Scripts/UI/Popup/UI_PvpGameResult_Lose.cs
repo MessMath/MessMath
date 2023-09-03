@@ -100,14 +100,21 @@ public class UI_PvpGameResult_Lose : UI_Popup
         return true;
     }
 
-    async void InitPlayerName()
+    void InitPlayerName()
     {
-        PlayerName = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
+        var getting = Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        getting.OnCompleted(() => {
+            PlayerName = getting.GetResult();
+        });
+
     }
 
-    async void InitPlayerClothes()
+    void InitPlayerClothes()
     {
-        PlayerClothes = await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID());
+        var getting = Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        getting.OnCompleted(() => {
+            PlayerClothes = getting.GetResult();
+        });
     }
 
     public void ReMatch()
@@ -168,10 +175,17 @@ public class UI_PvpGameResult_Lose : UI_Popup
         tmp.text = ((int)current).ToString();
     }
 
-    async void ChangeScore()
+    void ChangeScore()
     {
+        int curScore = 0; ;
+
         // 점수 등락
-        int curScore = await Managers.DBManager.GetScore(Managers.GoogleSignIn.GetUID());
+        var gettingScore = Managers.DBManager.GetScore(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        gettingScore.OnCompleted(() => {
+
+            curScore = gettingScore.GetResult();
+
+        });
 
         if ((curScore / 100) > (OppPlayersScore / 100))
             DecreasingScore -= 6;
