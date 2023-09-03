@@ -107,7 +107,7 @@ public class UI_Lobby : UI_Scene
         Managers.Sound.Clear();
         Managers.Sound.Play("LobbyBgm", Define.Sound.Bgm);
 
-        CheckTutorial();
+        //CheckTutorial();
 
         return true;
     }
@@ -193,6 +193,11 @@ public class UI_Lobby : UI_Scene
         CheckCollection();
 
         GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) + "_full");
+
+        //if (await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) != "uniform")
+        //    GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) + "_full");
+        //else
+        //    GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/uniform_full");
 
         Debug.Log("UI_Lobby RefreshUI");
     }

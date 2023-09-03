@@ -75,7 +75,7 @@ public class UI_CollectionBoxPopup : UI_Popup
 
     async void InitObtainedClothes()
     {
-        obtainedCollections = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
+       
     }
 
     void OnClosePopup()
@@ -86,8 +86,10 @@ public class UI_CollectionBoxPopup : UI_Popup
         Managers.UI.ClosePopupUI(this);
     }
 
-    void RefreshUI()
+    async void RefreshUI()
     {
+        obtainedCollections = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
+
         GetText((int)Texts.TitleText).text = I18n.Get(I18nDefine.COLLECTION_TITLE);
         GetText((int)Texts.TitleText).fontSize = 80;
 
