@@ -77,8 +77,7 @@ public class UI_PracticeGame : UI_Scene
         BindButton(typeof(Buttons));
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
-        InitObtainedCollections();
-
+        
         #region Set Coin
         SetCoinTxt();
         #endregion
@@ -93,11 +92,14 @@ public class UI_PracticeGame : UI_Scene
         GetObject((int)GameObjects.ChooseDifficulty).gameObject.SetActive(false);
         GetObject((int)GameObjects.Problem).gameObject.SetActive(false);
         GetImage((int)Images.TeacherTalkImage).gameObject.SetActive(false);
+        GetImage((int)Images.HolyRing).gameObject.SetActive(false);
+        GetImage((int)Images.DarkRing).gameObject.SetActive(false);
+        GetImage((int)Images.Pencil).gameObject.SetActive(false);
 
         GetButton((int)Buttons.Button_GetLearning).interactable = true;
         GetButton((int)Buttons.Button_GetLearning).gameObject.BindEvent(() => { GetButton((int)Buttons.Button_GetLearning).gameObject.SetActive(false); });
 
-        CheckHaveCollectionImage();
+        InitObtainedCollections();
 
         // Sound
         Managers.Sound.Clear();
@@ -108,21 +110,6 @@ public class UI_PracticeGame : UI_Scene
     async void InitObtainedCollections()
     {
         obtainedCollections = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
-    }
-
-    async void SetCoinTxt()
-    {
-        int coin = await Managers.DBManager.GetCoin(Managers.GoogleSignIn.GetUID());
-        GetText((int)Texts.CoinCount).text = coin.ToString();
-    }
-
-    void CheckHaveCollectionImage()
-    {
-        GetImage((int)Images.HolyRing).gameObject.SetActive(false);
-        GetImage((int)Images.DarkRing).gameObject.SetActive(false);
-        GetImage((int)Images.Pencil).gameObject.SetActive(false);
-
-        if (obtainedCollections == null) return;
 
         for (int i = 0; i < obtainedCollections.Count; i++)
         {
@@ -130,6 +117,12 @@ public class UI_PracticeGame : UI_Scene
             if (obtainedCollections[i] == "dark_ring") GetImage((int)Images.DarkRing).gameObject.SetActive(true);
             if (obtainedCollections[i] == "smarty_pencil") GetImage((int)Images.Pencil).gameObject.SetActive(true);
         }
+    }
+
+    async void SetCoinTxt()
+    {
+        int coin = await Managers.DBManager.GetCoin(Managers.GoogleSignIn.GetUID());
+        GetText((int)Texts.CoinCount).text = coin.ToString();
     }
 
     void OnClickSettingBtn()
