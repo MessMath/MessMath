@@ -60,8 +60,14 @@ public class UI_Lobby : UI_Scene
     {
         Init();
         //showTutorial();
+        PlayAnimation();
+        
+    }
 
-        CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
+    async void PlayAnimation()
+    {
+        if (await Managers.DBManager.GetIsCompletedTutorial(Managers.GoogleSignIn.GetUID()) == true)
+            CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Lobby());
     }
 
     private void Update()
