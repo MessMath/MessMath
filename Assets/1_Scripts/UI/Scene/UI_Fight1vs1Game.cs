@@ -318,14 +318,14 @@ public class UI_Fight1vs1Game : UI_Scene
             Managers.Game._idxOfHeart++;
     }
 
-    public void damageToWitch(float damage)
+    async public void damageToWitch(float damage)
     {
         DamageText(damage);
         witchController.SetWitchHP(damage);
 
         if (witchController.Hp <= 0)
         {
-            Managers.UserMng.SetUserCoin(Managers.UserMng.GetCoin() + SolvedQstNum * 10);
+            Managers.DBManager.SetCoin(await Managers.DBManager.GetCoin(Managers.GoogleSignIn.GetUID()) + SolvedQstNum * 10);
             return;
         }
 

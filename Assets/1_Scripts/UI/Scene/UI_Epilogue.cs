@@ -90,7 +90,7 @@ public class UI_Epilogue : UI_Scene
         
         GetText((int)Texts.Award_Title).text = I18n.Get(I18nDefine.Award_Title);
         GetText((int)Texts.Award_AwardContext).text = I18n.Get(I18nDefine.Award_AwardContext);
-        GetText((int)Texts.Award_Nickname).text = Managers.UserMng.GetNickname();
+        SetNickname();
 
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH)
             GetButton((int)Buttons.BackToLobbyBtn).GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Sprites/Pvp/ResultPopup/BackToLobby_ENG");
@@ -102,6 +102,11 @@ public class UI_Epilogue : UI_Scene
         StartCoroutine(FadeIn("Fade"));
 
         return true;
+    }
+
+    async void SetNickname()
+    {
+        GetText((int)Texts.Award_Nickname).text = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
     }
 
     void ImagesPreSetting()
