@@ -75,18 +75,18 @@ public class UI_Info : UI_Popup
 
         GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = PlayerName;
         GetObject((int)GameObjects.UserMessage).gameObject.GetComponentInChildren<TMP_InputField>().text = PlayerMessage;
+
         return true;
     }
 
     async void InitGetNickName()
     {
-        PlayerName = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
+        PlayerMessage = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
     }
 
     async void InitGetMessage()
     {
         PlayerMessage = await Managers.DBManager.GetUserMessage(Managers.GoogleSignIn.GetUID());
-
     }
     private void Update()
     {

@@ -32,12 +32,10 @@ public class UI_Main : UI_Scene
     {
         BG,
         SignIn,
-        SignInPressed,
     }
 
     enum GameObjects
     {
-        Panel,
     }
 
     private void Start()
@@ -57,8 +55,6 @@ public class UI_Main : UI_Scene
 
         GetImage((int)Images.BG).gameObject.BindEvent(OnClickBG);
         GetImage((int)Images.SignIn).gameObject.BindEvent(onClickedSignIn);
-        GetText((int)Texts.Start).text = I18n.Get(I18nDefine.MAIN_START);
-        GetText((int)Texts.Start).gameObject.SetActive(false);
 
         // Sound
         Managers.Sound.Clear();
@@ -68,48 +64,40 @@ public class UI_Main : UI_Scene
 
     private void Update()
     {
-        if (Managers.GoogleSignIn.isLogin())
+        if (Managers.GoogleSignIn.GetUID() != null)
         {
-            GetObject((int)GameObjects.Panel).SetActive(false);
             GetImage((int)Images.SignIn).gameObject.SetActive(false);
             GetText((int)Texts.Start).gameObject.SetActive(true);
         }
         else
         {
-            GetObject((int)GameObjects.Panel).SetActive(true);
+            //GetObject((int)GameObjects.Panel).SetActive(true);
             GetImage((int)Images.SignIn).gameObject.SetActive(true);
             GetText((int)Texts.Start).gameObject.SetActive(false);
         }
     }
 
-    void OnClickBG( )
+    void OnClickBG()
     {
+        if (Managers.GoogleSignIn.GetUID() == null)
+            return;
         // Sound
         Managers.Sound.Play("ClickBtnEff");
+
         CreateUser();
-        /*Managers.GoogleSignIn.SignInWithGoogle();
-        CreateUser();
-        if (PlayerPrefs.GetInt("SelectLanguage") == 98)
-        {
-            Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
-            return;
-        }
-        Managers.UI.ShowPopupUI<UI_SelectLanguage>();*/
-        /*if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH || LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
-            Managers.Scene.ChangeScene(Define.Scene.MakeTxtFileScene);
-        else
-            Managers.UI.ShowPopupUI<UI_SelectLanguage>();*/
         Managers.UI.ShowPopupUI<UI_SelectLanguage>();
     }
-    
-    async void CreateUser()
+
+    void CreateUser()
     {
-        await Managers.DBManager.CheckUserId(Managers.GoogleSignIn.GetUID());
-        if (Managers.Game.IsExisted == false) { Managers.DBManager.CreateNewUser(""); }
-        else
-        { 
-            Managers.DBManager.SignInUser(Managers.GoogleSignIn.GetUID());
-        }
+        var GettingUserId = Managers.DBManager.CheckUserId(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        GettingUserId.OnCompleted(() => {
+            if (Managers.Game.IsExisted == false) { Managers.DBManager.CreateNewUser(""); }
+            else
+            {
+                Managers.DBManager.SignInUser(Managers.GoogleSignIn.GetUID());
+            }
+        });
     }
 
     void onClickedSignIn()

@@ -51,7 +51,7 @@ public class JsonMaker : MonoBehaviour
 
     void Update()
     {
-
+        func();
     }
 
     async void func()
@@ -298,7 +298,6 @@ public class JsonMaker : MonoBehaviour
             File.Delete(filePath);
             MakeDialgoueJsonFile(i);
             isDone[i] = true;
-            func();
         }
     }
 
@@ -324,7 +323,6 @@ public class JsonMaker : MonoBehaviour
             File.Delete(filePath);
             MakeStoreJsonFile(i);
             isDone[i] = true;
-            func();
         }
     }
 
@@ -351,7 +349,6 @@ public class JsonMaker : MonoBehaviour
             MakeTutorailJsonFile(i);
             Debug.Log("Done Making 3_Tutorial.json File");
             isDone[i] = true;
-            func();
         }
     }
 
@@ -378,7 +375,6 @@ public class JsonMaker : MonoBehaviour
             MakeDiagnosisJsonFile(i);
             Debug.Log("Done Making Diagnosis.json File");
             isDone[i] = true;
-            func();
         }
     }
 
@@ -405,7 +401,6 @@ public class JsonMaker : MonoBehaviour
             MakeTipJsonFile(i);
             Debug.Log("Done Making tip.json File");
             isDone[i] = true;
-            func();
         }
     }
 
