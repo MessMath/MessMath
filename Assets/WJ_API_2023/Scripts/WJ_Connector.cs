@@ -2,7 +2,6 @@ using MessMathI18n;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -208,7 +207,7 @@ public class WJ_Connector : MonoBehaviour
             uwr.SetRequestHeader("Content-Type", "application/json");
             uwr.SetRequestHeader("x-api-key", strGameKey);
 
-            if (isSendAuth) uwr.SetRequestHeader("Authorization", PlayerPrefs.GetString("PstrAuthorization"));
+            if (isSendAuth) uwr.SetRequestHeader("Authorization", strAuthorization);
 
             uwr.timeout = 5;
 
@@ -249,11 +248,7 @@ public class WJ_Connector : MonoBehaviour
                         break;
                 }
 
-                if (uwr.GetResponseHeaders().ContainsKey("Authorization"))
-                {
-                    strAuthorization = uwr.GetResponseHeader("Authorization");
-                    PlayerPrefs.SetString("PstrAuthorization", strAuthorization);
-                }
+                if (uwr.GetResponseHeaders().ContainsKey("Authorization")) strAuthorization = uwr.GetResponseHeader("Authorization");
             }
             else //½ÇÆÐ ½Ã
             {

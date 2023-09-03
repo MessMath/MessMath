@@ -245,8 +245,13 @@ public class UI_Story : UI_Scene
 
         if (storyTalkData[count].characterName == "주인공" || storyTalkData[count].characterName == "Main character")
         {
-            GetText((int)Texts.CharacterNameTMP).text = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
-        }
+            var Getting = Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+            Getting.OnCompleted(() =>{
+
+                GetText((int)Texts.CharacterNameTMP).text = Getting.GetResult();
+
+            });
+            }
         else
         {
             GetText((int)Texts.CharacterNameTMP).text = storyTalkData[count].characterName;
