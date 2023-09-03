@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using StoreDatas;
 using MessMathI18n;
+using System.Threading.Tasks;
 
 public class UI_Store : UI_Popup
 {
@@ -17,6 +18,8 @@ public class UI_Store : UI_Popup
     bool isInitialized = false;
     float storeContentWidthSizie = 250f;
     float storeContentHeightSizie = 926.87f;
+
+    List<string> obtainedClothes = new List<string>();
 
     enum Images
     {
@@ -101,16 +104,21 @@ public class UI_Store : UI_Popup
         return true;
     }
 
-    void RefreshUI()
+    async void RefreshUI()
     {
-        if (Managers.UserMng.GetObtainedCollections() == null) return;
+        await InitObtainedClothes();
 
-        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        for (int i = 0; i < obtainedClothes.Count; i++)
         {
-            if (Managers.UserMng.GetObtainedCollections()[i] == "gauss_token")
+            if (obtainedClothes[i] == "gauss_token")
                 GetImage((int)Images.CoinImg).sprite = Resources.Load<Sprite>("Sprites/Collections/gauss_token");
         }
 
+    }
+
+    async Task InitObtainedClothes()
+    {
+        obtainedClothes = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedClothes(Managers.GoogleSignIn.GetUID()));
     }
 
     void OnClickedGraceBtn()
@@ -179,9 +187,9 @@ public class UI_Store : UI_Popup
         }
     }
 
-    public void SetCoinText()
+    public async void SetCoinText()
     {
-        GetText((int)Texts.CoinTMP).text = Managers.UserMng.GetCoin().ToString();
+        GetText((int)Texts.CoinTMP).text = (await Managers.DBManager.GetCoin(Managers.GoogleSignIn.GetUID())).ToString();
     }
 
     public void SetStorContentSize()
