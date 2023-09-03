@@ -19,7 +19,7 @@ public class UI_Store : UI_Popup
     float storeContentWidthSizie = 250f;
     float storeContentHeightSizie = 926.87f;
 
-    List<string> obtainedClothes = new List<string>();
+    //List<string> obtainedCollections = new List<string>();
 
     enum Images
     {
@@ -106,19 +106,13 @@ public class UI_Store : UI_Popup
 
     async void RefreshUI()
     {
-        await InitObtainedClothes();
+        List<string> obtainedCollections = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
 
-        for (int i = 0; i < obtainedClothes.Count; i++)
+        for (int i = 0; i < obtainedCollections.Count; i++)
         {
-            if (obtainedClothes[i] == "gauss_token")
+            if (obtainedCollections[i] == "gauss_token")
                 GetImage((int)Images.CoinImg).sprite = Resources.Load<Sprite>("Sprites/Collections/gauss_token");
         }
-
-    }
-
-    async Task InitObtainedClothes()
-    {
-        obtainedClothes = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedClothes(Managers.GoogleSignIn.GetUID()));
     }
 
     void OnClickedGraceBtn()
