@@ -97,26 +97,17 @@ public class UI_PvpGameResult_Lose : UI_Popup
         return true;
     }
 
-    void InitPlayerInfo()
+    async void InitPlayerInfo()
     {
-        var getting = Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()).GetAwaiter();
-        getting.OnCompleted(() => {
-            PlayerName = getting.GetResult();
-        });
-
+        PlayerName = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
         // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = PlayerName;
 
-        var getting1 = Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()).GetAwaiter();
-        getting1.OnCompleted(() => {
-            PlayerClothes = getting1.GetResult();
-        });
-
-        Debug.Log($"PlayerClothes : {PlayerClothes}");
-
+        PlayerClothes = await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID());
         // 나의 옷
         GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + PlayerClothes + "_full");
     }
+
     public void ReMatch()
     {
         // Sound
