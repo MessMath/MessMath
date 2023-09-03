@@ -203,7 +203,7 @@ public class DatabaseManager : MonoBehaviour
 
     public async Task<bool> GetIsKilledWitch(string userId)
     {
-        return bool.Parse(await ReadUserAsync(userId, "isKilledStory"));
+        return bool.Parse(await ReadUserAsync(userId, "isKilledWitch"));
     }
 
     public async Task<bool> GetIsCompletedTutorial(string userId)
@@ -301,10 +301,10 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("myClothes").SetValueAsync(Managers.UserMng.myClothes);
     }
 
-    public void SetObtainedClothes(string clothes)
+    public async void SetObtainedClothes(string clothes)
     {
         Managers.UserMng.SetUserObtainedClothes(clothes);
-        reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedClothes").SetValueAsync(Managers.UserMng.inventory.obtainedClothes);
+        await reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedClothes").SetValueAsync(Managers.UserMng.inventory.obtainedClothes);
     }
 
     //public List<string> GetObtainedClothes(string userId)
