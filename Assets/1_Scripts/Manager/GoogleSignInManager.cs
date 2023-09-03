@@ -73,9 +73,6 @@ public class GoogleSignInManager : MonoBehaviour
         //AddToInformation("Calling SignIn");
 
         GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinished);
-        UID = GetUID();
-
-        PlayerPrefs.SetInt("LogInOut", 100);
     }
 
     private void OnSignOut()

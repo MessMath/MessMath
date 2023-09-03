@@ -71,7 +71,6 @@ public class UI_Main : UI_Scene
         }
         else
         {
-            //GetObject((int)GameObjects.Panel).SetActive(true);
             GetImage((int)Images.SignIn).gameObject.SetActive(true);
             GetText((int)Texts.Start).gameObject.SetActive(false);
         }
