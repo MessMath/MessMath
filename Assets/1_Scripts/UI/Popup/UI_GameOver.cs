@@ -68,9 +68,13 @@ public class UI_GameOver : UI_Popup
         return true;
     }
 
-    async void InitMyClothes()
+    void InitMyClothes()
     {
-        MyClothes = await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID());
+        var asd = Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        asd.OnCompleted(() =>
+        {
+            MyClothes = asd.GetResult();
+        });
     }
 
     public void RePlay()
