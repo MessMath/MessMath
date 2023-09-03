@@ -88,13 +88,13 @@ public class UI_Lobby : UI_Scene
 
         TextOn = true;
 
-        #region ¹ÙÀÎµå
+        #region ï¿½ï¿½ï¿½Îµï¿½
         BindImage(typeof(Images));
         BindButton(typeof(Buttons));
         BindText(typeof(Texts));
         #endregion
 
-        #region ¿¬µ¿
+        #region ï¿½ï¿½ï¿½ï¿½
         GetImage((int)Images.UserBtnImage).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Info>(); });
         GetButton((int)Buttons.ExerciseBtn).gameObject.BindEvent(() => { CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_PracticeGameScene()); });
         GetButton((int)Buttons.StoreBtn).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_Store>(); });
@@ -128,7 +128,9 @@ public class UI_Lobby : UI_Scene
         Managers.Sound.Clear();
         Managers.Sound.Play("LobbyBgm", Define.Sound.Bgm);
 
+        
         CheckTutorial();
+        
 
         return true;
     }
@@ -153,15 +155,23 @@ public class UI_Lobby : UI_Scene
 
     async void CheckTutorial()
     {
-        if (await Managers.DBManager.GetIsCompletedTutorial(Managers.GoogleSignIn.GetUID()) == false)
-        {
-            Managers.UI.CloseAllPopupUI();
-            Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
-        }
+        var GettingICT = Managers.DBManager.GetIsCompletedTutorial(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        GettingICT.OnCompleted(() => {
+            if (GettingICT.GetResult() == true)
+                return;
+            else
+            {
+                if(FindObjectOfType<UI_LobbyTutorial>() != null)
+                {
+                    return;
+                }
+                Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
+            }
+        });
     }
 
 
-    #region ¾Àº¯È¯ ¾Ö´Ï
+    #region ï¿½ï¿½ï¿½ï¿½È¯ ï¿½Ö´ï¿½
     IEnumerator SceneChangeAnimation_In_PracticeGameScene()
     {
         Managers.Sound.Play("ClickBtnEff");
@@ -237,7 +247,7 @@ public class UI_Lobby : UI_Scene
 
         for (int i = 0; i < obtainedCollections.Count; i++)
         {
-            // ³Ê ÀÌ°Å °¡Áö°íÀÖ³Ä? ±×·³ ¹¹ ÄÑÁÙ°Ô
+            // ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö³ï¿½? ï¿½×·ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ù°ï¿½
             if (obtainedCollections[i] == "maine_coon") GetImage((int)Images.maine_coon).gameObject.SetActive(true);
             if (obtainedCollections[i] == "russian_blue") GetImage((int)Images.russian_blue).gameObject.SetActive(true);
             if (obtainedCollections[i] == "siamese") GetImage((int)Images.siamese).gameObject.SetActive(true);
@@ -251,11 +261,11 @@ public class UI_Lobby : UI_Scene
             if (obtainedCollections[i] == "liquid") GetImage((int)Images.Liquid).gameObject.SetActive(true);
             if (obtainedCollections[i] == "spark") GetImage((int)Images.Spark).gameObject.SetActive(true);
 
-            // ¸¶¹ý ±êÆæÀÌ¶û ÇÐ±³´Â?
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ ï¿½Ð±ï¿½ï¿½ï¿½?
             if (obtainedCollections[i] == "magic_quill") GetImage((int)Images.Pencil).sprite = Resources.Load<Sprite>("Sprites/Collections/magic_quill");
             if (obtainedCollections[i] == "castle") { GetImage((int)Images.PvpImage).sprite = Resources.Load<Sprite>("Sprites/Collections/castle"); GetButton((int)Buttons.PvpBtn).gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 0); }
 
-            // ¸¶¹ý ¼­Å¬
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¬
             if (CheckHaveMagicCircleImage())
             {
                 string magicCircleImageSprite = GetRandomMagicCircleSprite();
@@ -265,7 +275,7 @@ public class UI_Lobby : UI_Scene
                 GetImage((int)Images.MagicCircle).sprite = Resources.Load<Sprite>("Sprites/Collections/" + magicCircleImageSprite);
             }
 
-            // ¹è°æ ÀÌ¹ÌÁö
+            // ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
             if (CheckHaveBGImage())
             {
                 string bgImageSprite = GetRandomBGImageSprite();
@@ -365,7 +375,7 @@ public class UI_Lobby : UI_Scene
 
     void ButtonTextOnOff()
     {
-        // Text On »óÅÂÀÏ‹š
+        // Text On ï¿½ï¿½ï¿½ï¿½ï¿½Ï‹ï¿½
         if (TextOn)
         {
             GetText((int)Texts.SettingBtnText).gameObject.SetActive(false);
@@ -379,7 +389,7 @@ public class UI_Lobby : UI_Scene
             GetText((int)Texts.PvpBroomstickBtnText).text = I18n.Get(I18nDefine.LOBBY_HELP_OFF);
             TextOn = false;
         }
-        // Text Off »óÅÂÀÏ‹š
+        // Text Off ï¿½ï¿½ï¿½ï¿½ï¿½Ï‹ï¿½
         else if (!TextOn)
         {
             GetText((int)Texts.SettingBtnText).gameObject.SetActive(true);
