@@ -128,30 +128,49 @@ public class UI_PvpGameScene : UI_Scene
         return true;
     }
     
-    async void ReadyOppsData()
+    void ReadyOppsData()
     {
-        await OppsDataReadyAsync();
+        OppsDataReadyAsync();
+
+        string myCloth = "";
+
+        var gettigCloth = Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        gettigCloth.OnCompleted(() => {
+
+            myCloth = gettigCloth.GetResult();
+
+        });
 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {
-            string cloth = player.GetComponent<PhotonView>().IsMine ? await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) : OppPlayersCloth;
+            string cloth = player.GetComponent<PhotonView>().IsMine ? myCloth : OppPlayersCloth;
             player.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + cloth);
         }
     }
 
-    public async void OppsDataReadyAsyncCall()
-    {
-        await OppsDataReadyAsync();
-    }
-
-    public async Task OppsDataReadyAsync()
+    public void OppsDataReadyAsync()
     {
         OppPlayer = GetOppPlayer();
 
-        OppPlayersName = await Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "nickname");
-        OppScore = await Managers.DBManager.GetScore(OppPlayer.NickName);
-        OppPlayersCloth = await Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "myClothes");
+        var gettingOppPlayerName = Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "nickname").GetAwaiter();
+        gettingOppPlayerName.OnCompleted(() => {
+            OppPlayersName = gettingOppPlayerName.GetResult();
+        });
+
+        var gettingOppScore = Managers.DBManager.GetScore(OppPlayer.NickName).GetAwaiter();
+        gettingOppScore.OnCompleted(() =>
+        {
+            OppScore = gettingOppScore.GetResult();
+        });
+
+
+        var gettingOppPlayersCloth = Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "myClothes").GetAwaiter();
+        gettingOppPlayersCloth.OnCompleted(() =>
+        {
+            OppPlayersCloth = gettingOppPlayersCloth.GetResult();
+        });
+
     }
 
     public void ScoreSet()
@@ -247,7 +266,7 @@ public class UI_PvpGameScene : UI_Scene
     public void Questioning()
     {
         if (!PhotonNetwork.IsMasterClient) return;
-        QusetionNumber = Random.Range(10, 100);
+        QusetionNumber = Random.Range(10, 50);
         StartCoroutine(TryQnumSync());
     }
 
