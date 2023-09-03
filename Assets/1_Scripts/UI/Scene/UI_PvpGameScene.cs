@@ -164,7 +164,6 @@ public class UI_PvpGameScene : UI_Scene
             OppScore = gettingOppScore.GetResult();
         });
 
-
         var gettingOppPlayersCloth = Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "myClothes").GetAwaiter();
         gettingOppPlayersCloth.OnCompleted(() =>
         {
