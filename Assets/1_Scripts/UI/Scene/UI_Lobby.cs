@@ -60,7 +60,7 @@ public class UI_Lobby : UI_Scene
     {
         Init();
         //showTutorial();
-        PlayAnimation();
+        //PlayAnimation();
         
     }
 
