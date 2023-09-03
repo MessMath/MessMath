@@ -168,7 +168,7 @@ public class DebuffManager
             }
             Vector3 dir = apple.transform.localPosition - player.transform.localPosition;
             Vector3.Normalize(dir);
-            player.GetComponent<Rigidbody2D>().AddForce(dir * 30, ForceMode2D.Force);
+            player.GetComponent<Rigidbody2D>().AddForce(dir * 15, ForceMode2D.Force);
             apple.transform.Rotate(Vector3.forward, Time.deltaTime * rotateDegreePerSec);
 
             yield return null;
