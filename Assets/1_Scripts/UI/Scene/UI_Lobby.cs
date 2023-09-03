@@ -125,7 +125,8 @@ public class UI_Lobby : UI_Scene
         }
         else
         {
-            //GetButton((int)Buttons.QuestBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
+            Managers.Sound.Play("ClickBtnEff");
+            GetButton((int)Buttons.StoryModeBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.StoryScene); });
         }
     }
 
@@ -191,10 +192,7 @@ public class UI_Lobby : UI_Scene
 
         CheckCollection();
 
-        if (await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) != "")
-            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) + "_full");
-        else
-            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/uniform_full");
+        GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) + "_full");
 
         Debug.Log("UI_Lobby RefreshUI");
     }
