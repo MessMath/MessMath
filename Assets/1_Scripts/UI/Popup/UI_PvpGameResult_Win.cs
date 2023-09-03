@@ -37,6 +37,8 @@ public class UI_PvpGameResult_Win : UI_Popup
         OppsResult,
     }
 
+    public string PlayerName;
+    public string PlayerClothes;
     public Player OppPlayer;
     public string OppPlayersName;
     public int OppPlayersScore;
@@ -67,8 +69,11 @@ public class UI_PvpGameResult_Win : UI_Popup
 
         Managers.Sound.Play("ClearEff");
 
+        InitPlayerName();
+        InitPlayerClothes();
+
         // 내 닉네임 가져오기
-        GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
+        GetText((int)Texts.MyNickname).text = PlayerName;
         // 상대방 닉네임 가져오기 (DB를 참조해서)
         GetText((int)Texts.OppsNickname).text = OppPlayersName;
 
@@ -82,7 +87,7 @@ public class UI_PvpGameResult_Win : UI_Popup
         // 나의 Score
         ChangeScore();
         // 나의 옷
-        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes() + "_full");
+        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + PlayerClothes + "_full");
         // 나의 하트갯수
         CopyAllChildren(GameObject.Find("MyScores"), GetObject((int)GameObjects.MyResult));
 
@@ -91,6 +96,16 @@ public class UI_PvpGameResult_Win : UI_Popup
         GetComponent<Canvas>().sortingOrder = 10;
 
         return true;
+    }
+
+    async void InitPlayerName()
+    {
+        PlayerName = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
+    }
+
+    async void InitPlayerClothes()
+    {
+        PlayerClothes = await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID());
     }
 
     public void ReMatch()
@@ -152,10 +167,11 @@ public class UI_PvpGameResult_Win : UI_Popup
         tmp.text = ((int)current).ToString();
     }
 
-    void ChangeScore()
+    async void ChangeScore()
     {
         // 점수 등락
-        int curScore = Managers.UserMng.GetScore();
+        int curScore = await Managers.DBManager.GetScore(Managers.GoogleSignIn.GetUID());
+
 
         if ((curScore / 100) < (OppPlayersScore / 100))
             IncreasingScore += 10;

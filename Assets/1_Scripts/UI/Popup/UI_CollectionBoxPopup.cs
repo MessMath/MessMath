@@ -16,6 +16,7 @@ public class UI_CollectionBoxPopup : UI_Popup
     JsonReader _jsonReader;
     List<StoreData> _collectionDatas = new List<StoreData>();
     GameObject selectedObject;
+    List<string> obtainedCollections = new List<string>();
 
     enum GameObjects
     {
@@ -50,6 +51,7 @@ public class UI_CollectionBoxPopup : UI_Popup
         BindImage(typeof(Images));
 
         GetImage((int)Images.SelectedCollectionImage).gameObject.SetActive(false);
+        InitObtainedClothes();
 
         _jsonReader = new JsonReader();
 
@@ -71,6 +73,11 @@ public class UI_CollectionBoxPopup : UI_Popup
         return true;
     }
 
+    async void InitObtainedClothes()
+    {
+        obtainedCollections = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
+    }
+
     void OnClosePopup()
     {
         // Sound
@@ -89,13 +96,13 @@ public class UI_CollectionBoxPopup : UI_Popup
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        if (Managers.UserMng.GetObtainedCollections() == null) return;
+        if (obtainedCollections == null) return;
 
-        for (int obtainedCollectiondIdx = 0; obtainedCollectiondIdx < Managers.UserMng.GetObtainedCollections().Count - 1; obtainedCollectiondIdx++)
+        for (int obtainedCollectiondIdx = 0; obtainedCollectiondIdx < obtainedCollections.Count - 1; obtainedCollectiondIdx++)
         {
             for (int i = 0; i < _collectionDatas.Count; i++)
             {
-                if (Managers.UserMng.GetObtainedCollections()[obtainedCollectiondIdx] != _collectionDatas[i].img) continue;
+                if (obtainedCollections[obtainedCollectiondIdx] != _collectionDatas[i].img) continue;
 
                 GameObject collectionItem = Managers.UI.MakeSubItem<UI_CollectionItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
                 Utils.FindChild(collectionItem, "CollectionIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _collectionDatas[i].name;

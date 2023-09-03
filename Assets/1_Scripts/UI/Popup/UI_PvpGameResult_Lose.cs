@@ -39,6 +39,8 @@ public class UI_PvpGameResult_Lose : UI_Popup
         OppsResult,
     }
 
+    public string PlayerName;
+    public string PlayerClothes;
     public Player OppPlayer;
     public string OppPlayersName;
     public int OppPlayersScore;
@@ -69,6 +71,9 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
         Managers.Sound.Play("DefeatEff");
 
+        InitPlayerName();
+        InitPlayerClothes();
+
         // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
         // 상대방 닉네임 가져오기 (DB를 참조해서)
@@ -93,6 +98,16 @@ public class UI_PvpGameResult_Lose : UI_Popup
         GetComponent<Canvas>().sortingOrder = 10;
 
         return true;
+    }
+
+    async void InitPlayerName()
+    {
+        PlayerName = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
+    }
+
+    async void InitPlayerClothes()
+    {
+        PlayerClothes = await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID());
     }
 
     public void ReMatch()
@@ -153,10 +168,10 @@ public class UI_PvpGameResult_Lose : UI_Popup
         tmp.text = ((int)current).ToString();
     }
 
-    void ChangeScore()
+    async void ChangeScore()
     {
         // 점수 등락
-        int curScore = Managers.UserMng.GetScore();
+        int curScore = await Managers.DBManager.GetScore(Managers.GoogleSignIn.GetUID());
 
         if ((curScore / 100) > (OppPlayersScore / 100))
             DecreasingScore -= 6;

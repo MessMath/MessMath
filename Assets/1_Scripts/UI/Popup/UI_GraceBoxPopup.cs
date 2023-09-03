@@ -50,6 +50,7 @@ public class UI_GraceBoxPopup : UI_Popup
         Story,
     }
 
+    List<string> obtainedGraces = new List<string>();
     public State _state = State.None;
 
     public override bool Init()
@@ -92,6 +93,11 @@ public class UI_GraceBoxPopup : UI_Popup
         return true;
     }
 
+    async void InitObtainedGraces()
+    {
+        obtainedGraces = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedGraces(Managers.GoogleSignIn.GetUID()));
+    }
+
     void OneToOneModeRefreshUI()
     {
         _graces.Clear();
@@ -103,13 +109,13 @@ public class UI_GraceBoxPopup : UI_Popup
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        if (Managers.UserMng.GetObtainedGraces() == null) return;
+        if (obtainedGraces == null) return;
 
-        for (int i = 0; i < Managers.UserMng.GetObtainedGraces().Count - 1; i++)
+        for (int i = 0; i < obtainedGraces.Count - 1; i++)
         {
             for (int j = 0; j < _graceDatas.Count; j++)
             {
-                if (Managers.UserMng.GetObtainedGraces()[i] != _graceDatas[j].img) continue;
+                if (obtainedGraces[i] != _graceDatas[j].img) continue;
                 if (_graceDatas[j].mode == "Story") continue;
 
                 GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
@@ -138,13 +144,13 @@ public class UI_GraceBoxPopup : UI_Popup
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        if (Managers.UserMng.GetObtainedGraces() == null) return;
+        if (obtainedGraces == null) return;
 
-        for (int obtainedGracedIdx = 0; obtainedGracedIdx < Managers.UserMng.GetObtainedGraces().Count - 1; obtainedGracedIdx++)
+        for (int obtainedGracedIdx = 0; obtainedGracedIdx < obtainedGraces.Count - 1; obtainedGracedIdx++)
         {
             for (int j = 0; j < _graceDatas.Count; j++)
             {
-                if (Managers.UserMng.GetObtainedGraces()[obtainedGracedIdx] != _graceDatas[j].img) continue;
+                if (obtainedGraces[obtainedGracedIdx] != _graceDatas[j].img) continue;
                 if (_graceDatas[j].mode == "OneToOne") continue;
 
                 GameObject graceItem = Managers.UI.MakeSubItem<UI_GraceItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
