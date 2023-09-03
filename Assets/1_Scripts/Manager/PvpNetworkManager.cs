@@ -35,9 +35,14 @@ public class PvpNetworkManager : MonoBehaviourPunCallbacks
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
             {
-                PhotonNetwork.LoadLevel("PvpGameScene");
+                GameObject.FindObjectOfType<UI_PvpMatchingScene>().WhenMatched();
             }
         }
+    }
+
+    public override void OnJoinedRoom()
+    {
+        GameObject.FindObjectOfType<UI_PvpMatchingScene>().WhenMatched();
     }
 
     public void Spawn()

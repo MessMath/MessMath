@@ -1,22 +1,19 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.Windows;
-using System.Data;
-using System;
-using TMPro;
-using System.IO;
 using Photon.Pun;
-using Unity.VisualScripting;
+using Photon.Realtime;
+using System.Linq;
 
 public class UI_PvpMatchingScene : UI_Scene
 {
-    enum Texts
-    {
-        
-    }
+    Player[] playerList;
+
+    Player OppPlayer;
+    string OppPlayersCloth;
+
+    public string PlayerClothes;
 
     enum Buttons
     {
@@ -25,20 +22,9 @@ public class UI_PvpMatchingScene : UI_Scene
 
     enum Images
     {
-        //PlayerImageBackground,
-        //AnemyImageBackground,
-        //AnemyGraceBackground,
-        //PlayerGraceBackground,
-        //DecoImage,
-        //MatchingTime,
         PlayerImage,
-        AnemyImage,
+        EnemyImage,
         FightImage,
-    }
-
-    enum GameObjects
-    {
-
     }
 
     private void Awake()
@@ -57,9 +43,7 @@ public class UI_PvpMatchingScene : UI_Scene
         if (base.Init() == false)
             return false;
 
-        BindText(typeof(Texts));
         BindButton(typeof(Buttons));
-        BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
 
         GetButton((int)Buttons.BackBtn).gameObject.BindEvent(toMain);
@@ -68,8 +52,11 @@ public class UI_PvpMatchingScene : UI_Scene
 
         Managers.Sound.Clear();
 
+        Managers.Sound.Play("MatchingBgm", Define.Sound.Bgm);
+
         StartCoroutine(SceneChangeAnimation_Out());
-        StartCoroutine("MatchingAni");
+        
+
         return true;
     }
 
@@ -96,42 +83,35 @@ public class UI_PvpMatchingScene : UI_Scene
 
         yield return new WaitForSeconds(0.5f);
     }
+
+    IEnumerator SceneChangeAnimation_Out()
+    {
+        // Ani
+        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
+        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
+        anim.transform.SetParent(this.transform);
+        anim.SetInfo(Define.Scene.Fight1vs1GameScene, () => { });
+
+        yield return new WaitForSeconds(0.3f);
+        Managers.UI.ClosePopupUI(uI_LockTouch);
+    }
+
     #endregion
 
     IEnumerator MatchingAni()
     {
-        //Managers.Sound.Play("휙");
-        //GetImage((int)Images.PlayerImageBackground).gameObject.GetOrAddComponent<Animator>().Play("MatchingPlayerAni");
-        //yield return new WaitForSeconds(0.1f);
-        //Managers.Sound.Play("휙");
-        //GetImage((int)Images.AnemyImageBackground).gameObject.GetOrAddComponent<Animator>().Play("MatchingAnemyPlayerAni");
-        //yield return new WaitForSeconds(0.1f);
-        //Managers.Sound.Play("휙");
-        //GetImage((int)Images.AnemyGraceBackground).gameObject.GetOrAddComponent<Animator>().Play("MatchingAnemyGraceAni");
-        //yield return new WaitForSeconds(0.1f);
-        //Managers.Sound.Play("휙");
-        //GetImage((int)Images.PlayerGraceBackground).gameObject.GetOrAddComponent<Animator>().Play("MatchingPlayerGrace");
-        //yield return new WaitForSeconds(0.1f);
-        //Managers.Sound.Play("휙");
-        //GetImage((int)Images.MatchingTime).gameObject.GetOrAddComponent<Animator>().Play("MatchingTime");
-        //yield return new WaitForSeconds(0.5f);
-        //Managers.Sound.Play("챙2");
-        //GetImage((int)Images.DecoImage).gameObject.SetActive(true);
-        //yield return new WaitForSeconds(0.5f);
-
         Managers.Sound.Play("챙3");
         GetImage((int)Images.PlayerImage).gameObject.GetOrAddComponent<Animator>().Play("MatchingPlayerImageAni");
-        GetImage((int)Images.AnemyImage).gameObject.GetOrAddComponent<Animator>().Play("MatchingAnemyImageAni");
-        yield return new WaitForSeconds(1.0f);
-
+        yield return new WaitForSeconds(0.3f);
+        GetImage((int)Images.EnemyImage).gameObject.GetOrAddComponent<Animator>().Play("MatchingAnemyImageAni");
+        yield return new WaitForSeconds(0.5f);
         GetImage((int)Images.FightImage).gameObject.GetOrAddComponent<Animator>().Play("MatchingFight");
         yield return new WaitForSeconds(0.15f);
         Managers.Sound.Play("FightEff");
         yield return new WaitForSeconds(0.5f);
         Managers.Sound.Play("DuongEff");
 
-        Managers.Sound.Play("MatchingBgm", Define.Sound.Bgm);
-
+        PhotonNetwork.LoadLevel("PvpGameScene");
     }
 
     IEnumerator SceneChangeAnimation(Define.Scene Scene)
@@ -149,15 +129,32 @@ public class UI_PvpMatchingScene : UI_Scene
         Managers.Scene.ChangeScene(Scene);
     }
 
-    IEnumerator SceneChangeAnimation_Out()
+    public async void WhenMatched()
     {
-        // Ani
-        UI_LockTouch uI_LockTouch = Managers.UI.ShowPopupUI<UI_LockTouch>();
-        SceneChangeAnimation_Out anim = Managers.Resource.Instantiate("Animation/SceneChangeAnimation_Out").GetOrAddComponent<SceneChangeAnimation_Out>();
-        anim.transform.SetParent(this.transform);
-        anim.SetInfo(Define.Scene.Fight1vs1GameScene, () => { });
+        playerList = PhotonNetwork.PlayerList;
+        OppPlayer = GetOppPlayer();
 
-        yield return new WaitForSeconds(0.3f);
-        Managers.UI.ClosePopupUI(uI_LockTouch);
+        OppPlayersCloth = await  Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "myClothes");
+        PlayerClothes = await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID());
+
+        GetImage((int)Images.PlayerImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + PlayerClothes + "_full");
+        GetImage((int)Images.EnemyImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + OppPlayersCloth + "_full");
+
+        StartCoroutine("MatchingAni");
     }
+
+    Player GetOppPlayer()
+    {
+        for (int i = 0; i <= playerList.Count(); i++)
+        {
+            Debug.Log("All __" + playerList[i]);
+            if (playerList[i].ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                Debug.Log(playerList[i]);
+                return playerList[i];
+            }
+        }
+        return null;
+    }
+
 }

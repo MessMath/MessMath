@@ -106,7 +106,11 @@ public class UI_Epilogue : UI_Scene
 
     void SetNickname()
     {
-        GetText((int)Texts.Award_Nickname).text = Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()).GetAwaiter().GetResult();
+        var gettingNN = Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        gettingNN.OnCompleted(() =>
+        {
+            GetText((int)Texts.Award_Nickname).text = gettingNN.GetResult();
+        });
     }
 
     void ImagesPreSetting()

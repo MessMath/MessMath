@@ -98,6 +98,7 @@ public class UI_Diagnosis : UI_Scene
                 Managers.Sound.Play("ClickBtnEff");
                 Managers.DBManager.SetIsCompletedDiagnosis(true);
                 Managers.DBManager.SetMyClothes("uniform");
+                Managers.DBManager.SetObtainedCollections("certificate_admission");
                 Managers.DBManager.SetObtainedClothes("uniform");
                 // TODO 예외처리
                 if (isCompletedStory.GetResult())

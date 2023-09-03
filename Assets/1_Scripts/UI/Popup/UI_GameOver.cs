@@ -56,8 +56,6 @@ public class UI_GameOver : UI_Popup
             GetImage((int)Images.Opps_Illust).sprite = GameObject.Find("WitchImage").GetComponent<Image>().sprite;
             GetImage((int)Images.Opps_Illust).GetComponent<RectTransform>().sizeDelta = GameObject.Find("WitchImage").GetComponent<RectTransform>().sizeDelta * 1.5f;
         }
-        // ³ªÀÇ ¿Ê
-        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + MyClothes + "_full");
         
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
@@ -71,6 +69,8 @@ public class UI_GameOver : UI_Popup
     async void InitMyClothes()
     {
         MyClothes = await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID());
+        // ³ªÀÇ ¿Ê
+        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + MyClothes + "_full");
     }
 
     public void RePlay()
