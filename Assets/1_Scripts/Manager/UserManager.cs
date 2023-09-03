@@ -92,7 +92,7 @@ public class UserManager
     public string UID;
     public int coin;
     public int score;
-    public Inventory inventory;
+    public Inventory inventory = new Inventory();
     public bool isCompletedStory;
     public bool isCompletedTutorial;
     public bool isCompletedDiagnosis;
@@ -121,14 +121,6 @@ public class UserManager
         storyModeGrace = _storyModeGrace;
         message = _message;
         myClothes = _myClothes;
-        if (_inventory == null)
-        {
-            inventory = new Inventory();
-        }
-        else
-        {
-            inventory = _inventory;
-        }
 
         oneOnOneModeGrace = _oneOnOneModeGrace;
         storyModeGrace = _storyModeGrace;
