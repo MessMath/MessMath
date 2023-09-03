@@ -156,56 +156,71 @@ public class TextEffectManager
     }
 
     // 타이핑 효과
-    async public void Typing(string dialouge, TextMeshProUGUI textObj)
+    public void Typing(string dialouge, TextMeshProUGUI textObj)
     {
-        //dialouge = dialouge.Replace("\\r","\n");
-        dialouge = dialouge.Replace("OOO", await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()));
-        dialouge = dialouge.Replace("\\n", "\n");
-        tempDialogue = dialouge;
-        tempSave = textObj;
-        
-        CoroutineHandler.StartCoroutine(Typer(dialouge, textObj));
+        isTypingEnd = false;
 
-        tempSave.text ="";
-        tempDialogue = null;
-        tempSave = null;
+        var Getting =  Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        Getting.OnCompleted(() => {
+
+            //dialouge = dialouge.Replace("\\r","\n");
+            dialouge = dialouge.Replace("OOO", Getting.GetResult());
+            dialouge = dialouge.Replace("\\n", "\n");
+            tempDialogue = dialouge;
+            tempSave = textObj;
+
+            CoroutineHandler.StartCoroutine(Typer(dialouge, textObj));
+
+            tempSave.text = "";
+            tempDialogue = null;
+            tempSave = null;
+        });
+
     }
 
-    async public void ReplayTyping(string dialouge, TextMeshProUGUI textObj)
+    public void ReplayTyping(string dialouge, TextMeshProUGUI textObj)
     {
-        //dialouge = dialouge.Replace("\\r", "");
-        dialouge = dialouge.Replace("OOO", await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()));
-        dialouge = dialouge.Replace("\\n", "\n");
-        dialouge = dialouge.Replace("ⓝ", "");
-        textObj.text = "";
+        var Getting = Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        Getting.OnCompleted(() => {
 
-        char[] chars = dialouge.ToCharArray();
-        int currentChar = 0;
-        int charLength = chars.Length;
-        while (currentChar < charLength)
-        {
-            CheckTextEffect(chars[currentChar]);
-            textObj.text += ChangeReplayTxtEffect(chars[currentChar++]);
-        }
-        textObj.text = "<size=42>" + textObj.text + SIZETAG;
+            //dialouge = dialouge.Replace("\\r", "");
+            dialouge = dialouge.Replace("OOO", Getting.GetResult());
+            dialouge = dialouge.Replace("\\n", "\n");
+            dialouge = dialouge.Replace("ⓝ", "");
+            textObj.text = "";
+
+            char[] chars = dialouge.ToCharArray();
+            int currentChar = 0;
+            int charLength = chars.Length;
+            while (currentChar < charLength)
+            {
+                CheckTextEffect(chars[currentChar]);
+                textObj.text += ChangeReplayTxtEffect(chars[currentChar++]);
+            }
+            textObj.text = "<size=42>" + textObj.text + SIZETAG;
+        });
     }
 
-    public async void ApplyTextEffect(string content, TextMeshProUGUI textObj, int textSize)
+    public void ApplyTextEffect(string content, TextMeshProUGUI textObj, int textSize)
     {
-        content = content.Replace("OOO", await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()));
-        content = content.Replace("\\n ", "\n");
-        content = content.Replace("ⓝ", "");
-        textObj.text = "";
+        var Getting = Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        Getting.OnCompleted(() => {
 
-        char[] chars = content.ToCharArray();
-        int currentChar = 0;
-        int charLength = chars.Length;
-        while (currentChar < charLength)
-        {
-            CheckTextEffect(chars[currentChar]);
-            textObj.text += ChangeReplayTxtEffect(chars[currentChar++]);
-        }
-        textObj.text = "<size=" + textSize.ToString() + ">" + textObj.text + SIZETAG;
+            content = content.Replace("OOO", Getting.GetResult());
+            content = content.Replace("\\n ", "\n");
+            content = content.Replace("ⓝ", "");
+            textObj.text = "";
+
+            char[] chars = content.ToCharArray();
+            int currentChar = 0;
+            int charLength = chars.Length;
+            while (currentChar < charLength)
+            {
+                CheckTextEffect(chars[currentChar]);
+                textObj.text += ChangeReplayTxtEffect(chars[currentChar++]);
+            }
+            textObj.text = "<size=" + textSize.ToString() + ">" + textObj.text + SIZETAG;
+        });
     }
 
     IEnumerator Typer(string dialouge, TextMeshProUGUI textObj)
@@ -215,7 +230,6 @@ public class TextEffectManager
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
         int currentChar = 0;
         int charLength = chars.Length;
-        isTypingEnd = false;
         while (currentChar < charLength)
         {
             if(timer >= 0)
