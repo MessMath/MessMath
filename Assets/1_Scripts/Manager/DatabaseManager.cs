@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using static UserManager;
 using System;
 using UnityEngine.InputSystem;
+using System.Diagnostics;
 
 public class DatabaseManager : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class DatabaseManager : MonoBehaviour
 
     public void CreateNewUser(string nickname)
     {
-        Debug.Log("CreateNewUser");
+        UnityEngine.Debug.Log("CreateNewUser");
         WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, null, false, false, false, false, nickname);
         Managers.DBManager.SetCoin(10000);
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedClothes").SetValueAsync("");
@@ -34,8 +35,8 @@ public class DatabaseManager : MonoBehaviour
         Managers.UserMng.InitUser(userId, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, isKilledWitch, nickname, null, null, "^_^", "");
 
         string json = JsonUtility.ToJson(Managers.UserMng);
-        Debug.Log("WriteNewUser");
-        Debug.Log(json);
+        UnityEngine.Debug.Log("WriteNewUser");
+        UnityEngine.Debug.Log(json);
 
         reference.Child("Users").Child(userId).SetRawJsonValueAsync(json);
     }
@@ -84,21 +85,21 @@ public class DatabaseManager : MonoBehaviour
 
         if (snapshot.Exists)
         {
-            Debug.Log(snapshot.ChildrenCount);
+            UnityEngine.Debug.Log(snapshot.ChildrenCount);
 
             foreach (DataSnapshot data in snapshot.Children)
             {
                 if (data.Key == key)
                 {
                     result = data.Value.ToString();
-                    Debug.Log(result);
+                    UnityEngine.Debug.Log(result);
                     break;
                 }
             }
         }
         else
         {
-            Debug.Log("NotExist");
+            UnityEngine.Debug.Log("NotExist");
             result = "NotExist";
         }
 
@@ -113,21 +114,21 @@ public class DatabaseManager : MonoBehaviour
 
         if (snapshot.Exists)
         {
-            Debug.Log(snapshot.ChildrenCount);
+            UnityEngine.Debug.Log(snapshot.ChildrenCount);
 
             foreach (DataSnapshot data in snapshot.Children)
             {
                 if (data.Key == key)
                 {
                     result = data.Value.ToString();
-                    Debug.Log(result);
+                    UnityEngine.Debug.Log(result);
                     break;
                 }
             }
         }
         else
         {
-            Debug.Log("NotExist");
+            UnityEngine.Debug.Log("NotExist");
             result = "NotExist";
         }
 
@@ -141,7 +142,7 @@ public class DatabaseManager : MonoBehaviour
 
         if (snapshot.Exists)
         {
-            Debug.Log(snapshot.ChildrenCount);
+            UnityEngine.Debug.Log(snapshot.ChildrenCount);
 
             foreach (DataSnapshot data in snapshot.Children)
             {
@@ -155,7 +156,7 @@ public class DatabaseManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("error");
+            UnityEngine.Debug.Log("error");
         }
 
         return Managers.Game.IsExisted;
@@ -303,8 +304,10 @@ public class DatabaseManager : MonoBehaviour
 
     public async void SetObtainedClothes(string clothes)
     {
-        Managers.UserMng.SetUserObtainedClothes(clothes);
-        await reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedClothes").SetValueAsync(Managers.UserMng.inventory.obtainedClothes);
+        var tmp = await GetObtainedClothes(Managers.GoogleSignIn.GetUID());
+        tmp += clothes + ",";
+
+        await reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedClothes").SetValueAsync(tmp);
     }
 
     //public List<string> GetObtainedClothes(string userId)
@@ -312,16 +315,19 @@ public class DatabaseManager : MonoBehaviour
     //    return StringToList(ReadUser(userId, "obtainedClothes"));
     //}
 
-    public void SetObtainedGraces(string graces)
+    public async void SetObtainedGraces(string graces)
     {
-        Managers.UserMng.SetUserObtainedGraces(graces);
-        reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedGraces").SetValueAsync(Managers.UserMng.inventory.obtainedGraces);
+        var tmp = await GetObtainedGraces(Managers.GoogleSignIn.GetUID());
+        tmp += graces + ",";
+
+        await reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedGraces").SetValueAsync(tmp);
     }
 
-    public void SetObtainedCollections(string collections)
+    public async void SetObtainedCollections(string collections)
     {
-        Managers.UserMng.SetUserObtainedCollections(collections);
-        reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedCollections").SetValueAsync(Managers.UserMng.inventory.obtainedCollections);
+        var tmp = await GetObtainedCollections(Managers.GoogleSignIn.GetUID());
+        tmp += collections + ",";
+        await reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedCollections").SetValueAsync(tmp);
     }
 
 }
