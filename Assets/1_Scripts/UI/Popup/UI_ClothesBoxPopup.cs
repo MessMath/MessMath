@@ -5,6 +5,7 @@ using StoreDatas;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -48,8 +49,6 @@ public class UI_ClothesBoxPopup : UI_Popup
         if (base.Init() == false)
             return false;
 
-        InitObtainedClothes();
-
         BindObject(typeof(GameObjects));
         BindText(typeof(Texts));
         BindButton(typeof(Buttons));
@@ -81,20 +80,16 @@ public class UI_ClothesBoxPopup : UI_Popup
 
     async void InitChangeByAsync()
     {
-        if (await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) != "")
+        if (await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) != "uniform")
             GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) + "_full");
         else
             GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/uniform_full");
     }
 
-    async void InitObtainedClothes()
+    async void RefreshUI()
     {
         obtainedClothes = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedClothes(Managers.GoogleSignIn.GetUID()));
-    }
 
-
-    void RefreshUI()
-    {
         GetText((int)Texts.TitleText).text = I18n.Get(I18nDefine.CLOTHES_TITLE);
         GetText((int)Texts.TitleText).fontSize = 80;
 
@@ -103,15 +98,13 @@ public class UI_ClothesBoxPopup : UI_Popup
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        if (obtainedClothes == null) return; // ø ¿Â ≈÷ ∫Òæ˙¿ª ∂ß
-
         for (int i = 0; i < obtainedClothes.Count - 1; i++)
         {
             for (int j = 0; j < _clothesDatas.Count; j++)
             {
                 if (obtainedClothes[i] != _clothesDatas[j].img) continue;
 
-                Debug.Log(obtainedClothes[i]);
+                Debug.Log("^^^^^^^^^^^^^^^^^^^^^^^" + obtainedClothes[i]);
                 GameObject clothesItem = Managers.UI.MakeSubItem<UI_ClothesItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
                 Utils.FindChild(clothesItem, "ClothesIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _clothesDatas[j].name;
                 Utils.FindChild(clothesItem, "ClothesIcon", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Clothes/" + _clothesDatas[j].img);
