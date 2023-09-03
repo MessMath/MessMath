@@ -104,9 +104,9 @@ public class UI_Epilogue : UI_Scene
         return true;
     }
 
-    async void SetNickname()
+    void SetNickname()
     {
-        GetText((int)Texts.Award_Nickname).text = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
+        GetText((int)Texts.Award_Nickname).text = Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()).GetAwaiter().GetResult();
     }
 
     void ImagesPreSetting()
