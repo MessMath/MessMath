@@ -73,21 +73,24 @@ public class UI_Info : UI_Popup
         placeholder = (TextMeshProUGUI)GetObject((int)GameObjects.UserMessage).gameObject.GetComponentInChildren<TMP_InputField>().placeholder;
         placeholder.text = I18n.Get(I18nDefine.INFO_MESSAGE);
 
-        GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = PlayerName;
         GetObject((int)GameObjects.UserMessage).gameObject.GetComponentInChildren<TMP_InputField>().text = PlayerMessage;
 
         return true;
     }
 
-    async void InitGetNickName()
+    void InitGetNickName()
     {
-        PlayerMessage = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
+        var GettingNickName = Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        GettingNickName.OnCompleted(() => {
+            GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = GettingNickName.GetResult();
+        });
     }
 
     async void InitGetMessage()
     {
         PlayerMessage = await Managers.DBManager.GetUserMessage(Managers.GoogleSignIn.GetUID());
     }
+
     private void Update()
     {
         if (PlayerPrefs.GetString("Profile") != "")
