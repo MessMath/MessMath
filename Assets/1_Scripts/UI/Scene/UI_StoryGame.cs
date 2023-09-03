@@ -77,6 +77,7 @@ public class UI_StoryGame : UI_Scene
     }
 
     List<string> obtainedCollections = new List<string>();
+    List<string> obtainedClothes = new List<string>();
 
     private void Awake()
     {
@@ -198,22 +199,23 @@ public class UI_StoryGame : UI_Scene
 
     async void CheckHaveEraserImage()
     {
-        if (await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()) == null) return;
+        obtainedCollections = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
+        if (obtainedCollections == null) return;
 
-        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        for (int i = 0; i < obtainedCollections.Count; i++)
         {
-            if (Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID())[i] != "board_eraser") continue;
+            if (obtainedCollections[i] != "board_eraser") continue;
             GetButton((int)Buttons.AllErase).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Collections/board_eraser");
             GetButton((int)Buttons.AllErase).gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 200);
         }
     }
 
-    void CheckHaveSkinImage()
+    async void CheckHaveSkinImage()
     {
-        if (Managers.UserMng.GetObtainedClothes() == null) return;
-        if (Managers.UserMng.GetMyClothes() == null) return;
+        obtainedClothes = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedClothes(Managers.GoogleSignIn.GetUID()));
+        if (obtainedClothes == null) return;
 
-        GetObject((int)GameObjects.Player).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes());
+        GetObject((int)GameObjects.Player).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Clothes/" + await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()));
     }
 
     void SettingGraceBtn()

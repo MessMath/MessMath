@@ -201,7 +201,7 @@ public class UI_Lobby : UI_Scene
 
     async void CheckCollection()
     {
-        Managers.UserMng.GetObtainedCollections();
+        await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID());
         GetImage((int)Images.maine_coon).gameObject.SetActive(false);
         GetImage((int)Images.russian_blue).gameObject.SetActive(false);
         GetImage((int)Images.siamese).gameObject.SetActive(false);

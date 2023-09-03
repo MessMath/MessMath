@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using StoryData;
 using MessMathI18n;
+using Unity.VisualScripting;
 
 public class UI_Story : UI_Scene
 {
@@ -145,8 +146,7 @@ public class UI_Story : UI_Scene
         GetImage((int)Images.GaussImage).gameObject.SetActive(false);
 
         // skip
-        if (!Managers.UserMng.GetIsCompletedStory())
-            GetButton((int)Buttons.SkipButton).gameObject.SetActive(false);
+        CheckCompletedStory();
 
         // Sound
         Managers.Sound.Clear();
@@ -154,6 +154,13 @@ public class UI_Story : UI_Scene
 
         return true;
     }
+
+    async void CheckCompletedStory()
+    {
+        if (!(await Managers.DBManager.GetIsCompletedStory(Managers.GoogleSignIn.GetUID())))
+            GetButton((int)Buttons.SkipButton).gameObject.SetActive(false);
+    }
+
     void Skip()
     {
         Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
@@ -165,7 +172,7 @@ public class UI_Story : UI_Scene
         GetButton((int)Buttons.TmpNxtButton).gameObject.SetActive(false);
     }
 
-    public void OnClickNxtBtn()
+    async public void OnClickNxtBtn()
     {
         CloseSide();
         if (!Managers.TextEffect.isTypingEnd)
@@ -176,7 +183,7 @@ public class UI_Story : UI_Scene
         if (++count >= maxCount)
         {
             Managers.DBManager.SetIsCompletedStory(true);
-            if (Managers.UserMng.isCompletedTutorial == true)
+            if (await Managers.DBManager.GetIsCompletedTutorial(Managers.GoogleSignIn.GetUID()) == true)
                 Managers.Scene.ChangeScene(Define.Scene.StoryGameScene);
             else
                 Managers.Scene.ChangeScene(Define.Scene.TutorialGameScene);
@@ -234,7 +241,7 @@ public class UI_Story : UI_Scene
 
         if (storyTalkData[count].characterName == "주인공" || storyTalkData[count].characterName == "Main character")
         {
-            GetText((int)Texts.CharacterNameTMP).text = Managers.UserMng.GetNickname();
+            GetText((int)Texts.CharacterNameTMP).text = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
         }
         else
         {
@@ -434,7 +441,7 @@ public class UI_Story : UI_Scene
     {
         Color color;
 
-        if (ColorUtility.TryParseHtmlString("#A2A2A2", out color))
+        if (UnityEngine.ColorUtility.TryParseHtmlString("#A2A2A2", out color))
         {
             return color;
         }

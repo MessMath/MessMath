@@ -135,7 +135,7 @@ public class UI_PvpGameScene : UI_Scene
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {
-            string cloth = player.GetComponent<PhotonView>().IsMine ? Managers.UserMng.GetMyClothes() : OppPlayersCloth;
+            string cloth = player.GetComponent<PhotonView>().IsMine ? await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) : OppPlayersCloth;
             player.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + cloth);
         }
     }
