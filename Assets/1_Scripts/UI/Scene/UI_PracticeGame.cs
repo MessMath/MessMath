@@ -8,6 +8,7 @@ using MessMathI18n;
 
 public class UI_PracticeGame : UI_Scene
 {
+    List<string> obtainedCollections = new List<string>();
     enum Texts
     {
         CoinCount,
@@ -76,9 +77,10 @@ public class UI_PracticeGame : UI_Scene
         BindButton(typeof(Buttons));
         BindObject(typeof(GameObjects));
         BindImage(typeof(Images));
+        InitObtainedCollections();
 
         #region Set Coin
-        GetText((int)Texts.CoinCount).text = Managers.UserMng.GetCoin().ToString();
+        SetCoinTxt();
         #endregion
 
         GetButton((int)Buttons.SettingBtn).gameObject.BindEvent(OnClickSettingBtn);
@@ -103,6 +105,16 @@ public class UI_PracticeGame : UI_Scene
 
         return true;
     }
+    async void InitObtainedCollections()
+    {
+        obtainedCollections = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
+    }
+
+    async void SetCoinTxt()
+    {
+        int coin = await Managers.DBManager.GetCoin(Managers.GoogleSignIn.GetUID());
+        GetText((int)Texts.CoinCount).text = coin.ToString();
+    }
 
     void CheckHaveCollectionImage()
     {
@@ -110,13 +122,13 @@ public class UI_PracticeGame : UI_Scene
         GetImage((int)Images.DarkRing).gameObject.SetActive(false);
         GetImage((int)Images.Pencil).gameObject.SetActive(false);
 
-        if (Managers.UserMng.GetObtainedCollections() == null) return;
+        if (obtainedCollections == null) return;
 
-        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        for (int i = 0; i < obtainedCollections.Count; i++)
         {
-            if (Managers.UserMng.GetObtainedCollections()[i] == "holy_ring") GetImage((int)Images.HolyRing).gameObject.SetActive(true);
-            if (Managers.UserMng.GetObtainedCollections()[i] == "dark_ring") GetImage((int)Images.DarkRing).gameObject.SetActive(true);
-            if (Managers.UserMng.GetObtainedCollections()[i] == "smarty_pencil") GetImage((int)Images.Pencil).gameObject.SetActive(true);
+            if (obtainedCollections[i] == "holy_ring") GetImage((int)Images.HolyRing).gameObject.SetActive(true);
+            if (obtainedCollections[i] == "dark_ring") GetImage((int)Images.DarkRing).gameObject.SetActive(true);
+            if (obtainedCollections[i] == "smarty_pencil") GetImage((int)Images.Pencil).gameObject.SetActive(true);
         }
     }
 
@@ -131,7 +143,7 @@ public class UI_PracticeGame : UI_Scene
         // Sound
         Managers.Sound.Play("ClickBtnEff");
 
-        GetText((int)Texts.CoinCount).text = Managers.UserMng.GetCoin().ToString();
+        SetCoinTxt();
 
         if (Managers.Game.IsCorrect == true && Managers.Game.CurrentStatus == Define.CurrentStatus.LEARNING) // 오답일 경우?
         {

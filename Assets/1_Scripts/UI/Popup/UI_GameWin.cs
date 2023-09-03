@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UI_GameWin : UI_Popup
-{ 
+{
+    string MyClothes;
+
     public enum Buttons
     {
         RePlayBtn,
@@ -33,6 +35,7 @@ public class UI_GameWin : UI_Popup
 
         GetButton((int)Buttons.RePlayBtn).gameObject.BindEvent(RePlay);
         GetButton((int)Buttons.BackToLobbyBtn).gameObject.BindEvent(BackToLobby);
+        InitMyClothes();
 
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH)
         {
@@ -63,6 +66,11 @@ public class UI_GameWin : UI_Popup
         Managers.Sound.Play("ClearEff");
 
         return true;
+    }
+
+    async void InitMyClothes()
+    {
+        MyClothes = await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID());
     }
 
     public void RePlay()

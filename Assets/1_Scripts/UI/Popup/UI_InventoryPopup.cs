@@ -42,11 +42,11 @@ public class UI_InventoryPopup : UI_Popup
         return true;
     }
 
-    public void RefreshUI()
+    async public void RefreshUI()
     {
         // 인벤토리 팝업 의상
-        if (Managers.UserMng.GetMyClothes() != "")
-            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes() + "_full");
+        if (await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) != "")
+            GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) + "_full");
         else
             GetImage((int)Images.UserImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/uniform_full");
 
@@ -98,11 +98,11 @@ public class UI_InventoryPopup : UI_Popup
         _selectGracePopup._state = UI_SelectGracePopup.State.Story;
     }
 
-    public void ReplayStoryBtn()
+    async public void ReplayStoryBtn()
     {
         Managers.Sound.Play("ClickBtnEff");
 
-        if (Managers.UserMng.GetIsCompletedTutorial() && Managers.UserMng.GetIsKilledWitch())
+        if (await Managers.DBManager.GetIsCompletedTutorial(Managers.GoogleSignIn.GetUID()) && await Managers.DBManager.GetIsKilledWitch(Managers.GoogleSignIn.GetUID()))
             Managers.Scene.ChangeScene(Define.Scene.EpilogueScene);
         else
             Managers.Scene.ChangeScene(Define.Scene.StoryScene);

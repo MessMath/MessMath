@@ -115,45 +115,9 @@ public class UI_Main : UI_Scene
     void onClickedSignIn()
     {
         GetImage((int)Images.SignIn).gameObject.SetActive(false);
-        //GetImage((int)Images.SignInPressed).gameObject.SetActive(true);
 
         Managers.Sound.Play("ClickBtnEff");
 
         Managers.GoogleSignIn.SignInWithGoogle();
-        //if(Managers.GoogleSignIn.GetUID() != null)
-        //{
-        //    Managers.DBManager.SignInUser(Managers.GoogleSignIn.GetUID());
-        //}
-        //CreateUser();
     }
-
-    bool CheckHaveBgImage()
-    {
-        if (Managers.UserMng.UID == null) return false;
-        if (Managers.UserMng.GetObtainedCollections() == null) return false;
-
-        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
-        {
-            if (Managers.UserMng.GetObtainedCollections()[i] == "landscape") return true;
-            if (Managers.UserMng.GetObtainedCollections()[i] == "night_landscape") return true;
-            if (Managers.UserMng.GetObtainedCollections()[i] == "space_landscape") return true;
-        }
-
-        return false;
-    }
-
-    string GetRandomBgSprite()
-    {
-        if (!CheckHaveBgImage()) return "";
-
-        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
-        {
-            if (Managers.UserMng.GetObtainedCollections()[i] == "landscape") obtainedBg.Append<string>(Managers.UserMng.GetObtainedCollections()[i]);
-            if (Managers.UserMng.GetObtainedCollections()[i] == "night_landscape") obtainedBg.Append<string>(Managers.UserMng.GetObtainedCollections()[i]);
-            if (Managers.UserMng.GetObtainedCollections()[i] == "space_landscape") obtainedBg.Append<string>(Managers.UserMng.GetObtainedCollections()[i]);
-        }
-
-        return obtainedBg[UnityEngine.Random.Range(0, obtainedBg.Count())];
-    }
-
 }

@@ -12,7 +12,7 @@ public class UI_MakeTxtFile : UI_Scene
     JsonReader jsonReader;
     List<TipData> tipData = new List<TipData>();
     string[] obtainedMagicCircle;
-
+    List<string> obtainedCollections = new List<string>();
     enum Texts
     {
         LogTMP,
@@ -44,6 +44,8 @@ public class UI_MakeTxtFile : UI_Scene
 
         SelectTip();
 
+        InitObtainedCollections();
+
         //GetObject((int)GameObjects.MagicCircle).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Collections/" + GetRandomMagicCircleSprite());
         GetText((int)Texts.LogTMP).text = "Loading...";
 
@@ -60,6 +62,14 @@ public class UI_MakeTxtFile : UI_Scene
 
         return true;
     }
+
+    async void InitObtainedCollections()
+    {
+        if (Managers.GoogleSignIn.GetUID() == null) return;
+        obtainedCollections = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
+    }
+
+
     void SelectTip()
     {
         int tipTextCount = Random.Range(0, 21);
@@ -72,14 +82,13 @@ public class UI_MakeTxtFile : UI_Scene
 
     bool CheckHaveMagicCircleImage()
     {
-        if (Managers.UserMng.UID == null) return false;
-        if (Managers.UserMng.GetObtainedCollections() == null) return false;
+        if (obtainedCollections == null) return false;
 
-        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        for (int i = 0; i < obtainedCollections.Count; i++)
         {
-            if (Managers.UserMng.GetObtainedCollections()[i] == "light_magic_circle") return true;
-            if (Managers.UserMng.GetObtainedCollections()[i] == "moon_magic_circle") return true;
-            if (Managers.UserMng.GetObtainedCollections()[i] == "old_magic_circle") return true;
+            if (obtainedCollections[i] == "light_magic_circle") return true;
+            if (obtainedCollections[i] == "moon_magic_circle") return true;
+            if (obtainedCollections[i] == "old_magic_circle") return true;
         }
 
         return false;
@@ -89,11 +98,11 @@ public class UI_MakeTxtFile : UI_Scene
     {
         if (!CheckHaveMagicCircleImage()) return "";
 
-        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        for (int i = 0; i < obtainedCollections.Count; i++)
         {
-            if (Managers.UserMng.GetObtainedCollections()[i] == "light_magic_circle") obtainedMagicCircle.Append<string>(Managers.UserMng.GetObtainedCollections()[i]);
-            if (Managers.UserMng.GetObtainedCollections()[i] == "moon_magic_circle") obtainedMagicCircle.Append<string>(Managers.UserMng.GetObtainedCollections()[i]);
-            if (Managers.UserMng.GetObtainedCollections()[i] == "old_magic_circle") obtainedMagicCircle.Append<string>(Managers.UserMng.GetObtainedCollections()[i]);
+            if (obtainedCollections[i] == "light_magic_circle") obtainedMagicCircle.Append<string>(obtainedCollections[i]);
+            if (obtainedCollections[i] == "moon_magic_circle") obtainedMagicCircle.Append<string>(obtainedCollections[i]);
+            if (obtainedCollections[i] == "old_magic_circle") obtainedMagicCircle.Append<string>(obtainedCollections[i]);
         }
 
         return obtainedMagicCircle[UnityEngine.Random.Range(0, obtainedMagicCircle.Count())];

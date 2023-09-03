@@ -1,4 +1,5 @@
 using MessMathI18n;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ using UnityEngine.UI;
 
 public class UI_GameOver : UI_Popup
 {
+    string MyClothes;
+
     public enum Buttons
     {
         RePlayBtn,
@@ -33,6 +36,7 @@ public class UI_GameOver : UI_Popup
 
         GetButton((int)Buttons.RePlayBtn).gameObject.BindEvent(RePlay);
         GetButton((int)Buttons.BackToLobbyBtn).gameObject.BindEvent(BackToLobby);
+        InitMyClothes();
 
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH)
         {
@@ -53,7 +57,7 @@ public class UI_GameOver : UI_Popup
             GetImage((int)Images.Opps_Illust).GetComponent<RectTransform>().sizeDelta = GameObject.Find("WitchImage").GetComponent<RectTransform>().sizeDelta * 1.5f;
         }
         // ³ªÀÇ ¿Ê
-        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes() + "_full");
+        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + MyClothes + "_full");
         
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
@@ -62,6 +66,11 @@ public class UI_GameOver : UI_Popup
         Managers.Sound.Play("DefeatEff");
 
         return true;
+    }
+
+    async void InitMyClothes()
+    {
+        MyClothes = await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID());
     }
 
     public void RePlay()
