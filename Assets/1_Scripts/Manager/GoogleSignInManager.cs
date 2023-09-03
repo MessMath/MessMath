@@ -82,10 +82,6 @@ public class GoogleSignInManager : MonoBehaviour
     {
         //AddToInformation("Calling SignOut");
         GoogleSignIn.DefaultInstance.SignOut();
-        Debug.Log("실행은 되긴 해?");
-        Debug.Log(isLogin());
-
-        PlayerPrefs.SetInt("LogInOut", 99);
     }
 
     public void OnDisconnect()
