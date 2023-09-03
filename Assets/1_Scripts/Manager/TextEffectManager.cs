@@ -15,7 +15,7 @@ public class TextEffectManager
     const string LARGESIZE = "<size=100>";
     const string SIZETAG = "</size>";
     
-    float timeForCharacter = 0.08f;
+    float timeForCharacter = 0.03f;
     float timeForCharacter_Fast = 0.01f;
     float characterTime;
     float timer;    
@@ -155,8 +155,6 @@ public class TextEffectManager
         return "";
     }
 
-
-
     // 타이핑 효과
     async public void Typing(string dialouge, TextMeshProUGUI textObj)
     {
@@ -166,8 +164,7 @@ public class TextEffectManager
         tempDialogue = dialouge;
         tempSave = textObj;
         
-        char[] chars = dialouge.ToCharArray();    
-        CoroutineHandler.StartCoroutine(Typer(chars, textObj));
+        CoroutineHandler.StartCoroutine(Typer(dialouge, textObj));
 
         tempSave.text ="";
         tempDialogue = null;
@@ -211,8 +208,10 @@ public class TextEffectManager
         textObj.text = "<size=" + textSize.ToString() + ">" + textObj.text + SIZETAG;
     }
 
-    IEnumerator Typer(char[] chars, TextMeshProUGUI textObj)
+    IEnumerator Typer(string dialouge, TextMeshProUGUI textObj)
     {
+        char[] chars = dialouge.ToCharArray();
+
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.01f);
         int currentChar = 0;
         int charLength = chars.Length;
@@ -240,7 +239,7 @@ public class TextEffectManager
 
     public void SetFastSpeed()
     {
-        characterTime = timeForCharacter_Fast;
+        //characterTime = timeForCharacter_Fast;
     }
 
     public void SetNormalSpeed()

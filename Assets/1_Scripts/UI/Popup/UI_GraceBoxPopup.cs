@@ -63,6 +63,8 @@ public class UI_GraceBoxPopup : UI_Popup
         BindButton(typeof(Buttons));
         BindImage(typeof(Images));
 
+        InitObtainedGraces();
+
         _jsonReader = new JsonReader();
 
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN)
@@ -92,6 +94,15 @@ public class UI_GraceBoxPopup : UI_Popup
 
         return true;
     }
+
+    void InitObtainedGraces()
+    {
+        var GettingGraces = Managers.DBManager.GetObtainedGraces(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        GettingGraces.OnCompleted(() => {
+            obtainedGraces = Managers.DBManager.ParseObtanined(GettingGraces.GetResult());
+        });
+    }
+
     async void OneToOneModeRefreshUI()
     {
         obtainedGraces = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedGraces(Managers.GoogleSignIn.GetUID()));
