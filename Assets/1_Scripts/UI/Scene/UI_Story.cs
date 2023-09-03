@@ -183,10 +183,14 @@ public class UI_Story : UI_Scene
         if (++count >= maxCount)
         {
             Managers.DBManager.SetIsCompletedStory(true);
-            if (await Managers.DBManager.GetIsCompletedTutorial(Managers.GoogleSignIn.GetUID()) == true)
-                Managers.Scene.ChangeScene(Define.Scene.StoryGameScene);
-            else
-                Managers.Scene.ChangeScene(Define.Scene.TutorialGameScene);
+
+            var GettingICT = Managers.DBManager.GetIsCompletedTutorial(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+            GettingICT.OnCompleted(() => {
+                if (GettingICT.GetResult() == true)
+                    Managers.Scene.ChangeScene(Define.Scene.StoryGameScene);
+                else
+                    Managers.Scene.ChangeScene(Define.Scene.TutorialGameScene);
+            });
             return;
         }
         if (count == 7 || count == 11 || count == 33)
