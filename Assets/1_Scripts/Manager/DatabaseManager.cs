@@ -24,7 +24,6 @@ public class DatabaseManager : MonoBehaviour
     {
         UnityEngine.Debug.Log("CreateNewUser");
         WriteNewUser(Managers.GoogleSignIn.GetUID(), 0, 0, null, false, false, false, false, nickname);
-        Managers.DBManager.SetCoin(10000);
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedClothes").SetValueAsync("");
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedGraces").SetValueAsync("");
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedCollections").SetValueAsync("");

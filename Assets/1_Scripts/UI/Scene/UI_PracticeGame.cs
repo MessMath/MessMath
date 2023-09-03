@@ -103,7 +103,7 @@ public class UI_PracticeGame : UI_Scene
 
         // Sound
         Managers.Sound.Clear();
-        Managers.Sound.Play("PracticeBgm");
+        Managers.Sound.Play("PracticeBgm", Define.Sound.Bgm);
 
         return true;
     }
