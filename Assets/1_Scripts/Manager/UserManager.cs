@@ -121,7 +121,6 @@ public class UserManager
         storyModeGrace = _storyModeGrace;
         message = _message;
         myClothes = _myClothes;
-
         oneOnOneModeGrace = _oneOnOneModeGrace;
         storyModeGrace = _storyModeGrace;
     }

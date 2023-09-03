@@ -104,7 +104,10 @@ public class UI_GraceBoxPopup : UI_Popup
     }
 
     void OneToOneModeRefreshUI()
+    { }
+    async void OneToOneModeRefreshUI()
     {
+        obtainedGraces = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedGraces(Managers.GoogleSignIn.GetUID()));
         _graces.Clear();
         GetText((int)Texts.TitleText).text = I18n.Get(I18nDefine.GRACE_BOX_ONE_TO_ONE_MODE_TILE);
         GetText((int)Texts.TitleText).fontSize = 65;
@@ -139,8 +142,9 @@ public class UI_GraceBoxPopup : UI_Popup
 
     }
 
-    void StoryModeRefreshUI()
+    async void StoryModeRefreshUI()
     {
+        obtainedGraces = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedGraces(Managers.GoogleSignIn.GetUID()));
         _graces.Clear();
         GetText((int)Texts.TitleText).text = I18n.Get(I18nDefine.GRACE_BOX_STORY_MODE_TILE);
 
