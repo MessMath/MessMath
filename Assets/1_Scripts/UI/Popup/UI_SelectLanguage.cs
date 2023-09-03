@@ -56,7 +56,7 @@ public class UI_SelectLanguage : UI_Popup
         
     }
 
-    void OnClickedNextBtn()
+    async void OnClickedNextBtn()
     {
         Time.timeScale = 1;
         Managers.UI.ClosePopupUI(this);

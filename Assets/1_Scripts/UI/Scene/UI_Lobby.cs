@@ -128,7 +128,9 @@ public class UI_Lobby : UI_Scene
         Managers.Sound.Clear();
         Managers.Sound.Play("LobbyBgm", Define.Sound.Bgm);
 
+        
         CheckTutorial();
+        
 
         return true;
     }
@@ -153,10 +155,19 @@ public class UI_Lobby : UI_Scene
 
     async void CheckTutorial()
     {
-        if (await Managers.DBManager.GetIsCompletedTutorial(Managers.GoogleSignIn.GetUID()) == false)
-        {
-            Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
-        }
+        var GettingICT = Managers.DBManager.GetIsCompletedTutorial(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        GettingICT.OnCompleted(() => {
+            if (GettingICT.GetResult() == true)
+                return;
+            else
+            {
+                if(FindObjectOfType<UI_LobbyTutorial>() != null)
+                {
+                    return;
+                }
+                Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
+            }
+        });
     }
 
 
