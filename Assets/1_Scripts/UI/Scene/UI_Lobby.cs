@@ -107,7 +107,7 @@ public class UI_Lobby : UI_Scene
         Managers.Sound.Clear();
         Managers.Sound.Play("LobbyBgm", Define.Sound.Bgm);
 
-        //CheckTutorial();
+        CheckTutorial();
 
         return true;
     }
@@ -133,7 +133,9 @@ public class UI_Lobby : UI_Scene
     async void CheckTutorial()
     {
         if (await Managers.DBManager.GetIsCompletedTutorial(Managers.GoogleSignIn.GetUID()) == false)
+        {
             Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
+        }
     }
 
 
