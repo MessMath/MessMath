@@ -155,6 +155,7 @@ public class UI_Lobby : UI_Scene
     {
         if (await Managers.DBManager.GetIsCompletedTutorial(Managers.GoogleSignIn.GetUID()) == false)
         {
+            Managers.UI.CloseAllPopupUI();
             Managers.UI.ShowPopupUI<UI_LobbyTutorial>();
         }
     }
