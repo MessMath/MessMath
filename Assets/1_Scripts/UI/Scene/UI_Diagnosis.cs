@@ -87,22 +87,26 @@ public class UI_Diagnosis : UI_Scene
         return true;
     }
 
-    async void SetToLobbyBtn()
+    void SetToLobbyBtn()
     {
-        bool isCompletedStory = await Managers.DBManager.GetIsCompletedStory(Managers.GoogleSignIn.GetUID());
-        GetButton((int) Buttons.ToLobbyBtn).gameObject.BindEvent(() => 
+        var isCompletedStory = Managers.DBManager.GetIsCompletedStory(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        isCompletedStory.OnCompleted(() =>
         {
-            // Sound
-            Managers.Sound.Play("ClickBtnEff");
-            Managers.DBManager.SetIsCompletedDiagnosis(true);
-            Managers.DBManager.SetMyClothes("uniform");
-            Managers.DBManager.SetObtainedClothes("uniform");
-            // TODO 예외처리
-            if (isCompletedStory)
-                Managers.Scene.ChangeScene(Define.Scene.LobbyScene); 
-            else
-                Managers.Scene.ChangeScene(Define.Scene.StoryScene);
+            GetButton((int)Buttons.ToLobbyBtn).gameObject.BindEvent(() =>
+            {
+                // Sound
+                Managers.Sound.Play("ClickBtnEff");
+                Managers.DBManager.SetIsCompletedDiagnosis(true);
+                Managers.DBManager.SetMyClothes("uniform");
+                Managers.DBManager.SetObtainedClothes("uniform");
+                // TODO 예외처리
+                if (isCompletedStory.GetResult())
+                    Managers.Scene.ChangeScene(Define.Scene.LobbyScene);
+                else
+                    Managers.Scene.ChangeScene(Define.Scene.StoryScene);
+            });
         });
+        
     }
 
     IEnumerator NextTalk()

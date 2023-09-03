@@ -2,6 +2,7 @@ using MessMathI18n;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -87,7 +88,7 @@ public class WJ_Connector : MonoBehaviour
         request.deviceNm = strDeviceNm;
         request.gameVer = strGameVer;
         request.osScnCd = strOsScnCd;
-        
+
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.KOREAN || PlayerPrefs.GetInt("Language") == 0) request.langCd = "KO";
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH || PlayerPrefs.GetInt("Language") == 1) request.langCd = "EN";
 
@@ -207,7 +208,7 @@ public class WJ_Connector : MonoBehaviour
             uwr.SetRequestHeader("Content-Type", "application/json");
             uwr.SetRequestHeader("x-api-key", strGameKey);
 
-            if (isSendAuth) uwr.SetRequestHeader("Authorization", strAuthorization);
+            if (isSendAuth) uwr.SetRequestHeader("Authorization", PlayerPrefs.GetString("PstrAuthorization"));
 
             uwr.timeout = 5;
 
@@ -248,7 +249,11 @@ public class WJ_Connector : MonoBehaviour
                         break;
                 }
 
-                if (uwr.GetResponseHeaders().ContainsKey("Authorization")) strAuthorization = uwr.GetResponseHeader("Authorization");
+                if (uwr.GetResponseHeaders().ContainsKey("Authorization"))
+                {
+                    strAuthorization = uwr.GetResponseHeader("Authorization");
+                    PlayerPrefs.SetString("PstrAuthorization", strAuthorization);
+                }
             }
             else //½ÇÆÐ ½Ã
             {
