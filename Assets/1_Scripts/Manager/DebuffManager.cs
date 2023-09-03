@@ -18,6 +18,7 @@ public class DebuffManager
     // 각 디버프들의 실행 중 유무 bool
     public bool gaussOn = false;
     public bool newtonOn = false;
+    List<string> obtainedCollections = new List<string>();
 
     /// <summary>
     /// 모든 디버프는 호출될 때 Setup()을 맨처음에 호출해야 한다.
@@ -27,6 +28,13 @@ public class DebuffManager
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         playerPos = player.transform.localPosition;
         witch = GameObject.FindGameObjectWithTag("Witch").GetComponent<WitchController>();
+
+        InitObtainedClothes();
+    }
+
+    async void InitObtainedClothes()
+    {
+        obtainedCollections = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
     }
 
     /// <summary>
@@ -127,11 +135,11 @@ public class DebuffManager
 
     bool CheckHaveNewtonApple()
     {
-        if (Managers.UserMng.GetObtainedCollections() == null) return false;
+        if (obtainedCollections == null) return false;
 
-        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        for (int i = 0; i < obtainedCollections.Count; i++)
         {
-            if (Managers.UserMng.GetObtainedCollections()[i] == "newton_apple") return true;
+            if (obtainedCollections[i] == "newton_apple") return true;
         }
 
         return false;

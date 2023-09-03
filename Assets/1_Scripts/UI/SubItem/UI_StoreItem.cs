@@ -10,6 +10,10 @@ public class UI_StoreItem : UI_Base
 {
     Sprite img;
     public StoreData _storeData;
+    List<string> obtainedGraces= new List<string>();
+    List<string> obtainedClothes= new List<string>();
+    List<string> obtainedCollections= new List<string>();
+
     enum GameObjects
     {
         Have,
@@ -41,11 +45,26 @@ public class UI_StoreItem : UI_Base
         BindImage(typeof(Images));
         BindText(typeof(Texts));
 
+        InitObtainedClothes();
+        InitObtainedCollections();
+        InitObtainedGraces();
+
         return true;
     }
-    void Update()
-    {
 
+    async void InitObtainedClothes()
+    {
+        obtainedClothes = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedClothes(Managers.GoogleSignIn.GetUID()));
+    }
+
+    async void InitObtainedCollections()
+    {
+        obtainedCollections = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
+    }
+
+    async void InitObtainedGraces()
+    {
+        obtainedGraces = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedGraces(Managers.GoogleSignIn.GetUID()));
     }
 
     void OnClickBtn()
@@ -92,11 +111,11 @@ public class UI_StoreItem : UI_Base
 
     public void RefreshUI()
     {
-        if (Managers.UserMng.GetObtainedCollections() == null) return;
+        if (obtainedCollections == null) return;
 
-        for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count; i++)
+        for (int i = 0; i < obtainedCollections.Count; i++)
         {
-            if (Managers.UserMng.GetObtainedCollections()[i] != "gauss_token") continue;
+            if (obtainedCollections[i] != "gauss_token") continue;
 
             GetImage((int)Images.CoinImage).sprite = Resources.Load<Sprite>("Sprites/Collections/gauss_token");
             GetImage((int)Images.CoinImage).gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(70, 70);
@@ -105,22 +124,22 @@ public class UI_StoreItem : UI_Base
 
     public bool IsHave(StoreData storeData)
     {
-        if (storeData.mode == "clothes" && Managers.UserMng.GetObtainedClothes() != null)
-            for (int i = 0; i < Managers.UserMng.GetObtainedClothes().Count - 1; i++)
+        if (storeData.mode == "clothes" && obtainedClothes != null)
+            for (int i = 0; i < obtainedClothes.Count - 1; i++)
             {
-                if (Managers.UserMng.GetObtainedClothes()[i] == storeData.img) return true;
+                if (obtainedClothes[i] == storeData.img) return true;
             }
 
-        if (storeData.mode == "collection" && Managers.UserMng.GetObtainedCollections() != null)
-            for (int i = 0; i < Managers.UserMng.GetObtainedCollections().Count - 1; i++)
+        if (storeData.mode == "collection" && obtainedCollections != null)
+            for (int i = 0; i < obtainedCollections.Count - 1; i++)
             {
-                if (Managers.UserMng.GetObtainedCollections()[i] == storeData.img) return true;
+                if (obtainedCollections[i] == storeData.img) return true;
             }
 
-        if (Managers.UserMng.GetObtainedGraces() != null)
-            for (int i = 0; i < Managers.UserMng.GetObtainedGraces().Count - 1; i++)
+        if (obtainedGraces != null)
+            for (int i = 0; i < obtainedGraces.Count - 1; i++)
             {
-                if (Managers.UserMng.GetObtainedGraces()[i] == storeData.img) return true;
+                if (obtainedGraces[i] == storeData.img) return true;
             }
 
         return false;

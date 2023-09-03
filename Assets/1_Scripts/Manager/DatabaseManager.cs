@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 using System.Threading.Tasks;
 using static UserManager;
 using System;
+using UnityEngine.InputSystem;
 
 public class DatabaseManager : MonoBehaviour
 {
@@ -69,7 +70,6 @@ public class DatabaseManager : MonoBehaviour
         Managers.UserMng.InitUser(userId, coin, score, inventory, isCompletedStory, isCompletedTutorial, isCompletedDiagnosis, isKilledWitch, nickname, oneOnOneModeGrace, storyModeGrace, message, myClothes);
         //}
     }
-
 
     public async Task<string> ReadDataAsync(string userId, string key)
     {
@@ -171,6 +171,66 @@ public class DatabaseManager : MonoBehaviour
         return result;
     }
 
+    async public Task<string> GetNickName(string userId)
+    {
+        return await ReadUserAsync(userId, "nickname");
+    }
+
+    async public Task<string> GetUserMessage(string userId)
+    {
+        return await ReadUserAsync(userId, "message");
+    }
+
+    public async Task<int> GetCoin(string userId)
+    {
+        return int.Parse(await ReadUserAsync(userId, "coin"));
+    }
+
+    public async Task<int> GetScore(string userId)
+    {
+        return int.Parse(await ReadUserAsync(userId, "score"));
+    }
+
+    public async Task<bool> GetIsCompletedDiagnosis(string userId)
+    {
+        return Convert.ToBoolean(await ReadUserAsync(userId, "isCompletedDiagnosis"));
+    }
+
+    public async Task<bool> GetIsCompletedStory(string userId)
+    {
+        return bool.Parse(await ReadUserAsync(userId, "isCompletedStory"));
+    }
+
+    public async Task<bool> GetIsKilledWitch(string userId)
+    {
+        return bool.Parse(await ReadUserAsync(userId, "isKilledStory"));
+    }
+
+    public async Task<bool> GetIsCompletedTutorial(string userId)
+    {
+        return bool.Parse(await ReadUserAsync(userId, "isCompletedTutorial"));
+    }
+
+    public async Task<string> GetMyClothes(string userId)
+    {
+        return await ReadUserAsync(userId, "myClothes");
+    }
+
+    public async Task<string> GetObtainedClothes(string userId)
+    {
+        return await ReadInventoryAsync(userId, "obtainedClothes");
+    }
+
+    public async Task<string> GetObtainedGraces(string userId)
+    {
+        return await ReadInventoryAsync(userId, "obtainedGraces");
+    }
+
+    public async Task<string> GetObtainedCollections(string userId)
+    {
+        return await ReadInventoryAsync(userId, "obtainedCollections");
+    }
+
     public void SetNickname(string nickname)
     {
         Managers.UserMng.SetNickname(nickname);
@@ -199,22 +259,10 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("StoryGrace").Child("3").SetValueAsync(Managers.UserMng.storyModeGrace.grace3);
     }
 
-
     public void SetCoin(int coin)
     {
         Managers.UserMng.SetUserCoin(coin);
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("coin").SetValueAsync(Managers.UserMng.coin);
-    }
-
-    public async Task<string> GetObtainedCollections(string userId)
-    {
-        return await ReadInventoryAsync(userId, "inventory");
-    }
-
-
-    public async Task<int> GetCoin(string userId)
-    {
-        return int.Parse(await ReadUserAsync(userId, "coin"));
     }
 
     public void SetScore(int score)
@@ -223,19 +271,10 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("score").SetValueAsync(Managers.UserMng.score);
     }
 
-    public async Task<int> GetScore(string userId)
-    {
-        return int.Parse(await ReadUserAsync(userId, "score"));
-    }
-
     public void SetIsCompletedDiagnosis(bool isCompleted)
     {
         Managers.UserMng.SetUserIsCompletedDiagnosis(isCompleted);
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("isCompletedDiagnosis").SetValueAsync(Managers.UserMng.isCompletedDiagnosis);
-    }
-    public async Task<bool> GetIsCompletedDiagnosis(string userId)
-    {
-        return Convert.ToBoolean(await ReadUserAsync(userId, "isCompletedDiagnosis"));
     }
 
     public void SetIsCompletedStory(bool isCompleted)
@@ -244,33 +283,10 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("isCompletedStory").SetValueAsync(Managers.UserMng.isCompletedStory);
     }
 
-    public async Task<bool> GetIsCompletedStory(string userId)
-    {
-        return bool.Parse(await ReadUserAsync(userId, "isCompletedStory"));
-    }
-
-
     public void SetIsKilledWitch(bool isKilled)
     {
         Managers.UserMng.SetUseIsKilledWitch(isKilled);
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("isKilledWitch").SetValueAsync(Managers.UserMng.isKilledWitch);
-    }
-
-    public async Task<bool> GetIsKilledWitch(string userId)
-    {
-        return bool.Parse(await ReadUserAsync(userId, "isKilledStory"));
-    }
-
-
-    public void SetMyClothes(string myClothes)
-    {
-        Managers.UserMng.SetUserMyClothes(myClothes);
-        reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("myClothes").SetValueAsync(Managers.UserMng.myClothes);
-    }
-
-    public async Task<string> GetMyClothes(string userId)
-    {
-        return await ReadUserAsync(userId, "myClothes");
     }
 
     public void SetIsCompletedTutorial(bool isCompleted)
@@ -278,9 +294,11 @@ public class DatabaseManager : MonoBehaviour
         Managers.UserMng.SetUserIsCompletedTutorial(isCompleted);
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("isCompletedTutorial").SetValueAsync(Managers.UserMng.isCompletedTutorial);
     }
-    public async Task<bool> GetIsCompletedTutorial(string userId)
+
+    public void SetMyClothes(string myClothes)
     {
-        return bool.Parse(await ReadUserAsync(userId, "isCompletedTutorial"));
+        Managers.UserMng.SetUserMyClothes(myClothes);
+        reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("myClothes").SetValueAsync(Managers.UserMng.myClothes);
     }
 
     public void SetObtainedClothes(string clothes)
@@ -288,6 +306,7 @@ public class DatabaseManager : MonoBehaviour
         Managers.UserMng.SetUserObtainedClothes(clothes);
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("inventory").Child("obtainedClothes").SetValueAsync(Managers.UserMng.inventory.obtainedClothes);
     }
+
     //public List<string> GetObtainedClothes(string userId)
     //{
     //    return StringToList(ReadUser(userId, "obtainedClothes"));

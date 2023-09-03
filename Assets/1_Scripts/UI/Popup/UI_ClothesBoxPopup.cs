@@ -16,6 +16,7 @@ public class UI_ClothesBoxPopup : UI_Popup
     JsonReader _jsonReader;
     List<StoreData> _clothesDatas = new List<StoreData>();
     GameObject selectedObject;
+    List<string> obtainedClothes = new List<string>();
 
     enum GameObjects
     {
@@ -47,6 +48,8 @@ public class UI_ClothesBoxPopup : UI_Popup
         if (base.Init() == false)
             return false;
 
+        InitObtainedClothes();
+
         BindObject(typeof(GameObjects));
         BindText(typeof(Texts));
         BindButton(typeof(Buttons));
@@ -68,16 +71,27 @@ public class UI_ClothesBoxPopup : UI_Popup
         GetButton((int)Buttons.SelectBtn).gameObject.BindEvent(OnClickSelectBtn);
         GetImage((int)Images.SelectedClothesImage).gameObject.SetActive(false);
 
-        if (Managers.UserMng.GetMyClothes() != "")
-            GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes() + "_full");
-        else
-            GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/uniform_full");
+        InitChangeByAsync();
 
         RefreshUI();
         RefreshCurrentClothes();
 
         return true;
     }
+
+    async void InitChangeByAsync()
+    {
+        if (await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) != "")
+            GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/" + await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()) + "_full");
+        else
+            GetImage((int)Images.PresentClothesImage).sprite = Resources.Load<Sprite>("Sprites/Clothes/uniform_full");
+    }
+
+    async void InitObtainedClothes()
+    {
+        obtainedClothes = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedClothes(Managers.GoogleSignIn.GetUID()));
+    }
+
 
     void RefreshUI()
     {
@@ -89,15 +103,15 @@ public class UI_ClothesBoxPopup : UI_Popup
         foreach (Transform t in parent)
             Managers.Resource.Destroy(t.gameObject);
 
-        if (Managers.UserMng.GetObtainedClothes() == null) return; // ø ¿Â ≈÷ ∫Òæ˙¿ª ∂ß
+        if (obtainedClothes == null) return; // ø ¿Â ≈÷ ∫Òæ˙¿ª ∂ß
 
-        for (int i = 0; i < Managers.UserMng.GetObtainedClothes().Count - 1; i++)
+        for (int i = 0; i < obtainedClothes.Count - 1; i++)
         {
             for (int j = 0; j < _clothesDatas.Count; j++)
             {
-                if (Managers.UserMng.GetObtainedClothes()[i] != _clothesDatas[j].img) continue;
+                if (obtainedClothes[i] != _clothesDatas[j].img) continue;
 
-                Debug.Log(Managers.UserMng.GetObtainedClothes()[i]);
+                Debug.Log(obtainedClothes[i]);
                 GameObject clothesItem = Managers.UI.MakeSubItem<UI_ClothesItem>(GetObject((int)GameObjects.Content).gameObject.transform).gameObject;
                 Utils.FindChild(clothesItem, "ClothesIconText", true).GetOrAddComponent<TextMeshProUGUI>().text = _clothesDatas[j].name;
                 Utils.FindChild(clothesItem, "ClothesIcon", true).GetOrAddComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Clothes/" + _clothesDatas[j].img);
@@ -113,13 +127,13 @@ public class UI_ClothesBoxPopup : UI_Popup
         }
     }
 
-    void RefreshCurrentClothes()
+    async void RefreshCurrentClothes()
     {
-        if (Managers.UserMng.GetObtainedClothes() == null) return;
+        if (obtainedClothes == null) return;
 
         for (int i = 0; i < _clothesDatas.Count; i++)
         {
-            if (_clothesDatas[i].img != Managers.UserMng.GetMyClothes()) return;
+            if (_clothesDatas[i].img != await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID())) return;
             GetText((int)Texts.SelectedClothesText).text = _clothesDatas[i].name;
             Managers.TextEffect.ApplyTextEffect(_clothesDatas[i].explanation, GetText((int)Texts.SelectedClothesDescription), 60);
         }

@@ -36,7 +36,7 @@ public class UI_ReplayStory : UI_Popup
         return true;
     }
 
-    public void AddReplayStory(string characterName, string dialogue)
+    async public void AddReplayStory(string characterName, string dialogue)
     {
         if(!Init()) Init();
         // 발화자에따른 Area생성, 대사랑 발화장 넘겨주기
@@ -50,7 +50,7 @@ public class UI_ReplayStory : UI_Popup
                 UI_Area area = item.GetOrAddComponent<UI_Area>();
                 picture = "Sprites/Character/Profile/profile_player";
                 if(area.Init()) 
-                area.SetArea(Managers.UserMng.GetNickname(), dialogue, picture);
+                area.SetArea(await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()), dialogue, picture);
                 Managers.TextEffect.ReplayTyping(dialogue, area.GetText());
                 break;
             }
