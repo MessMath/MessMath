@@ -17,6 +17,10 @@ public class UI_PvpGameScene : UI_Scene
     public int _player1Score = 0;
     public int _player2Score = 0;
 
+    public string PlayerName;
+    public int PlayerScore;
+    public string PlayerClothes;
+
     Player OppPlayer;
     string OppPlayersName;
     int OppScore;
@@ -170,6 +174,23 @@ public class UI_PvpGameScene : UI_Scene
             OppPlayersCloth = gettingOppPlayersCloth.GetResult();
         });
 
+        var gettingPlayerName = Managers.DBManager.ReadDataAsync(Managers.GoogleSignIn.GetUID(), "nickname").GetAwaiter();
+        gettingOppPlayerName.OnCompleted(() => {
+            PlayerName = gettingOppPlayerName.GetResult();
+        });
+
+        var gettingScore = Managers.DBManager.GetScore(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        gettingOppScore.OnCompleted(() =>
+        {
+            PlayerScore = gettingOppScore.GetResult();
+        });
+
+        var gettingPlayersCloth = Managers.DBManager.ReadDataAsync(Managers.GoogleSignIn.GetUID(), "myClothes").GetAwaiter();
+        gettingOppPlayersCloth.OnCompleted(() =>
+        {
+            PlayerClothes = gettingOppPlayersCloth.GetResult();
+        });
+
     }
 
     public void ScoreSet()
@@ -232,6 +253,9 @@ public class UI_PvpGameScene : UI_Scene
             p.OppPlayersName = OppPlayersName;
             p.OppPlayersScore = OppScore;
             p.OppPlayersCloth = OppPlayersCloth;
+            p.PlayerName = PlayerName;
+            p.PlayerScore = PlayerScore;
+            p.PlayerClothes = PlayerClothes;
         }
         else
         {
@@ -240,8 +264,10 @@ public class UI_PvpGameScene : UI_Scene
             p.OppPlayersName = OppPlayersName;
             p.OppPlayersScore = OppScore;
             p.OppPlayersCloth = OppPlayersCloth;
+            p.PlayerName = PlayerName;
+            p.PlayerScore = PlayerScore;
+            p.PlayerClothes = PlayerClothes;
         }
-
     }
 
     Player GetOppPlayer()
