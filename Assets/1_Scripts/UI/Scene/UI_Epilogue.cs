@@ -68,6 +68,9 @@ public class UI_Epilogue : UI_Scene
         GetImage((int)Images.Image4).gameObject.BindEvent(() => { StartCoroutine(NextImage("FadeWhite", GetImage((int)Images.Image5).gameObject)); });
         GetImage((int)Images.Image5).gameObject.BindEvent(ShowCredits);
 
+        GetText((int)Texts.Award_AwardContext).text = I18n.Get(I18nDefine.Award_AwardContext);
+        GetText((int)Texts.Award_Title).text = I18n.Get(I18nDefine.Award_Title);
+
         #region Credit Texts
         GetText((int)Texts.Development).text = I18n.Get(I18nDefine.Development);
         GetText((int)Texts.Context1).text = I18n.Get(I18nDefine.오합지졸_대장_서현재);
@@ -88,8 +91,6 @@ public class UI_Epilogue : UI_Scene
 
         GetButton((int)Buttons.BackToLobbyBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.Scene.ChangeScene(Define.Scene.LobbyScene); });
         
-        GetText((int)Texts.Award_Title).text = I18n.Get(I18nDefine.Award_Title);
-        GetText((int)Texts.Award_AwardContext).text = I18n.Get(I18nDefine.Award_AwardContext);
         SetNickname();
 
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH)
