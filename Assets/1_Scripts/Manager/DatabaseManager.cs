@@ -290,10 +290,10 @@ public class DatabaseManager : MonoBehaviour
         reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("isKilledWitch").SetValueAsync(Managers.UserMng.isKilledWitch);
     }
 
-    public void SetIsCompletedTutorial(bool isCompleted)
+    public async void SetIsCompletedTutorial(bool isCompleted)
     {
         Managers.UserMng.SetUserIsCompletedTutorial(isCompleted);
-        reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("isCompletedTutorial").SetValueAsync(Managers.UserMng.isCompletedTutorial);
+        await reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).Child("isCompletedTutorial").SetValueAsync(Managers.UserMng.isCompletedTutorial);
     }
 
     public void SetMyClothes(string myClothes)
