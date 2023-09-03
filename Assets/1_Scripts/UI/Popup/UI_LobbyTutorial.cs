@@ -11,6 +11,7 @@ public class UI_LobbyTutorial : UI_Popup
     List<TalkData> storyTalkData = new List<TalkData>();
     int maxCount;
     int count = 0;
+    string PlayerName;
 
     enum GameObjects
     {
@@ -61,12 +62,19 @@ public class UI_LobbyTutorial : UI_Popup
             storyTalkData = jsonReader.ReadStoryJson(Application.persistentDataPath + "/" + 13 + "_LobbyTutorial_EN.json").talkDataList;
         }
 
+        InitPlayerName();
+
         maxCount = storyTalkData.Count;
 
         GetText((int)Texts.CharacterNameTMP).text = "";
         GetText((int)Texts.DialogueTMP).text = "";
         GetButton((int)Buttons.nxtButton).gameObject.BindEvent(OnClickNxtBtn);
         return true;
+    }
+
+    async void InitPlayerName()
+    {
+        PlayerName = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
     }
 
     public void OnClickNxtBtn()
@@ -99,7 +107,7 @@ public class UI_LobbyTutorial : UI_Popup
 
         if (storyTalkData[count].characterName == "¡÷¿Œ∞¯" || storyTalkData[count].characterName == "Main character")
         {
-            GetText((int)Texts.CharacterNameTMP).text = Managers.UserMng.GetNickname();
+            GetText((int)Texts.CharacterNameTMP).text = PlayerName;
         }
         else
         {

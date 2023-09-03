@@ -75,7 +75,7 @@ public class UI_PvpGameResult_Lose : UI_Popup
         InitPlayerClothes();
 
         // 내 닉네임 가져오기
-        GetText((int)Texts.MyNickname).text = Managers.UserMng.GetNickname();
+        GetText((int)Texts.MyNickname).text = PlayerName;
         // 상대방 닉네임 가져오기 (DB를 참조해서)
         GetText((int)Texts.OppsNickname).text = OppPlayersName;
 
@@ -89,7 +89,7 @@ public class UI_PvpGameResult_Lose : UI_Popup
         // 나의 Score
         ChangeScore();
         // 나의 옷
-        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes() + "_full");
+        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + PlayerClothes + "_full");
         // 나의 하트갯수
         CopyAllChildren(GameObject.Find("MyScores"), GetObject((int)GameObjects.MyResult));
 

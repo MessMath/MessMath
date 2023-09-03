@@ -93,7 +93,8 @@ public class WJ_Sample : MonoBehaviour
                 // 입학증서 보여주기
                 GameObject.Find("UI_Diagnosis").GetComponent<UI_Diagnosis>().MakeToLobbyBtn();
                 //PlayerPrefs.SetInt("DoDiagnosis", 1);
-                Managers.UserMng.SetUserIsCompletedDiagnosis(true);
+                Managers.DBManager.SetIsCompletedDiagnosis(true);
+                //Managers.UserMng.SetUserIsCompletedDiagnosis(true);
                 getLearningButton.interactable = true;
                 break;
         }
@@ -159,7 +160,7 @@ public class WJ_Sample : MonoBehaviour
     /// <summary>
     /// 답을 고르고 맞았는 지 체크
     /// </summary>
-    public void SelectAnswer(int _idx)
+    async public void SelectAnswer(int _idx)
     {
         bool isCorrect;
         string ansrCwYn = "N";
@@ -189,7 +190,8 @@ public class WJ_Sample : MonoBehaviour
                 {
                     Debug.Log("정답");
 
-                    Managers.UserMng.SetUserCoin(Managers.UserMng.GetCoin() + 1);
+                    Managers.DBManager.SetCoin(await Managers.DBManager.GetCoin(Managers.GoogleSignIn.GetUID()) + 2);
+                    
                     Managers.Game.IsCorrect = true;
                     // TODO? CoinAnim Add?
 

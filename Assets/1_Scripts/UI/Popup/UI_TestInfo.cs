@@ -55,7 +55,7 @@ public class UI_TestInfo : UI_Popup
         BindButton(typeof(Buttons));
         BindImage(typeof(Images));
 
-        Managers.DBManager.reference.Child("Users").Child(Managers.UserMng.UID).ValueChanged += HandleValueChanged;
+        Managers.DBManager.reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).ValueChanged += HandleValueChanged;
 
         GetNickName();
 

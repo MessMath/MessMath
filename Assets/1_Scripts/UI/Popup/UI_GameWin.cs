@@ -57,7 +57,7 @@ public class UI_GameWin : UI_Popup
         }
 
         // ³ªÀÇ ¿Ê
-        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + Managers.UserMng.GetMyClothes() + "_full");
+        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + MyClothes + "_full");
         
         Time.timeScale = 0;
         GetComponent<Canvas>().sortingOrder = 10;
