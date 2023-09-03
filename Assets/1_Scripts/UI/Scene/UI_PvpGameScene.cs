@@ -132,18 +132,11 @@ public class UI_PvpGameScene : UI_Scene
         return true;
     }
     
-    void ReadyOppsData()
+    async void ReadyOppsData()
     {
         OppsDataReadyAsync();
 
-        string myCloth = "";
-
-        var gettigCloth = Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()).GetAwaiter();
-        gettigCloth.OnCompleted(() => {
-
-            myCloth = gettigCloth.GetResult();
-
-        });
+        string myCloth = await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID());
 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
