@@ -129,21 +129,13 @@ public class UI_PvpMatchingScene : UI_Scene
         Managers.Scene.ChangeScene(Scene);
     }
 
-    public void WhenMatched()
+    public async void WhenMatched()
     {
         playerList = PhotonNetwork.PlayerList;
         OppPlayer = GetOppPlayer();
 
-        var gettingOppPlayersCloth = Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "myClothes").GetAwaiter();
-        gettingOppPlayersCloth.OnCompleted(() =>
-        {
-            OppPlayersCloth = gettingOppPlayersCloth.GetResult();
-        });
-
-        var getting = Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()).GetAwaiter();
-        getting.OnCompleted(() => {
-            PlayerClothes = getting.GetResult();
-        });
+        OppPlayersCloth = await  Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "myClothes");
+        PlayerClothes = await Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID());
 
         GetImage((int)Images.PlayerImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + PlayerClothes + "_full");
         GetImage((int)Images.EnemyImage).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + OppPlayersCloth + "_full");
