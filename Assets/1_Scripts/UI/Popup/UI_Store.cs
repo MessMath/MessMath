@@ -164,7 +164,7 @@ public class UI_Store : UI_Popup
         }
     }
 
-    void OnClickedClothesBtn()
+    async void OnClickedClothesBtn()
     {
         Managers.Sound.Play("ClickBtnEff");
 
@@ -178,7 +178,7 @@ public class UI_Store : UI_Popup
 
         for (int i = 0; i < ClothesData.Count; i++)
         {
-            if (ClothesData[i].img == "the_wise" && !Managers.UserMng.GetIsKilledWitch()) continue;
+            if (ClothesData[i].img == "the_wise" && ! await (Managers.DBManager.GetIsKilledWitch(Managers.GoogleSignIn.GetUID()))) continue;
 
             GameObject item = Managers.UI.MakeSubItem<UI_StoreItem>(content.transform, "StoreItemButton").gameObject;
             UI_StoreItem storeItem = item.GetOrAddComponent<UI_StoreItem>();
