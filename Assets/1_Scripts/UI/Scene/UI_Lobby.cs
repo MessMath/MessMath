@@ -105,6 +105,21 @@ public class UI_Lobby : UI_Scene
         GetButton((int)Buttons.PvpBroomstickBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ButtonTextOnOff(); });
         GetImage((int)Images.MagicCircle).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); RefreshUI(); });
 
+        GetImage((int)Images.maine_coon).gameObject.SetActive(false);
+        GetImage((int)Images.russian_blue).gameObject.SetActive(false);
+        GetImage((int)Images.siamese).gameObject.SetActive(false);
+        GetImage((int)Images.long_cat).gameObject.SetActive(false);
+        GetImage((int)Images.MagicCircle).gameObject.SetActive(false);
+        GetImage((int)Images.BGImage).gameObject.SetActive(false);
+        GetImage((int)Images.Potion).gameObject.SetActive(false);
+        GetImage((int)Images.Sun).gameObject.SetActive(false);
+        GetImage((int)Images.Moon).gameObject.SetActive(false);
+        GetImage((int)Images.Dog).gameObject.SetActive(false);
+        GetImage((int)Images.Flame).gameObject.SetActive(false);
+        GetImage((int)Images.Glacier).gameObject.SetActive(false);
+        GetImage((int)Images.Liquid).gameObject.SetActive(false);
+        GetImage((int)Images.Spark).gameObject.SetActive(false);
+
         RefreshUI();
 
         CheckStory();
@@ -213,20 +228,7 @@ public class UI_Lobby : UI_Scene
     async void CheckCollection()
     {
         await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID());
-        GetImage((int)Images.maine_coon).gameObject.SetActive(false);
-        GetImage((int)Images.russian_blue).gameObject.SetActive(false);
-        GetImage((int)Images.siamese).gameObject.SetActive(false);
-        GetImage((int)Images.long_cat).gameObject.SetActive(false);
-        GetImage((int)Images.MagicCircle).gameObject.SetActive(false);
-        GetImage((int)Images.BGImage).gameObject.SetActive(false);
-        GetImage((int)Images.Potion).gameObject.SetActive(false);
-        GetImage((int)Images.Sun).gameObject.SetActive(false);
-        GetImage((int)Images.Moon).gameObject.SetActive(false);
-        GetImage((int)Images.Dog).gameObject.SetActive(false);
-        GetImage((int)Images.Flame).gameObject.SetActive(false);
-        GetImage((int)Images.Glacier).gameObject.SetActive(false);
-        GetImage((int)Images.Liquid).gameObject.SetActive(false);
-        GetImage((int)Images.Spark).gameObject.SetActive(false);
+        
 
         if (await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()) == null) return;
 
