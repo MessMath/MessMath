@@ -11,16 +11,13 @@ public class UI_Info : UI_Popup
     {
         UserName,
         UserMessage,
-        CustomizingObject1,
-        CustomizingObject2,
-        CustomizingObject3,
     }
 
     enum Texts
     {
         UserNameText,
-        Save,
-        InfoText,
+        UIDText,
+        TierText,
     }
 
     enum Buttons
@@ -33,6 +30,7 @@ public class UI_Info : UI_Popup
         BG,
         UserImageBG,
         UserImage,
+        TierImage,
     }
 
     string PlayerName;
@@ -41,29 +39,18 @@ public class UI_Info : UI_Popup
     public override bool Init()
     {
         if (base.Init() == false)
-            if (base.Init() == false)
-                return false;
+            return false;
 
         BindObject(typeof(GameObjects));
         BindText(typeof(Texts));
         BindButton(typeof(Buttons));
         BindImage(typeof(Images));
 
-        #region CustomizingObject Clear
-        GetObject((int)GameObjects.CustomizingObject1).gameObject.GetComponent<Image>().sprite = null;
-        GetObject((int)GameObjects.CustomizingObject2).gameObject.GetComponent<Image>().sprite = null;
-        GetObject((int)GameObjects.CustomizingObject3).gameObject.GetComponent<Image>().sprite = null;
-        #endregion
         if (Managers.Game.Name != null)
             GetText((int)Texts.UserNameText).text = Managers.Game.Name;
-        GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ClosePopupUI(this); });
-        GetText((int)Texts.Save).gameObject.BindEvent(() => OnClickedSaveBtn());
-        GetText((int)Texts.Save).text = I18n.Get(I18nDefine.INFO_SAVE);
-        GetText((int)Texts.InfoText).text = I18n.Get(I18nDefine.INFO_TEXT);
+        GetButton((int)Buttons.ExitBtn).gameObject.BindEvent(() => { OnClickedSaveBtn(); Managers.UI.ClosePopupUI(this); });
         GetImage((int)Images.UserImage).gameObject.BindEvent(() => OnClickedProfile());
-
-        InitGetNickName();
-        InitGetMessage();
+        GetText((int)Texts.UIDText).text = Managers.GoogleSignIn.GetUID().ToString().Substring(0, 8);
 
         Managers.DBManager.reference.Child("Users").Child(Managers.GoogleSignIn.GetUID()).ValueChanged += HandleValueChanged;
 
@@ -73,22 +60,23 @@ public class UI_Info : UI_Popup
         placeholder = (TextMeshProUGUI)GetObject((int)GameObjects.UserMessage).gameObject.GetComponentInChildren<TMP_InputField>().placeholder;
         placeholder.text = I18n.Get(I18nDefine.INFO_MESSAGE);
 
-        GetObject((int)GameObjects.UserMessage).gameObject.GetComponentInChildren<TMP_InputField>().text = PlayerMessage;
+        InitGetNickName();
+        InitGetMessage();
+        SetTier();
 
         return true;
     }
 
-    void InitGetNickName()
+    async void InitGetNickName()
     {
-        var GettingNickName = Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()).GetAwaiter();
-        GettingNickName.OnCompleted(() => {
-            GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = GettingNickName.GetResult();
-        });
+        PlayerName = await Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID());
+        GetObject((int)GameObjects.UserName).gameObject.GetComponentInChildren<TMP_InputField>().text = PlayerName;
     }
 
     async void InitGetMessage()
     {
         PlayerMessage = await Managers.DBManager.GetUserMessage(Managers.GoogleSignIn.GetUID());
+        GetObject((int)GameObjects.UserMessage).gameObject.GetComponentInChildren<TMP_InputField>().text = PlayerMessage;
     }
 
     private void Update()
@@ -111,5 +99,54 @@ public class UI_Info : UI_Popup
          Managers.Sound.Play("ClickBtnEff");
         Managers.UI.ShowPopupUI<UI_SelectProfile>();
     }
+    async void SetTier()
+    {
+        int score = await Managers.DBManager.GetScore(Managers.GoogleSignIn.GetUID());
 
+        if (score < 100)
+        {
+            GetImage((int)Images.TierImage).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Tier/T1");
+            GetText((int)Texts.TierText).text = "수학 입문자";
+        }
+        else if (score >= 101 && score < 200)
+        {
+            GetImage((int)Images.TierImage).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Tier/T2");
+            GetText((int)Texts.TierText).text = "수학 초보자";
+        }
+        else if (score >= 201 && score < 300)
+        {
+            GetImage((int)Images.TierImage).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Tier/T3");
+            GetText((int)Texts.TierText).text = "수학 숙련자";
+        }
+        else if (score >= 301 && score < 400)
+        {
+            GetImage((int)Images.TierImage).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Tier/T4");
+            GetText((int)Texts.TierText).text = "D급 마법사";
+        }
+        else if (score >= 401 && score < 500)
+        {
+            GetImage((int)Images.TierImage).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Tier/T5");
+            GetText((int)Texts.TierText).text = "C급 마법사";
+        }
+        else if (score >= 501 && score < 600)
+        {
+            GetImage((int)Images.TierImage).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Tier/T6");
+            GetText((int)Texts.TierText).text = "B급 마법사";
+        }
+        else if (score >= 601 && score < 700)
+        {
+            GetImage((int)Images.TierImage).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Tier/T7");
+            GetText((int)Texts.TierText).text = "A급 마법사";
+        }
+        else if (score >= 701 && score < 800)
+        {
+            GetImage((int)Images.TierImage).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Tier/T8");
+            GetText((int)Texts.TierText).text = "S급 마법사";
+        }
+        else
+        {
+            GetImage((int)Images.TierImage).gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Tier/T9");
+            GetText((int)Texts.TierText).text = "초월자";
+        }
+    }
 }
