@@ -103,8 +103,6 @@ public class UI_GraceBoxPopup : UI_Popup
         });
     }
 
-    void OneToOneModeRefreshUI()
-    { }
     async void OneToOneModeRefreshUI()
     {
         obtainedGraces = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedGraces(Managers.GoogleSignIn.GetUID()));
