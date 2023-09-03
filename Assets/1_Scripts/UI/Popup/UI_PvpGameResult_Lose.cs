@@ -40,7 +40,9 @@ public class UI_PvpGameResult_Lose : UI_Popup
     }
 
     public string PlayerName;
+    public int PlayerScore;
     public string PlayerClothes;
+
     public Player OppPlayer;
     public string OppPlayersName;
     public int OppPlayersScore;
@@ -71,13 +73,10 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
         Managers.Sound.Play("DefeatEff");
 
-        InitPlayerName();
-        InitPlayerClothes();
+        InitPlayerInfo();
 
         // 내 닉네임 가져오기
         GetText((int)Texts.MyNickname).text = PlayerName;
-        // 상대방 닉네임 가져오기 (DB를 참조해서)
-        GetText((int)Texts.OppsNickname).text = OppPlayersName;
 
         // 상대방의 Score (Tier)
         GetImage((int)Images.OppsTier).sprite = Managers.Resource.Load<Sprite>("Sprites/Tier/T" + ((OppPlayersScore / 100) + 1).ToString());
@@ -88,8 +87,6 @@ public class UI_PvpGameResult_Lose : UI_Popup
 
         // 나의 Score
         ChangeScore();
-        // 나의 옷
-        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + PlayerClothes + "_full");
         // 나의 하트갯수
         CopyAllChildren(GameObject.Find("MyScores"), GetObject((int)GameObjects.MyResult));
 
@@ -100,23 +97,26 @@ public class UI_PvpGameResult_Lose : UI_Popup
         return true;
     }
 
-    void InitPlayerName()
+    void InitPlayerInfo()
     {
         var getting = Managers.DBManager.GetNickName(Managers.GoogleSignIn.GetUID()).GetAwaiter();
         getting.OnCompleted(() => {
             PlayerName = getting.GetResult();
         });
 
-    }
+        // 내 닉네임 가져오기
+        GetText((int)Texts.MyNickname).text = PlayerName;
 
-    void InitPlayerClothes()
-    {
-        var getting = Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()).GetAwaiter();
-        getting.OnCompleted(() => {
-            PlayerClothes = getting.GetResult();
+        var getting1 = Managers.DBManager.GetMyClothes(Managers.GoogleSignIn.GetUID()).GetAwaiter();
+        getting1.OnCompleted(() => {
+            PlayerClothes = getting1.GetResult();
         });
-    }
 
+        Debug.Log($"PlayerClothes : {PlayerClothes}");
+
+        // 나의 옷
+        GetImage((int)Images.Players_Illust).sprite = Managers.Resource.Load<Sprite>("Sprites/Clothes/" + PlayerClothes + "_full");
+    }
     public void ReMatch()
     {
         // Sound
