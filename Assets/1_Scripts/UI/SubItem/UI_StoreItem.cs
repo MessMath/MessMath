@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using StoreDatas;
 using MessMathI18n;
+using System.Threading.Tasks;
 
 public class UI_StoreItem : UI_Base
 {
@@ -82,7 +83,7 @@ public class UI_StoreItem : UI_Base
         //GetButton((int)Buttons.StoreItemButton).gameObject.BindEvent(OnClickBtn);
     }
 
-    public void SetInfo(StoreData storeData)
+    public async void SetInfo(StoreData storeData)
     {
         _storeData = storeData;
         img = Resources.Load("Sprites/Grace/" + _storeData.img, typeof(Sprite)) as Sprite;
@@ -91,7 +92,7 @@ public class UI_StoreItem : UI_Base
         GetText((int)Texts.NameTMP).text = _storeData.name;
         GetImage((int)Images.ItemImage).sprite = img;
         SetModeImage(storeData);
-        if (IsHave(storeData))
+        if (await IsHave(storeData))
         {
             GetObject((int)GameObjects.Have).SetActive(true);
             GetText((int)Texts.HaveTMP).text = I18n.Get(I18nDefine.STORE_PURCHASED);
@@ -109,8 +110,9 @@ public class UI_StoreItem : UI_Base
         RefreshUI();
     }
 
-    public void RefreshUI()
+    public async void RefreshUI()
     {
+        List<string> obtainedCollections  = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
         if (obtainedCollections == null) return;
 
         for (int i = 0; i < obtainedCollections.Count; i++)
@@ -122,8 +124,12 @@ public class UI_StoreItem : UI_Base
         }
     }
 
-    public bool IsHave(StoreData storeData)
+    public async Task<bool> IsHave(StoreData storeData)
     {
+        List<string> obtainedClothes = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedClothes(Managers.GoogleSignIn.GetUID()));
+        List<string> obtainedCollections = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedCollections(Managers.GoogleSignIn.GetUID()));
+        List<string> obtainedGraces = Managers.DBManager.ParseObtanined(await Managers.DBManager.GetObtainedGraces(Managers.GoogleSignIn.GetUID()));
+
         if (storeData.mode == "clothes" && obtainedClothes != null)
             for (int i = 0; i < obtainedClothes.Count - 1; i++)
             {
