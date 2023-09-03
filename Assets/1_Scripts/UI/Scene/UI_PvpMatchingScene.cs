@@ -131,6 +131,7 @@ public class UI_PvpMatchingScene : UI_Scene
 
     public void WhenMatched()
     {
+        playerList = PhotonNetwork.PlayerList;
         OppPlayer = GetOppPlayer();
 
         var gettingOppPlayersCloth = Managers.DBManager.ReadDataAsync(OppPlayer.NickName, "myClothes").GetAwaiter();
