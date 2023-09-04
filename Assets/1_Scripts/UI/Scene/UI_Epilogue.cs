@@ -90,7 +90,8 @@ public class UI_Epilogue : UI_Scene
         
         GetText((int)Texts.Award_Title).text = I18n.Get(I18nDefine.Award_Title);
         GetText((int)Texts.Award_AwardContext).text = I18n.Get(I18nDefine.Award_AwardContext);
-        GetText((int)Texts.Award_Nickname).text = Managers.UserMng.GetNickname();
+        GetText((int)Texts.Award_Nickname).text = "서현재";
+        //GetText((int)Texts.Award_Nickname).text = Managers.UserMng.GetNickname();
 
         if (LocalizationManager.Get().GetSelectedLanguage() == Language.ENGLISH)
             GetButton((int)Buttons.BackToLobbyBtn).GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Sprites/Pvp/ResultPopup/BackToLobby_ENG");

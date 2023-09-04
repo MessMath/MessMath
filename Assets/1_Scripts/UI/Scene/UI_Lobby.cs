@@ -88,7 +88,6 @@ public class UI_Lobby : UI_Scene
         #endregion
 
         #region 연동
-        GetImage((int)Images.UserBtnImage).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Info>(); });
         GetButton((int)Buttons.ExerciseBtn).gameObject.BindEvent(() => { CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_PracticeGameScene()); });
         GetButton((int)Buttons.StoreBtn).gameObject.BindEvent(() => { Managers.UI.ShowPopupUI<UI_Store>(); });
         GetButton((int)Buttons.InventoryBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_InventoryPopup>(); });
@@ -97,6 +96,10 @@ public class UI_Lobby : UI_Scene
         GetButton((int)Buttons.PvpBtn).gameObject.BindEvent(() => { CoroutineHandler.StartCoroutine(SceneChangeAnimation_In_Pvp()); });
         GetButton((int)Buttons.PvpBroomstickBtn).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); ButtonTextOnOff(); });
         GetImage((int)Images.MagicCircle).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); RefreshUI(); });
+
+        //학생증 연동 X
+        GetText((int)Texts.UserBtnText).gameObject.SetActive(false);
+        //GetImage((int)Images.UserBtnImage).gameObject.BindEvent(() => { Managers.Sound.Play("ClickBtnEff"); Managers.UI.ShowPopupUI<UI_Info>(); });
 
         RefreshUI();
 
